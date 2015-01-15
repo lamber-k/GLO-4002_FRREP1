@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/GLO-4002_FRREP1.iml" filepath="$PROJECT_DIR$/GLO-4002_FRREP1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Marv1n-code/Marv1n-code.iml" filepath="$PROJECT_DIR$/Marv1n-code/Marv1n-code.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Marv1n-test/Marv1n-test.iml" filepath="$PROJECT_DIR$/Marv1n-test/Marv1n-test.iml" />
+    </modules>
+  </component>
+</project>
