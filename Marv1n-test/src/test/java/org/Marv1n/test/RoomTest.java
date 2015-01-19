@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
  */
 public class RoomTest {
     @Test
-    public void aNewRoomIsNotAvaiable() {
+    public void aNewRoomIsNotAvailable() {
         Room room = new Room();
 
         assertFalse(room.isAvailable());
