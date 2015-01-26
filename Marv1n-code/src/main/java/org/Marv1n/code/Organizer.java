@@ -15,7 +15,7 @@ public class Organizer implements Runnable {
     private Queue<Request> pendingRequest;
     private List<Room> rooms;
     private ScheduledExecutorService scheduler;
-    private ScheduledFuture<?> future;
+    private ScheduledFuture<?> nextRun;
     private boolean isSchedulerRunning;
 
     public void initialize() {
@@ -49,7 +49,7 @@ public class Organizer implements Runnable {
         return this.timer;
     }
 
-    public void setReservationInterval(Integer timer) {
+    public void setOrganizerRunInterval(Integer timer) {
         this.timer = timer;
     }
 
@@ -63,13 +63,13 @@ public class Organizer implements Runnable {
     }
 
     public void startScheduler() {
-        this.future = this.scheduler.scheduleAtFixedRate(this, this.timer, this.timer, TimeUnit.SECONDS);
+        this.nextRun = this.scheduler.scheduleAtFixedRate(this, this.timer, this.timer, TimeUnit.SECONDS);
         this.isSchedulerRunning = true;
     }
 
     public void cancelScheduler() {
         if (this.isSchedulerRunning) {
-            this.future.cancel(true);
+            this.nextRun.cancel(true);
             this.isSchedulerRunning = false;
         }
     }

@@ -10,8 +10,9 @@ import static org.junit.Assert.*;
 public class OrganizerTest {
 
     private static final Integer TWO_SECOND = 2;
+    private static final Integer RUN_INTERVAL = 120;
+
     private Organizer organizer;
-    private Integer A_TIMER = 120;
 
     @Before
     public void initializeNewOrganizer() {
@@ -54,8 +55,8 @@ public class OrganizerTest {
 
     @Test
     public void newOrganizerReflectsTimerChange() {
-        this.organizer.setReservationInterval(A_TIMER);
-        assertEquals(A_TIMER, this.organizer.getReservationIntervalTimer());
+        this.organizer.setOrganizerRunInterval(RUN_INTERVAL);
+        assertEquals(RUN_INTERVAL, this.organizer.getReservationIntervalTimer());
     }
 
     @Test
@@ -65,7 +66,7 @@ public class OrganizerTest {
 
     @Test
     public void newOrganizerWhenSchedulerStartedIsRunning() {
-        this.organizer.setReservationInterval(TWO_SECOND);
+        this.organizer.setOrganizerRunInterval(TWO_SECOND);
         this.organizer.startScheduler();
         assertTrue(this.organizer.isSchedulerRunning());
     }
@@ -86,7 +87,7 @@ public class OrganizerTest {
         this.organizer.addRoom(new Room());
         this.organizer.addRequest(new Request());
 
-        this.organizer.setReservationInterval(TWO_SECOND);
+        this.organizer.setOrganizerRunInterval(TWO_SECOND);
         this.organizer.startScheduler();
         Thread.sleep(3000);
 
