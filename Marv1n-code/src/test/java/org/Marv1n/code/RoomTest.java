@@ -11,7 +11,7 @@ public class RoomTest {
     private Room room;
 
     @Before
-    public void createARoom() {
+    public void initializeNewRoom() {
         this.room = new Room();
     }
 
