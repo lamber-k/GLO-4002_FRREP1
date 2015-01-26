@@ -9,6 +9,7 @@ import static org.junit.Assert.*;
  */
 public class RoomReserverTest {
 
+    private static final Integer TWO_SECOND = 2;
     private RoomReserver roomReserver;
     private Integer DEFAULT_TIMER = 180;
     private Integer A_TIMER = 120;
@@ -63,7 +64,7 @@ public class RoomReserverTest {
     public void RoomReserverWithOneRoomAndOneReservationWhenRoomAssignToReservationHaveNoPendingReservation() {
         this.roomReserver.AddRoom(new Room());
         this.roomReserver.ReserveRoom(new Reservation());
-        this.roomReserver.SetReservationIntervalTime(2);
+        this.roomReserver.SetReservationIntervalTime(TWO_SECOND);
 
         try {
             Thread.sleep(3000);

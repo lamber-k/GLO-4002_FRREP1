@@ -12,7 +12,6 @@ import java.util.concurrent.*;
  */
 public class RoomReserver implements Runnable {
 
-    private static final Integer START_TIME = 0;
     private static final Integer DEFAULT_TIMER = 180;
 
     private Integer timer;
@@ -68,11 +67,11 @@ public class RoomReserver implements Runnable {
     }
 
     private void restartScheduler() {
-        this.future.cancel(true);
+         this.future.cancel(true);
         this.startScheduler();
     }
-
+    
     private void startScheduler() {
-        this.future = this.scheduler.scheduleAtFixedRate(this, this.START_TIME, this.timer, TimeUnit.SECONDS);
+        this.future = this.scheduler.scheduleAtFixedRate(this, this.timer, this.timer, TimeUnit.SECONDS);
     }
 }
