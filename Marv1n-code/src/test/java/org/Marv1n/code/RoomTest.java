@@ -2,6 +2,7 @@ package org.Marv1n.code;
 
 import org.junit.Before;
 import org.junit.Test;
+
 import static org.junit.Assert.*;
 
 /**
@@ -18,19 +19,19 @@ public class RoomTest {
 
     @Test
     public void NewRoomIsNotReserved() {
-        assertFalse(this.room.IsReserved());
+        assertFalse(this.room.IsBooked());
     }
 
     @Test
     public void NewRoomWhenReserveIsReserved() {
-        this.room.Reserve(new Reservation());
-        assertTrue(this.room.IsReserved());
+        this.room.Book(new Request());
+        assertTrue(this.room.IsBooked());
     }
 
     @Test
     public void NewRoomWhenReserveHaveTheRightReservation() {
-        Reservation test = new Reservation();
-        this.room.Reserve(test);
-        assertEquals(test, this.room.GetReservation());
+        Request test = new Request();
+        this.room.Book(test);
+        assertEquals(test, this.room.GetRequest());
     }
 }

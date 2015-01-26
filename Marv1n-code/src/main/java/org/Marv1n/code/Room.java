@@ -5,22 +5,22 @@ package org.Marv1n.code;
  */
 public class Room {
 
-    Reservation reservation;
+    Request request;
 
     public Room() {
-        this.reservation = null;
+        this.request = null;
     }
 
-    public Boolean IsReserved(){
-        return this.reservation != null;
+    public Boolean IsBooked() {
+        return this.request != null;
     }
 
-    public void Reserve(Reservation reservation) {
-        this.reservation = reservation;
+    public void Book(Request request) {
+        this.request = request;
     }
 
 
-    public Reservation GetReservation() {
-        return this.reservation;
+    public Request GetRequest() {
+        return this.request;
     }
 }
