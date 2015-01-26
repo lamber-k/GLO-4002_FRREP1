@@ -1,8 +1,6 @@
 package org.Marv1n.code;
 
-/**
- * Created by maxime on 14/01/2015.
- */
+
 public class Room {
 
     Request request;
@@ -11,16 +9,16 @@ public class Room {
         this.request = null;
     }
 
-    public Boolean IsBooked() {
+    public Boolean isBooked() {
         return this.request != null;
     }
 
-    public void Book(Request request) {
+    public void book(Request request) {
         this.request = request;
     }
 
 
-    public Request GetRequest() {
+    public Request getRequest() {
         return this.request;
     }
 }

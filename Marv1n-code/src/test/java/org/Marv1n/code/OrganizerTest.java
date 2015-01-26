@@ -6,99 +6,95 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Rafaël on 21/01/2015.
- */
+
 public class OrganizerTest {
 
     private static final Integer TWO_SECOND = 2;
     private Organizer organizer;
-    private Integer DEFAULT_TIMER = 180;
     private Integer A_TIMER = 120;
 
     @Before
     public void initializeNewOrganizer() {
         this.organizer = new Organizer();
-        this.organizer.Initialize();
+        this.organizer.initialize();
     }
 
     @Test
     public void newOrganizerHasNoRoom() {
-        assertFalse(this.organizer.HasRoom());
+        assertFalse(this.organizer.hasRoom());
     }
 
     @Test
     public void newOrganizerHasARoomWhenAdded() {
-        this.organizer.AddRoom(new Room());
-        assertTrue(this.organizer.HasRoom());
+        this.organizer.addRoom(new Room());
+        assertTrue(this.organizer.hasRoom());
     }
 
     @Test
     public void newOrganizerHasNoPendingRequest() {
-        assertFalse(this.organizer.HasPendingRequest());
+        assertFalse(this.organizer.hasPendingRequest());
     }
 
     @Test(expected = NoRoomAvailableException.class)
-    public void OrganizerThrowExceptionWhenThereIsNoRoom() {
-        this.organizer.AddRequest(new Request());
+    public void organizerThrowExceptionWhenThereIsNoRoom() {
+        this.organizer.addRequest(new Request());
     }
 
     @Test
-    public void WhenAddingRequestOrganizerReportsHavingPendingRequest() {
-        this.organizer.AddRoom(new Room());
-        this.organizer.AddRequest(new Request());
-        assertTrue(this.organizer.HasPendingRequest());
+    public void whenAddingRequestOrganizerReportsHavingPendingRequest() {
+        this.organizer.addRoom(new Room());
+        this.organizer.addRequest(new Request());
+        assertTrue(this.organizer.hasPendingRequest());
     }
 
     @Test
-    public void NewOrganizerHasDefaultTimer() {
-        assertTrue(this.organizer.GetReservationIntervalTimer() > 0);
+    public void newOrganizerHasDefaultTimer() {
+        assertTrue(this.organizer.getReservationIntervalTimer() > 0);
     }
 
     @Test
-    public void NewOrganizerReflectsTimerChange() {
-        this.organizer.SetReservationInterval(A_TIMER);
-        assertEquals(A_TIMER, this.organizer.GetReservationIntervalTimer());
+    public void newOrganizerReflectsTimerChange() {
+        this.organizer.setReservationInterval(A_TIMER);
+        assertEquals(A_TIMER, this.organizer.getReservationIntervalTimer());
     }
 
     @Test
-    public void NewOrganizerHasSchedulerNotRunning() {
-        assertFalse(this.organizer.IsSchedulerRunning());
+    public void newOrganizerHasSchedulerNotRunning() {
+        assertFalse(this.organizer.isSchedulerRunning());
     }
 
     @Test
-    public void NewOrganizerWhenSchedulerStartedIsRunning() {
-        this.organizer.SetReservationInterval(TWO_SECOND);
-        this.organizer.StartScheduler();
-        assertTrue(this.organizer.IsSchedulerRunning());
+    public void newOrganizerWhenSchedulerStartedIsRunning() {
+        this.organizer.setReservationInterval(TWO_SECOND);
+        this.organizer.startScheduler();
+        assertTrue(this.organizer.isSchedulerRunning());
     }
 
 
     @Test
-    public void OrganizerAfterTreatingPendingRequestsHasNoMoreRequestPending() throws Exception {
-        this.organizer.AddRoom(new Room());
-        this.organizer.AddRequest(new Request());
+    public void organizerAfterTreatingPendingRequestsHasNoMoreRequestPending() throws Exception {
+        this.organizer.addRoom(new Room());
+        this.organizer.addRequest(new Request());
 
-        this.organizer.TreatPendingRequestsNow();
+        this.organizer.treatPendingRequestsNow();
 
-        assertFalse(this.organizer.HasPendingRequest());
+        assertFalse(this.organizer.hasPendingRequest());
     }
 
     @Test
-    public void OrganizerAfterAutomaticallyTreatingPendingRequestsHasNoMoreRequestPending() throws Exception {
-        this.organizer.AddRoom(new Room());
-        this.organizer.AddRequest(new Request());
+    public void organizerAfterAutomaticallyTreatingPendingRequestsHasNoMoreRequestPending() throws Exception {
+        this.organizer.addRoom(new Room());
+        this.organizer.addRequest(new Request());
 
-        this.organizer.SetReservationInterval(TWO_SECOND);
-        this.organizer.StartScheduler();
+        this.organizer.setReservationInterval(TWO_SECOND);
+        this.organizer.startScheduler();
         Thread.sleep(3000);
 
-        assertFalse(this.organizer.HasPendingRequest());
+        assertFalse(this.organizer.hasPendingRequest());
     }
 
-
     @After
-    public void tearDown() throws Exception {
-        this.organizer.CancelScheduler();
+    public void terminateScheduler() throws Exception {
+        this.organizer.cancelScheduler();
     }
 }

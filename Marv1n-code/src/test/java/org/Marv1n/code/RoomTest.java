@@ -5,9 +5,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Rafaël on 21/01/2015.
- */
+
 public class RoomTest {
 
     private Room room;
@@ -18,20 +16,20 @@ public class RoomTest {
     }
 
     @Test
-    public void NewRoomIsNotReserved() {
-        assertFalse(this.room.IsBooked());
+    public void newRoomIsNotReserved() {
+        assertFalse(this.room.isBooked());
     }
 
     @Test
-    public void NewRoomWhenReserveIsReserved() {
-        this.room.Book(new Request());
-        assertTrue(this.room.IsBooked());
+    public void newRoomWhenReserveIsReserved() {
+        this.room.book(new Request());
+        assertTrue(this.room.isBooked());
     }
 
     @Test
-    public void NewRoomWhenReserveHaveTheRightReservation() {
+    public void newRoomWhenReserveHaveTheRightReservation() {
         Request test = new Request();
-        this.room.Book(test);
-        assertEquals(test, this.room.GetRequest());
+        this.room.book(test);
+        assertEquals(test, this.room.getRequest());
     }
 }
