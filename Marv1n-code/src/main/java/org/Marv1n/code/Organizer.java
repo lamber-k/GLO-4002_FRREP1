@@ -6,9 +6,7 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.*;
 
-/**
- * Created by Rafaël on 21/01/2015.
- */
+
 public class Organizer implements Runnable {
 
     private static final Integer DEFAULT_TIMER = 180;
@@ -20,7 +18,7 @@ public class Organizer implements Runnable {
     private ScheduledFuture<?> future;
     private boolean isSchedulerRunning;
 
-    public void Initialize() {
+    public void initialize() {
         this.timer = DEFAULT_TIMER;
         this.isSchedulerRunning = false;
         this.pendingRequest = new PriorityQueue<>();
@@ -28,72 +26,61 @@ public class Organizer implements Runnable {
         this.scheduler = Executors.newScheduledThreadPool(1);
     }
 
-    public Boolean HasRoom() {
+    public Boolean hasRoom() {
         return !this.rooms.isEmpty();
     }
 
-    public void AddRoom(Room room) {
+    public void addRoom(Room room) {
         this.rooms.add(room);
     }
 
-    public void AddRequest(Request request) {
+    public void addRequest(Request request) {
         if (this.rooms.isEmpty()) {
             throw new NoRoomAvailableException();
         }
         this.pendingRequest.add(request);
     }
 
-    public boolean HasPendingRequest() {
+    public boolean hasPendingRequest() {
         return !this.pendingRequest.isEmpty();
     }
 
-    public Integer GetReservationIntervalTimer() {
+    public Integer getReservationIntervalTimer() {
         return this.timer;
     }
 
-    public void SetReservationInterval(Integer timer) {
+    public void setReservationInterval(Integer timer) {
         this.timer = timer;
     }
 
     @Override
     public void run() {
         for (Room room : this.rooms) {
-            if (!room.IsBooked()) {
-                room.Book(this.pendingRequest.remove());
+            if (!room.isBooked()) {
+                room.book(this.pendingRequest.remove());
             }
         }
     }
 
-    public void RestartScheduler() {
-        this.future.cancel(true);
-        this.StartScheduler();
-    }
-
-    public void StartScheduler() {
+    public void startScheduler() {
         this.future = this.scheduler.scheduleAtFixedRate(this, this.timer, this.timer, TimeUnit.SECONDS);
         this.isSchedulerRunning = true;
     }
 
-    public void CancelScheduler() {
+    public void cancelScheduler() {
         if (this.isSchedulerRunning) {
             this.future.cancel(true);
             this.isSchedulerRunning = false;
         }
     }
 
-    public boolean IsSchedulerRunning() {
+    public boolean isSchedulerRunning() {
         return this.isSchedulerRunning;
     }
 
-    public void TreatPendingRequestsNow() {
+    public void treatPendingRequestsNow() throws InterruptedException, ExecutionException {
         ScheduledFuture<?> newTask = this.scheduler.schedule(this, 0, TimeUnit.SECONDS);
-        try {
-            newTask.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
+        newTask.get();
     }
 }
 
