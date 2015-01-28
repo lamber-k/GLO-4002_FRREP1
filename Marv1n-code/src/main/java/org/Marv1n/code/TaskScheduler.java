@@ -7,14 +7,16 @@ import java.util.concurrent.*;
  */
 public class TaskScheduler {
     private static final Integer NOW = 0;
+    private TimeUnit timeUnit;
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> nextRun;
     private boolean isSchedulerRunning;
 
-    public TaskScheduler(Integer numberOfThread) {
+    public TaskScheduler(Integer numberOfThread, TimeUnit timeUnit) {
         this.scheduler = Executors.newScheduledThreadPool(numberOfThread);
         this.nextRun = null;
         this.isSchedulerRunning = false;
+        this.timeUnit = timeUnit;
     }
 
     public boolean IsSchedulerRunning() {
@@ -22,7 +24,7 @@ public class TaskScheduler {
     }
 
     public void startScheduler(Integer timer, Runnable task) {
-        this.nextRun = this.scheduler.scheduleAtFixedRate(task, timer, timer, TimeUnit.SECONDS);
+        this.nextRun = this.scheduler.scheduleAtFixedRate(task, timer, timer, this.timeUnit);
         this.isSchedulerRunning = true;
     }
 
@@ -35,7 +37,7 @@ public class TaskScheduler {
     }
 
     public void runOnce(Runnable runnable) throws ExecutionException, InterruptedException {
-        ScheduledFuture<?> newTask = this.scheduler.schedule(runnable, NOW, TimeUnit.SECONDS);
+        ScheduledFuture<?> newTask = this.scheduler.schedule(runnable, NOW, this.timeUnit);
         newTask.get();
     }
 }

@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.rmi.UnexpectedException;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -25,11 +26,12 @@ public class TaskSchedulerTest {
     private static final Integer TIMER_ZERO = 0;
     private static final Integer A_TIMER = 5;
     private static final Integer ONE_THREAD = 1;
+    private static final TimeUnit TIME_UNIT_SECOND = TimeUnit.SECONDS;
     private TaskScheduler taskScheduler;
 
     @Before
     public void CreateTaskScheduler() {
-        this.taskScheduler = new TaskScheduler(ONE_THREAD);
+        this.taskScheduler = new TaskScheduler(ONE_THREAD, TIME_UNIT_SECOND);
     }
 
     @Test

@@ -11,7 +11,7 @@ import java.util.concurrent.*;
 
 public class Organizer implements Runnable {
 
-    private static final Integer DEFAULT_TIMER = 180;
+    private static final Integer DEFAULT_TIMER = 120;
     private static final Integer NUMBER_OF_THREAD = 1;
 
     private Integer timer;
@@ -23,7 +23,7 @@ public class Organizer implements Runnable {
         this.timer = DEFAULT_TIMER;
         this.pendingRequest = new PriorityQueue<>();
         this.rooms = new ArrayList<>();
-        taskScheduler = new TaskScheduler(NUMBER_OF_THREAD);
+        taskScheduler = new TaskScheduler(NUMBER_OF_THREAD, TimeUnit.MINUTES);
     }
 
     public Boolean hasRoom() {
