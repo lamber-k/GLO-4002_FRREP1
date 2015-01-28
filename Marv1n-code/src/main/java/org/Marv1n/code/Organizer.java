@@ -1,5 +1,7 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.exception.NoRoomAvailableException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -10,20 +12,18 @@ import java.util.concurrent.*;
 public class Organizer implements Runnable {
 
     private static final Integer DEFAULT_TIMER = 180;
+    private static final Integer NUMBER_OF_THREAD = 1;
 
     private Integer timer;
     private Queue<Request> pendingRequest;
     private List<Room> rooms;
-    private ScheduledExecutorService scheduler;
-    private ScheduledFuture<?> nextRun;
-    private boolean isSchedulerRunning;
+    private TaskScheduler taskScheduler;
 
     public void initialize() {
         this.timer = DEFAULT_TIMER;
-        this.isSchedulerRunning = false;
         this.pendingRequest = new PriorityQueue<>();
         this.rooms = new ArrayList<>();
-        this.scheduler = Executors.newScheduledThreadPool(1);
+        taskScheduler = new TaskScheduler(NUMBER_OF_THREAD);
     }
 
     public Boolean hasRoom() {
@@ -53,8 +53,23 @@ public class Organizer implements Runnable {
         this.timer = timer;
     }
 
-    @Override
-    public void run() {
+    public void startScheduler() {
+        this.taskScheduler.startScheduler(this.timer, this);
+    }
+
+    public void cancelScheduler() {
+        this.taskScheduler.cancelScheduler();
+    }
+
+    public boolean isSchedulerRunning() {
+        return this.taskScheduler.IsSchedulerRunning();
+    }
+
+    public void treatPendingRequestsNow() throws InterruptedException, ExecutionException {
+       this.taskScheduler.runOnce(this);
+    }
+
+    public void treatPendingRequest() {
         for (Room room : this.rooms) {
             if (!room.isBooked()) {
                 room.book(this.pendingRequest.remove());
@@ -62,25 +77,9 @@ public class Organizer implements Runnable {
         }
     }
 
-    public void startScheduler() {
-        this.nextRun = this.scheduler.scheduleAtFixedRate(this, this.timer, this.timer, TimeUnit.SECONDS);
-        this.isSchedulerRunning = true;
-    }
-
-    public void cancelScheduler() {
-        if (this.isSchedulerRunning) {
-            this.nextRun.cancel(true);
-            this.isSchedulerRunning = false;
-        }
-    }
-
-    public boolean isSchedulerRunning() {
-        return this.isSchedulerRunning;
-    }
-
-    public void treatPendingRequestsNow() throws InterruptedException, ExecutionException {
-        ScheduledFuture<?> newTask = this.scheduler.schedule(this, 0, TimeUnit.SECONDS);
-        newTask.get();
+    @Override
+    public void run() {
+        this.treatPendingRequest();
     }
 }
 
