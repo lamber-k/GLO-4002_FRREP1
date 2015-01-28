@@ -1,5 +1,6 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.exception.NoRoomAvailableException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +10,7 @@ import static org.junit.Assert.*;
 
 public class OrganizerTest {
 
-    private static final Integer TWO_SECOND = 2;
+//    private static final Integer TWO_SECOND = 2;
     private static final Integer RUN_INTERVAL = 120;
 
     private Organizer organizer;
@@ -59,17 +60,17 @@ public class OrganizerTest {
         assertEquals(RUN_INTERVAL, this.organizer.getReservationIntervalTimer());
     }
 
-    @Test
-    public void newOrganizerHasSchedulerNotRunning() {
-        assertFalse(this.organizer.isSchedulerRunning());
-    }
+//    @Test
+//    public void newOrganizerHasSchedulerNotRunning() {
+//        assertFalse(this.organizer.isSchedulerRunning());
+//    }
 
-    @Test
-    public void newOrganizerWhenSchedulerStartedIsRunning() {
-        this.organizer.setOrganizerRunInterval(TWO_SECOND);
-        this.organizer.startScheduler();
-        assertTrue(this.organizer.isSchedulerRunning());
-    }
+//    @Test
+//    public void newOrganizerWhenSchedulerStartedIsRunning() {
+//        this.organizer.setOrganizerRunInterval(TWO_SECOND);
+//        this.organizer.startScheduler();
+//        assertTrue(this.organizer.isSchedulerRunning());
+//    }
 
 
     @Test
@@ -77,25 +78,25 @@ public class OrganizerTest {
         this.organizer.addRoom(new Room());
         this.organizer.addRequest(new Request());
 
-        this.organizer.treatPendingRequestsNow();
+        this.organizer.treatPendingRequest();
 
         assertFalse(this.organizer.hasPendingRequest());
     }
 
-    @Test
-    public void organizerAfterAutomaticallyTreatingPendingRequestsHasNoMoreRequestPending() throws Exception {
-        this.organizer.addRoom(new Room());
-        this.organizer.addRequest(new Request());
+//    @Test
+//    public void organizerAfterAutomaticallyTreatingPendingRequestsHasNoMoreRequestPending() throws Exception {
+//        this.organizer.addRoom(new Room());
+//        this.organizer.addRequest(new Request());
+//
+//        this.organizer.setOrganizerRunInterval(TWO_SECOND);
+//        this.organizer.startScheduler();
+//        Thread.sleep(3000);
+//
+//        assertFalse(this.organizer.hasPendingRequest());
+//    }
 
-        this.organizer.setOrganizerRunInterval(TWO_SECOND);
-        this.organizer.startScheduler();
-        Thread.sleep(3000);
-
-        assertFalse(this.organizer.hasPendingRequest());
-    }
-
-    @After
-    public void terminateScheduler() throws Exception {
-        this.organizer.cancelScheduler();
-    }
+//    @After
+//    public void terminateScheduler() throws Exception {
+//        this.organizer.cancelScheduler();
+//    }
 }
