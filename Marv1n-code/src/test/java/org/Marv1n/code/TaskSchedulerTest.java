@@ -3,14 +3,12 @@ package org.Marv1n.code;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.rmi.UnexpectedException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by Rafaël on 27/01/2015.
