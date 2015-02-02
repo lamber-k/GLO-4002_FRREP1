@@ -12,11 +12,13 @@ public class Organizer implements Runnable {
     private Queue<Request> pendingRequest;
     private List<Room> rooms;
     private TaskScheduler taskScheduler;
+    private Integer maximunPendingRequests;
 
-    public void initialize(TaskScheduler scheduler) {
+    public void initialize(TaskScheduler scheduler, Integer maximunPendingRequests) {
         this.pendingRequest = new PriorityQueue<>();
         this.rooms = new ArrayList<>();
         this.taskScheduler = scheduler;
+        this.maximunPendingRequests = maximunPendingRequests;
     }
 
     public Boolean hasRoom() {
@@ -32,6 +34,9 @@ public class Organizer implements Runnable {
             throw new NoRoomAvailableException();
         }
         this.pendingRequest.add(request);
+        if(this.pendingRequest.size() >= this.maximunPendingRequests) {
+            this.treatPendingRequestsNow();
+        }
     }
 
     public boolean hasPendingRequest() {
@@ -53,6 +58,14 @@ public class Organizer implements Runnable {
     @Override
     public void run() {
         this.treatPendingRequest();
+    }
+
+    public Integer getMaximunPendingRequests() {
+        return this.maximunPendingRequests;
+    }
+
+    public void setMaximunPendingRequests(Integer maximunPendingRequests) {
+        this.maximunPendingRequests = maximunPendingRequests;
     }
 }
 
