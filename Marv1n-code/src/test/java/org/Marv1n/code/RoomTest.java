@@ -6,12 +6,12 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class RoomTest {
-
+    final static private int NUMBER_OF_SEATS = 25;
     private Room room;
 
     @Before
     public void initializeNewRoom() {
-        this.room = new Room();
+        this.room = new Room(NUMBER_OF_SEATS);
     }
 
     @Test
@@ -30,5 +30,11 @@ public class RoomTest {
         Request test = new Request();
         this.room.book(test);
         assertEquals(test, this.room.getRequest());
+    }
+
+    @Test
+    public void newRoomReturnsCorrectNumberOfSeats() {
+        int seats = room.getNumberSeats();
+        assertEquals(NUMBER_OF_SEATS, seats);
     }
 }
