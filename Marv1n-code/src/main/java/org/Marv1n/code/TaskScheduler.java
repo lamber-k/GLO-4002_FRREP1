@@ -1,9 +1,10 @@
 package org.Marv1n.code;
 
-import java.util.concurrent.*;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 public class TaskScheduler {
-    private static final Integer NOW = 0;
     private TimeUnit timeUnit;
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> nextRun;

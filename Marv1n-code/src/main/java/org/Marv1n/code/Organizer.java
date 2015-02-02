@@ -39,7 +39,7 @@ public class Organizer implements Runnable {
     }
 
     public void treatPendingRequestsNow() {
-       this.taskScheduler.runNow(this);
+        this.taskScheduler.runNow(this);
     }
 
     public void treatPendingRequest() {

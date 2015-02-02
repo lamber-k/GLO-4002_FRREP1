@@ -52,9 +52,8 @@ public class TaskSchedulerTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void taskScheduler_WhenStartWithTimerZero_ShouldThrowIllegalArgumentException() {
-        Runnable RunnableMock = mock(Runnable.class);
         this.taskScheduler.setIntervalTimer(TIMER_ZERO);
-        this.taskScheduler.startScheduler(RunnableMock);
+        this.taskScheduler.startScheduler(A_RUNNABLE);
     }
 
     @Test
