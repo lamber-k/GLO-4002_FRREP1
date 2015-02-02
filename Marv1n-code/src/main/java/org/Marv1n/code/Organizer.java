@@ -62,7 +62,7 @@ public class Organizer implements Runnable {
     }
 
     public boolean isSchedulerRunning() {
-        return this.taskScheduler.IsSchedulerRunning();
+        return this.taskScheduler.isSchedulerRunning();
     }
 
     public void treatPendingRequestsNow() throws InterruptedException, ExecutionException {

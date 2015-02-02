@@ -10,9 +10,6 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by Rafaël on 27/01/2015.
- */
 public class TaskSchedulerTest {
 
     private static final Runnable A_RUNNABLE = new Runnable() {
@@ -34,20 +31,20 @@ public class TaskSchedulerTest {
 
     @Test
     public void TaskScheduler_WhenCreate_ShouldNotRunning() {
-        assertFalse(taskScheduler.IsSchedulerRunning());
+        assertFalse(taskScheduler.isSchedulerRunning());
     }
 
     @Test
     public void TaskScheduler_WhenStarted_ShouldRunning() {
         this.taskScheduler.startScheduler(A_TIMER, A_RUNNABLE);
-        assertTrue(taskScheduler.IsSchedulerRunning());
+        assertTrue(taskScheduler.isSchedulerRunning());
     }
 
     @Test
     public void TaskSchedulerRunning_WhenCanceled_ShouldNotRunning() {
         this.taskScheduler.startScheduler(A_TIMER, A_RUNNABLE);
         this.taskScheduler.cancelScheduler();
-        assertFalse(this.taskScheduler.IsSchedulerRunning());
+        assertFalse(this.taskScheduler.isSchedulerRunning());
     }
 
     @Test(expected = IllegalArgumentException.class)
