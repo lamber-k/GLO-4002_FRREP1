@@ -8,9 +8,7 @@ import org.junit.Test;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -20,13 +18,17 @@ public class OrganizerTest {
     private static final Integer RUN_INTERVAL = 120;
     private static final Integer DEFAULT_MAXIMUM_PENDING_REQUESTS = 2;
     private static final Integer A_MAXIMUM_PENDING_REQUESTS = 5;
-    private static final Integer Maximum_ONE_PENDING_REQUEST = 1;
+    private static final Integer MAXIMUM_ONE_PENDING_REQUEST = 1;
 
     private Organizer organizer;
     private TaskScheduler taskScheduler;
+    private Room mockRoom;
+    private Request aRequest;
 
     @Before
     public void initializeNewOrganizer() {
+        this.mockRoom = mock(Room.class);
+        this.aRequest = new Request();
         this.taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), RUN_INTERVAL, TimeUnit.MINUTES);
         this.organizer = new Organizer();
         this.organizer.initialize(taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS);
@@ -39,7 +41,7 @@ public class OrganizerTest {
 
     @Test
     public void newOrganizerHasARoomWhenAdded() {
-        this.organizer.addRoom(new Room());
+        this.organizer.addRoom(this.mockRoom);
         assertTrue(this.organizer.hasRoom());
     }
 
@@ -50,20 +52,20 @@ public class OrganizerTest {
 
     @Test(expected = NoRoomAvailableException.class)
     public void organizerThrowExceptionWhenThereIsNoRoom() {
-        this.organizer.addRequest(new Request());
+        this.organizer.addRequest(aRequest);
     }
 
     @Test
     public void whenAddingRequestOrganizerReportsHavingPendingRequest() {
-        this.organizer.addRoom(new Room());
-        this.organizer.addRequest(new Request());
+        this.organizer.addRoom(this.mockRoom);
+        this.organizer.addRequest(aRequest);
         assertTrue(this.organizer.hasPendingRequest());
     }
 
     @Test
     public void organizerAfterTreatingPendingRequestsHasNoMoreRequestPending() throws Exception {
-        this.organizer.addRoom(new Room());
-        this.organizer.addRequest(new Request());
+        this.organizer.addRoom(this.mockRoom);
+        this.organizer.addRequest(aRequest);
 
         this.organizer.treatPendingRequest();
 
@@ -92,10 +94,10 @@ public class OrganizerTest {
     }
 
     @Test
-    public void organiserWhenPendingRequestsReachMaximumPendingRequestsShouldCallRunNowOf() {
-        this.organizer.setMaximumPendingRequests(Maximum_ONE_PENDING_REQUEST);
-        this.organizer.addRoom(new Room());
-        this.organizer.addRequest(new Request());
+    public void organiserWhenPendingRequestsReachMaximunPendingRequestsShouldCallRunNowOf() {
+        this.organizer.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
+        this.organizer.addRoom(this.mockRoom);
+        this.organizer.addRequest(aRequest);
 
         assertFalse(this.organizer.hasPendingRequest());
     }
