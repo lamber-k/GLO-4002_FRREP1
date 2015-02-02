@@ -94,7 +94,7 @@ public class OrganizerTest {
     }
 
     @Test
-    public void organiserWhenPendingRequestsReachMaximunPendingRequestsShouldCallRunNowOf() {
+    public void organiserWhenPendingRequestsReachMaximumPendingRequestsShouldCallRunNowOf() {
         this.organizer.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
         this.organizer.addRoom(this.mockRoom);
         this.organizer.addRequest(aRequest);
