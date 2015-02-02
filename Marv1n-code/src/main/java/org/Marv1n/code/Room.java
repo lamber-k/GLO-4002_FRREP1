@@ -4,8 +4,10 @@ package org.Marv1n.code;
 public class Room {
 
     Request request;
+    private int numberSeats;
 
-    public Room() {
+    public Room(int numberOfSeats) {
+        this.numberSeats = numberOfSeats;
         this.request = null;
     }
 
@@ -19,5 +21,9 @@ public class Room {
 
     public Request getRequest() {
         return this.request;
+    }
+
+    public int getNumberSeats() {
+        return numberSeats;
     }
 }
