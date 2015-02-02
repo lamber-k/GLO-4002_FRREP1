@@ -20,7 +20,7 @@ public class OrganizerTest {
     private static final Integer RUN_INTERVAL = 120;
     private static final Integer DEFAULT_MAXIMUM_PENDING_REQUESTS = 2;
     private static final Integer A_MAXIMUM_PENDING_REQUESTS = 5;
-    private static final Integer MAXIMUN_ONE_PENDING_REQUEST = 1;
+    private static final Integer Maximum_ONE_PENDING_REQUEST = 1;
 
     private Organizer organizer;
     private TaskScheduler taskScheduler;
@@ -81,19 +81,19 @@ public class OrganizerTest {
     }
 
     @Test
-    public void newOrganiserHasMaximunPendingRequests() {
-        assertEquals(DEFAULT_MAXIMUM_PENDING_REQUESTS, this.organizer.getMaximunPendingRequests());
+    public void newOrganiserHasMaximumPendingRequests() {
+        assertEquals(DEFAULT_MAXIMUM_PENDING_REQUESTS, this.organizer.getMaximumPendingRequests());
     }
 
     @Test
     public void newOrganiserReflectsTimerChange() {
-        this.organizer.setMaximunPendingRequests(A_MAXIMUM_PENDING_REQUESTS);
-        assertEquals(A_MAXIMUM_PENDING_REQUESTS, this.organizer.getMaximunPendingRequests());
+        this.organizer.setMaximumPendingRequests(A_MAXIMUM_PENDING_REQUESTS);
+        assertEquals(A_MAXIMUM_PENDING_REQUESTS, this.organizer.getMaximumPendingRequests());
     }
 
     @Test
-    public void organiserWhenPendingRequestsReachMaximunPendingRequestsShouldCallRunNowOf() {
-        this.organizer.setMaximunPendingRequests(MAXIMUN_ONE_PENDING_REQUEST);
+    public void organiserWhenPendingRequestsReachMaximumPendingRequestsShouldCallRunNowOf() {
+        this.organizer.setMaximumPendingRequests(Maximum_ONE_PENDING_REQUEST);
         this.organizer.addRoom(new Room());
         this.organizer.addRequest(new Request());
 
