@@ -2,9 +2,6 @@ package org.Marv1n.code;
 
 import java.util.concurrent.*;
 
-/**
- * Created by Rafaël on 27/01/2015.
- */
 public class TaskScheduler {
     private static final Integer NOW = 0;
     private TimeUnit timeUnit;
@@ -19,7 +16,7 @@ public class TaskScheduler {
         this.timeUnit = timeUnit;
     }
 
-    public boolean IsSchedulerRunning() {
+    public boolean isSchedulerRunning() {
         return this.isSchedulerRunning;
     }
 
