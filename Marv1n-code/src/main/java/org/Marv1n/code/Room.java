@@ -1,6 +1,5 @@
 package org.Marv1n.code;
 
-
 public class Room {
 
     private Request request;

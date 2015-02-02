@@ -34,7 +34,7 @@ public class Organizer implements Runnable {
             throw new NoRoomAvailableException();
         }
         this.pendingRequest.add(request);
-        if(this.pendingRequest.size() >= this.maximumPendingRequests) {
+        if (this.pendingRequest.size() >= this.maximumPendingRequests) {
             this.treatPendingRequestsNow();
         }
     }
