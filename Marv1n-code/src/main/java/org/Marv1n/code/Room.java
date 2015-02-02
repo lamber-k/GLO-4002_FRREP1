@@ -3,7 +3,7 @@ package org.Marv1n.code;
 
 public class Room {
 
-    Request request;
+    private Request request;
     private int numberSeats;
 
     public Room(int numberOfSeats) {

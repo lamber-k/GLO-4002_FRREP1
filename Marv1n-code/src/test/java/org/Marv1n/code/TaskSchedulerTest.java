@@ -14,11 +14,9 @@ import static org.mockito.Mockito.verify;
 
 public class TaskSchedulerTest {
 
-    private static final Runnable A_RUNNABLE = new Runnable() {
-        @Override
-        public void run() {
-        }
+    private static final Runnable A_RUNNABLE = () -> {
     };
+
 
     private static final Integer TIMER_ZERO = 0;
     private static final Integer A_TIMER = 5;
