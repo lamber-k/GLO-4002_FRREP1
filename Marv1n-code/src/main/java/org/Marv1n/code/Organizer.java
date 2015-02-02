@@ -6,24 +6,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Queue;
-import java.util.concurrent.*;
-
 
 public class Organizer implements Runnable {
 
-    private static final Integer DEFAULT_TIMER = 120;
-    private static final Integer NUMBER_OF_THREAD = 1;
-
-    private Integer timer;
     private Queue<Request> pendingRequest;
     private List<Room> rooms;
     private TaskScheduler taskScheduler;
 
-    public void initialize() {
-        this.timer = DEFAULT_TIMER;
+    public void initialize(TaskScheduler scheduler) {
         this.pendingRequest = new PriorityQueue<>();
         this.rooms = new ArrayList<>();
-        taskScheduler = new TaskScheduler(NUMBER_OF_THREAD, TimeUnit.MINUTES);
+        this.taskScheduler = scheduler;
     }
 
     public Boolean hasRoom() {
@@ -45,28 +38,8 @@ public class Organizer implements Runnable {
         return !this.pendingRequest.isEmpty();
     }
 
-    public Integer getReservationIntervalTimer() {
-        return this.timer;
-    }
-
-    public void setOrganizerRunInterval(Integer timer) {
-        this.timer = timer;
-    }
-
-    public void startScheduler() {
-        this.taskScheduler.startScheduler(this.timer, this);
-    }
-
-    public void cancelScheduler() {
-        this.taskScheduler.cancelScheduler();
-    }
-
-    public boolean isSchedulerRunning() {
-        return this.taskScheduler.isSchedulerRunning();
-    }
-
-    public void treatPendingRequestsNow() throws InterruptedException, ExecutionException {
-       this.taskScheduler.runNow(this.timer, this);
+    public void treatPendingRequestsNow() {
+       this.taskScheduler.runNow(this);
     }
 
     public void treatPendingRequest() {

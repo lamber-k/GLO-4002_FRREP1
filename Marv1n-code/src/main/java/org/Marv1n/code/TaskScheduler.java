@@ -8,20 +8,22 @@ public class TaskScheduler {
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> nextRun;
     private boolean isSchedulerRunning;
+    private Integer intervalTimer;
 
-    public TaskScheduler(Integer numberOfThread, TimeUnit timeUnit) {
-        this.scheduler = Executors.newScheduledThreadPool(numberOfThread);
+    public TaskScheduler(ScheduledExecutorService scheduler, Integer intervalTimer, TimeUnit timeUnit) {
+        this.scheduler = scheduler;
         this.nextRun = null;
         this.isSchedulerRunning = false;
         this.timeUnit = timeUnit;
+        this.intervalTimer = intervalTimer;
     }
 
     public boolean isSchedulerRunning() {
         return this.isSchedulerRunning;
     }
 
-    public void startScheduler(Integer timer, Runnable task) {
-        this.startAtFixedRate(task, timer, timer);
+    public void startScheduler(Runnable task) {
+        this.startAtFixedRate(task);
     }
 
     public void cancelScheduler() {
@@ -31,13 +33,22 @@ public class TaskScheduler {
         }
     }
 
-    public void runNow(Integer timer, Runnable task) throws ExecutionException, InterruptedException {
+    public void runNow(Runnable task) {
         this.cancelScheduler();
-        this.startAtFixedRate(task, NOW, timer);
+        task.run();
+        this.startAtFixedRate(task);
     }
 
-    private void startAtFixedRate(Runnable task, Integer start, Integer interval) {
-        this.nextRun = this.scheduler.scheduleAtFixedRate(task, start, interval, this.timeUnit);
+    private void startAtFixedRate(Runnable task) {
+        this.nextRun = this.scheduler.scheduleAtFixedRate(task, this.intervalTimer, this.intervalTimer, this.timeUnit);
         this.isSchedulerRunning = true;
+    }
+
+    public Integer getIntervalTimer() {
+        return this.intervalTimer;
+    }
+
+    public void setIntervalTimer(Integer intervalTimer) {
+        this.intervalTimer = intervalTimer;
     }
 }
