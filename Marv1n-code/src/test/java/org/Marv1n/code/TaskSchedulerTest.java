@@ -25,36 +25,36 @@ public class TaskSchedulerTest {
     private TaskScheduler taskScheduler;
 
     @Before
-    public void CreateTaskScheduler() {
+    public void createTaskScheduler() {
         this.taskScheduler = new TaskScheduler(ONE_THREAD, TIME_UNIT_SECOND);
     }
 
     @Test
-    public void TaskScheduler_WhenCreate_ShouldNotRunning() {
+    public void taskScheduler_WhenCreate_ShouldNotRunning() {
         assertFalse(taskScheduler.isSchedulerRunning());
     }
 
     @Test
-    public void TaskScheduler_WhenStarted_ShouldRunning() {
+    public void taskScheduler_WhenStarted_ShouldRunning() {
         this.taskScheduler.startScheduler(A_TIMER, A_RUNNABLE);
         assertTrue(taskScheduler.isSchedulerRunning());
     }
 
     @Test
-    public void TaskSchedulerRunning_WhenCanceled_ShouldNotRunning() {
+    public void taskSchedulerRunning_WhenCanceled_ShouldNotRunning() {
         this.taskScheduler.startScheduler(A_TIMER, A_RUNNABLE);
         this.taskScheduler.cancelScheduler();
         assertFalse(this.taskScheduler.isSchedulerRunning());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void TaskScheduler_WhenStartWithTimerZero_ShouldThrowIllegalArgumentException() {
+    public void taskScheduler_WhenStartWithTimerZero_ShouldThrowIllegalArgumentException() {
         Runnable RunnableMock = mock(Runnable.class);
         this.taskScheduler.startScheduler(TIMER_ZERO, RunnableMock);
     }
 
     @Test
-    public void TaskScheduler_WhenRunOnce_RunMethodOfRunnableShouldBeCalled() throws ExecutionException, InterruptedException {
+    public void taskScheduler_WhenRunOnce_RunMethodOfRunnableShouldBeCalled() throws ExecutionException, InterruptedException {
         Runnable RunnableMock = mock(Runnable.class);
         this.taskScheduler.runOnce(RunnableMock);
         verify(RunnableMock).run();
