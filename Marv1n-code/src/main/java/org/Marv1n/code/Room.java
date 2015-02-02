@@ -17,7 +17,6 @@ public class Room {
         this.request = request;
     }
 
-
     public Request getRequest() {
         return this.request;
     }
