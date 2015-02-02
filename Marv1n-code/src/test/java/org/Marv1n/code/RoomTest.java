@@ -9,10 +9,12 @@ import static org.junit.Assert.*;
 public class RoomTest {
 
     private Room room;
+    private Request request;
 
     @Before
     public void initializeNewRoom() {
         this.room = new Room();
+        this.request = new Request();
     }
 
     @Test
@@ -22,14 +24,13 @@ public class RoomTest {
 
     @Test
     public void newRoomWhenReserveIsReserved() {
-        this.room.book(new Request());
+        this.room.book(this.request);
         assertTrue(this.room.isBooked());
     }
 
     @Test
     public void newRoomWhenReserveHaveTheRightReservation() {
-        Request test = new Request();
-        this.room.book(test);
-        assertEquals(test, this.room.getRequest());
+        this.room.book(this.request);
+        assertEquals(this.request, this.room.getRequest());
     }
 }
