@@ -4,9 +4,12 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -59,7 +62,7 @@ public class TaskSchedulerTest {
     @Test
     public void TaskScheduler_WhenRunOnce_RunMethodOfRunnableShouldBeCalled() throws ExecutionException, InterruptedException {
         Runnable RunnableMock = mock(Runnable.class);
-        this.taskScheduler.runOnce(RunnableMock);
+        this.taskScheduler.runNow(A_TIMER, RunnableMock);
         verify(RunnableMock).run();
     }
 }

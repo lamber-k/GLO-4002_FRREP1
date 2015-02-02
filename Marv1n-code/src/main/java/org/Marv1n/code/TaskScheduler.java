@@ -24,10 +24,8 @@ public class TaskScheduler {
     }
 
     public void startScheduler(Integer timer, Runnable task) {
-        this.nextRun = this.scheduler.scheduleAtFixedRate(task, timer, timer, this.timeUnit);
-        this.isSchedulerRunning = true;
+        this.startAtFixedRate(task, timer, timer);
     }
-
 
     public void cancelScheduler() {
         if (this.isSchedulerRunning) {
@@ -36,8 +34,13 @@ public class TaskScheduler {
         }
     }
 
-    public void runOnce(Runnable runnable) throws ExecutionException, InterruptedException {
-        ScheduledFuture<?> newTask = this.scheduler.schedule(runnable, NOW, this.timeUnit);
-        newTask.get();
+    public void runNow(Integer timer, Runnable task) throws ExecutionException, InterruptedException {
+        this.cancelScheduler();
+        this.startAtFixedRate(task, NOW, timer);
+    }
+
+    private void startAtFixedRate(Runnable task, Integer start, Integer interval) {
+        this.nextRun = this.scheduler.scheduleAtFixedRate(task, start, interval, this.timeUnit);
+        this.isSchedulerRunning = true;
     }
 }
