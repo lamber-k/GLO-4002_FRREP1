@@ -66,7 +66,7 @@ public class Organizer implements Runnable {
     }
 
     public void treatPendingRequestsNow() throws InterruptedException, ExecutionException {
-       this.taskScheduler.runOnce(this);
+       this.taskScheduler.runNow(this.timer, this);
     }
 
     public void treatPendingRequest() {
