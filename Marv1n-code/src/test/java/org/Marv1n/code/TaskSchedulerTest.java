@@ -83,7 +83,7 @@ public class TaskSchedulerTest {
     }
 
     @Test
-    public void aTastSchedulerRunning_WhenCancelScheduler_MethodCancelShouldBeCalled() {
+    public void aTaskSchedulerRunning_WhenCancelScheduler_MethodCancelShouldBeCalled() {
         /*ScheduledFuture aScheduledFuture = mock(ScheduledFuture.class);
 
         taskScheduler.runNow(A_RUNNABLE);
