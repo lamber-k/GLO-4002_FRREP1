@@ -23,12 +23,15 @@ public class TaskScheduler {
         return this.isSchedulerRunning;
     }
 
+    // Pourquoi utiliser une methode priver ?
     public void startScheduler(Runnable task) {
+        //this.nextRun = this.scheduler.scheduleAtFixedRate(task, this.intervalTimer, this.intervalTimer, this.timeUnit);
+        //this.isSchedulerRunning = true;
         this.startAtFixedRate(task);
     }
 
     public void cancelScheduler() {
-        if (this.isSchedulerRunning) {
+        if (isSchedulerRunning()) {
             this.nextRun.cancel(true);
             this.isSchedulerRunning = false;
         }

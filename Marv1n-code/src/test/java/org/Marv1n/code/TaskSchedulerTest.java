@@ -71,4 +71,25 @@ public class TaskSchedulerTest {
         this.taskScheduler.setIntervalTimer(A_TIMER);
         assertEquals(A_TIMER, this.taskScheduler.getIntervalTimer());
     }
+
+    @Test
+    public void newTaskScheduler_WhenStartScheduler_MethodScheduleAtFixedRateShouldBeCalled() {
+        ScheduledExecutorService aScheduledExecutorService = mock(ScheduledExecutorService.class);
+        TaskScheduler taskSchedulerMock = new TaskScheduler(aScheduledExecutorService, DEFAULT_TIMER, TIME_UNIT_SECOND);
+
+        taskSchedulerMock.startScheduler(A_RUNNABLE);
+
+        verify(aScheduledExecutorService).scheduleAtFixedRate(A_RUNNABLE, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
+    }
+
+    @Test
+    public void aTastSchedulerRunning_WhenCancelScheduler_MethodCancelShouldBeCalled() {
+        /*ScheduledFuture aScheduledFuture = mock(ScheduledFuture.class);
+
+        taskScheduler.runNow(A_RUNNABLE);
+        taskScheduler.cancelScheduler();
+
+        verify(aScheduledFuture).cancel(true);*/
+        fail();
+    }
 }
