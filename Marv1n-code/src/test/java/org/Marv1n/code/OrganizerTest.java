@@ -10,8 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class OrganizerTest {
 
@@ -24,14 +23,16 @@ public class OrganizerTest {
     private TaskScheduler taskScheduler;
     private Room mockRoom;
     private Request aRequest;
+    private StrategyAssignation mocStrategyAssignation;
 
     @Before
     public void initializeNewOrganizer() {
+        mocStrategyAssignation = mock(StrategyAssignation.class);
         this.mockRoom = mock(Room.class);
         this.aRequest = new Request();
         this.taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), RUN_INTERVAL, TimeUnit.MINUTES);
         this.organizer = new Organizer();
-        this.organizer.initialize(taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS);
+        this.organizer.initialize(taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, mocStrategyAssignation);
     }
 
     @Test
@@ -63,19 +64,20 @@ public class OrganizerTest {
     }
 
     @Test
-    public void organizerAfterTreatingPendingRequestsHasNoMoreRequestPending() throws Exception {
+    public void organizerAfterTreatingPendingRequestsAssignationAsRun() throws Exception {
         this.organizer.addRoom(this.mockRoom);
         this.organizer.addRequest(aRequest);
 
         this.organizer.treatPendingRequest();
 
-        assertFalse(this.organizer.hasPendingRequest());
+        verify(mocStrategyAssignation, times(1)).assingRooms(any(), any());
     }
 
     @Test
     public void organizerWhenTreatPendingRequestNowShouldCallTaskSchedulerRunNow() {
+        StrategyAssignation mocStrategyAssignation = mock(StrategyAssignation.class);
         TaskScheduler schedulerMock = mock(TaskScheduler.class);
-        this.organizer.initialize(schedulerMock, DEFAULT_MAXIMUM_PENDING_REQUESTS);
+        this.organizer.initialize(schedulerMock, DEFAULT_MAXIMUM_PENDING_REQUESTS, mocStrategyAssignation);
 
         this.organizer.treatPendingRequestsNow();
 
@@ -94,12 +96,12 @@ public class OrganizerTest {
     }
 
     @Test
-    public void organiserWhenPendingRequestsReachMaximumPendingRequestsShouldCallRunNowOf() {
+    public void organiserWhenPendingRequestsReachMaximumPendingRequestsShouldRuAssignation() {
         this.organizer.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
         this.organizer.addRoom(this.mockRoom);
         this.organizer.addRequest(aRequest);
 
-        assertFalse(this.organizer.hasPendingRequest());
+        verify(mocStrategyAssignation, times(1)).assingRooms(any(), any());
     }
 
     @After

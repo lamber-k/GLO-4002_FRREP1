@@ -4,21 +4,21 @@ import org.Marv1n.code.exception.NoRoomAvailableException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 public class Organizer implements Runnable {
 
-    private Queue<Request> pendingRequest;
+    private List<Request> pendingRequest;
     private List<Room> rooms;
     private TaskScheduler taskScheduler;
     private Integer maximumPendingRequests;
+    private StrategyAssignation assignator;
 
-    public void initialize(TaskScheduler scheduler, Integer maximumPendingRequests) {
-        this.pendingRequest = new PriorityQueue<>();
+    public void initialize(TaskScheduler scheduler, Integer maximumPendingRequests, StrategyAssignation strategyAssignation) {
+        this.pendingRequest = new ArrayList<>();
         this.rooms = new ArrayList<>();
         this.taskScheduler = scheduler;
         this.maximumPendingRequests = maximumPendingRequests;
+        this.assignator = strategyAssignation;
     }
 
     public Boolean hasRoom() {
@@ -48,11 +48,7 @@ public class Organizer implements Runnable {
     }
 
     public void treatPendingRequest() {
-        for (Room room : this.rooms) {
-            if (!room.isBooked()) {
-                room.book(this.pendingRequest.remove());
-            }
-        }
+        assignator.assingRooms(pendingRequest, rooms);
     }
 
     @Override
