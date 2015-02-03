@@ -11,6 +11,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StrategyAssignationMaximiseSeatsTest {
@@ -20,21 +22,24 @@ public class StrategyAssignationMaximiseSeatsTest {
     private static StrategyAssignation assignator;
 
     @Mock
-    private static Room mocRoom1;
+    private static Room mocRoom;
     @Mock
     private static Request mocRequest1;
+    @Mock
+    private static Request mocRequest2;
 
     @Before
     public void init() {
         this.pendingRequest = new ArrayList<>();
         this.rooms = new ArrayList<>();
         this.assignator = new StrategyAssignationMaximiseSeats();
-        this.pendingRequest.add(mocRequest1);
+        this.pendingRequest.add(this.mocRequest1);
+        this.rooms.add(this.mocRoom);
     }
 
     @Test
     public void WhenEnoughRoomAreAvalibleAndAssignationIsStartedAllRequestShouldBeAssigned() {
-        this.rooms.add(mocRoom1);
+        when(mocRoom.isBooked()).thenReturn(false);
 
         this.assignator.assingRooms(this.pendingRequest, this.rooms);
 
@@ -43,8 +48,36 @@ public class StrategyAssignationMaximiseSeatsTest {
 
     @Test
     public void WhenNoEnoughRoomAreAvalibleAndAssignationIsStartedSomeRequestWontBeAssigned() {
+        when(mocRoom.isBooked()).thenReturn(true);
+
         this.assignator.assingRooms(this.pendingRequest, this.rooms);
 
         assertFalse(this.pendingRequest.isEmpty());
+    }
+
+    @Test
+    public void WhenAssignationIsRunCallToRoomIsBookedAreDoneToCheckAvalibility() {
+        this.assignator.assingRooms(this.pendingRequest, this.rooms);
+
+        verify(mocRoom, times(1)).isBooked();
+    }
+
+    @Test
+    public void WhenAssignationIsRunCallToRoomBookToBookTheRoomAndBookIsCalledOnlyOnce() {
+        when(mocRoom.isBooked()).thenReturn(false).thenReturn(true);
+        this.pendingRequest.add(mocRequest2);
+
+        this.assignator.assingRooms(this.pendingRequest, this.rooms);
+
+        verify(mocRoom, times(1)).book(any());
+    }
+
+    @Test
+    public void WhenAssignagionIsRunCallToRoomGetNumberSeatsAndCallToRequestGetSeatsNeededAreDone() {
+        when(mocRoom.isBooked()).thenReturn(false);
+        this.assignator.assingRooms(this.pendingRequest, this.rooms);
+
+        verify(mocRequest1, times(1)).getSeatsNeeded();
+        verify(mocRoom, times(1)).getNumberSeats();
     }
 }

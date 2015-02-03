@@ -12,13 +12,11 @@ public class StrategyAssignationMaximiseSeats implements StrategyAssignation {
         while (!requests.isEmpty()) {
             bestRoom = null;
             for (Room room : rooms) {
-                if (!room.isBooked()) {
-                    if (requests.get(0).getSeatsNeeded() <= room.getNumberSeats()) {
-                        if (bestRoom == null)
-                            bestRoom = room;
-                        else if (bestRoom.getNumberSeats() > room.getNumberSeats())
-                            bestRoom = room;
-                    }
+                if (!room.isBooked() && requests.get(0).getSeatsNeeded() <= room.getNumberSeats()) {
+                    if (bestRoom == null)
+                        bestRoom = room;
+                    else if (bestRoom.getNumberSeats() > room.getNumberSeats())
+                        bestRoom = room;
                 }
             }
             if (bestRoom != null)
@@ -27,7 +25,6 @@ public class StrategyAssignationMaximiseSeats implements StrategyAssignation {
                 unhandledRequests.add(requests.get(0));
             requests.remove(0);
         }
-        for(Request request : unhandledRequests)
-            requests.add(request);
+        requests.addAll(unhandledRequests);
     }
 }
