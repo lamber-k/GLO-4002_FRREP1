@@ -2,19 +2,24 @@ package org.Marv1n.code;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class RoomTest {
 
     final static private int NUMBER_OF_SEATS = 25;
     private Room room;
+
+    @Mock
     private Request request;
 
     @Before
     public void initializeNewRoom() {
         this.room = new Room(NUMBER_OF_SEATS);
-        this.request = new Request();
     }
 
     @Test

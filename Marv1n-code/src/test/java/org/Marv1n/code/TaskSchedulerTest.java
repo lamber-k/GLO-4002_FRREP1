@@ -2,6 +2,9 @@ package org.Marv1n.code;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
@@ -12,17 +15,16 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+@RunWith(MockitoJUnitRunner.class)
 public class TaskSchedulerTest {
-
-    private static final Runnable A_RUNNABLE = () -> {
-    };
-
 
     private static final Integer TIMER_ZERO = 0;
     private static final Integer A_TIMER = 5;
     private static final TimeUnit TIME_UNIT_SECOND = TimeUnit.SECONDS;
     private static final ScheduledExecutorService A_SCHEDULER_EXECUTOR_SERVICE = Executors.newSingleThreadScheduledExecutor();
     private static final Integer DEFAULT_TIMER = 42;
+    @Mock
+    private Runnable A_RUNNABLE;
     private TaskScheduler taskScheduler;
 
     @Before
@@ -56,9 +58,8 @@ public class TaskSchedulerTest {
 
     @Test
     public void taskScheduler_WhenRunOnce_RunMethodOfRunnableShouldBeCalled() throws ExecutionException, InterruptedException {
-        Runnable RunnableMock = mock(Runnable.class);
-        this.taskScheduler.runNow(RunnableMock);
-        verify(RunnableMock).run();
+        this.taskScheduler.runNow(A_RUNNABLE);
+        verify(A_RUNNABLE).run();
     }
 
     @Test
