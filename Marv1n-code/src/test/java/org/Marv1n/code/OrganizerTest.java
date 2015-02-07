@@ -19,6 +19,7 @@ public class OrganizerTest {
     private static final Integer DEFAULT_MAXIMUM_PENDING_REQUESTS = 2;
     private static final Integer A_MAXIMUM_PENDING_REQUESTS = 5;
     private static final Integer MAXIMUM_ONE_PENDING_REQUEST = 1;
+    private int oneTime = 1;
 
     private Organizer organizer;
 
@@ -75,7 +76,7 @@ public class OrganizerTest {
 
         this.organizer.treatPendingRequest();
 
-        verify(mocStrategyAssignation, times(1)).assingRooms(any(), any());
+        verify(mocStrategyAssignation, times(this.oneTime)).assingRooms(any(), any());
     }
 
     @Test
@@ -102,7 +103,7 @@ public class OrganizerTest {
         this.organizer.addRoom(this.mockRoom);
         this.organizer.addRequest(aRequest);
 
-        verify(taskScheduler, times(1)).runNow(any());
+        verify(taskScheduler, times(this.oneTime)).runNow(any());
     }
 
     @After

@@ -3,6 +3,9 @@ package org.Marv1n.code;
 import java.util.List;
 
 public class StrategyAssignationFirstInFirstOut implements StrategyAssignation {
+
+    private int firstElement = 0;
+
     @Override
     public void assingRooms(List<Request> requests, List<Room> rooms) {
         boolean requestIsAssigned = true;
@@ -10,8 +13,8 @@ public class StrategyAssignationFirstInFirstOut implements StrategyAssignation {
             requestIsAssigned = false;
             for (Room room : rooms)
                 if (!room.isBooked() && !requestIsAssigned) {
-                    room.book(requests.get(0));
-                    requests.remove(0);
+                    room.book(requests.get(this.firstElement));
+                    requests.remove(this.firstElement);
                     requestIsAssigned = true;
                 }
         }

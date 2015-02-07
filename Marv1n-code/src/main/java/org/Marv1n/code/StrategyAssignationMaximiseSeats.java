@@ -5,6 +5,8 @@ import java.util.List;
 
 public class StrategyAssignationMaximiseSeats implements StrategyAssignation {
 
+    private int firstElement = 0;
+
     @Override
     public void assingRooms(List<Request> requests, List<Room> rooms) {
         List<Request> unhandledRequests = new ArrayList<>();
@@ -12,7 +14,7 @@ public class StrategyAssignationMaximiseSeats implements StrategyAssignation {
         while (!requests.isEmpty()) {
             bestRoom = null;
             for (Room room : rooms) {
-                if (!room.isBooked() && requests.get(0).getSeatsNeeded() <= room.getNumberSeats()) {
+                if (!room.isBooked() && requests.get(this.firstElement).getSeatsNeeded() <= room.getNumberSeats()) {
                     if (bestRoom == null)
                         bestRoom = room;
                     else if (bestRoom.getNumberSeats() > room.getNumberSeats())
@@ -20,10 +22,10 @@ public class StrategyAssignationMaximiseSeats implements StrategyAssignation {
                 }
             }
             if (bestRoom != null)
-                bestRoom.book(requests.get(0));
+                bestRoom.book(requests.get(this.firstElement));
             else
-                unhandledRequests.add(requests.get(0));
-            requests.remove(0);
+                unhandledRequests.add(requests.get(this.firstElement));
+            requests.remove(this.firstElement);
         }
         requests.addAll(unhandledRequests);
     }
