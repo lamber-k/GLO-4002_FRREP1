@@ -26,4 +26,8 @@ public class Room {
     public int getNumberSeats() {
         return numberSeats;
     }
+
+    public boolean hasGreaterCapacityThan(Room room) {
+        return getNumberSeats() > room.getNumberSeats();
+    }
 }

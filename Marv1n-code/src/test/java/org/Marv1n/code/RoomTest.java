@@ -12,6 +12,7 @@ import static org.junit.Assert.*;
 public class RoomTest {
 
     final static private int NUMBER_OF_SEATS = 25;
+    final static private int LOWER_NUMBER_OF_SEATS = 5;
     private Room room;
 
     @Mock
@@ -43,5 +44,12 @@ public class RoomTest {
     public void newRoomReturnsCorrectNumberOfSeats() {
         int seats = room.getNumberSeats();
         assertEquals(NUMBER_OF_SEATS, seats);
+    }
+
+    @Test
+    public void greaterCountRoomEvaluatedAsSuchWhenComparedToLowerRoom() throws Exception {
+        Room greaterRoom = new Room(NUMBER_OF_SEATS);
+        Room lowerRoom = new Room(LOWER_NUMBER_OF_SEATS);
+        assertTrue(greaterRoom.hasGreaterCapacityThan(lowerRoom));
     }
 }
