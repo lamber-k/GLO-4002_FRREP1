@@ -34,10 +34,13 @@ public class OrganizerTest {
     @Mock
     private StrategyAssignation mocStrategyAssignation;
 
+    @Mock
+    private StrategySortRequest mocStrategySortRequest;
+
     @Before
     public void initializeNewOrganizer() {
         this.organizer = new Organizer();
-        this.organizer.initialize(taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, mocStrategyAssignation);
+        this.organizer.initialize(taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, mocStrategyAssignation, mocStrategySortRequest);
     }
 
     @Test
@@ -76,6 +79,12 @@ public class OrganizerTest {
         this.organizer.treatPendingRequest();
 
         verify(mocStrategyAssignation, times(this.oneTime)).assignRooms(any(), any());
+    }
+
+    @Test
+    public void organizerWhenTreatPendingRequestThenCallStrategySortRequest(){
+        this.organizer.treatPendingRequest();
+        verify(mocStrategySortRequest, times(this.oneTime)).sortList(any());
     }
 
     @Test

@@ -12,13 +12,15 @@ public class Organizer implements Runnable {
     private TaskScheduler taskScheduler;
     private Integer maximumPendingRequests;
     private StrategyAssignation assigner;
+    private StrategySortRequest requestSorter;
 
-    public void initialize(TaskScheduler scheduler, Integer maximumPendingRequests, StrategyAssignation strategyAssignation) {
+    public void initialize(TaskScheduler scheduler, Integer maximumPendingRequests, StrategyAssignation strategyAssignation, StrategySortRequest strategySortRequest) {
         this.pendingRequest = new ArrayList<>();
         this.rooms = new ArrayList<>();
         this.taskScheduler = scheduler;
         this.maximumPendingRequests = maximumPendingRequests;
         this.assigner = strategyAssignation;
+        this.requestSorter = strategySortRequest;
     }
 
     public Boolean hasRoom() {
@@ -48,6 +50,7 @@ public class Organizer implements Runnable {
     }
 
     public void treatPendingRequest() {
+        requestSorter.sortList(pendingRequest);
         assigner.assignRooms(pendingRequest, rooms);
     }
 
