@@ -6,14 +6,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TaskSchedulerTest {
@@ -75,22 +71,24 @@ public class TaskSchedulerTest {
 
     @Test
     public void newTaskScheduler_WhenStartScheduler_MethodScheduleAtFixedRateShouldBeCalled() {
-        ScheduledExecutorService aScheduledExecutorService = mock(ScheduledExecutorService.class);
-        TaskScheduler taskSchedulerMock = new TaskScheduler(aScheduledExecutorService, DEFAULT_TIMER, TIME_UNIT_SECOND);
+        ScheduledExecutorService aScheduledExecutorServiceMock = mock(ScheduledExecutorService.class);
+        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND);
 
-        taskSchedulerMock.startScheduler(A_RUNNABLE);
+        scheduler.startScheduler(A_RUNNABLE);
 
-        verify(aScheduledExecutorService).scheduleAtFixedRate(A_RUNNABLE, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
+        verify(aScheduledExecutorServiceMock).scheduleAtFixedRate(A_RUNNABLE, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
     }
 
     @Test
     public void aTaskSchedulerRunning_WhenCancelScheduler_MethodCancelShouldBeCalled() {
-        /*ScheduledFuture aScheduledFuture = mock(ScheduledFuture.class);
+        ScheduledExecutorService aScheduledExecutorServiceMock = mock(ScheduledExecutorService.class);
+        ScheduledFuture aScheduledFutureMock = mock(ScheduledFuture.class);
+        doReturn(aScheduledFutureMock).when(aScheduledExecutorServiceMock).scheduleAtFixedRate(A_RUNNABLE, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
+        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND);
+        scheduler.startScheduler(A_RUNNABLE);
 
-        taskScheduler.runNow(A_RUNNABLE);
-        taskScheduler.cancelScheduler();
+        scheduler.cancelScheduler();
 
-        verify(aScheduledFuture).cancel(true);*/
-        fail();
+        verify(aScheduledFutureMock).cancel(anyBoolean());
     }
 }
