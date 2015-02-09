@@ -23,6 +23,8 @@ public class StrategySortRequestByPriorityTest {
     @Mock
     private Request REQUEST_WITH_MEDIUM_PRIORITY;
     @Mock
+    private Request REQUEST_WITH_MEDIUM_PRIORITY_2;
+    @Mock
     private Request REQUEST_WITH_LOW_PRIORITY;
     private int HIGH_PRIORITY = 1;
     private int MEDIUM_PRIORITY = 3;
@@ -34,6 +36,10 @@ public class StrategySortRequestByPriorityTest {
     public void init() {
         requestSorter = new StrategySortRequestByPriority();
         listRequest = new ArrayList();
+        when(REQUEST_WITH_HIGH_PRIORITY.getPriority()).thenReturn(HIGH_PRIORITY);
+        when(REQUEST_WITH_MEDIUM_PRIORITY.getPriority()).thenReturn(MEDIUM_PRIORITY);
+        when(REQUEST_WITH_MEDIUM_PRIORITY_2.getPriority()).thenReturn(MEDIUM_PRIORITY);
+        when(REQUEST_WITH_LOW_PRIORITY.getPriority()).thenReturn(LOW_PRIORITY);
         listRequest.add(REQUEST_WITH_LOW_PRIORITY);
         listRequest.add(REQUEST_WITH_MEDIUM_PRIORITY);
         listRequest.add(REQUEST_WITH_HIGH_PRIORITY);
@@ -47,15 +53,23 @@ public class StrategySortRequestByPriorityTest {
 
     @Test
     public void whenStrategySortSortIsCalledOnListContainingMoreThanOneRequestThenListIsSorted() {
-        when(REQUEST_WITH_HIGH_PRIORITY.getPriority()).thenReturn(HIGH_PRIORITY);
-        when(REQUEST_WITH_MEDIUM_PRIORITY.getPriority()).thenReturn(MEDIUM_PRIORITY);
-        when(REQUEST_WITH_LOW_PRIORITY.getPriority()).thenReturn(LOW_PRIORITY);
-
         requestSorter.sortList(listRequest);
 
         assertEquals(REQUEST_WITH_HIGH_PRIORITY, listRequest.get(0));
         assertEquals(REQUEST_WITH_MEDIUM_PRIORITY, listRequest.get(1));
         assertEquals(REQUEST_WITH_LOW_PRIORITY, listRequest.get(2));
+    }
+
+    @Test
+    public void whenStrategySortSortIsCalledOnListContainingElementOfSamePriorityThenListIsSortedWithFirstInFistOutOrderForSamePriorityRequest(){
+        listRequest.add(REQUEST_WITH_MEDIUM_PRIORITY_2);
+
+        requestSorter.sortList(listRequest);
+
+        assertEquals(REQUEST_WITH_HIGH_PRIORITY, listRequest.get(0));
+        assertEquals(REQUEST_WITH_MEDIUM_PRIORITY, listRequest.get(1));
+        assertEquals(REQUEST_WITH_MEDIUM_PRIORITY_2, listRequest.get(2));
+        assertEquals(REQUEST_WITH_LOW_PRIORITY, listRequest.get(3));
     }
 
 }
