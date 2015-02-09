@@ -6,16 +6,9 @@ import java.util.List;
 public class StrategySortRequestByPriority implements StrategySortRequest {
 
     @Override
-    public void sortList(List input) {
-        ComparatorRequest comparator = new ComparatorRequest();
+    public void sortList(List<Request> input) {
+        Comparator<Request> comparator = (a, b) -> a.getPriority() - b.getPriority();
         input.sort(comparator);
-    }
-
-    private static class ComparatorRequest implements Comparator<Request>{
-        @Override
-        public int compare(Request o1, Request o2) {
-            return o1.getPriority() - o2.getPriority();
-        }
     }
 
 }

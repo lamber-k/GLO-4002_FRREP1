@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface StrategySortRequest {
 
-    public default void sortList(List input){}
+    public default void sortList(List<Request> input) {
+    }
 
 }
