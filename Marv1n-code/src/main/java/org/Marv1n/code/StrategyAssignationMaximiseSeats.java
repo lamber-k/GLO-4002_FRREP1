@@ -8,13 +8,13 @@ public class StrategyAssignationMaximiseSeats implements StrategyAssignation {
     private int firstElement = 0;
 
     @Override
-    public void assingRooms(List<Request> requests, List<Room> rooms) {
+    public void assignRooms(List<Request> requests, List<Room> rooms) {
         List<Request> unhandledRequests = new ArrayList<>();
         Room bestRoom;
         while (!requests.isEmpty()) {
             bestRoom = null;
             for (Room room : rooms) {
-                if (!room.isBooked() && requests.get(this.firstElement).getSeatsNeeded() <= room.getNumberSeats()) {
+                if (!room.isBooked() && requests.get(this.firstElement).getNumberOdSeatsNeeded() <= room.getNumberSeats()) {
                     if (bestRoom == null)
                         bestRoom = room;
                     else if (bestRoom.getNumberSeats() > room.getNumberSeats())

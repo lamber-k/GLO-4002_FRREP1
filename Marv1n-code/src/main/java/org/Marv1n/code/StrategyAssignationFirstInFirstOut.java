@@ -7,7 +7,7 @@ public class StrategyAssignationFirstInFirstOut implements StrategyAssignation {
     private int firstElement = 0;
 
     @Override
-    public void assingRooms(List<Request> requests, List<Room> rooms) {
+    public void assignRooms(List<Request> requests, List<Room> rooms) {
         boolean requestIsAssigned = true;
         while (!requests.isEmpty() && requestIsAssigned) {
             requestIsAssigned = false;

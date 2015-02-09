@@ -10,8 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrganizerTest {
@@ -70,13 +69,13 @@ public class OrganizerTest {
     }
 
     @Test
-    public void organizerAfterTreatingPendingRequestsAssignationAsRun() throws Exception {
+    public void organizerAfterTreatingPendingRequestsAssignationHasRun() throws Exception {
         this.organizer.addRoom(this.mockRoom);
         this.organizer.addRequest(aRequest);
 
         this.organizer.treatPendingRequest();
 
-        verify(mocStrategyAssignation, times(this.oneTime)).assingRooms(any(), any());
+        verify(mocStrategyAssignation, times(this.oneTime)).assignRooms(any(), any());
     }
 
     @Test
@@ -87,23 +86,30 @@ public class OrganizerTest {
     }
 
     @Test
-    public void newOrganiserHasMaximumPendingRequests() {
+    public void newOrganizerHasMaximumPendingRequests() {
         assertEquals(DEFAULT_MAXIMUM_PENDING_REQUESTS, this.organizer.getMaximumPendingRequests());
     }
 
     @Test
-    public void newOrganiserReflectsTimerChange() {
+    public void newOrganizerReflectsTimerChange() {
         this.organizer.setMaximumPendingRequests(A_MAXIMUM_PENDING_REQUESTS);
         assertEquals(A_MAXIMUM_PENDING_REQUESTS, this.organizer.getMaximumPendingRequests());
     }
 
     @Test
-    public void organiserWhenPendingRequestsReachMaximumPendingRequestsShouldRunAssignation() {
+    public void organizerWhenPendingRequestsReachMaximumPendingRequestsShouldRunAssignation() {
         this.organizer.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
         this.organizer.addRoom(this.mockRoom);
         this.organizer.addRequest(aRequest);
 
         verify(taskScheduler, times(this.oneTime)).runNow(any());
+    }
+
+    @Test
+    public void organizerCallsTreatPendingRequestWhenRun() {
+        Organizer organizerSpy = spy(this.organizer);
+        organizerSpy.run();
+        verify(organizerSpy).treatPendingRequest();
     }
 
     @After

@@ -39,7 +39,7 @@ public class StrategyAssignationFirstInFirstOutTest {
 
     @Test
     public void WhenEnoughRoomAreAvalibleAndAssignationIsStartedAllRequestShouldBeAssigned() {
-        assignator.assingRooms(pendingRequest, rooms);
+        assignator.assignRooms(pendingRequest, rooms);
 
         assertTrue(pendingRequest.isEmpty());
     }
@@ -48,14 +48,14 @@ public class StrategyAssignationFirstInFirstOutTest {
     public void WhenNoEnoughRoomAreAvalibleAndAssignationIsStartedSomeRequestWontBeAssigned() {
         when(mocRoom.isBooked()).thenReturn(true);
 
-        assignator.assingRooms(pendingRequest, rooms);
+        assignator.assignRooms(pendingRequest, rooms);
 
         assertFalse(pendingRequest.isEmpty());
     }
 
     @Test
     public void WhenAssignationIsRunCallToRoomIsBookedAreDoneToCheckAvalibility() {
-        assignator.assingRooms(pendingRequest, rooms);
+        assignator.assignRooms(pendingRequest, rooms);
 
         verify(mocRoom, times(this.oneTime)).isBooked();
     }
@@ -65,7 +65,7 @@ public class StrategyAssignationFirstInFirstOutTest {
         when(mocRoom.isBooked()).thenReturn(false).thenReturn(true);
         pendingRequest.add(mocRequest2);
 
-        assignator.assingRooms(pendingRequest, rooms);
+        assignator.assignRooms(pendingRequest, rooms);
 
         verify(mocRoom, times(this.oneTime)).book(any());
     }

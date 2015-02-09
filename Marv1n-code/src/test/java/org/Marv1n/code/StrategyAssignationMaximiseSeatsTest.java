@@ -41,7 +41,7 @@ public class StrategyAssignationMaximiseSeatsTest {
     public void WhenEnoughRoomAreAvalibleAndAssignationIsStartedAllRequestShouldBeAssigned() {
         when(mocRoom.isBooked()).thenReturn(false);
 
-        assignator.assingRooms(pendingRequest, rooms);
+        assignator.assignRooms(pendingRequest, rooms);
 
         assertTrue(pendingRequest.isEmpty());
     }
@@ -50,14 +50,14 @@ public class StrategyAssignationMaximiseSeatsTest {
     public void WhenNoEnoughRoomAreAvalibleAndAssignationIsStartedSomeRequestWontBeAssigned() {
         when(mocRoom.isBooked()).thenReturn(true);
 
-        assignator.assingRooms(pendingRequest, rooms);
+        assignator.assignRooms(pendingRequest, rooms);
 
         assertFalse(pendingRequest.isEmpty());
     }
 
     @Test
     public void WhenAssignationIsRunCallToRoomIsBookedAreDoneToCheckAvalibility() {
-        assignator.assingRooms(pendingRequest, rooms);
+        assignator.assignRooms(pendingRequest, rooms);
 
         verify(mocRoom, times(this.oneTime)).isBooked();
     }
@@ -67,7 +67,7 @@ public class StrategyAssignationMaximiseSeatsTest {
         when(mocRoom.isBooked()).thenReturn(false).thenReturn(true);
         pendingRequest.add(mocRequest2);
 
-        assignator.assingRooms(pendingRequest, rooms);
+        assignator.assignRooms(pendingRequest, rooms);
 
         verify(mocRoom, times(this.oneTime)).book(any());
     }
@@ -75,9 +75,9 @@ public class StrategyAssignationMaximiseSeatsTest {
     @Test
     public void WhenAssignagionIsRunCallToRoomGetNumberSeatsAndCallToRequestGetSeatsNeededAreDone() {
         when(mocRoom.isBooked()).thenReturn(false);
-        assignator.assingRooms(pendingRequest, rooms);
+        assignator.assignRooms(pendingRequest, rooms);
 
-        verify(mocRequest1, times(this.oneTime)).getSeatsNeeded();
+        verify(mocRequest1, times(this.oneTime)).getNumberOdSeatsNeeded();
         verify(mocRoom, times(this.oneTime)).getNumberSeats();
     }
 }
