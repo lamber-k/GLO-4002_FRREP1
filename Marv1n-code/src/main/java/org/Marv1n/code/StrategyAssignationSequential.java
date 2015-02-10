@@ -3,10 +3,8 @@ package org.Marv1n.code;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by Rafaël on 09/02/2015.
- */
 public abstract class StrategyAssignationSequential implements StrategyAssignation {
+
     @Override
     public void assignRooms(List<Request> requests, List<Room> rooms) {
         for (Iterator<Request> iterator = requests.iterator(); iterator.hasNext(); ) {

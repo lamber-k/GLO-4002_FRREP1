@@ -16,67 +16,63 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class StrategyAssignationMaximizeSeatsTest {
 
-    private final static int ONE_TIME = 1;
+    private final static Integer ONE_TIME = 1;
+
     private List<Request> pendingRequest;
     private List<Room> rooms;
     private StrategyAssignation assigner;
     @Mock
-    private Room mocRoom;
+    private Room mockRoom;
     @Mock
-    private Request mocRequest1;
+    private Request mockRequest1;
     @Mock
-    private Request mocRequest2;
+    private Request mockRequest2;
 
     @Before
     public void init() {
         this.pendingRequest = new ArrayList<>();
         this.rooms = new ArrayList<>();
         this.assigner = new StrategyAssignationMaximizeSeats();
-        this.pendingRequest.add(this.mocRequest1);
-        this.rooms.add(this.mocRoom);
+        this.pendingRequest.add(this.mockRequest1);
+        this.rooms.add(this.mockRoom);
     }
 
     @Test
     public void WhenEnoughRoomAreAvailableAndAssignationIsStartedAllRequestShouldBeAssigned() {
-        when(this.mocRoom.isBooked()).thenReturn(false);
-
+        when(this.mockRoom.isBooked()).thenReturn(false);
         this.assigner.assignRooms(this.pendingRequest, this.rooms);
-
         assertTrue(this.pendingRequest.isEmpty());
     }
 
     @Test
     public void WhenNoEnoughRoomAreAvailableAndAssignationIsStartedSomeRequestWontBeAssigned() {
-        when(this.mocRoom.isBooked()).thenReturn(true);
-
+        when(this.mockRoom.isBooked()).thenReturn(true);
         this.assigner.assignRooms(this.pendingRequest, this.rooms);
-
         assertFalse(this.pendingRequest.isEmpty());
     }
 
     @Test
     public void WhenAssignationIsRun_CallToRoomIsBookedAreDoneToCheckAvailability() {
         this.assigner.assignRooms(this.pendingRequest, this.rooms);
-
-        verify(this.mocRoom, times(ONE_TIME)).isBooked();
+        verify(this.mockRoom, times(ONE_TIME)).isBooked();
     }
 
     @Test
     public void WhenAssignationIsRun_CallToRoomBookToBookTheRoomAndBookIsCalledOnlyOnce() {
-        when(this.mocRoom.isBooked()).thenReturn(false).thenReturn(true);
-        this.pendingRequest.add(this.mocRequest2);
+        when(this.mockRoom.isBooked()).thenReturn(false).thenReturn(true);
+        this.pendingRequest.add(this.mockRequest2);
 
         this.assigner.assignRooms(this.pendingRequest, this.rooms);
 
-        verify(this.mocRoom, times(ONE_TIME)).book(any());
+        verify(this.mockRoom, times(ONE_TIME)).book(any());
     }
 
     @Test
     public void WhenAssignationIsRunCallToRoomGetNumberSeatsAndCallToRequest_GetSeatsNeededAreDone() {
-        when(this.mocRoom.isBooked()).thenReturn(false);
+        when(this.mockRoom.isBooked()).thenReturn(false);
         this.assigner.assignRooms(this.pendingRequest, this.rooms);
 
-        verify(this.mocRequest1, times(ONE_TIME)).getNumberOdSeatsNeeded();
-        verify(this.mocRoom, times(ONE_TIME)).getNumberSeats();
+        verify(this.mockRequest1, times(ONE_TIME)).getNumberOdSeatsNeeded();
+        verify(this.mockRoom, times(ONE_TIME)).getNumberSeats();
     }
 }

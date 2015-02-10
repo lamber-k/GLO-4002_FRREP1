@@ -10,7 +10,7 @@ public class StrategyAssignationMaximizeSeats extends StrategyAssignationSequent
 
         for (Room room : rooms) {
             if (doesTheRoomFitsTheRequest(evaluatedRequest, room)) {
-                betterRoom = getBetterRoomOf(betterRoom, room);
+                betterRoom = this.getBetterRoomOf(betterRoom, room);
             }
         }
         return new RoomAssignationResult(betterRoom);
@@ -28,7 +28,6 @@ public class StrategyAssignationMaximizeSeats extends StrategyAssignationSequent
         return bestRoom;
     }
 
-    @SuppressWarnings("RedundantIfStatement")
     private boolean doesTheRoomFitsTheRequest(Request evaluatedRequest, Room room) {
         return !(room.isBooked() || evaluatedRequest.getNumberOdSeatsNeeded() > room.getNumberSeats());
     }

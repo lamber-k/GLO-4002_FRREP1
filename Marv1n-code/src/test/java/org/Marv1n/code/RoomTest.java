@@ -11,8 +11,9 @@ import static org.junit.Assert.*;
 @RunWith(MockitoJUnitRunner.class)
 public class RoomTest {
 
-    final static private int NUMBER_OF_SEATS = 25;
-    final static private int LOWER_NUMBER_OF_SEATS = 5;
+    final static private Integer NUMBER_OF_SEATS = 25;
+    final static private Integer LOWER_NUMBER_OF_SEATS = 5;
+
     private Room room;
 
     @Mock
@@ -42,7 +43,7 @@ public class RoomTest {
 
     @Test
     public void newRoom_ReturnsCorrectNumberOfSeats() {
-        int seats = this.room.getNumberSeats();
+        Integer seats = this.room.getNumberSeats();
         assertEquals(NUMBER_OF_SEATS, seats);
     }
 

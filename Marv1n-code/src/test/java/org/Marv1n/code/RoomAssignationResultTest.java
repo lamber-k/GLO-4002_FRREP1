@@ -5,12 +5,10 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-/**
- * Created by Rafaël on 09/02/2015.
- */
 public class RoomAssignationResultTest {
 
-    private static final int A_NUMBER_OF_SEAT = 4;
+    private static final Integer A_NUMBER_OF_SEAT = 4;
+
     private Room aRoom;
 
     @Before

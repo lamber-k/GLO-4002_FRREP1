@@ -10,7 +10,7 @@ public class StrategyAssignationFirstInFirstOut extends StrategyAssignationSeque
             if (!room.isBooked()) {
                 return new RoomAssignationResult(room);
             }
-        return new RoomAssignationResult(null);
+        return new RoomAssignationResult();
     }
 
     @Override

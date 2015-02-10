@@ -16,7 +16,7 @@ public class OrganizerTest {
     private static final Integer DEFAULT_MAXIMUM_PENDING_REQUESTS = 2;
     private static final Integer A_MAXIMUM_PENDING_REQUESTS = 5;
     private static final Integer MAXIMUM_ONE_PENDING_REQUEST = 1;
-    private static final int ONE_TIME = 1;
+    private static final Integer ONE_TIME = 1;
 
     private Organizer organizer;
 
@@ -30,15 +30,15 @@ public class OrganizerTest {
     private Request aRequest;
 
     @Mock
-    private StrategyAssignation mocStrategyAssignation;
+    private StrategyAssignation mockStrategyAssignation;
 
     @Mock
-    private StrategySortRequest mocStrategySortRequest;
+    private StrategySortRequest mockStrategySortRequest;
 
     @Before
     public void initializeNewOrganizer() {
         this.organizer = new Organizer();
-        this.organizer.initialize(taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, mocStrategyAssignation, mocStrategySortRequest);
+        this.organizer.initialize(this.taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, this.mockStrategyAssignation, this.mockStrategySortRequest);
     }
 
     @Test
@@ -71,20 +71,20 @@ public class OrganizerTest {
 
         this.organizer.treatPendingRequest();
 
-        verify(mocStrategyAssignation, times(ONE_TIME)).assignRooms(any(), any());
+        verify(this.mockStrategyAssignation, times(ONE_TIME)).assignRooms(any(), any());
     }
 
     @Test
     public void organizerWhenTreatPendingRequestThenCallStrategySortRequest(){
         this.organizer.treatPendingRequest();
-        verify(mocStrategySortRequest, times(ONE_TIME)).sortList(any());
+        verify(this.mockStrategySortRequest, times(ONE_TIME)).sortList(any());
     }
 
     @Test
     public void organizerWhenTreatPendingRequestNowShouldCallTaskSchedulerRunNow() {
         this.organizer.treatPendingRequestsNow();
 
-        verify(taskScheduler).runNow(any(Runnable.class));
+        verify(this.taskScheduler).runNow(any(Runnable.class));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class OrganizerTest {
         this.organizer.addRoom(this.mockRoom);
         this.organizer.addRequest(this.aRequest);
 
-        verify(taskScheduler, times(ONE_TIME)).runNow(any());
+        verify(this.taskScheduler, times(ONE_TIME)).runNow(any());
     }
 
     @Test

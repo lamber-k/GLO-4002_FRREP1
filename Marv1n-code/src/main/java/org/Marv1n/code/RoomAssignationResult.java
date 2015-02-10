@@ -1,9 +1,6 @@
 package org.Marv1n.code;
 
-/**
- * Created by Rafaël on 09/02/2015.
- */
-public class RoomAssignationResult implements AssignationResult{
+public class RoomAssignationResult implements AssignationResult {
 
     private Room matchingRoom = null;
 
