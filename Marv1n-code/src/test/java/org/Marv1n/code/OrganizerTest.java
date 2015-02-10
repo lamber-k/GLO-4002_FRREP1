@@ -1,6 +1,5 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.exception.NoRoomAvailableException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
