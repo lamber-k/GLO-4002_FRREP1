@@ -3,20 +3,10 @@ package org.Marv1n.code;
 import java.util.Iterator;
 import java.util.List;
 
-public class StrategyAssignationMaximizeSeats implements StrategyAssignation {
-    @Override
-    public void assignRooms(List<Request> requests, List<Room> rooms) {
-        for (Iterator<Request> iterator = requests.iterator(); iterator.hasNext(); ) {
-            Request evaluatedRequest = iterator.next();
-            Room bestRoom = evaluateOneRequest(rooms, evaluatedRequest);
-            if (bestRoom != null) {
-                bestRoom.book(evaluatedRequest);
-                iterator.remove();
-            }
-        }
-    }
+public class StrategyAssignationMaximizeSeats extends StrategyAssignationSequential {
 
-    private Room evaluateOneRequest(List<Room> rooms, Request evaluatedRequest) {
+    @Override
+    protected AssignationResult evaluateOneRequest(List<Room> rooms, Request evaluatedRequest) {
         Room betterRoom = null;
 
         for (Room room : rooms) {
@@ -24,7 +14,13 @@ public class StrategyAssignationMaximizeSeats implements StrategyAssignation {
                 betterRoom = getBetterRoomOf(betterRoom, room);
             }
         }
-        return betterRoom;
+        return new RoomAssignationResult(betterRoom);
+    }
+
+    @Override
+    protected void treatAssignationResult(AssignationResult result, Request evaluatedRequest) {
+        RoomAssignationResult roomAssignationResult = (RoomAssignationResult)result;
+        roomAssignationResult.getBestRoomMatch().book(evaluatedRequest);
     }
 
     private Room getBetterRoomOf(Room bestRoom, Room room) {
