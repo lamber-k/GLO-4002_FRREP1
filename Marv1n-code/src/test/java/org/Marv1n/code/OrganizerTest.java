@@ -59,11 +59,6 @@ public class OrganizerTest {
         assertFalse(this.organizer.hasPendingRequest());
     }
 
-    @Test(expected = NoRoomAvailableException.class)
-    public void organizerThrowExceptionWhenThereIsNoRoom() {
-        this.organizer.addRequest(aRequest);
-    }
-
     @Test
     public void whenAddingRequestOrganizerReportsHavingPendingRequest() {
         this.organizer.addRoom(this.mockRoom);

@@ -1,7 +1,5 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.exception.NoRoomAvailableException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +30,6 @@ public class Organizer implements Runnable {
     }
 
     public void addRequest(Request request) {
-        if (this.rooms.isEmpty()) {
-            throw new NoRoomAvailableException();
-        }
         this.pendingRequest.add(request);
         if (this.pendingRequest.size() >= this.maximumPendingRequests) {
             this.treatPendingRequestsNow();
