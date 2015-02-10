@@ -30,13 +30,13 @@ public class TaskSchedulerTest {
 
     @Test
     public void taskScheduler_WhenCreate_ShouldNotRunning() {
-        assertFalse(taskScheduler.isSchedulerRunning());
+        assertFalse(this.taskScheduler.isSchedulerRunning());
     }
 
     @Test
     public void taskScheduler_WhenStarted_ShouldRunning() {
         this.taskScheduler.startScheduler(A_RUNNABLE);
-        assertTrue(taskScheduler.isSchedulerRunning());
+        assertTrue(this.taskScheduler.isSchedulerRunning());
     }
 
     @Test
@@ -59,12 +59,12 @@ public class TaskSchedulerTest {
     }
 
     @Test
-    public void newTaskSchedulerHasDefaultTimer() {
+    public void newTaskScheduler_HasDefaultTimer() {
         assertEquals(DEFAULT_TIMER, this.taskScheduler.getIntervalTimer());
     }
 
     @Test
-    public void newTaskSchedulerReflectsTimerChange() {
+    public void newTaskScheduler_ReflectsTimerChange() {
         this.taskScheduler.setIntervalTimer(A_TIMER);
         assertEquals(A_TIMER, this.taskScheduler.getIntervalTimer());
     }

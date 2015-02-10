@@ -24,30 +24,30 @@ public class RoomTest {
     }
 
     @Test
-    public void newRoomIsNotReserved() {
+    public void newRoom_AtStart_IsNotReserved() {
         assertFalse(this.room.isBooked());
     }
 
     @Test
-    public void newRoomWhenReserveIsReserved() {
-        this.room.book(request);
+    public void newRoom_WhenReserve_IsReserved() {
+        this.room.book(this.request);
         assertTrue(this.room.isBooked());
     }
 
     @Test
-    public void newRoomWhenReserveHaveTheRightReservation() {
-        this.room.book(request);
-        assertEquals(request, this.room.getRequest());
+    public void newRoom_WhenReserve_HaveTheRightReservation() {
+        this.room.book(this.request);
+        assertEquals(this.request, this.room.getRequest());
     }
 
     @Test
-    public void newRoomReturnsCorrectNumberOfSeats() {
-        int seats = room.getNumberSeats();
+    public void newRoom_ReturnsCorrectNumberOfSeats() {
+        int seats = this.room.getNumberSeats();
         assertEquals(NUMBER_OF_SEATS, seats);
     }
 
     @Test
-    public void greaterCountRoomEvaluatedAsSuchWhenComparedToLowerRoom() throws Exception {
+    public void twoRooms_WhenTestRoomWithLowerSeatsCapacity_ShouldReturnTrue() throws Exception {
         Room greaterRoom = new Room(NUMBER_OF_SEATS);
         Room lowerRoom = new Room(LOWER_NUMBER_OF_SEATS);
         assertTrue(greaterRoom.hasGreaterCapacityThan(lowerRoom));

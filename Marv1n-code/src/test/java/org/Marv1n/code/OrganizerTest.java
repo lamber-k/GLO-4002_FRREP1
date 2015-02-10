@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -18,7 +17,7 @@ public class OrganizerTest {
     private static final Integer DEFAULT_MAXIMUM_PENDING_REQUESTS = 2;
     private static final Integer A_MAXIMUM_PENDING_REQUESTS = 5;
     private static final Integer MAXIMUM_ONE_PENDING_REQUEST = 1;
-    private int oneTime = 1;
+    private static final int ONE_TIME = 1;
 
     private Organizer organizer;
 
@@ -61,30 +60,30 @@ public class OrganizerTest {
 
     @Test(expected = NoRoomAvailableException.class)
     public void organizerThrowExceptionWhenThereIsNoRoom() {
-        this.organizer.addRequest(aRequest);
+        this.organizer.addRequest(this.aRequest);
     }
 
     @Test
     public void whenAddingRequestOrganizerReportsHavingPendingRequest() {
         this.organizer.addRoom(this.mockRoom);
-        this.organizer.addRequest(aRequest);
+        this.organizer.addRequest(this.aRequest);
         assertTrue(this.organizer.hasPendingRequest());
     }
 
     @Test
     public void organizerAfterTreatingPendingRequestsAssignationHasRun() throws Exception {
         this.organizer.addRoom(this.mockRoom);
-        this.organizer.addRequest(aRequest);
+        this.organizer.addRequest(this.aRequest);
 
         this.organizer.treatPendingRequest();
 
-        verify(mocStrategyAssignation, times(this.oneTime)).assignRooms(any(), any());
+        verify(mocStrategyAssignation, times(ONE_TIME)).assignRooms(any(), any());
     }
 
     @Test
     public void organizerWhenTreatPendingRequestThenCallStrategySortRequest(){
         this.organizer.treatPendingRequest();
-        verify(mocStrategySortRequest, times(this.oneTime)).sortList(any());
+        verify(mocStrategySortRequest, times(ONE_TIME)).sortList(any());
     }
 
     @Test
@@ -109,9 +108,9 @@ public class OrganizerTest {
     public void organizerWhenPendingRequestsReachMaximumPendingRequestsShouldRunAssignation() {
         this.organizer.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
         this.organizer.addRoom(this.mockRoom);
-        this.organizer.addRequest(aRequest);
+        this.organizer.addRequest(this.aRequest);
 
-        verify(taskScheduler, times(this.oneTime)).runNow(any());
+        verify(taskScheduler, times(ONE_TIME)).runNow(any());
     }
 
     @Test

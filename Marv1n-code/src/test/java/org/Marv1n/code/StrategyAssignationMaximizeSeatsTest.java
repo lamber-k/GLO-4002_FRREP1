@@ -11,73 +11,72 @@ import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StrategyAssignationMaximizeSeatsTest {
 
-    private static List<Request> pendingRequest;
-    private static List<Room> rooms;
-    private static StrategyAssignation assigner;
+    private final static int ONE_TIME = 1;
+    private List<Request> pendingRequest;
+    private List<Room> rooms;
+    private StrategyAssignation assigner;
     @Mock
-    private static Room mocRoom;
+    private Room mocRoom;
     @Mock
-    private static Request mocRequest1;
+    private Request mocRequest1;
     @Mock
-    private static Request mocRequest2;
-    private int oneTime = 1;
+    private Request mocRequest2;
 
     @Before
     public void init() {
-        pendingRequest = new ArrayList<>();
-        rooms = new ArrayList<>();
-        assigner = new StrategyAssignationMaximizeSeats();
-        pendingRequest.add(mocRequest1);
-        rooms.add(mocRoom);
+        this.pendingRequest = new ArrayList<>();
+        this.rooms = new ArrayList<>();
+        this.assigner = new StrategyAssignationMaximizeSeats();
+        this.pendingRequest.add(this.mocRequest1);
+        this.rooms.add(this.mocRoom);
     }
 
     @Test
     public void WhenEnoughRoomAreAvailableAndAssignationIsStartedAllRequestShouldBeAssigned() {
-        when(mocRoom.isBooked()).thenReturn(false);
+        when(this.mocRoom.isBooked()).thenReturn(false);
 
-        assigner.assignRooms(pendingRequest, rooms);
+        this.assigner.assignRooms(this.pendingRequest, this.rooms);
 
-        assertTrue(pendingRequest.isEmpty());
+        assertTrue(this.pendingRequest.isEmpty());
     }
 
     @Test
     public void WhenNoEnoughRoomAreAvailableAndAssignationIsStartedSomeRequestWontBeAssigned() {
-        when(mocRoom.isBooked()).thenReturn(true);
+        when(this.mocRoom.isBooked()).thenReturn(true);
 
-        assigner.assignRooms(pendingRequest, rooms);
+        this.assigner.assignRooms(this.pendingRequest, this.rooms);
 
-        assertFalse(pendingRequest.isEmpty());
+        assertFalse(this.pendingRequest.isEmpty());
     }
 
     @Test
-    public void WhenAssignationIsRunCallToRoomIsBookedAreDoneToCheckAvailability() {
-        assigner.assignRooms(pendingRequest, rooms);
+    public void WhenAssignationIsRun_CallToRoomIsBookedAreDoneToCheckAvailability() {
+        this.assigner.assignRooms(this.pendingRequest, this.rooms);
 
-        verify(mocRoom, times(this.oneTime)).isBooked();
+        verify(this.mocRoom, times(ONE_TIME)).isBooked();
     }
 
     @Test
-    public void WhenAssignationIsRunCallToRoomBookToBookTheRoomAndBookIsCalledOnlyOnce() {
-        when(mocRoom.isBooked()).thenReturn(false).thenReturn(true);
-        pendingRequest.add(mocRequest2);
+    public void WhenAssignationIsRun_CallToRoomBookToBookTheRoomAndBookIsCalledOnlyOnce() {
+        when(this.mocRoom.isBooked()).thenReturn(false).thenReturn(true);
+        this.pendingRequest.add(this.mocRequest2);
 
-        assigner.assignRooms(pendingRequest, rooms);
+        this.assigner.assignRooms(this.pendingRequest, this.rooms);
 
-        verify(mocRoom, times(this.oneTime)).book(any());
+        verify(this.mocRoom, times(ONE_TIME)).book(any());
     }
 
     @Test
-    public void WhenAssignationIsRunCallToRoomGetNumberSeatsAndCallToRequestGetSeatsNeededAreDone() {
-        when(mocRoom.isBooked()).thenReturn(false);
-        assigner.assignRooms(pendingRequest, rooms);
+    public void WhenAssignationIsRunCallToRoomGetNumberSeatsAndCallToRequest_GetSeatsNeededAreDone() {
+        when(this.mocRoom.isBooked()).thenReturn(false);
+        this.assigner.assignRooms(this.pendingRequest, this.rooms);
 
-        verify(mocRequest1, times(this.oneTime)).getNumberOdSeatsNeeded();
-        verify(mocRoom, times(this.oneTime)).getNumberSeats();
+        verify(this.mocRequest1, times(ONE_TIME)).getNumberOdSeatsNeeded();
+        verify(this.mocRoom, times(ONE_TIME)).getNumberSeats();
     }
 }

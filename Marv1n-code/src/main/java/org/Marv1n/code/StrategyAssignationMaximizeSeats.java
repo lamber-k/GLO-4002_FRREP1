@@ -1,6 +1,5 @@
 package org.Marv1n.code;
 
-import java.util.Iterator;
 import java.util.List;
 
 public class StrategyAssignationMaximizeSeats extends StrategyAssignationSequential {

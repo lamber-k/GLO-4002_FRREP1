@@ -1,5 +1,6 @@
 package org.Marv1n.code;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -10,23 +11,28 @@ import static org.junit.Assert.*;
 public class RoomAssignationResultTest {
 
     private static final int A_NUMBER_OF_SEAT = 4;
+    private Room aRoom;
+
+    @Before
+    public void initializeNewRoom() {
+        this.aRoom = new Room(A_NUMBER_OF_SEAT);
+    }
 
     @Test
-    public void newRoomAssignationResult_ShouldNotFoundMatch() {
+    public void newRoom_WhenAssignationResult_ShouldNotFoundMatch() {
         RoomAssignationResult roomAssignationResult = new RoomAssignationResult();
         assertFalse(roomAssignationResult.matchFound());
     }
 
     @Test
-    public void newRoomAssignationResultWithRoom_ShouldFoundMatch() {
-        RoomAssignationResult roomAssignationResult = new RoomAssignationResult(new Room(A_NUMBER_OF_SEAT));
+    public void newRoom_WhenAssignationResultWithRoom_ShouldFoundMatch() {
+        RoomAssignationResult roomAssignationResult = new RoomAssignationResult(this.aRoom);
         assertTrue(roomAssignationResult.matchFound());
     }
 
     @Test
-    public void newRoomAssignationResultWithRoom_CanReturnMatchingRoom() {
-        Room aRoom = new Room(A_NUMBER_OF_SEAT);
-        RoomAssignationResult roomAssignationResult = new RoomAssignationResult(aRoom);
-        assertEquals(aRoom, roomAssignationResult.getBestRoomMatch());
+    public void newRoom_WhenAssignationResultWithRoom_CanReturnMatchingRoom() {
+        RoomAssignationResult roomAssignationResult = new RoomAssignationResult(this.aRoom);
+        assertEquals(this.aRoom, roomAssignationResult.getBestRoomMatch());
     }
 }
