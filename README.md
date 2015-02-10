@@ -10,12 +10,12 @@ Projet de session de l'équipe 1 pour le cours GLO-4002 :
 
 IDUL            | Nom
 --------------- | -------------
-KELAM8          | Lambert Kevin
-RACAS16         | Rafaël Caso
-FRREP1          | François Renaud-Philippon
-MILOU8          | Mickaël Loubriat
-MASIM345        | Mathieu Simard
-MACHA831        | Maxime Charles
+111 107 301     | Lambert Kevin
+111 107 307     | Rafaël Caso
+910 060 845     | François Renaud-Philippon
+111 107 946     | Mickaël Loubriat
+909 212 507     | Mathieu Simard
+111 107 311     | Maxime Charles
 
 ## Avancement ##
 
@@ -24,7 +24,7 @@ Scenario                                        | Status
 Assigner périodiquement des salles aux demandes | Finis
 Assignation en lot des salles aux demandes      | Finis
 Maximiser les places dans la salle              | Finis
-Ordonner les demandes par priorité              | En cours
+Ordonner les demandes par priorité              | Finis
 
 ## Utilisation de la bibliothèque ##
 
