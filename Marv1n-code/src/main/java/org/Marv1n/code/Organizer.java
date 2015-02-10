@@ -1,24 +1,24 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.exception.NoRoomAvailableException;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 public class Organizer implements Runnable {
 
-    private Queue<Request> pendingRequest;
+    private List<Request> pendingRequest;
     private List<Room> rooms;
     private TaskScheduler taskScheduler;
     private Integer maximumPendingRequests;
+    private StrategyAssignation assigner;
+    private StrategySortRequest requestSorter;
 
-    public void initialize(TaskScheduler scheduler, Integer maximumPendingRequests) {
-        this.pendingRequest = new PriorityQueue<>();
+    public void initialize(TaskScheduler scheduler, Integer maximumPendingRequests, StrategyAssignation strategyAssignation, StrategySortRequest strategySortRequest) {
+        this.pendingRequest = new ArrayList<>();
         this.rooms = new ArrayList<>();
         this.taskScheduler = scheduler;
         this.maximumPendingRequests = maximumPendingRequests;
+        this.assigner = strategyAssignation;
+        this.requestSorter = strategySortRequest;
     }
 
     public Boolean hasRoom() {
@@ -30,11 +30,8 @@ public class Organizer implements Runnable {
     }
 
     public void addRequest(Request request) {
-        if (this.rooms.isEmpty()) {
-            throw new NoRoomAvailableException();
-        }
         this.pendingRequest.add(request);
-        if(this.pendingRequest.size() >= this.maximumPendingRequests) {
+        if (this.pendingRequest.size() >= this.maximumPendingRequests) {
             this.treatPendingRequestsNow();
         }
     }
@@ -48,11 +45,8 @@ public class Organizer implements Runnable {
     }
 
     public void treatPendingRequest() {
-        for (Room room : this.rooms) {
-            if (!room.isBooked()) {
-                room.book(this.pendingRequest.remove());
-            }
-        }
+        this.requestSorter.sortList(this.pendingRequest);
+        this.assigner.assignRooms(this.pendingRequest, this.rooms);
     }
 
     @Override

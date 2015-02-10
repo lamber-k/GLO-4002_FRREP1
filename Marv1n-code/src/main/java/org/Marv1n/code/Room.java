@@ -1,12 +1,11 @@
 package org.Marv1n.code;
 
-
 public class Room {
 
-    Request request;
-    private int numberSeats;
+    private Request request;
+    private Integer numberSeats;
 
-    public Room(int numberOfSeats) {
+    public Room(Integer numberOfSeats) {
         this.numberSeats = numberOfSeats;
         this.request = null;
     }
@@ -23,7 +22,11 @@ public class Room {
         return this.request;
     }
 
-    public int getNumberSeats() {
-        return numberSeats;
+    public Integer getNumberSeats() {
+        return this.numberSeats;
+    }
+
+    public boolean hasGreaterCapacityThan(Room room) {
+        return this.getNumberSeats() > room.getNumberSeats();
     }
 }

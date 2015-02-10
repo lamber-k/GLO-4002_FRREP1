@@ -5,6 +5,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 public class TaskScheduler {
+
     private TimeUnit timeUnit;
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> nextRun;
@@ -28,7 +29,7 @@ public class TaskScheduler {
     }
 
     public void cancelScheduler() {
-        if (this.isSchedulerRunning) {
+        if (this.isSchedulerRunning()) {
             this.nextRun.cancel(true);
             this.isSchedulerRunning = false;
         }
