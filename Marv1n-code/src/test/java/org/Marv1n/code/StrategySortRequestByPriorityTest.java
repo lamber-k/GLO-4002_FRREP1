@@ -22,13 +22,13 @@ public class StrategySortRequestByPriorityTest {
     @Mock
     private List<Request> mockListRequest;
     @Mock
-    private Request REQUEST_WITH_HIGH_PRIORITY;
+    private Request requestWithHighPriority;
     @Mock
-    private Request REQUEST_WITH_MEDIUM_PRIORITY;
+    private Request requestWithMediumPriority;
     @Mock
-    private Request REQUEST_WITH_MEDIUM_PRIORITY_2;
+    private Request requestWithMediumPriority_2;
     @Mock
-    private Request REQUEST_WITH_LOW_PRIORITY;
+    private Request requestWithLowPriority;
     private StrategySortRequestByPriority requestSorter;
     private List<Request> listRequest;
 
@@ -36,13 +36,13 @@ public class StrategySortRequestByPriorityTest {
     public void init() {
         this.requestSorter = new StrategySortRequestByPriority();
         this.listRequest = new ArrayList<>();
-        when(REQUEST_WITH_HIGH_PRIORITY.getPriority()).thenReturn(HIGH_PRIORITY);
-        when(REQUEST_WITH_MEDIUM_PRIORITY.getPriority()).thenReturn(MEDIUM_PRIORITY);
-        when(REQUEST_WITH_MEDIUM_PRIORITY_2.getPriority()).thenReturn(MEDIUM_PRIORITY);
-        when(REQUEST_WITH_LOW_PRIORITY.getPriority()).thenReturn(LOW_PRIORITY);
-        this.listRequest.add(REQUEST_WITH_LOW_PRIORITY);
-        this.listRequest.add(REQUEST_WITH_MEDIUM_PRIORITY);
-        this.listRequest.add(REQUEST_WITH_HIGH_PRIORITY);
+        when(this.requestWithHighPriority.getPriority()).thenReturn(HIGH_PRIORITY);
+        when(this.requestWithMediumPriority.getPriority()).thenReturn(MEDIUM_PRIORITY);
+        when(this.requestWithMediumPriority_2.getPriority()).thenReturn(MEDIUM_PRIORITY);
+        when(this.requestWithLowPriority.getPriority()).thenReturn(LOW_PRIORITY);
+        this.listRequest.add(this.requestWithLowPriority);
+        this.listRequest.add(this.requestWithMediumPriority);
+        this.listRequest.add(this.requestWithHighPriority);
     }
 
     @Test
@@ -55,21 +55,21 @@ public class StrategySortRequestByPriorityTest {
     public void whenStrategySort_SortIsCalledOnList_ContainingMoreThanOneRequestThenListIsSorted() {
         this.requestSorter.sortList(this.listRequest);
 
-        assertEquals(REQUEST_WITH_HIGH_PRIORITY, this.listRequest.get(0));
-        assertEquals(REQUEST_WITH_MEDIUM_PRIORITY, this.listRequest.get(1));
-        assertEquals(REQUEST_WITH_LOW_PRIORITY, this.listRequest.get(2));
+        assertEquals(this.requestWithHighPriority, this.listRequest.get(0));
+        assertEquals(this.requestWithMediumPriority, this.listRequest.get(1));
+        assertEquals(this.requestWithLowPriority, this.listRequest.get(2));
     }
 
     @Test
     public void whenStrategySort_SortIsCalledOnListContainingElementOfSamePriority_ThenListIsSortedWithFirstInFistOutOrderForSamePriorityRequest() {
-        this.listRequest.add(REQUEST_WITH_MEDIUM_PRIORITY_2);
+        this.listRequest.add(this.requestWithMediumPriority_2);
 
         this.requestSorter.sortList(this.listRequest);
 
-        assertEquals(REQUEST_WITH_HIGH_PRIORITY, this.listRequest.get(0));
-        assertEquals(REQUEST_WITH_MEDIUM_PRIORITY, this.listRequest.get(1));
-        assertEquals(REQUEST_WITH_MEDIUM_PRIORITY_2, this.listRequest.get(2));
-        assertEquals(REQUEST_WITH_LOW_PRIORITY, this.listRequest.get(3));
+        assertEquals(this.requestWithHighPriority, this.listRequest.get(0));
+        assertEquals(this.requestWithMediumPriority, this.listRequest.get(1));
+        assertEquals(this.requestWithMediumPriority_2, this.listRequest.get(2));
+        assertEquals(this.requestWithLowPriority, this.listRequest.get(3));
     }
 
 }
