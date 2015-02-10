@@ -50,8 +50,8 @@ public class Organizer implements Runnable {
     }
 
     public void treatPendingRequest() {
-        requestSorter.sortList(pendingRequest);
-        assigner.assignRooms(pendingRequest, rooms);
+        this.requestSorter.sortList(this.pendingRequest);
+        this.assigner.assignRooms(this.pendingRequest, this.rooms);
     }
 
     @Override
