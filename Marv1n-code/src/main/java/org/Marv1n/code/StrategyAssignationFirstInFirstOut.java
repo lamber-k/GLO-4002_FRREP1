@@ -5,17 +5,17 @@ import java.util.List;
 public class StrategyAssignationFirstInFirstOut extends StrategyAssignationSequential {
 
     @Override
-    protected AssignationResult evaluateOneRequest(List<Room> rooms, Request request) {
-        for (Room room : rooms)
-            if (!room.isBooked()) {
-                return new RoomAssignationResult(room);
+    protected AssignationResult evaluateOneRequest(List<Reservable> reservables, Request request) {
+        for (Reservable reservable : reservables)
+            if (!reservable.isBooked()) {
+                return new ReservableAssignationResult(reservable);
             }
-        return new RoomAssignationResult();
+        return new ReservableAssignationResult();
     }
 
     @Override
     protected void treatAssignationResult(AssignationResult result, Request evaluatedRequest) {
-        RoomAssignationResult roomAssignationResult = (RoomAssignationResult)result;
-        roomAssignationResult.getBestRoomMatch().book(evaluatedRequest);
+        ReservableAssignationResult ReservableAssignationResult = (ReservableAssignationResult) result;
+        ReservableAssignationResult.getBestReservableMatch().book(evaluatedRequest);
     }
 }

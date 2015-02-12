@@ -19,10 +19,10 @@ public class StrategyAssignationFirstInFirstOutTest {
     private static final Integer ONE_TIME = 1;
 
     private List<Request> pendingRequest;
-    private List<Room> rooms;
+    private List<Reservable> reservables;
     private StrategyAssignation assigner;
     @Mock
-    private Room mockRoom;
+    private Reservable mockReservable;
     @Mock
     private Request mockRequest1;
     @Mock
@@ -31,38 +31,38 @@ public class StrategyAssignationFirstInFirstOutTest {
     @Before
     public void init() {
         this.pendingRequest = new ArrayList<>();
-        this.rooms = new ArrayList<>();
+        this.reservables = new ArrayList<>();
         this.assigner = new StrategyAssignationFirstInFirstOut();
         this.pendingRequest.add(this.mockRequest1);
-        this.rooms.add(this.mockRoom);
+        this.reservables.add(this.mockReservable);
     }
 
     @Test
-    public void WhenEnoughRoomAreAvailableAndAssignationIsStarted_AllRequestShouldBeAssigned() {
-        this.assigner.assignRooms(this.pendingRequest, this.rooms);
+    public void WhenEnoughReservableAreAvailableAndAssignationIsStarted_AllRequestShouldBeAssigned() {
+        this.assigner.assignReservables(this.pendingRequest, this.reservables);
         assertTrue(this.pendingRequest.isEmpty());
     }
 
     @Test
-    public void WhenNoEnoughRoomAreAvailableAndAssignationIsStarted_SomeRequestWontBeAssigned() {
-        when(this.mockRoom.isBooked()).thenReturn(true);
-        this.assigner.assignRooms(this.pendingRequest, this.rooms);
+    public void WhenNoEnoughReservableAreAvailableAndAssignationIsStarted_SomeRequestWontBeAssigned() {
+        when(this.mockReservable.isBooked()).thenReturn(true);
+        this.assigner.assignReservables(this.pendingRequest, this.reservables);
         assertFalse(this.pendingRequest.isEmpty());
     }
 
     @Test
-    public void WhenAssignationIsRunCallToRoom_BookedAreDoneToCheckAvailability() {
-        this.assigner.assignRooms(this.pendingRequest, this.rooms);
-        verify(this.mockRoom, times(ONE_TIME)).isBooked();
+    public void WhenAssignationIsRunCallToReservable_BookedAreDoneToCheckAvailability() {
+        this.assigner.assignReservables(this.pendingRequest, this.reservables);
+        verify(this.mockReservable, times(ONE_TIME)).isBooked();
     }
 
     @Test
-    public void WhenAssignationIsRun_CallingRoomBookToBook_ShouldBeCalledOnlyOnce() {
-        when(this.mockRoom.isBooked()).thenReturn(false).thenReturn(true);
+    public void WhenAssignationIsRun_CallingReservableBookToBook_ShouldBeCalledOnlyOnce() {
+        when(this.mockReservable.isBooked()).thenReturn(false).thenReturn(true);
         this.pendingRequest.add(this.mockRequest2);
 
-        this.assigner.assignRooms(this.pendingRequest, this.rooms);
+        this.assigner.assignReservables(this.pendingRequest, this.reservables);
 
-        verify(this.mockRoom, times(ONE_TIME)).book(any());
+        verify(this.mockReservable, times(ONE_TIME)).book(any());
     }
 }

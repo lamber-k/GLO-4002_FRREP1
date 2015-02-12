@@ -5,30 +5,30 @@ import java.util.List;
 public class StrategyAssignationMaximizeSeats extends StrategyAssignationSequential {
 
     @Override
-    protected AssignationResult evaluateOneRequest(List<Room> rooms, Request evaluatedRequest) {
-        Room betterRoom = null;
+    protected AssignationResult evaluateOneRequest(List<Reservable> reservables, Request evaluatedRequest) {
+        Reservable betterReservable = null;
 
-        for (Room room : rooms) {
-            if (doesTheRoomFitsTheRequest(evaluatedRequest, room)) {
-                betterRoom = this.getBetterRoomOf(betterRoom, room);
+        for (Reservable reservable : reservables) {
+            if (doesTheReservableFitsTheRequest(evaluatedRequest, reservable)) {
+                betterReservable = this.getBetterReservableOf(betterReservable, reservable);
             }
         }
-        return new RoomAssignationResult(betterRoom);
+        return new ReservableAssignationResult(betterReservable);
     }
 
     @Override
     protected void treatAssignationResult(AssignationResult result, Request evaluatedRequest) {
-        RoomAssignationResult roomAssignationResult = (RoomAssignationResult)result;
-        roomAssignationResult.getBestRoomMatch().book(evaluatedRequest);
+        ReservableAssignationResult ReservableAssignationResult = (ReservableAssignationResult) result;
+        ReservableAssignationResult.getBestReservableMatch().book(evaluatedRequest);
     }
 
-    private Room getBetterRoomOf(Room bestRoom, Room room) {
-        if (bestRoom == null || bestRoom.hasGreaterCapacityThan(room))
-            return room;
-        return bestRoom;
+    private Reservable getBetterReservableOf(Reservable bestReservable, Reservable reservable) {
+        if (bestReservable == null || bestReservable.hasGreaterCapacityThan(reservable))
+            return reservable;
+        return bestReservable;
     }
 
-    private boolean doesTheRoomFitsTheRequest(Request evaluatedRequest, Room room) {
-        return !(room.isBooked() || evaluatedRequest.getNumberOdSeatsNeeded() > room.getNumberSeats());
+    private boolean doesTheReservableFitsTheRequest(Request evaluatedRequest, Reservable reservable) {
+        return !(reservable.isBooked() || evaluatedRequest.getNumberOdSeatsNeeded() > reservable.getNumberSeats());
     }
 }

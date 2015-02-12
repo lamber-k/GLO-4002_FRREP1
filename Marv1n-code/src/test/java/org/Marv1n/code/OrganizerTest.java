@@ -24,7 +24,7 @@ public class OrganizerTest {
     private TaskScheduler taskScheduler;
 
     @Mock
-    private Room mockRoom;
+    private Reservable mockReservable;
 
     @Mock
     private Request aRequest;
@@ -42,14 +42,14 @@ public class OrganizerTest {
     }
 
     @Test
-    public void newOrganizerHasNoRoom() {
-        assertFalse(this.organizer.hasRoom());
+    public void newOrganizerHasNoReservable() {
+        assertFalse(this.organizer.hasReservable());
     }
 
     @Test
-    public void newOrganizerHasARoomWhenAdded() {
-        this.organizer.addRoom(this.mockRoom);
-        assertTrue(this.organizer.hasRoom());
+    public void newOrganizerHasAReservableWhenAdded() {
+        this.organizer.addReservable(this.mockReservable);
+        assertTrue(this.organizer.hasReservable());
     }
 
     @Test
@@ -59,19 +59,19 @@ public class OrganizerTest {
 
     @Test
     public void whenAddingRequestOrganizerReportsHavingPendingRequest() {
-        this.organizer.addRoom(this.mockRoom);
+        this.organizer.addReservable(this.mockReservable);
         this.organizer.addRequest(this.aRequest);
         assertTrue(this.organizer.hasPendingRequest());
     }
 
     @Test
     public void organizerAfterTreatingPendingRequestsAssignationHasRun() throws Exception {
-        this.organizer.addRoom(this.mockRoom);
+        this.organizer.addReservable(this.mockReservable);
         this.organizer.addRequest(this.aRequest);
 
         this.organizer.treatPendingRequest();
 
-        verify(this.mockStrategyAssignation, times(ONE_TIME)).assignRooms(any(), any());
+        verify(this.mockStrategyAssignation, times(ONE_TIME)).assignReservables(any(), any());
     }
 
     @Test
@@ -101,7 +101,7 @@ public class OrganizerTest {
     @Test
     public void organizerWhenPendingRequestsReachMaximumPendingRequestsShouldRunAssignation() {
         this.organizer.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
-        this.organizer.addRoom(this.mockRoom);
+        this.organizer.addReservable(this.mockReservable);
         this.organizer.addRequest(this.aRequest);
 
         verify(this.taskScheduler, times(ONE_TIME)).runNow(any());

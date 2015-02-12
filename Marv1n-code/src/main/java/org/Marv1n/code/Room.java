@@ -1,6 +1,6 @@
 package org.Marv1n.code;
 
-public class Room {
+public class Room implements Reservable {
 
     private Request request;
     private Integer numberSeats;
@@ -26,7 +26,7 @@ public class Room {
         return this.numberSeats;
     }
 
-    public boolean hasGreaterCapacityThan(Room room) {
-        return this.getNumberSeats() > room.getNumberSeats();
+    public boolean hasGreaterCapacityThan(Reservable reservable) {
+        return this.getNumberSeats() > reservable.getNumberSeats();
     }
 }

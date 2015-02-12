@@ -6,7 +6,7 @@ import java.util.List;
 public class Organizer implements Runnable {
 
     private List<Request> pendingRequest;
-    private List<Room> rooms;
+    private List<Reservable> reservables;
     private TaskScheduler taskScheduler;
     private Integer maximumPendingRequests;
     private StrategyAssignation assigner;
@@ -14,19 +14,19 @@ public class Organizer implements Runnable {
 
     public void initialize(TaskScheduler scheduler, Integer maximumPendingRequests, StrategyAssignation strategyAssignation, StrategySortRequest strategySortRequest) {
         this.pendingRequest = new ArrayList<>();
-        this.rooms = new ArrayList<>();
+        this.reservables = new ArrayList<>();
         this.taskScheduler = scheduler;
         this.maximumPendingRequests = maximumPendingRequests;
         this.assigner = strategyAssignation;
         this.requestSorter = strategySortRequest;
     }
 
-    public Boolean hasRoom() {
-        return !this.rooms.isEmpty();
+    public Boolean hasReservable() {
+        return !this.reservables.isEmpty();
     }
 
-    public void addRoom(Room room) {
-        this.rooms.add(room);
+    public void addReservable(Reservable reservable) {
+        this.reservables.add(reservable);
     }
 
     public void addRequest(Request request) {
@@ -46,7 +46,7 @@ public class Organizer implements Runnable {
 
     public void treatPendingRequest() {
         this.requestSorter.sortList(this.pendingRequest);
-        this.assigner.assignRooms(this.pendingRequest, this.rooms);
+        this.assigner.assignReservables(this.pendingRequest, this.reservables);
     }
 
     @Override
