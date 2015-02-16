@@ -14,7 +14,6 @@ public class ReservableAssignationResultTest {
     @Before
     public void initializeNewReservable() {
         this.aReservable = new Room(A_NUMBER_OF_SEAT);
-        fail("new Room(...), si nouveau implements Reservable ?");
     }
 
     @Test
