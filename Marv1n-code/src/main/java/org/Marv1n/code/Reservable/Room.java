@@ -30,8 +30,8 @@ public class Room implements IReservable {
         return this.numberSeats;
     }
 
-
     public boolean hasGreaterCapacityThan(IReservable reservable) {
+
         return this.getNumberSeats() >= reservable.getNumberSeats();
     }
 

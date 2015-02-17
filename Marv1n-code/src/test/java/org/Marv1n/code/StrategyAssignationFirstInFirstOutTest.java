@@ -25,7 +25,6 @@ public class StrategyAssignationFirstInFirstOutTest {
     private static final Integer ONE_TIME = 1;
 
     private List<Request> pendingRequest;
-
     private List<IReservable> reservableList;
     private IStrategyAssignation assigner;
     @Mock
