@@ -1,5 +1,7 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.Reservable.Reservable;
+import org.Marv1n.code.Reservable.Room;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,5 +1,8 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.Reservable.Reservable;
+import org.Marv1n.code.StrategyAssignation.StrategyAssignation;
+import org.Marv1n.code.StrategyAssignation.StrategyAssignationFirstInFirstOut;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
