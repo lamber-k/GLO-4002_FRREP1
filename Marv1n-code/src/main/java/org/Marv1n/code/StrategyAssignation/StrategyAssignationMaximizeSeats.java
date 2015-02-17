@@ -1,30 +1,26 @@
 package org.Marv1n.code.StrategyAssignation;
 
 import org.Marv1n.code.AssignationResult;
+import org.Marv1n.code.Repository.IReservableRepository;
 import org.Marv1n.code.Request;
+import org.Marv1n.code.Reservable.ExceptionReservableAlreadyBooked;
+import org.Marv1n.code.Reservable.ExceptionReservableInsufficientCapacity;
 import org.Marv1n.code.Reservable.Reservable;
 import org.Marv1n.code.ReservableAssignationResult;
-
-import java.util.List;
+import org.Marv1n.code.Reservation;
 
 public class StrategyAssignationMaximizeSeats extends StrategyAssignationSequential {
 
     @Override
-    protected AssignationResult evaluateOneRequest(List<Reservable> reservables, Request evaluatedRequest) {
+    protected AssignationResult evaluateOneRequest(IReservableRepository reservables, Request evaluatedRequest) {
         Reservable betterReservable = null;
 
-        for (Reservable reservable : reservables) {
+        for (Reservable reservable : reservables.findAll()) {
             if (doesTheReservableFitsTheRequest(evaluatedRequest, reservable)) {
                 betterReservable = this.getBetterReservableOf(betterReservable, reservable);
             }
         }
         return new ReservableAssignationResult(betterReservable);
-    }
-
-    @Override
-    protected void treatAssignationResult(AssignationResult result, Request evaluatedRequest) {
-        ReservableAssignationResult ReservableAssignationResult = (ReservableAssignationResult) result;
-        ReservableAssignationResult.getBestReservableMatch().book(evaluatedRequest);
     }
 
     private Reservable getBetterReservableOf(Reservable bestReservable, Reservable reservable) {
@@ -34,6 +30,6 @@ public class StrategyAssignationMaximizeSeats extends StrategyAssignationSequent
     }
 
     private boolean doesTheReservableFitsTheRequest(Request evaluatedRequest, Reservable reservable) {
-        return !(reservable.isBooked() || evaluatedRequest.getNumberOdSeatsNeeded() > reservable.getNumberSeats());
+        return !(reservable.isBooked() || reservable.hasEnoughCapacity(evaluatedRequest.getNumberOfSeatsNeeded()));
     }
 }

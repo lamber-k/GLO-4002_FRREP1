@@ -1,5 +1,8 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.Repository.IReservableRepository;
+import org.Marv1n.code.Reservable.ExceptionReservableAlreadyBooked;
+import org.Marv1n.code.Reservable.ExceptionReservableInsufficientCapacity;
 import org.Marv1n.code.Reservable.Reservable;
 import org.Marv1n.code.StrategyAssignation.StrategyAssignation;
 import org.Marv1n.code.StrategyAssignation.StrategyAssignationMaximizeSeats;
@@ -22,8 +25,10 @@ public class StrategyAssignationMaximizeSeatsTest {
     private final static Integer ONE_TIME = 1;
 
     private List<Request> pendingRequest;
-    private List<Reservable> reservables;
+    private List<Reservable> reservableList;
     private StrategyAssignation assigner;
+    @Mock
+    private IReservableRepository reservables;
     @Mock
     private Reservable mockReservable;
     @Mock
@@ -34,10 +39,11 @@ public class StrategyAssignationMaximizeSeatsTest {
     @Before
     public void init() {
         this.pendingRequest = new ArrayList<>();
-        this.reservables = new ArrayList<>();
         this.assigner = new StrategyAssignationMaximizeSeats();
         this.pendingRequest.add(this.mockRequest1);
-        this.reservables.add(this.mockReservable);
+        this.reservableList = new ArrayList<Reservable>();
+        this.reservableList.add(mockReservable);
+        when(this.reservables.findAll()).thenReturn(this.reservableList);
     }
 
     @Test
@@ -61,7 +67,7 @@ public class StrategyAssignationMaximizeSeatsTest {
     }
 
     @Test
-    public void WhenAssignationIsRun_CallToReservableBookToBookTheReservableAndBookIsCalledOnlyOnce() {
+    public void WhenAssignationIsRun_CallToReservableBookToBookTheReservableAndBookIsCalledOnlyOnce() throws ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity {
         when(this.mockReservable.isBooked()).thenReturn(false).thenReturn(true);
         this.pendingRequest.add(this.mockRequest2);
 
@@ -75,7 +81,7 @@ public class StrategyAssignationMaximizeSeatsTest {
         when(this.mockReservable.isBooked()).thenReturn(false);
         this.assigner.assignReservables(this.pendingRequest, this.reservables);
 
-        verify(this.mockRequest1, times(ONE_TIME)).getNumberOdSeatsNeeded();
-        verify(this.mockReservable, times(ONE_TIME)).getNumberSeats();
+        verify(this.mockRequest1, times(ONE_TIME)).getNumberOfSeatsNeeded();
+        verify(this.mockReservable, times(ONE_TIME)).hasEnoughCapacity(any());
     }
 }

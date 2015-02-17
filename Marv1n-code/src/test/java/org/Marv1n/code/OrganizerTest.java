@@ -1,5 +1,6 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.Repository.IReservableRepository;
 import org.Marv1n.code.Reservable.Reservable;
 import org.Marv1n.code.StrategyAssignation.StrategyAssignation;
 import org.Marv1n.code.StrategySortRequest.StrategySortRequest;
@@ -24,6 +25,9 @@ public class OrganizerTest {
     private Organizer organizer;
 
     @Mock
+    private IReservableRepository reservableRepository;
+
+    @Mock
     private TaskScheduler taskScheduler;
 
     @Mock
@@ -40,19 +44,13 @@ public class OrganizerTest {
 
     @Before
     public void initializeNewOrganizer() {
-        this.organizer = new Organizer();
+        this.organizer = new Organizer(this.reservableRepository);
         this.organizer.initialize(this.taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, this.mockStrategyAssignation, this.mockStrategySortRequest);
     }
 
     @Test
     public void newOrganizerHasNoReservable() {
         assertFalse(this.organizer.hasReservable());
-    }
-
-    @Test
-    public void newOrganizerHasAReservableWhenAdded() {
-        this.organizer.addReservable(this.mockReservable);
-        assertTrue(this.organizer.hasReservable());
     }
 
     @Test

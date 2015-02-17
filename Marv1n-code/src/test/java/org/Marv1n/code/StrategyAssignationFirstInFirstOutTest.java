@@ -1,5 +1,8 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.Repository.IReservableRepository;
+import org.Marv1n.code.Reservable.ExceptionReservableAlreadyBooked;
+import org.Marv1n.code.Reservable.ExceptionReservableInsufficientCapacity;
 import org.Marv1n.code.Reservable.Reservable;
 import org.Marv1n.code.StrategyAssignation.StrategyAssignation;
 import org.Marv1n.code.StrategyAssignation.StrategyAssignationFirstInFirstOut;
@@ -22,8 +25,10 @@ public class StrategyAssignationFirstInFirstOutTest {
     private static final Integer ONE_TIME = 1;
 
     private List<Request> pendingRequest;
-    private List<Reservable> reservables;
+    private List<Reservable> reservableList;
     private StrategyAssignation assigner;
+    @Mock
+    private IReservableRepository reservables;
     @Mock
     private Reservable mockReservable;
     @Mock
@@ -34,10 +39,11 @@ public class StrategyAssignationFirstInFirstOutTest {
     @Before
     public void init() {
         this.pendingRequest = new ArrayList<>();
-        this.reservables = new ArrayList<>();
         this.assigner = new StrategyAssignationFirstInFirstOut();
         this.pendingRequest.add(this.mockRequest1);
-        this.reservables.add(this.mockReservable);
+        this.reservableList = new ArrayList<Reservable>();
+        this.reservableList.add(mockReservable);
+        when(this.reservables.findAll()).thenReturn(this.reservableList);
     }
 
     @Test
@@ -60,7 +66,7 @@ public class StrategyAssignationFirstInFirstOutTest {
     }
 
     @Test
-    public void WhenAssignationIsRun_CallingReservableBookToBook_ShouldBeCalledOnlyOnce() {
+    public void WhenAssignationIsRun_CallingReservableBookToBook_ShouldBeCalledOnlyOnce() throws ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity {
         when(this.mockReservable.isBooked()).thenReturn(false).thenReturn(true);
         this.pendingRequest.add(this.mockRequest2);
 

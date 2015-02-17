@@ -1,5 +1,7 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.Repository.IReservableRepository;
+import org.Marv1n.code.Repository.ReservableRepository;
 import org.Marv1n.code.Reservable.Reservable;
 import org.Marv1n.code.StrategyAssignation.StrategyAssignation;
 import org.Marv1n.code.StrategySortRequest.StrategySortRequest;
@@ -10,15 +12,19 @@ import java.util.List;
 public class Organizer implements Runnable {
 
     private List<Request> pendingRequest;
-    private List<Reservable> reservables;
+    private IReservableRepository reservables;
     private TaskScheduler taskScheduler;
     private Integer maximumPendingRequests;
     private StrategyAssignation assigner;
     private StrategySortRequest requestSorter;
 
+    public Organizer(IReservableRepository reservables)
+    {
+        this.reservables = reservables;
+    }
+
     public void initialize(TaskScheduler scheduler, Integer maximumPendingRequests, StrategyAssignation strategyAssignation, StrategySortRequest strategySortRequest) {
         this.pendingRequest = new ArrayList<>();
-        this.reservables = new ArrayList<>();
         this.taskScheduler = scheduler;
         this.maximumPendingRequests = maximumPendingRequests;
         this.assigner = strategyAssignation;
@@ -26,11 +32,11 @@ public class Organizer implements Runnable {
     }
 
     public Boolean hasReservable() {
-        return !this.reservables.isEmpty();
+        return !this.reservables.findAll().isEmpty();
     }
 
     public void addReservable(Reservable reservable) {
-        this.reservables.add(reservable);
+        this.reservables.create(reservable);
     }
 
     public void addRequest(Request request) {
