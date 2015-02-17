@@ -10,13 +10,9 @@ public interface IReservable {
 
     public Integer getNumberSeats();
 
-<<<<<<< HEAD:Marv1n-code/src/main/java/org/Marv1n/code/Reservable/IReservable.java
-    public boolean hasGreaterCapacityThan(IReservable IReservable);
-=======
-    public boolean hasGreaterCapacityThan(Reservable reservable);
+    public boolean hasGreaterCapacityThan(IReservable reeservable);
 
-    public Integer compareReservableCapacity(Reservable reservable);
+    public Integer compareReservableCapacity(IReservable reservable);
 
     public boolean hasEnoughCapacity(Integer capacityNeeded);
->>>>>>> Reservation System. Accepted ?:Marv1n-code/src/main/java/org/Marv1n/code/Reservable/Reservable.java
 }

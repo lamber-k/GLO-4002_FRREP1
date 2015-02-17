@@ -30,22 +30,18 @@ public class Room implements IReservable {
         return this.numberSeats;
     }
 
-<<<<<<< HEAD
-    public boolean hasGreaterCapacityThan(IReservable IReservable) {
-        return this.getNumberSeats() > IReservable.getNumberSeats();
-=======
-    public boolean hasGreaterCapacityThan(Reservable reservable) {
+
+    public boolean hasGreaterCapacityThan(IReservable reservable) {
         return this.getNumberSeats() >= reservable.getNumberSeats();
     }
 
     @Override
-    public Integer compareReservableCapacity(Reservable reservable) {
+    public Integer compareReservableCapacity(IReservable reservable) {
         return this.getNumberSeats() - reservable.getNumberSeats();
     }
 
     @Override
     public boolean hasEnoughCapacity(Integer capacityNeeded) {
         return this.getNumberSeats() >= capacityNeeded;
->>>>>>> Reservation System. Accepted ?
     }
 }

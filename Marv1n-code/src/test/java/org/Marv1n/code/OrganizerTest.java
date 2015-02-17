@@ -1,15 +1,9 @@
 package org.Marv1n.code;
 
-<<<<<<< HEAD
+import org.Marv1n.code.Repository.IReservableRepository;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.StrategyAssignation.IStrategyAssignation;
 import org.Marv1n.code.StrategySortRequest.IStrategySortRequest;
-=======
-import org.Marv1n.code.Repository.IReservableRepository;
-import org.Marv1n.code.Reservable.Reservable;
-import org.Marv1n.code.StrategyAssignation.StrategyAssignation;
-import org.Marv1n.code.StrategySortRequest.StrategySortRequest;
->>>>>>> Reservation System. Accepted ?
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,13 +44,8 @@ public class OrganizerTest {
 
     @Before
     public void initializeNewOrganizer() {
-<<<<<<< HEAD
-        this.organizer = new Organizer();
-        this.organizer.initialize(this.taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, this.mockIStrategyAssignation, this.mockIStrategySortRequest);
-=======
         this.organizer = new Organizer(this.reservableRepository);
-        this.organizer.initialize(this.taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, this.mockStrategyAssignation, this.mockStrategySortRequest);
->>>>>>> Reservation System. Accepted ?
+        this.organizer.initialize(this.taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, this.mockIStrategyAssignation, this.mockIStrategySortRequest);
     }
 
     @Test
@@ -65,15 +54,6 @@ public class OrganizerTest {
     }
 
     @Test
-<<<<<<< HEAD
-    public void newOrganizerHasAReservableWhenAdded() {
-        this.organizer.addReservable(this.mockIReservable);
-        assertTrue(this.organizer.hasReservable());
-    }
-
-    @Test
-=======
->>>>>>> Reservation System. Accepted ?
     public void newOrganizerHasNoPendingRequest() {
         assertFalse(this.organizer.hasPendingRequest());
     }
@@ -96,7 +76,7 @@ public class OrganizerTest {
     }
 
     @Test
-    public void organizerWhenTreatPendingRequestThenCallStrategySortRequest(){
+    public void organizerWhenTreatPendingRequestThenCallStrategySortRequest() {
         this.organizer.treatPendingRequest();
         verify(this.mockIStrategySortRequest, times(ONE_TIME)).sortList(any());
     }
