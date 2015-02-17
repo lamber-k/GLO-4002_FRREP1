@@ -1,7 +1,7 @@
 package org.Marv1n.code;
 
 import org.Marv1n.code.Repository.ReservableRepository;
-import org.Marv1n.code.Reservable.Reservable;
+import org.Marv1n.code.Reservable.IReservable;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -12,20 +12,20 @@ import static org.mockito.Mockito.mock;
 
 public class ReservableRepositoryTest {
     private ReservableRepository reservableRepository;
-    private Reservable mockReservable;
+    private IReservable mockIReservable;
 
     @Before
     public void setUp() throws Exception {
 
         this.reservableRepository = new ReservableRepository();
-        this.mockReservable = mock(Reservable.class);
+        this.mockIReservable = mock(IReservable.class);
     }
 
     @Test
     public void respositoryContainsReservableWhenFindAllThenReturnAllReservable() throws Exception {
-        this.reservableRepository.create(mockReservable);
+        this.reservableRepository.create(mockIReservable);
 
-        List<Reservable> results = this.reservableRepository.findAll();
+        List<IReservable> results = this.reservableRepository.findAll();
 
         assertFalse(results.isEmpty());
     }

@@ -1,8 +1,8 @@
 package org.Marv1n.code.StrategyAssignation;
 
-import org.Marv1n.code.AssignationResult;
+import org.Marv1n.code.IAssignationResult;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.Reservable;
+import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.ReservableAssignationResult;
 
 import java.util.List;
@@ -10,16 +10,16 @@ import java.util.List;
 public class StrategyAssignationFirstInFirstOut extends StrategyAssignationSequential {
 
     @Override
-    protected AssignationResult evaluateOneRequest(List<Reservable> reservables, Request request) {
-        for (Reservable reservable : reservables)
-            if (!reservable.isBooked()) {
-                return new ReservableAssignationResult(reservable);
+    protected IAssignationResult evaluateOneRequest(List<IReservable> IReservables, Request request) {
+        for (IReservable IReservable : IReservables)
+            if (!IReservable.isBooked()) {
+                return new ReservableAssignationResult(IReservable);
             }
         return new ReservableAssignationResult();
     }
 
     @Override
-    protected void treatAssignationResult(AssignationResult result, Request evaluatedRequest) {
+    protected void treatAssignationResult(IAssignationResult result, Request evaluatedRequest) {
         ReservableAssignationResult ReservableAssignationResult = (ReservableAssignationResult) result;
         ReservableAssignationResult.getBestReservableMatch().book(evaluatedRequest);
     }

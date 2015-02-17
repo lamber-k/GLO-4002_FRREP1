@@ -1,6 +1,6 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.Reservable.Reservable;
+import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservable.Room;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,11 +11,11 @@ public class ReservableAssignationResultTest {
 
     private static final Integer A_NUMBER_OF_SEAT = 4;
 
-    private Reservable aReservable;
+    private IReservable aIReservable;
 
     @Before
     public void initializeNewReservable() {
-        this.aReservable = new Room(A_NUMBER_OF_SEAT);
+        this.aIReservable = new Room(A_NUMBER_OF_SEAT);
     }
 
     @Test
@@ -26,13 +26,13 @@ public class ReservableAssignationResultTest {
 
     @Test
     public void newReservable_WhenAssignationResultWithReservable_ShouldFoundMatch() {
-        ReservableAssignationResult ReservableAssignationResult = new ReservableAssignationResult(this.aReservable);
+        ReservableAssignationResult ReservableAssignationResult = new ReservableAssignationResult(this.aIReservable);
         assertTrue(ReservableAssignationResult.matchFound());
     }
 
     @Test
     public void newReservable_WhenAssignationResultWithReservable_CanReturnMatchingReservable() {
-        ReservableAssignationResult ReservableAssignationResult = new ReservableAssignationResult(this.aReservable);
-        assertEquals(this.aReservable, ReservableAssignationResult.getBestReservableMatch());
+        ReservableAssignationResult ReservableAssignationResult = new ReservableAssignationResult(this.aIReservable);
+        assertEquals(this.aIReservable, ReservableAssignationResult.getBestReservableMatch());
     }
 }

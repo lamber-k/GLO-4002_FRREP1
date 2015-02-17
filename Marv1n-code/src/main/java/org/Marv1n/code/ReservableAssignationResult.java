@@ -1,13 +1,13 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.Reservable.Reservable;
+import org.Marv1n.code.Reservable.IReservable;
 
-public class ReservableAssignationResult implements AssignationResult {
+public class ReservableAssignationResult implements IAssignationResult {
 
-    private Reservable matchingReservable = null;
+    private IReservable matchingIReservable = null;
 
-    public ReservableAssignationResult(Reservable reservable) {
-        this.matchingReservable = reservable;
+    public ReservableAssignationResult(IReservable IReservable) {
+        this.matchingIReservable = IReservable;
     }
 
     public ReservableAssignationResult() {
@@ -15,10 +15,10 @@ public class ReservableAssignationResult implements AssignationResult {
 
     @Override
     public boolean matchFound() {
-        return this.matchingReservable != null;
+        return this.matchingIReservable != null;
     }
 
-    public Reservable getBestReservableMatch() {
-        return this.matchingReservable;
+    public IReservable getBestReservableMatch() {
+        return this.matchingIReservable;
     }
 }

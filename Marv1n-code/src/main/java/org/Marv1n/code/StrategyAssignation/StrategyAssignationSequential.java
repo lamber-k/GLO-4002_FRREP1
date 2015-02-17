@@ -1,19 +1,19 @@
 package org.Marv1n.code.StrategyAssignation;
 
-import org.Marv1n.code.AssignationResult;
+import org.Marv1n.code.IAssignationResult;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.Reservable;
+import org.Marv1n.code.Reservable.IReservable;
 
 import java.util.Iterator;
 import java.util.List;
 
-public abstract class StrategyAssignationSequential implements StrategyAssignation {
+public abstract class StrategyAssignationSequential implements IStrategyAssignation {
 
     @Override
-    public void assignReservables(List<Request> requests, List<Reservable> reservables) {
+    public void assignReservables(List<Request> requests, List<IReservable> IReservables) {
         for (Iterator<Request> iterator = requests.iterator(); iterator.hasNext(); ) {
             Request evaluatedRequest = iterator.next();
-            AssignationResult result = this.evaluateOneRequest(reservables, evaluatedRequest);
+            IAssignationResult result = this.evaluateOneRequest(IReservables, evaluatedRequest);
             if (result.matchFound()) {
                 this.treatAssignationResult(result, evaluatedRequest);
                 iterator.remove();
@@ -21,7 +21,7 @@ public abstract class StrategyAssignationSequential implements StrategyAssignati
         }
     }
 
-    protected abstract AssignationResult evaluateOneRequest(List<Reservable> reservables, Request request);
+    protected abstract IAssignationResult evaluateOneRequest(List<IReservable> IReservables, Request request);
 
-    protected abstract void treatAssignationResult(AssignationResult result, Request request);
+    protected abstract void treatAssignationResult(IAssignationResult result, Request request);
 }

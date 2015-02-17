@@ -5,7 +5,7 @@ import org.Marv1n.code.Request;
 import java.util.Comparator;
 import java.util.List;
 
-public class StrategySortRequestByPriority implements StrategySortRequest {
+public class StrategySortRequestByPriority implements IStrategySortRequest {
 
     @Override
     public void sortList(List<Request> requests) {

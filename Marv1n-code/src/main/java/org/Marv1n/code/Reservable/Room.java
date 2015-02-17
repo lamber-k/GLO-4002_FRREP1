@@ -2,7 +2,7 @@ package org.Marv1n.code.Reservable;
 
 import org.Marv1n.code.Request;
 
-public class Room implements Reservable {
+public class Room implements IReservable {
 
     private Request request;
     private Integer numberSeats;
@@ -28,7 +28,7 @@ public class Room implements Reservable {
         return this.numberSeats;
     }
 
-    public boolean hasGreaterCapacityThan(Reservable reservable) {
-        return this.getNumberSeats() > reservable.getNumberSeats();
+    public boolean hasGreaterCapacityThan(IReservable IReservable) {
+        return this.getNumberSeats() > IReservable.getNumberSeats();
     }
 }

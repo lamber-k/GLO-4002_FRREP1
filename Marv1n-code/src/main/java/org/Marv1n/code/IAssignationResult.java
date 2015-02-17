@@ -1,6 +1,6 @@
 package org.Marv1n.code;
 
-public interface AssignationResult {
+public interface IAssignationResult {
 
     public boolean matchFound();
 }

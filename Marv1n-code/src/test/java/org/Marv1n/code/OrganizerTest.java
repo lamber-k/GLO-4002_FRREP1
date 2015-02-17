@@ -1,8 +1,8 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.Reservable.Reservable;
-import org.Marv1n.code.StrategyAssignation.StrategyAssignation;
-import org.Marv1n.code.StrategySortRequest.StrategySortRequest;
+import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.StrategyAssignation.IStrategyAssignation;
+import org.Marv1n.code.StrategySortRequest.IStrategySortRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,21 +27,21 @@ public class OrganizerTest {
     private TaskScheduler taskScheduler;
 
     @Mock
-    private Reservable mockReservable;
+    private IReservable mockIReservable;
 
     @Mock
     private Request aRequest;
 
     @Mock
-    private StrategyAssignation mockStrategyAssignation;
+    private IStrategyAssignation mockIStrategyAssignation;
 
     @Mock
-    private StrategySortRequest mockStrategySortRequest;
+    private IStrategySortRequest mockIStrategySortRequest;
 
     @Before
     public void initializeNewOrganizer() {
         this.organizer = new Organizer();
-        this.organizer.initialize(this.taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, this.mockStrategyAssignation, this.mockStrategySortRequest);
+        this.organizer.initialize(this.taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, this.mockIStrategyAssignation, this.mockIStrategySortRequest);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class OrganizerTest {
 
     @Test
     public void newOrganizerHasAReservableWhenAdded() {
-        this.organizer.addReservable(this.mockReservable);
+        this.organizer.addReservable(this.mockIReservable);
         assertTrue(this.organizer.hasReservable());
     }
 
@@ -62,25 +62,25 @@ public class OrganizerTest {
 
     @Test
     public void whenAddingRequestOrganizerReportsHavingPendingRequest() {
-        this.organizer.addReservable(this.mockReservable);
+        this.organizer.addReservable(this.mockIReservable);
         this.organizer.addRequest(this.aRequest);
         assertTrue(this.organizer.hasPendingRequest());
     }
 
     @Test
     public void organizerAfterTreatingPendingRequestsAssignationHasRun() throws Exception {
-        this.organizer.addReservable(this.mockReservable);
+        this.organizer.addReservable(this.mockIReservable);
         this.organizer.addRequest(this.aRequest);
 
         this.organizer.treatPendingRequest();
 
-        verify(this.mockStrategyAssignation, times(ONE_TIME)).assignReservables(any(), any());
+        verify(this.mockIStrategyAssignation, times(ONE_TIME)).assignReservables(any(), any());
     }
 
     @Test
     public void organizerWhenTreatPendingRequestThenCallStrategySortRequest(){
         this.organizer.treatPendingRequest();
-        verify(this.mockStrategySortRequest, times(ONE_TIME)).sortList(any());
+        verify(this.mockIStrategySortRequest, times(ONE_TIME)).sortList(any());
     }
 
     @Test
@@ -104,7 +104,7 @@ public class OrganizerTest {
     @Test
     public void organizerWhenPendingRequestsReachMaximumPendingRequestsShouldRunAssignation() {
         this.organizer.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
-        this.organizer.addReservable(this.mockReservable);
+        this.organizer.addReservable(this.mockIReservable);
         this.organizer.addRequest(this.aRequest);
 
         verify(this.taskScheduler, times(ONE_TIME)).runNow(any());

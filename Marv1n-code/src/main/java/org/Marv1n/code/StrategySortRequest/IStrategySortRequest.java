@@ -4,7 +4,7 @@ import org.Marv1n.code.Request;
 
 import java.util.List;
 
-public interface StrategySortRequest {
+public interface IStrategySortRequest {
 
     public void sortList(List<Request> input);
 }
