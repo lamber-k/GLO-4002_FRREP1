@@ -1,7 +1,15 @@
 package org.Marv1n.code;
 
+<<<<<<< HEAD
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.StrategyAssignation.IStrategyAssignation;
+=======
+import org.Marv1n.code.Repository.IReservableRepository;
+import org.Marv1n.code.Reservable.ExceptionReservableAlreadyBooked;
+import org.Marv1n.code.Reservable.ExceptionReservableInsufficientCapacity;
+import org.Marv1n.code.Reservable.Reservable;
+import org.Marv1n.code.StrategyAssignation.StrategyAssignation;
+>>>>>>> Reservation System. Accepted ?
 import org.Marv1n.code.StrategyAssignation.StrategyAssignationMaximizeSeats;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,12 +30,21 @@ public class StrategyAssignationMaximizeSeatsTest {
     private final static Integer ONE_TIME = 1;
 
     private List<Request> pendingRequest;
+<<<<<<< HEAD
     private List<IReservable> IReservableList;
     private IStrategyAssignation assigner;
     @Mock
     private IReservable mockIReservable1;
     @Mock
     private IReservable mockIReservable2;
+=======
+    private List<Reservable> reservableList;
+    private StrategyAssignation assigner;
+    @Mock
+    private IReservableRepository reservables;
+    @Mock
+    private Reservable mockReservable;
+>>>>>>> Reservation System. Accepted ?
     @Mock
     private Request mockRequest1;
     @Mock
@@ -36,11 +53,19 @@ public class StrategyAssignationMaximizeSeatsTest {
     @Before
     public void init() {
         this.pendingRequest = new ArrayList<>();
+<<<<<<< HEAD
         this.IReservableList = new ArrayList<>();
         this.assigner = new StrategyAssignationMaximizeSeats();
         this.pendingRequest.add(this.mockRequest1);
 
         this.IReservableList.add(this.mockIReservable1);
+=======
+        this.assigner = new StrategyAssignationMaximizeSeats();
+        this.pendingRequest.add(this.mockRequest1);
+        this.reservableList = new ArrayList<Reservable>();
+        this.reservableList.add(mockReservable);
+        when(this.reservables.findAll()).thenReturn(this.reservableList);
+>>>>>>> Reservation System. Accepted ?
     }
 
     @Test
@@ -64,8 +89,13 @@ public class StrategyAssignationMaximizeSeatsTest {
     }
 
     @Test
+<<<<<<< HEAD
     public void WhenAssignationIsRun_CallToReservableBookToBookTheReservableAndBookIsCalledOnlyOnce() {
         when(this.mockIReservable1.isBooked()).thenReturn(false).thenReturn(true);
+=======
+    public void WhenAssignationIsRun_CallToReservableBookToBookTheReservableAndBookIsCalledOnlyOnce() throws ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity {
+        when(this.mockReservable.isBooked()).thenReturn(false).thenReturn(true);
+>>>>>>> Reservation System. Accepted ?
         this.pendingRequest.add(this.mockRequest2);
 
         this.assigner.assignReservables(this.pendingRequest, this.IReservableList);
@@ -79,6 +109,7 @@ public class StrategyAssignationMaximizeSeatsTest {
 
         this.assigner.assignReservables(this.pendingRequest, this.IReservableList);
 
+<<<<<<< HEAD
         verify(this.mockRequest1, times(ONE_TIME)).getNumberOdSeatsNeeded();
         verify(this.mockIReservable1, times(ONE_TIME)).getNumberSeats();
     }
@@ -101,5 +132,9 @@ public class StrategyAssignationMaximizeSeatsTest {
         this.assigner.assignReservables(this.pendingRequest, this.IReservableList);
 
         verify(this.mockIReservable2, times(ONE_TIME)).isBooked();
+=======
+        verify(this.mockRequest1, times(ONE_TIME)).getNumberOfSeatsNeeded();
+        verify(this.mockReservable, times(ONE_TIME)).hasEnoughCapacity(any());
+>>>>>>> Reservation System. Accepted ?
     }
 }

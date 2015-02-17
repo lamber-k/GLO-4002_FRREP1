@@ -13,7 +13,7 @@ public class Request {
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
     }
 
-    public Integer getNumberOdSeatsNeeded() {
+    public Integer getNumberOfSeatsNeeded() {
         return this.numberOfSeatsNeeded;
     }
 
