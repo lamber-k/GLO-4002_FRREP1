@@ -1,5 +1,6 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.StrategySortRequest.StrategySortRequestByPriority;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

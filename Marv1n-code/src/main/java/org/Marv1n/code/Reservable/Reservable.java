@@ -1,4 +1,6 @@
-package org.Marv1n.code;
+package org.Marv1n.code.Reservable;
+
+import org.Marv1n.code.Request;
 
 public interface Reservable {
 

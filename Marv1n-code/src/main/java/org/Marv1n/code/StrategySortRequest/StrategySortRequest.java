@@ -1,4 +1,6 @@
-package org.Marv1n.code;
+package org.Marv1n.code.StrategySortRequest;
+
+import org.Marv1n.code.Request;
 
 import java.util.List;
 

@@ -1,4 +1,8 @@
-package org.Marv1n.code;
+package org.Marv1n.code.StrategyAssignation;
+
+import org.Marv1n.code.AssignationResult;
+import org.Marv1n.code.Request;
+import org.Marv1n.code.Reservable.Reservable;
 
 import java.util.Iterator;
 import java.util.List;
