@@ -75,6 +75,7 @@ public class StrategyAssignationMaximizeSeatsTest {
     @Test
     public void WhenAssignationIsRunCallToReservableGetNumberSeatsAndCallToRequest_GetSeatsNeededAreDone() {
         when(this.mockReservable1.isBooked()).thenReturn(false);
+
         this.assigner.assignReservables(this.pendingRequest, this.reservables);
 
         verify(this.mockRequest1, times(ONE_TIME)).getNumberOdSeatsNeeded();
@@ -83,7 +84,9 @@ public class StrategyAssignationMaximizeSeatsTest {
 
     @Test
     public void assignationIsRun_TheSecondBestRoomIsNotBestThanFirst_ReturnTheFirst() {
+        when(this.mockReservable1.hasGreaterCapacityThan(this.mockReservable2)).thenReturn(false);
         this.reservables.add(this.mockReservable2);
+
         this.assigner.assignReservables(this.pendingRequest, this.reservables);
 
         verify(this.mockReservable1, times(ONE_TIME)).isBooked();
@@ -93,6 +96,7 @@ public class StrategyAssignationMaximizeSeatsTest {
     public void assignationIsRun_TheSecondBestRoomIsBestThanFirst_ReturnTheSecond() {
         when(this.mockReservable1.hasGreaterCapacityThan(this.mockReservable2)).thenReturn(true);
         this.reservables.add(this.mockReservable2);
+
         this.assigner.assignReservables(this.pendingRequest, this.reservables);
 
         verify(this.mockReservable2, times(ONE_TIME)).isBooked();
