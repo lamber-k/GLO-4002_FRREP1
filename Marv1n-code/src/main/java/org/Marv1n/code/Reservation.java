@@ -35,11 +35,10 @@ public class Reservation {
     }
 
     @Override
-    public boolean  equals(Object rhs) {
+    public boolean equals(Object rhs) {
         if (rhs == null) {
             return false;
-        }
-        else if (rhs instanceof Reservation) {
+        } else if (rhs instanceof Reservation) {
             return this.reservationID.equals(((Reservation) rhs).reservationID);
         }
         return false;

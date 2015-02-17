@@ -17,8 +17,7 @@ public class Organizer implements Runnable {
     private IStrategyAssignation assigner;
     private IStrategySortRequest requestSorter;
 
-    public Organizer(IReservableRepository reservables)
-    {
+    public Organizer(IReservableRepository reservables) {
         this.reservables = reservables;
     }
 

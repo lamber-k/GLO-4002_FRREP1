@@ -3,11 +3,8 @@ package org.Marv1n.code.StrategyAssignation;
 import org.Marv1n.code.IAssignationResult;
 import org.Marv1n.code.Repository.IReservableRepository;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.ExceptionReservableAlreadyBooked;
-import org.Marv1n.code.Reservable.ExceptionReservableInsufficientCapacity;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.ReservableAssignationResult;
-import org.Marv1n.code.Reservation;
 
 public class StrategyAssignationMaximizeSeats extends StrategyAssignationSequential {
 

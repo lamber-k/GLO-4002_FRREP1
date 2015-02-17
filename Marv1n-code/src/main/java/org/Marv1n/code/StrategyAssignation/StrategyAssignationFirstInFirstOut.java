@@ -5,7 +5,6 @@ import org.Marv1n.code.Repository.IReservableRepository;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.ReservableAssignationResult;
-import org.Marv1n.code.Reservation;
 
 public class StrategyAssignationFirstInFirstOut extends StrategyAssignationSequential {
 

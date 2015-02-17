@@ -5,7 +5,6 @@ import org.Marv1n.code.Repository.IReservableRepository;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.ExceptionReservableAlreadyBooked;
 import org.Marv1n.code.Reservable.ExceptionReservableInsufficientCapacity;
-import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.ReservableAssignationResult;
 import org.Marv1n.code.Reservation;
 
@@ -22,7 +21,7 @@ public abstract class StrategyAssignationSequential implements IStrategyAssignat
             if (result.matchFound()) {
                 try {
                     this.treatAssignationResult(result, evaluatedRequest);
-                } catch (ExceptionAssignationNoMatchFound|ExceptionReservableAlreadyBooked|ExceptionReservableInsufficientCapacity ex) {
+                } catch (ExceptionAssignationNoMatchFound | ExceptionReservableAlreadyBooked | ExceptionReservableInsufficientCapacity ex) {
                     continue;
                 }
                 iterator.remove();
@@ -34,7 +33,7 @@ public abstract class StrategyAssignationSequential implements IStrategyAssignat
 
     protected Reservation treatAssignationResult(IAssignationResult result, Request evaluatedRequest) throws ExceptionAssignationNoMatchFound, ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity {
         if (result.matchFound()) {
-            ReservableAssignationResult reservableResult = (ReservableAssignationResult)result;
+            ReservableAssignationResult reservableResult = (ReservableAssignationResult) result;
             Reservation confirmReservation = new Reservation();
             confirmReservation.reserve(evaluatedRequest, reservableResult.getBestReservableMatch());
 

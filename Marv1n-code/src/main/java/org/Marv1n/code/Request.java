@@ -17,12 +17,12 @@ public class Request {
         return this.numberOfSeatsNeeded;
     }
 
-    public UUID getRequestID() {
-        return (this.requestID);
-    }
-
     public void setNumberOfSeatsNeeded(Integer numberOfSeatsNeeded) {
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
+    }
+
+    public UUID getRequestID() {
+        return (this.requestID);
     }
 
     public Integer getPriority() {
