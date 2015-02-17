@@ -25,7 +25,9 @@ public class StrategyAssignationMaximizeSeatsTest {
     private List<Reservable> reservables;
     private StrategyAssignation assigner;
     @Mock
-    private Reservable mockReservable;
+    private Reservable mockReservable1;
+    @Mock
+    private Reservable mockReservable2;
     @Mock
     private Request mockRequest1;
     @Mock
@@ -37,19 +39,19 @@ public class StrategyAssignationMaximizeSeatsTest {
         this.reservables = new ArrayList<>();
         this.assigner = new StrategyAssignationMaximizeSeats();
         this.pendingRequest.add(this.mockRequest1);
-        this.reservables.add(this.mockReservable);
+        this.reservables.add(this.mockReservable1);
     }
 
     @Test
     public void WhenEnoughReservableAreAvailableAndAssignationIsStartedAllRequestShouldBeAssigned() {
-        when(this.mockReservable.isBooked()).thenReturn(false);
+        when(this.mockReservable1.isBooked()).thenReturn(false);
         this.assigner.assignReservables(this.pendingRequest, this.reservables);
         assertTrue(this.pendingRequest.isEmpty());
     }
 
     @Test
     public void WhenNoEnoughReservableAreAvailableAndAssignationIsStartedSomeRequestWontBeAssigned() {
-        when(this.mockReservable.isBooked()).thenReturn(true);
+        when(this.mockReservable1.isBooked()).thenReturn(true);
         this.assigner.assignReservables(this.pendingRequest, this.reservables);
         assertFalse(this.pendingRequest.isEmpty());
     }
@@ -57,25 +59,42 @@ public class StrategyAssignationMaximizeSeatsTest {
     @Test
     public void WhenAssignationIsRun_CallToReservableIsBookedAreDoneToCheckAvailability() {
         this.assigner.assignReservables(this.pendingRequest, this.reservables);
-        verify(this.mockReservable, times(ONE_TIME)).isBooked();
+        verify(this.mockReservable1, times(ONE_TIME)).isBooked();
     }
 
     @Test
     public void WhenAssignationIsRun_CallToReservableBookToBookTheReservableAndBookIsCalledOnlyOnce() {
-        when(this.mockReservable.isBooked()).thenReturn(false).thenReturn(true);
+        when(this.mockReservable1.isBooked()).thenReturn(false).thenReturn(true);
         this.pendingRequest.add(this.mockRequest2);
 
         this.assigner.assignReservables(this.pendingRequest, this.reservables);
 
-        verify(this.mockReservable, times(ONE_TIME)).book(any());
+        verify(this.mockReservable1, times(ONE_TIME)).book(any());
     }
 
     @Test
     public void WhenAssignationIsRunCallToReservableGetNumberSeatsAndCallToRequest_GetSeatsNeededAreDone() {
-        when(this.mockReservable.isBooked()).thenReturn(false);
+        when(this.mockReservable1.isBooked()).thenReturn(false);
         this.assigner.assignReservables(this.pendingRequest, this.reservables);
 
         verify(this.mockRequest1, times(ONE_TIME)).getNumberOdSeatsNeeded();
-        verify(this.mockReservable, times(ONE_TIME)).getNumberSeats();
+        verify(this.mockReservable1, times(ONE_TIME)).getNumberSeats();
+    }
+
+    @Test
+    public void assignationIsRun_TheSecondBestRoomIsNotBestThanFirst_ReturnTheFirst() {
+        this.reservables.add(this.mockReservable2);
+        this.assigner.assignReservables(this.pendingRequest, this.reservables);
+
+        verify(this.mockReservable1, times(ONE_TIME)).isBooked();
+    }
+
+    @Test
+    public void assignationIsRun_TheSecondBestRoomIsBestThanFirst_ReturnTheSecond() {
+        when(this.mockReservable1.hasGreaterCapacityThan(this.mockReservable2)).thenReturn(true);
+        this.reservables.add(this.mockReservable2);
+        this.assigner.assignReservables(this.pendingRequest, this.reservables);
+
+        verify(this.mockReservable2, times(ONE_TIME)).isBooked();
     }
 }
