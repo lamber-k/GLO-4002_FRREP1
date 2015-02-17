@@ -1,5 +1,7 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.Repository.ReservableRepository;
+import org.Marv1n.code.Reservable.Reservable;
 import org.junit.Before;
 
 import java.util.UUID;

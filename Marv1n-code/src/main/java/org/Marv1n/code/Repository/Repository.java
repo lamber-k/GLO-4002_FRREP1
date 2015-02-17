@@ -1,4 +1,6 @@
-package org.Marv1n.code;
+package org.Marv1n.code.Repository;
+
+import org.Marv1n.code.ObjectNotFoundException;
 
 import java.util.LinkedList;
 import java.util.List;
