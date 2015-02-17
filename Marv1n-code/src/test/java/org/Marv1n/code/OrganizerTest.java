@@ -78,7 +78,7 @@ public class OrganizerTest {
     }
 
     @Test
-    public void organizerWhenTreatPendingRequestThenCallStrategySortRequest(){
+    public void organizerWhenTreatPendingRequestThenCallStrategySortRequest() {
         this.organizer.treatPendingRequest();
         verify(this.mockIStrategySortRequest, times(ONE_TIME)).sortList(any());
     }
