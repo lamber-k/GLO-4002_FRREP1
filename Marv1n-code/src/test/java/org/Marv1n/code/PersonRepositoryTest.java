@@ -18,8 +18,8 @@ public class PersonRepositoryTest {
     private PersonRepository personRepository;
     private Person mockPerson;
     private UUID personUUID;
-    private Person mockPersonTwo;
-    private UUID personTwoUUID;
+    private Person anotherMockPerson;
+    private UUID anotherMockPersonUUID;
 
     @Before
     public void setUp() throws Exception {
@@ -44,21 +44,21 @@ public class PersonRepositoryTest {
         this.putSomeItemsInRepository();
         List<UUID> listOfUUID = new LinkedList<>();
         listOfUUID.add(this.personUUID);
-        listOfUUID.add(this.personTwoUUID);
+        listOfUUID.add(this.anotherMockPersonUUID);
 
         List<Person> results = this.personRepository.FindByListOfUUID(listOfUUID);
 
         assertFalse(results.isEmpty());
         assertTrue(results.stream().filter(r -> r.getID().equals(this.personUUID)).findAny().isPresent());
-        assertTrue(results.stream().filter(r -> r.getID().equals(this.personTwoUUID)).findAny().isPresent());
+        assertTrue(results.stream().filter(r -> r.getID().equals(this.anotherMockPersonUUID)).findAny().isPresent());
     }
 
     private void putSomeItemsInRepository() {
         when(mockPerson.getID()).thenReturn(this.personUUID);
-        mockPersonTwo = mock(Person.class);
-        personTwoUUID = UUID.randomUUID();
-        when(mockPersonTwo.getID()).thenReturn(this.personTwoUUID);
+        anotherMockPerson = mock(Person.class);
+        anotherMockPersonUUID = UUID.randomUUID();
+        when(anotherMockPerson.getID()).thenReturn(this.anotherMockPersonUUID);
         this.personRepository.create(mockPerson);
-        this.personRepository.create(mockPersonTwo);
+        this.personRepository.create(anotherMockPerson);
     }
 }

@@ -21,8 +21,6 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class StrategyEvaluationFirstInFirstOutTest {
 
-    private static final Integer ONE_TIME = 1;
-
     private List<IReservable> reservableList;
     private IStrategyEvaluation evaluator;
     @Mock
