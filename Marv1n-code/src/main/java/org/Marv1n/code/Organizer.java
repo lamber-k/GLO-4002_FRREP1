@@ -35,7 +35,7 @@ public class Organizer implements Runnable {
         this.reservations = reservationRepository;
     }
 
-    public Boolean hasReservable() {
+    public boolean hasReservable() {
         return !this.reservables.findAll().isEmpty();
     }
 
@@ -63,7 +63,7 @@ public class Organizer implements Runnable {
         for (Request pendingRequest : this.pendingRequests) {
             ReservableEvaluationResult evaluationResult = this.assigner.evaluateOneRequest(this.reservables, pendingRequest);
 
-            Optional<Reservation> reservation = reservationFactory.Reserve(pendingRequest, evaluationResult);
+            Optional<Reservation> reservation = reservationFactory.reserve(pendingRequest, evaluationResult);
             if (reservation.isPresent())
                 this.reservations.create(reservation.get());
         }
