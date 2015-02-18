@@ -5,20 +5,17 @@ import java.util.UUID;
 public class Request {
 
     private UUID requestID;
-    private Integer numberOfSeatsNeeded = 0;
-    private Integer priority = 0;
+    private Integer numberOfSeatsNeeded ;
+    private Integer priority;
 
-    public Request(Integer numberOfSeatsNeeded) {
+    public Request(Integer numberOfSeatsNeeded, Integer priority) {
+        this.priority = priority;
         this.requestID = UUID.randomUUID();
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
     }
 
     public Integer getNumberOfSeatsNeeded() {
         return this.numberOfSeatsNeeded;
-    }
-
-    public void setNumberOfSeatsNeeded(Integer numberOfSeatsNeeded) {
-        this.numberOfSeatsNeeded = numberOfSeatsNeeded;
     }
 
     public UUID getRequestID() {
@@ -29,7 +26,6 @@ public class Request {
         return this.priority;
     }
 
-    public void setPriority(Integer priority) {
-        this.priority = priority;
-    }
+
+
 }

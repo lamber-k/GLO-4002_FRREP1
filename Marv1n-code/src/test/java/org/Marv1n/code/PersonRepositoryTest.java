@@ -39,15 +39,6 @@ public class PersonRepositoryTest {
         assertEquals(mockPerson, result.get());
     }
 
-    private void putSomeItemsInRepository() {
-        when(mockPerson.getID()).thenReturn(this.personUUID);
-        mockPersonTwo = mock(Person.class);
-        personTwoUUID = UUID.randomUUID();
-        when(mockPersonTwo.getID()).thenReturn(this.personTwoUUID);
-        this.personRepository.create(mockPerson);
-        this.personRepository.create(mockPersonTwo);
-    }
-
     @Test
     public void repositoryNotEmptyWhenFindWithListOfUUIDThenReturnMatchesUUIDPerson() throws Exception {
         this.putSomeItemsInRepository();
@@ -60,5 +51,14 @@ public class PersonRepositoryTest {
         assertFalse(results.isEmpty());
         assertTrue(results.stream().filter(r -> r.getID().equals(this.personUUID)).findAny().isPresent());
         assertTrue(results.stream().filter(r -> r.getID().equals(this.personTwoUUID)).findAny().isPresent());
+    }
+
+    private void putSomeItemsInRepository() {
+        when(mockPerson.getID()).thenReturn(this.personUUID);
+        mockPersonTwo = mock(Person.class);
+        personTwoUUID = UUID.randomUUID();
+        when(mockPersonTwo.getID()).thenReturn(this.personTwoUUID);
+        this.personRepository.create(mockPerson);
+        this.personRepository.create(mockPersonTwo);
     }
 }

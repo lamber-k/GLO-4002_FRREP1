@@ -1,8 +1,10 @@
 package org.Marv1n.code;
 
 import org.Marv1n.code.Repository.IReservableRepository;
+import org.Marv1n.code.Repository.IReservationRepository;
 import org.Marv1n.code.Reservable.IReservable;
-import org.Marv1n.code.StrategyAssignation.IStrategyAssignation;
+import org.Marv1n.code.Reservation.IReservationFactory;
+import org.Marv1n.code.StrategyEvaluation.IStrategyEvaluation;
 import org.Marv1n.code.StrategySortRequest.IStrategySortRequest;
 import org.junit.After;
 import org.junit.Before;
@@ -28,6 +30,12 @@ public class OrganizerTest {
     private IReservableRepository reservableRepository;
 
     @Mock
+    private IReservationRepository reservationRepository;
+
+    @Mock
+    private IReservationFactory reservationFactory;
+
+    @Mock
     private TaskScheduler taskScheduler;
 
     @Mock
@@ -37,15 +45,15 @@ public class OrganizerTest {
     private Request aRequest;
 
     @Mock
-    private IStrategyAssignation mockIStrategyAssignation;
+    private IStrategyEvaluation mockIStrategyEvaluation;
 
     @Mock
     private IStrategySortRequest mockIStrategySortRequest;
 
     @Before
     public void initializeNewOrganizer() {
-        this.organizer = new Organizer(this.reservableRepository);
-        this.organizer.initialize(this.taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, this.mockIStrategyAssignation, this.mockIStrategySortRequest);
+        this.organizer = new Organizer();
+        this.organizer.initialize(this.taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, this.mockIStrategyEvaluation, this.mockIStrategySortRequest,this.reservableRepository, this.reservationFactory, this.reservationRepository);
     }
 
     @Test
@@ -63,16 +71,6 @@ public class OrganizerTest {
         this.organizer.addReservable(this.mockIReservable);
         this.organizer.addRequest(this.aRequest);
         assertTrue(this.organizer.hasPendingRequest());
-    }
-
-    @Test
-    public void organizerAfterTreatingPendingRequestsAssignationHasRun() throws Exception {
-        this.organizer.addReservable(this.mockIReservable);
-        this.organizer.addRequest(this.aRequest);
-
-        this.organizer.treatPendingRequest();
-
-        verify(this.mockIStrategyAssignation, times(ONE_TIME)).assignReservables(any(), any());
     }
 
     @Test

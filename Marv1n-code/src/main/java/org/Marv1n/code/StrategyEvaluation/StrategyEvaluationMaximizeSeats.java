@@ -1,15 +1,13 @@
-package org.Marv1n.code.StrategyAssignation;
+package org.Marv1n.code.StrategyEvaluation;
 
-import org.Marv1n.code.IAssignationResult;
 import org.Marv1n.code.Repository.IReservableRepository;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
-import org.Marv1n.code.ReservableAssignationResult;
 
-public class StrategyAssignationMaximizeSeats extends StrategyAssignationSequential {
+public class StrategyEvaluationMaximizeSeats implements IStrategyEvaluation {
 
     @Override
-    protected IAssignationResult evaluateOneRequest(IReservableRepository reservables, Request evaluatedRequest) {
+    public ReservableEvaluationResult evaluateOneRequest(IReservableRepository reservables, Request evaluatedRequest) {
         IReservable betterReservable = null;
 
         for (IReservable reservable : reservables.findAll()) {
@@ -17,7 +15,7 @@ public class StrategyAssignationMaximizeSeats extends StrategyAssignationSequent
                 betterReservable = this.getBetterReservableOf(betterReservable, reservable);
             }
         }
-        return new ReservableAssignationResult(betterReservable);
+        return new ReservableEvaluationResult(betterReservable);
     }
 
     private IReservable getBetterReservableOf(IReservable bestReservable, IReservable reservable) {

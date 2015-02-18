@@ -1,19 +1,18 @@
-package org.Marv1n.code;
+package org.Marv1n.code.StrategyEvaluation;
 
 import org.Marv1n.code.Reservable.IReservable;
 
-public class ReservableAssignationResult implements IAssignationResult {
+public class ReservableEvaluationResult {
 
     private IReservable matchingIReservable = null;
 
-    public ReservableAssignationResult(IReservable IReservable) {
+    public ReservableEvaluationResult(IReservable IReservable) {
         this.matchingIReservable = IReservable;
     }
 
-    public ReservableAssignationResult() {
+    public ReservableEvaluationResult() {
     }
 
-    @Override
     public boolean matchFound() {
         return this.matchingIReservable != null;
     }
