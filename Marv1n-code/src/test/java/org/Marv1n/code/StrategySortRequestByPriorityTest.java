@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -52,29 +53,31 @@ public class StrategySortRequestByPriorityTest {
 
     @Test
     public void whenStrategySort_SortIsCalledOnList_ThenCallToListSortIsDone() {
-        this.requestSorter.sortList(this.mockListRequest);
-        verify(this.mockListRequest).sort(any());
+        // Note: Ce test ne semble plus être logique, vu que sortList ne va pas changer la liste passé en paramètre.
+        fail();
+        /*this.requestSorter.sortList(this.mockListRequest);
+        verify(this.mockListRequest).sort(any());*/
     }
 
     @Test
     public void whenStrategySort_SortIsCalledOnList_ContainingMoreThanOneRequestThenListIsSorted() {
-        this.requestSorter.sortList(this.listRequest);
+        ArrayList<Request> sortedArray = this.requestSorter.sortList(this.listRequest);
 
-        assertEquals(this.requestWithHighPriority, this.listRequest.get(REQUEST_INDEX_FIRST));
-        assertEquals(this.requestWithMediumPriority, this.listRequest.get(REQUEST_INDEX_SECOND));
-        assertEquals(this.requestWithLowPriority, this.listRequest.get(REQUEST_INDEX_THIRD));
+        assertEquals(this.requestWithHighPriority, sortedArray.get(REQUEST_INDEX_FIRST));
+        assertEquals(this.requestWithMediumPriority, sortedArray.get(REQUEST_INDEX_SECOND));
+        assertEquals(this.requestWithLowPriority, sortedArray.get(REQUEST_INDEX_THIRD));
     }
 
     @Test
     public void whenStrategySort_SortIsCalledOnListContainingElementOfSamePriority_ThenListIsSortedWithFirstInFistOutOrderForSamePriorityRequest() {
         this.listRequest.add(this.requestWithMediumPriority_2);
 
-        this.requestSorter.sortList(this.listRequest);
+        ArrayList<Request> sortedArray = this.requestSorter.sortList(this.listRequest);
 
-        assertEquals(this.requestWithHighPriority, this.listRequest.get(REQUEST_INDEX_FIRST));
-        assertEquals(this.requestWithMediumPriority, this.listRequest.get(REQUEST_INDEX_SECOND));
-        assertEquals(this.requestWithMediumPriority_2, this.listRequest.get(REQUEST_INDEX_THIRD));
-        assertEquals(this.requestWithLowPriority, this.listRequest.get(REQUEST_INDEX_FOURTH));
+        assertEquals(this.requestWithHighPriority, sortedArray.get(REQUEST_INDEX_FIRST));
+        assertEquals(this.requestWithMediumPriority, sortedArray.get(REQUEST_INDEX_SECOND));
+        assertEquals(this.requestWithMediumPriority_2, sortedArray.get(REQUEST_INDEX_THIRD));
+        assertEquals(this.requestWithLowPriority, sortedArray.get(REQUEST_INDEX_FOURTH));
     }
 
 }

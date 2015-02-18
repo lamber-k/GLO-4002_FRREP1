@@ -9,9 +9,7 @@ import org.Marv1n.code.StrategyEvaluation.IStrategyEvaluation;
 import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
 import org.Marv1n.code.StrategySortRequest.IStrategySortRequest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Organizer implements Runnable {
 
@@ -25,7 +23,7 @@ public class Organizer implements Runnable {
     private IReservationFactory reservationFactory;
 
     public void initialize(TaskScheduler scheduler, Integer maximumPendingRequests, IStrategyEvaluation strategyAssignation, IStrategySortRequest strategySortRequest, IReservableRepository reservableRepository, IReservationFactory reservationFactory, IReservationRepository reservationRepository) {
-        this.pendingRequests = new ArrayList<>();
+        this.pendingRequests = Collections.synchronizedList(new ArrayList<>());
         this.taskScheduler = scheduler;
         this.maximumPendingRequests = maximumPendingRequests;
         this.assigner = strategyAssignation;
@@ -59,15 +57,23 @@ public class Organizer implements Runnable {
     }
 
     public void treatPendingRequest() {
-        this.requestSorter.sortList(this.pendingRequests);
-        for (Request pendingRequest : this.pendingRequests) {
+        ArrayList<Request> sortedRequests = this.requestSorter.sortList(this.pendingRequests);
+        Iterator<Request> it = sortedRequests.iterator();
+
+        while (it.hasNext()) {
+            Request pendingRequest = it.next();
+
             ReservableEvaluationResult evaluationResult = this.assigner.evaluateOneRequest(this.reservables, pendingRequest);
 
             Optional<Reservation> reservation = reservationFactory.reserve(pendingRequest, evaluationResult);
-            if (reservation.isPresent())
+            if (reservation.isPresent()) {
                 this.reservations.create(reservation.get());
+            }
+            else {
+                it.remove();
+            }
         }
-        this.pendingRequests.clear();
+        this.pendingRequests.removeAll(sortedRequests);
     }
 
     @Override
