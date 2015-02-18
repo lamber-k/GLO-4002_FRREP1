@@ -24,9 +24,6 @@ public class Person {
         if (rhs == null) {
             return false;
         }
-        if (rhs instanceof Person) {
-            return this.personID.equals(((Person) rhs).personID);
-        }
-        return false;
+        return rhs instanceof Person && this.personID.equals(((Person) rhs).personID);
     }
 }

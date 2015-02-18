@@ -10,7 +10,7 @@ public interface IReservable {
 
     public Integer getNumberSeats();
 
-    public boolean hasGreaterCapacityThan(IReservable reeservable);
+    public boolean hasGreaterCapacityThan(IReservable reservable);
 
     public Integer compareReservableCapacity(IReservable reservable);
 
