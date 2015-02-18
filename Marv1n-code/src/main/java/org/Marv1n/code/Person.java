@@ -26,4 +26,12 @@ public class Person {
         }
         return rhs instanceof Person && this.personID.equals(((Person) rhs).personID);
     }
+
+    @Override
+    public int hashCode() {
+        // If we keep on using the hashCode() from java.lang.Object, we violate the invariant that equal objects must have equal hashcodes.
+        // It is therefore better to not implement it than to let an unstable behaviour.
+        assert false : "Unimplemented";
+        return 0;
+    }
 }

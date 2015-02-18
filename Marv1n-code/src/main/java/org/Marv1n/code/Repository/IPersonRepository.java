@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IPersonRepository extends IRepository<Person> {
-    public Optional<Person> FindByUUID(UUID id);
+    public Optional<Person> findByUUID(UUID id);
 
-    List<Person> FindByListOfUUID(List<UUID> listOfUUID);
+    List<Person> findByListOfUUID(List<UUID> listOfUUID);
 }

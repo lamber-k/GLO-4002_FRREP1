@@ -33,7 +33,7 @@ public class PersonRepositoryTest {
         when(mockPerson.getID()).thenReturn(this.personUUID);
         this.personRepository.create(mockPerson);
 
-        Optional<Person> result = this.personRepository.FindByUUID(this.personUUID);
+        Optional<Person> result = this.personRepository.findByUUID(this.personUUID);
 
         assertTrue(result.isPresent());
         assertEquals(mockPerson, result.get());
@@ -46,7 +46,7 @@ public class PersonRepositoryTest {
         listOfUUID.add(this.personUUID);
         listOfUUID.add(this.anotherMockPersonUUID);
 
-        List<Person> results = this.personRepository.FindByListOfUUID(listOfUUID);
+        List<Person> results = this.personRepository.findByListOfUUID(listOfUUID);
 
         assertFalse(results.isEmpty());
         assertTrue(results.stream().filter(r -> r.getID().equals(this.personUUID)).findAny().isPresent());
