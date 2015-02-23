@@ -1,8 +1,6 @@
 package org.Marv1n.code.Reservation;
 
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.ExceptionReservableAlreadyBooked;
-import org.Marv1n.code.Reservable.ExceptionReservableInsufficientCapacity;
 import org.Marv1n.code.Reservable.IReservable;
 
 import java.util.UUID;
@@ -12,16 +10,11 @@ public class Reservation {
     private Request request;
     private IReservable reserved;
 
-    public Reservation() {
+    public Reservation(Request request, IReservable reserved) {
         this.reservationID = UUID.randomUUID();
-    }
-
-    public void reserve(Request request, IReservable reserved) throws ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity {
-        reserved.book(request);
         this.request = request;
         this.reserved = reserved;
     }
-
 
     public UUID getReservationID() {
         return this.reservationID;

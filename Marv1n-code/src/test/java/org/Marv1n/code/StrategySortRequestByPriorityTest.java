@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StrategySortRequestByPriorityTest {
@@ -49,14 +48,6 @@ public class StrategySortRequestByPriorityTest {
         this.listRequest.add(this.requestWithLowPriority);
         this.listRequest.add(this.requestWithMediumPriority);
         this.listRequest.add(this.requestWithHighPriority);
-    }
-
-    @Test
-    public void whenStrategySort_SortIsCalledOnList_ThenCallToListSortIsDone() {
-        // Note: Ce test ne semble plus être logique, vu que sortList ne va pas changer la liste passé en paramètre.
-        fail();
-        /*this.requestSorter.sortList(this.mockListRequest);
-        verify(this.mockListRequest).sort(any());*/
     }
 
     @Test
