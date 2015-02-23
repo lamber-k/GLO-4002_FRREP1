@@ -18,43 +18,23 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class OrganizerTest {
 
-    private static final Integer DEFAULT_MAXIMUM_PENDING_REQUESTS = 2;
-    private static final Integer A_MAXIMUM_PENDING_REQUESTS = 5;
+    private static final int DEFAULT_MAXIMUM_PENDING_REQUESTS = 2;
+    private static final int A_MAXIMUM_PENDING_REQUESTS = 5;
+    private static final int MAXIMUM_ONE_PENDING_REQUEST = 1;
     private Organizer organizer;
-
-    @Mock
-    private IReservableRepository reservableRepository;
-
-    @Mock
-    private IReservationRepository reservationRepository;
-
-    @Mock
-    private IReservationFactory reservationFactory;
 
     @Mock
     private TaskScheduler taskScheduler;
 
     @Mock
-    private IReservable mockIReservable;
-
-    @Mock
     private Request aRequest;
 
     @Mock
-    private IStrategyEvaluation mockIStrategyEvaluation;
-
-    @Mock
-    private IStrategySortRequest mockIStrategySortRequest;
+    private RequestTreatment requestTreatmentMock;
 
     @Before
     public void initializeNewOrganizer() {
-        this.organizer = new Organizer();
-        this.organizer.initialize(this.taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, this.mockIStrategyEvaluation, this.mockIStrategySortRequest, this.reservableRepository, this.reservationFactory, this.reservationRepository);
-    }
-
-    @Test
-    public void newOrganizerHasNoReservable() {
-        assertFalse(this.organizer.hasReservable());
+        organizer = new Organizer(taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, requestTreatmentMock);
     }
 
     @Test
@@ -64,22 +44,33 @@ public class OrganizerTest {
 
     @Test
     public void whenAddingRequestOrganizerReportsHavingPendingRequest() {
-        this.organizer.addReservable(this.mockIReservable);
-        this.organizer.addRequest(this.aRequest);
-        assertTrue(this.organizer.hasPendingRequest());
+        organizer.addRequest(aRequest);
+        assertTrue(organizer.hasPendingRequest());
+    }
+
+    @Test(expected = SchedulerAlreadyRunningException.class)
+    public void whenStartOrganizerTwiceShouldThrowAlreadyRunning() throws SchedulerAlreadyRunningException {
+        when(taskScheduler.isSchedulerRunning()).thenReturn(true);
+        organizer.start();
+    }
+
+    @Test()
+    public void whenStopOrganizerShouldStopScheduler() throws SchedulerAlreadyRunningException {
+        when(taskScheduler.isSchedulerRunning()).thenReturn(true);
+        organizer.stop();
+        verify(taskScheduler).cancelScheduler();
     }
 
     @Test
-    public void organizerWhenTreatPendingRequestThenCallStrategySortRequest() {
-        this.organizer.treatPendingRequest();
-        verify(this.mockIStrategySortRequest).sortList(any());
+    public void whenStartOrganizerShouldStartTaskScheduler() throws SchedulerAlreadyRunningException {
+        organizer.start();
+        verify(taskScheduler).startScheduler(requestTreatmentMock);
     }
 
     @Test
-    public void organizerWhenTreatPendingRequestNowShouldCallTaskSchedulerRunNow() {
+    public void organizerWhenTreatPendingRequestNowThenCallRequestTreatment() {
         this.organizer.treatPendingRequestsNow();
-
-        verify(this.taskScheduler).runNow(any(Runnable.class));
+        verify(this.taskScheduler).runNow(requestTreatmentMock);
     }
 
     @Test
@@ -88,24 +79,16 @@ public class OrganizerTest {
     }
 
     @Test
-    public void newOrganizerReflectsTimerChange() {
+    public void newOrganizerReflectsValueChange() {
         this.organizer.setMaximumPendingRequests(A_MAXIMUM_PENDING_REQUESTS);
         assertEquals(A_MAXIMUM_PENDING_REQUESTS, this.organizer.getMaximumPendingRequests());
     }
 
     @Test
     public void organizerWhenPendingRequestsReachMaximumPendingRequestsShouldRunAssignation() {
-        this.organizer.setMaximumPendingRequests(1);
-        this.organizer.addReservable(this.mockIReservable);
+        this.organizer.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
         this.organizer.addRequest(this.aRequest);
 
         verify(this.taskScheduler).runNow(any());
-    }
-
-    @Test
-    public void organizerCallsTreatPendingRequestWhenRun() {
-        Organizer organizerSpy = spy(this.organizer);
-        organizerSpy.run();
-        verify(organizerSpy).treatPendingRequest();
     }
 }
