@@ -2,7 +2,6 @@ package org.Marv1n.code;
 
 import org.Marv1n.code.Repository.IReservableRepository;
 import org.Marv1n.code.Repository.IReservationRepository;
-import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservation.IReservationFactory;
 import org.Marv1n.code.Reservation.Reservation;
 import org.Marv1n.code.StrategyEvaluation.IStrategyEvaluation;
@@ -14,9 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Created by Kevin on 23/02/2015.
- */
 public class RequestTreatment implements Runnable {
 
     private IStrategyEvaluation assigner;
