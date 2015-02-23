@@ -58,10 +58,11 @@ public class Organizer implements Runnable {
 
     public void treatPendingRequest() {
         ArrayList<Request> sortedRequests = this.requestSorter.sortList(this.pendingRequests);
-        Iterator<Request> it = sortedRequests.iterator();
 
-        while (it.hasNext()) {
-            Request pendingRequest = it.next();
+        Iterator<Request> requestIterator = sortedRequests.iterator();
+
+        while (requestIterator.hasNext()) {
+            Request pendingRequest = requestIterator.next();
 
             ReservableEvaluationResult evaluationResult = this.assigner.evaluateOneRequest(this.reservables, pendingRequest);
 
@@ -70,7 +71,7 @@ public class Organizer implements Runnable {
                 this.reservations.create(reservation.get());
             }
             else {
-                it.remove();
+                requestIterator.remove();
             }
         }
         this.pendingRequests.removeAll(sortedRequests);

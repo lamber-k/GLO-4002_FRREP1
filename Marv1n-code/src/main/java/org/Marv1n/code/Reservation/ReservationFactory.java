@@ -15,7 +15,8 @@ public class ReservationFactory implements IReservationFactory {
                 confirmReservation.reserve(pendingRequest, evaluationResult.getBestReservableMatch());
                 return Optional.of(confirmReservation);
 
-            } catch (ExceptionReservableAlreadyBooked | ExceptionReservableInsufficientCapacity exceptionReservableAlreadyBooked) {
+            } catch (ExceptionReservableAlreadyBooked | ExceptionReservableInsufficientCapacity e) {
+                return Optional.empty();
             }
         }
         return Optional.empty();
