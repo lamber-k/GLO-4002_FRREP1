@@ -36,23 +36,23 @@ public class RequestTreatment implements Runnable {
     }
 
     private void treatPendingRequest() {
-        ArrayList<Request> sortedRequests = this.requestSorter.sortList(this.pendingRequests);
+        ArrayList<Request> sortedRequests = requestSorter.sortList(pendingRequests);
         Iterator<Request> requestIterator = sortedRequests.iterator();
 
         while (requestIterator.hasNext()) {
             Request pendingRequest = requestIterator.next();
 
-            ReservableEvaluationResult evaluationResult = this.assigner.evaluateOneRequest(this.reservables, pendingRequest);
+            ReservableEvaluationResult evaluationResult = assigner.evaluateOneRequest(reservables, pendingRequest);
 
             Optional<Reservation> reservation = reservationFactory.reserve(pendingRequest, evaluationResult);
             if (reservation.isPresent()) {
-                this.reservations.create(reservation.get());
+                reservations.create(reservation.get());
             }
             else {
                 requestIterator.remove();
             }
         }
-        this.pendingRequests.removeAll(sortedRequests);
+        pendingRequests.removeAll(sortedRequests);
     }
 
     @Override
