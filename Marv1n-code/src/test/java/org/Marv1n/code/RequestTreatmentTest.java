@@ -25,7 +25,7 @@ public class RequestTreatmentTest {
     private IReservableRepository reservables;
     private IStrategySortRequest requestSorter;
     private Request aRequest;
-
+    ReservableEvaluationResult evaluationResult;
 
     private ArrayList<Request> arrayWithOneRequest;
     private List<Request> pendingRequests;
@@ -42,6 +42,7 @@ public class RequestTreatmentTest {
         reservables = mock(IReservableRepository.class);
         requestSorter = mock(IStrategySortRequest.class);
         aRequest = mock(Request.class);
+        evaluationResult = mock(ReservableEvaluationResult.class);
 
         arrayWithOneRequest.add(aRequest);
 
@@ -55,18 +56,33 @@ public class RequestTreatmentTest {
         verify(requestSorter).sortList(pendingRequests);
     }
 
-    @Test
-    public void givenOnePendingRequest_whenRun_ShouldEvaluateIt() {
-        // Bloc is mandatory for the test to work. We clearly need refactoring.
-        ReservableEvaluationResult evaluationResult = mock(ReservableEvaluationResult.class);
-        Optional<Reservation> emptyOptional = Optional.empty();
+    private void havingOnePendingRequest() {
         when(assigner.evaluateOneRequest(this.reservables, this.aRequest)).thenReturn(evaluationResult);
         when(requestSorter.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
+    }
+
+
+    @Test
+    public void givenOnePendingRequest_whenRun_ShouldEvaluateIt() {
+        havingOnePendingRequest();
+        Optional<Reservation> emptyOptional = Optional.empty();
         when(reservationFactory.reserve(this.aRequest, evaluationResult)).thenReturn(emptyOptional);
 
         requestTreatment.run();
 
         verify(assigner).evaluateOneRequest(reservables, aRequest);
+    }
+
+    @Test
+    public void givenOnePendingRequest_whenReserveSuccess_ShouldConfirmReservation() {
+        Reservation     aReservation = mock(Reservation.class);
+        havingOnePendingRequest();
+        Optional<Reservation> emptyOptional = Optional.of(aReservation);
+        when(reservationFactory.reserve(this.aRequest, evaluationResult)).thenReturn(emptyOptional);
+
+        requestTreatment.run();
+
+        verify(reservations).create(aReservation);
     }
 
 }
