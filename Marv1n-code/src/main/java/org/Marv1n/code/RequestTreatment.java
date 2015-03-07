@@ -38,7 +38,7 @@ public class RequestTreatment implements Runnable {
         while (requestIterator.hasNext()) {
             Request pendingRequest = requestIterator.next();
 
-            ReservableEvaluationResult evaluationResult = assigner.evaluateOneRequest(reservables, pendingRequest);
+            ReservableEvaluationResult evaluationResult = assigner.evaluateOneRequest(reservables, reservations, pendingRequest);
 
             Optional<Reservation> reservation = reservationFactory.reserve(pendingRequest, evaluationResult);
             if (reservation.isPresent()) {

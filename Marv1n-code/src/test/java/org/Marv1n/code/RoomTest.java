@@ -14,9 +14,9 @@ import static org.junit.Assert.*;
 @RunWith(MockitoJUnitRunner.class)
 public class RoomTest {
 
-    final static private Integer NUMBER_OF_SEATS = 25;
-    final static private Integer LOWER_NUMBER_OF_SEATS = 5;
-    final static private Integer HIGHER_NUMBER_OF_SEATS = 35;
+    final static private int NUMBER_OF_SEATS = 25;
+    final static private int LOWER_NUMBER_OF_SEATS = 5;
+    final static private int HIGHER_NUMBER_OF_SEATS = 35;
 
     private Room room;
 
@@ -29,19 +29,8 @@ public class RoomTest {
     }
 
     @Test
-    public void newRoom_AtStart_IsNotReserved() {
-        assertFalse(this.room.isBooked());
-    }
-
-    @Test
-    public void newRoom_WhenReserve_IsReserved() throws ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity {
-        this.room.book(this.request);
-        assertTrue(this.room.isBooked());
-    }
-
-    @Test
     public void newRoom_ReturnsCorrectNumberOfSeats() {
-        Integer seats = this.room.getNumberSeats();
+        int seats = this.room.getNumberSeats();
         assertEquals(NUMBER_OF_SEATS, seats);
     }
 
@@ -65,6 +54,11 @@ public class RoomTest {
     }
 
     @Test
+    public void twoRooms_WhenCompareRoomWithAnotherSameSeatsCapacityRoom_ShouldReturnZero() {
+        assertEquals(0, this.room.compareReservableCapacity(this.room));
+    }
+
+    @Test
     public void newRoom_WhenTestRoomWithHigherCapacity_ShouldReturnFalse() {
         assertFalse(room.hasEnoughCapacity(HIGHER_NUMBER_OF_SEATS));
     }
@@ -78,4 +72,5 @@ public class RoomTest {
     public void newRoom_WhenTestRoomWithSameCapacity_ShouldReturnTrue() {
         assertTrue(room.hasEnoughCapacity(NUMBER_OF_SEATS));
     }
+
 }

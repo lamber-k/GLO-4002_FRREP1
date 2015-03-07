@@ -57,7 +57,7 @@ public class RequestTreatmentTest {
     }
 
     private void havingOnePendingRequest() {
-        when(assigner.evaluateOneRequest(this.reservables, this.aRequest)).thenReturn(evaluationResult);
+        when(assigner.evaluateOneRequest(reservables, reservations, aRequest)).thenReturn(evaluationResult);
         when(requestSorter.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
     }
 
@@ -70,7 +70,7 @@ public class RequestTreatmentTest {
 
         requestTreatment.run();
 
-        verify(assigner).evaluateOneRequest(reservables, aRequest);
+        verify(assigner).evaluateOneRequest(reservables, reservations, aRequest);
     }
 
     @Test

@@ -1,12 +1,14 @@
 package org.Marv1n.code;
 
 import org.Marv1n.code.Repository.IReservableRepository;
+import org.Marv1n.code.Repository.IReservationRepository;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.StrategyEvaluation.IStrategyEvaluation;
 import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
 import org.Marv1n.code.StrategyEvaluation.StrategyEvaluationFirstInFirstOut;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -14,8 +16,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.TestCase.assertFalse;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -31,6 +31,8 @@ public class StrategyEvaluationFirstInFirstOutTest {
     private Request mockRequest;
     @Mock
     private IReservableRepository reservableRepository;
+    @Mock
+    private IReservationRepository reservationsRepository;
 
     @Before
     public void init() {
@@ -43,7 +45,7 @@ public class StrategyEvaluationFirstInFirstOutTest {
 
     @Test
     public void whenNoReservableAvailableReturnsEmptyEvaluationResult() {
-        ReservableEvaluationResult reservableEvaluationResult = this.evaluator.evaluateOneRequest(this.reservableRepository, this.mockRequest);
+        ReservableEvaluationResult reservableEvaluationResult = this.evaluator.evaluateOneRequest(this.reservableRepository, this.reservationsRepository, this.mockRequest);
 
         assertFalse(reservableEvaluationResult.matchFound());
     }
@@ -52,7 +54,7 @@ public class StrategyEvaluationFirstInFirstOutTest {
     public void whenOnlyOneReservableAvailableReturnsNonEmptyEvaluationResultContainingTheReservable() throws Exception {
         this.reservableList.add(this.mockReservable);
 
-        ReservableEvaluationResult reservableEvaluationResult = this.evaluator.evaluateOneRequest(this.reservableRepository, this.mockRequest);
+        ReservableEvaluationResult reservableEvaluationResult = this.evaluator.evaluateOneRequest(this.reservableRepository, this.reservationsRepository, this.mockRequest);
 
         assertEquals(this.mockReservable, reservableEvaluationResult.getBestReservableMatch());
     }
@@ -62,7 +64,7 @@ public class StrategyEvaluationFirstInFirstOutTest {
         this.reservableList.add(this.anotherMockReservable);
         this.reservableList.add(this.mockReservable);
 
-        ReservableEvaluationResult reservableEvaluationResult = this.evaluator.evaluateOneRequest(this.reservableRepository, this.mockRequest);
+        ReservableEvaluationResult reservableEvaluationResult = this.evaluator.evaluateOneRequest(this.reservableRepository, this.reservationsRepository, this.mockRequest);
 
         assertEquals(this.anotherMockReservable, reservableEvaluationResult.getBestReservableMatch());
     }

@@ -4,15 +4,11 @@ import org.Marv1n.code.Request;
 
 public interface IReservable {
 
-    public Boolean isBooked();
-
-    public void book(Request request) throws ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity;
-
-    public Integer getNumberSeats();
+    public int getNumberSeats();
 
     public boolean hasGreaterCapacityThan(IReservable reservable);
 
-    public Integer compareReservableCapacity(IReservable reservable);
+    public int compareReservableCapacity(IReservable reservable);
 
     public boolean hasEnoughCapacity(Integer capacityNeeded);
 }

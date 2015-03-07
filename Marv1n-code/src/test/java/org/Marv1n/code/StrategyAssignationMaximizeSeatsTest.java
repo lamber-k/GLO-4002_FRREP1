@@ -1,11 +1,14 @@
 package org.Marv1n.code;
 
 import org.Marv1n.code.Repository.IReservableRepository;
+import org.Marv1n.code.Repository.IReservationRepository;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.StrategyEvaluation.IStrategyEvaluation;
+import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
 import org.Marv1n.code.StrategyEvaluation.StrategyEvaluationMaximizeSeats;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -31,33 +34,35 @@ public class StrategyAssignationMaximizeSeatsTest {
     private Request anotherMockRequest;
     @Mock
     private IReservableRepository reservableRepository;
+    @Mock
+    private IReservationRepository reservationRepository;
 
     @Before
     public void init() {
-        this.reservableList = new ArrayList<>();
-        this.assigner = new StrategyEvaluationMaximizeSeats();
+        reservableList = new ArrayList<>();
+        assigner = new StrategyEvaluationMaximizeSeats();
 
-        this.reservableList.add(this.mockReservable);
-        when(reservableRepository.findAll()).thenReturn(this.reservableList);
+        reservableList.add(mockReservable);
+        when(reservableRepository.findAll()).thenReturn(reservableList);
     }
 
     @Test
     public void assignationIsRun_TheSecondBestRoomIsNotBestThanFirst_ReturnTheFirst() {
-        when(this.mockReservable.hasGreaterCapacityThan(this.anotherMockReservable)).thenReturn(false);
-        this.reservableList.add(this.anotherMockReservable);
+        when(mockReservable.hasGreaterCapacityThan(anotherMockReservable)).thenReturn(false);
+        reservableList.add(anotherMockReservable);
 
-        this.assigner.evaluateOneRequest(this.reservableRepository, this.mockRequest);
+        ReservableEvaluationResult result = assigner.evaluateOneRequest(reservableRepository, reservationRepository, mockRequest);
 
-        verify(this.mockReservable).isBooked();
+        assertEquals(result.getBestReservableMatch(), mockReservable);
     }
 
     @Test
     public void assignationIsRun_TheSecondBestRoomIsBestThanFirst_ReturnTheSecond() {
-        when(this.mockReservable.hasGreaterCapacityThan(this.anotherMockReservable)).thenReturn(true);
-        this.reservableList.add(this.anotherMockReservable);
+        when(mockReservable.hasGreaterCapacityThan(anotherMockReservable)).thenReturn(true);
+        reservableList.add(anotherMockReservable);
 
-        this.assigner.evaluateOneRequest(this.reservableRepository, this.mockRequest);
+        ReservableEvaluationResult result = assigner.evaluateOneRequest(reservableRepository, reservationRepository, mockRequest);
 
-        verify(this.anotherMockReservable).isBooked();
+        assertEquals(result.getBestReservableMatch(), anotherMockReservable);
     }
 }

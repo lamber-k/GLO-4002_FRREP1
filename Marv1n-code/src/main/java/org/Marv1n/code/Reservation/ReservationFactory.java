@@ -12,16 +12,10 @@ public class ReservationFactory implements IReservationFactory {
     public Optional<Reservation> reserve(Request pendingRequest, ReservableEvaluationResult evaluationResult) {
         if (!evaluationResult.matchFound())
             return Optional.empty();
-
         IReservable reservableMatch = evaluationResult.getBestReservableMatch();
-        Reservation confirmReservation = new Reservation(pendingRequest, reservableMatch);
-
-        try {
-            reservableMatch.book(pendingRequest);
-        } catch (ExceptionReservableAlreadyBooked | ExceptionReservableInsufficientCapacity e) {
+        if (!reservableMatch.hasEnoughCapacity(pendingRequest.getNumberOfSeatsNeeded()))
             return Optional.empty();
-        }
-
+        Reservation confirmReservation = new Reservation(pendingRequest, reservableMatch);
         return Optional.of(confirmReservation);
     }
 }

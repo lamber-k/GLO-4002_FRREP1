@@ -18,6 +18,7 @@ import static org.mockito.Mockito.*;
 
 public class ReservationFactoryTest {
 
+    private static final int REQUEST_NUMBER_OF_SEATS = 20;
     @Mock
     private Request mockRequest;
 
@@ -27,15 +28,16 @@ public class ReservationFactoryTest {
 
     @Before
     public void initializeNewReservationFactory() throws Exception {
-        this.mockEvaluationResult = mock(ReservableEvaluationResult.class);
-        this.reservationFactory = new ReservationFactory();
+        mockRequest = mock(Request.class);
+        mockEvaluationResult = mock(ReservableEvaluationResult.class);
+        reservationFactory = new ReservationFactory();
     }
 
     @Test
     public void EmptyEvaluation_Reservation_ReturnsEmptyOptional() throws Exception {
-        when(this.mockEvaluationResult.matchFound()).thenReturn(false);
+        when(mockEvaluationResult.matchFound()).thenReturn(false);
 
-        Optional<Reservation> reservation = this.reservationFactory.reserve(this.mockRequest, this.mockEvaluationResult);
+        Optional<Reservation> reservation = reservationFactory.reserve(mockRequest, mockEvaluationResult);
 
         assertFalse(reservation.isPresent());
     }
@@ -45,34 +47,25 @@ public class ReservationFactoryTest {
         IReservable mockReservable = mock(IReservable.class);
         when(this.mockEvaluationResult.matchFound()).thenReturn(true);
         when(this.mockEvaluationResult.getBestReservableMatch()).thenReturn(mockReservable);
+        when(mockRequest.getNumberOfSeatsNeeded()).thenReturn(REQUEST_NUMBER_OF_SEATS);
+        when(mockReservable.hasEnoughCapacity(REQUEST_NUMBER_OF_SEATS)).thenReturn(true);
 
-        Optional<Reservation> reservation = this.reservationFactory.reserve(this.mockRequest, this.mockEvaluationResult);
+        Optional<Reservation> reservation = reservationFactory.reserve(mockRequest, this.mockEvaluationResult);
 
         assertEquals(mockReservable, reservation.get().getReserved());
-        assertEquals(this.mockRequest, reservation.get().getRequest());
-        verify(mockReservable).book(this.mockRequest);
-    }
-
-    @Test
-    public void AlreadyBookedEvaluation_Reservation_ReturnsEmptyOptional() throws Exception, ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity {
-        IReservable mockReservable = mock(IReservable.class);
-        when(this.mockEvaluationResult.matchFound()).thenReturn(true);
-        when(this.mockEvaluationResult.getBestReservableMatch()).thenReturn(mockReservable);
-        doThrow(ExceptionReservableAlreadyBooked.class).when(mockReservable).book(this.mockRequest);
-
-        Optional<Reservation> reservation = this.reservationFactory.reserve(this.mockRequest, this.mockEvaluationResult);
-
-        assertFalse(reservation.isPresent());
+        assertEquals(mockRequest, reservation.get().getRequest());
     }
 
     @Test
     public void InsufficientCapacityEvaluation_Reservation_ReturnsEmptyOptional() throws Exception, ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity {
         IReservable mockReservable = mock(IReservable.class);
-        when(this.mockEvaluationResult.matchFound()).thenReturn(true);
-        when(this.mockEvaluationResult.getBestReservableMatch()).thenReturn(mockReservable);
-        doThrow(ExceptionReservableInsufficientCapacity.class).when(mockReservable).book(this.mockRequest);
+        when(mockEvaluationResult.matchFound()).thenReturn(true);
+        when(mockEvaluationResult.getBestReservableMatch()).thenReturn(mockReservable);
+        when(mockRequest.getNumberOfSeatsNeeded()).thenReturn(REQUEST_NUMBER_OF_SEATS);
+        when(mockReservable.hasEnoughCapacity(REQUEST_NUMBER_OF_SEATS)).thenReturn(false);
+        //doThrow(ExceptionReservableInsufficientCapacity.class).when(mockReservable).book(this.mockRequest);
 
-        Optional<Reservation> reservation = this.reservationFactory.reserve(this.mockRequest, this.mockEvaluationResult);
+        Optional<Reservation> reservation = reservationFactory.reserve(mockRequest, mockEvaluationResult);
 
         assertFalse(reservation.isPresent());
     }

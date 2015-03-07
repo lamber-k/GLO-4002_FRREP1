@@ -4,39 +4,24 @@ import org.Marv1n.code.Request;
 
 public class Room implements IReservable {
 
-    private boolean booked;
-    private Integer numberSeats;
+    private int numberSeats;
 
     public Room(Integer numberOfSeats) {
         this.numberSeats = numberOfSeats;
-        this.booked = false;
     }
 
-    public Boolean isBooked() {
-        return this.booked;
-    }
-
-    public void book(Request request) throws ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity {
-        if (isBooked()) {
-            throw new ExceptionReservableAlreadyBooked();
-        }
-        if (!this.hasEnoughCapacity(request.getNumberOfSeatsNeeded())) {
-            throw new ExceptionReservableInsufficientCapacity();
-        }
-        this.booked = true;
-    }
-
-    public Integer getNumberSeats() {
+    @Override
+    public int getNumberSeats() {
         return this.numberSeats;
     }
 
+    @Override
     public boolean hasGreaterCapacityThan(IReservable reservable) {
-
         return this.getNumberSeats() >= reservable.getNumberSeats();
     }
 
     @Override
-    public Integer compareReservableCapacity(IReservable reservable) {
+    public int compareReservableCapacity(IReservable reservable) {
         return this.getNumberSeats() - reservable.getNumberSeats();
     }
 
