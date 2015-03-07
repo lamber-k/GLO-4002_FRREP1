@@ -1,19 +1,16 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.Reservable.ExceptionReservableAlreadyBooked;
-import org.Marv1n.code.Reservable.ExceptionReservableInsufficientCapacity;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservation.Reservation;
 import org.Marv1n.code.Reservation.ReservationFactory;
 import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 import org.mockito.Mock;
 
 import java.util.Optional;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.TestCase.assertFalse;
 import static org.mockito.Mockito.*;
 
 public class ReservationFactoryTest {
@@ -43,7 +40,7 @@ public class ReservationFactoryTest {
     }
 
     @Test
-    public void FullEvaluation_Reservation_ReturnsFullOptional() throws Exception, ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity {
+    public void FullEvaluation_Reservation_ReturnsFullOptional() {
         IReservable mockReservable = mock(IReservable.class);
         when(this.mockEvaluationResult.matchFound()).thenReturn(true);
         when(this.mockEvaluationResult.getBestReservableMatch()).thenReturn(mockReservable);
@@ -57,13 +54,12 @@ public class ReservationFactoryTest {
     }
 
     @Test
-    public void InsufficientCapacityEvaluation_Reservation_ReturnsEmptyOptional() throws Exception, ExceptionReservableAlreadyBooked, ExceptionReservableInsufficientCapacity {
+    public void InsufficientCapacityEvaluation_Reservation_ReturnsEmptyOptional() {
         IReservable mockReservable = mock(IReservable.class);
         when(mockEvaluationResult.matchFound()).thenReturn(true);
         when(mockEvaluationResult.getBestReservableMatch()).thenReturn(mockReservable);
         when(mockRequest.getNumberOfSeatsNeeded()).thenReturn(REQUEST_NUMBER_OF_SEATS);
         when(mockReservable.hasEnoughCapacity(REQUEST_NUMBER_OF_SEATS)).thenReturn(false);
-        //doThrow(ExceptionReservableInsufficientCapacity.class).when(mockReservable).book(this.mockRequest);
 
         Optional<Reservation> reservation = reservationFactory.reserve(mockRequest, mockEvaluationResult);
 
