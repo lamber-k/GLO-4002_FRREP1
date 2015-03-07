@@ -2,7 +2,6 @@ package org.Marv1n.code.StrategyEvaluation;
 
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservable.Room;
-import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
 import org.junit.Before;
 import org.junit.Test;
 

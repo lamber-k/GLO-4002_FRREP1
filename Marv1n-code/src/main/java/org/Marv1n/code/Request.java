@@ -5,7 +5,7 @@ import java.util.UUID;
 public class Request {
 
     private UUID requestID;
-    private Integer numberOfSeatsNeeded ;
+    private Integer numberOfSeatsNeeded;
     private Integer priority;
 
     public Request(Integer numberOfSeatsNeeded, Integer priority) {
@@ -15,11 +15,11 @@ public class Request {
     }
 
     public Integer getNumberOfSeatsNeeded() {
-        return numberOfSeatsNeeded;
+        return this.numberOfSeatsNeeded;
     }
 
     public Integer getPriority() {
-        return priority;
+        return this.priority;
     }
 
     @Override
@@ -34,11 +34,11 @@ public class Request {
 
     @Override
     public int hashCode() {
-        return (requestID.hashCode());
+        return (this.requestID.hashCode());
     }
 
 
     public UUID getRequestID() {
-        return requestID;
+        return this.requestID;
     }
 }

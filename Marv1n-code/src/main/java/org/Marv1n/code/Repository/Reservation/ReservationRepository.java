@@ -15,7 +15,7 @@ public class ReservationRepository extends Repository<Reservation> implements IR
 
     @Override
     public Reservation findReservationByReservable(IReservable reservableSearched) throws ReservationNotFoundException {
-        Optional<Reservation>   reservationFound = query().filter(r -> r.getReserved().equals(reservableSearched)).findFirst();
+        Optional<Reservation> reservationFound = query().filter(r -> r.getReserved().equals(reservableSearched)).findFirst();
 
         if (!reservationFound.isPresent())
             throw new ReservationNotFoundException();
@@ -24,7 +24,7 @@ public class ReservationRepository extends Repository<Reservation> implements IR
 
     @Override
     public Reservation findReservationByRequest(Request requestSearched) throws ReservationNotFoundException {
-        Optional<Reservation>   requestFound = query().filter(r -> r.getRequest().equals(requestSearched)).findFirst();
+        Optional<Reservation> requestFound = query().filter(r -> r.getRequest().equals(requestSearched)).findFirst();
 
         if (!requestFound.isPresent())
             throw new ReservationNotFoundException();

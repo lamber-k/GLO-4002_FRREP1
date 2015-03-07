@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Room implements IReservable {
 
-    private UUID    roomID;
+    private UUID roomID;
     private int numberSeats;
 
     public Room(Integer numberOfSeats) {
@@ -43,7 +43,8 @@ public class Room implements IReservable {
             return false;
         } else if (rhs instanceof Room) {
             return hashCode() == rhs.hashCode();
-        }return (false);
+        }
+        return (false);
     }
 
 }

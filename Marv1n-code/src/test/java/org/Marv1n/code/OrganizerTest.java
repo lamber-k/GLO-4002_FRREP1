@@ -16,19 +16,16 @@ public class OrganizerTest {
     private static final int A_MAXIMUM_PENDING_REQUESTS = 5;
     private static final int MAXIMUM_ONE_PENDING_REQUEST = 1;
     private Organizer organizer;
-
     @Mock
     private TaskScheduler taskScheduler;
-
     @Mock
     private Request aRequest;
-
     @Mock
     private RequestTreatment requestTreatmentMock;
 
     @Before
     public void initializeNewOrganizer() {
-        organizer = new Organizer(taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, requestTreatmentMock);
+        this.organizer = new Organizer(this.taskScheduler, DEFAULT_MAXIMUM_PENDING_REQUESTS, this.requestTreatmentMock);
     }
 
     @Test
@@ -38,33 +35,33 @@ public class OrganizerTest {
 
     @Test
     public void whenAddingRequestOrganizerReportsHavingPendingRequest() {
-        organizer.addRequest(aRequest);
-        assertTrue(organizer.hasPendingRequest());
+        this.organizer.addRequest(this.aRequest);
+        assertTrue(this.organizer.hasPendingRequest());
     }
 
     @Test(expected = SchedulerAlreadyRunningException.class)
     public void whenStartOrganizerTwiceShouldThrowAlreadyRunning() throws SchedulerAlreadyRunningException {
-        when(taskScheduler.isSchedulerRunning()).thenReturn(true);
-        organizer.start();
+        when(this.taskScheduler.isSchedulerRunning()).thenReturn(true);
+        this.organizer.start();
     }
 
     @Test()
     public void whenStopOrganizerShouldStopScheduler() throws SchedulerAlreadyRunningException {
-        when(taskScheduler.isSchedulerRunning()).thenReturn(true);
-        organizer.stop();
-        verify(taskScheduler).cancelScheduler();
+        when(this.taskScheduler.isSchedulerRunning()).thenReturn(true);
+        this.organizer.stop();
+        verify(this.taskScheduler).cancelScheduler();
     }
 
     @Test
     public void whenStartOrganizerShouldStartTaskScheduler() throws SchedulerAlreadyRunningException {
-        organizer.start();
-        verify(taskScheduler).startScheduler(requestTreatmentMock);
+        this.organizer.start();
+        verify(this.taskScheduler).startScheduler(this.requestTreatmentMock);
     }
 
     @Test
     public void organizerWhenTreatPendingRequestNowThenCallRequestTreatment() {
         this.organizer.treatPendingRequestsNow();
-        verify(this.taskScheduler).runNow(requestTreatmentMock);
+        verify(this.taskScheduler).runNow(this.requestTreatmentMock);
     }
 
     @Test

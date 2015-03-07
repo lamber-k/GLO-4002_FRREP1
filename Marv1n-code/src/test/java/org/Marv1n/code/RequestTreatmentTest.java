@@ -9,6 +9,9 @@ import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
 import org.Marv1n.code.StrategySortRequest.IStrategySortRequest;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,16 +19,23 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class RequestTreatmentTest {
 
-
+    @Mock
     private IStrategyEvaluation assigner;
+    @Mock
     private IReservationRepository reservations;
+    @Mock
     private IReservationFactory reservationFactory;
+    @Mock
     private IReservableRepository reservables;
+    @Mock
     private IStrategySortRequest requestSorter;
+    @Mock
     private Request aRequest;
-    ReservableEvaluationResult evaluationResult;
+    @Mock
+    private ReservableEvaluationResult evaluationResult;
 
     private ArrayList<Request> arrayWithOneRequest;
     private List<Request> pendingRequests;
@@ -33,32 +43,24 @@ public class RequestTreatmentTest {
 
     @Before
     public void initializeRequestTreatment() {
-        arrayWithOneRequest = new ArrayList<>();
-        pendingRequests = new ArrayList<>();
+        this.arrayWithOneRequest = new ArrayList<>();
+        this.pendingRequests = new ArrayList<>();
 
-        assigner = mock(IStrategyEvaluation.class);
-        reservations = mock(IReservationRepository.class);
-        reservationFactory = mock(IReservationFactory.class);
-        reservables = mock(IReservableRepository.class);
-        requestSorter = mock(IStrategySortRequest.class);
-        aRequest = mock(Request.class);
-        evaluationResult = mock(ReservableEvaluationResult.class);
+        this.arrayWithOneRequest.add(this.aRequest);
 
-        arrayWithOneRequest.add(aRequest);
-
-        requestTreatment = new RequestTreatment(assigner, requestSorter, reservables, reservationFactory, reservations, pendingRequests);
+        this.requestTreatment = new RequestTreatment(this.assigner, this.requestSorter, this.reservables, this.reservationFactory, this.reservations, this.pendingRequests);
     }
 
     @Test
     public void givenPendingRequest_whenRun_ShouldSortIt() {
-        requestTreatment.run();
+        this.requestTreatment.run();
 
-        verify(requestSorter).sortList(pendingRequests);
+        verify(this.requestSorter).sortList(this.pendingRequests);
     }
 
     private void havingOnePendingRequest() {
-        when(assigner.evaluateOneRequest(reservables, reservations, aRequest)).thenReturn(evaluationResult);
-        when(requestSorter.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
+        when(this.assigner.evaluateOneRequest(this.reservables, this.reservations, this.aRequest)).thenReturn(this.evaluationResult);
+        when(this.requestSorter.sortList(this.pendingRequests)).thenReturn(this.arrayWithOneRequest);
     }
 
 
@@ -66,11 +68,11 @@ public class RequestTreatmentTest {
     public void givenOnePendingRequest_whenRun_ShouldEvaluateIt() {
         havingOnePendingRequest();
         Optional<Reservation> emptyOptional = Optional.empty();
-        when(reservationFactory.reserve(this.aRequest, evaluationResult)).thenReturn(emptyOptional);
+        when(this.reservationFactory.reserve(this.aRequest, this.evaluationResult)).thenReturn(emptyOptional);
 
-        requestTreatment.run();
+        this.requestTreatment.run();
 
-        verify(assigner).evaluateOneRequest(reservables, reservations, aRequest);
+        verify(this.assigner).evaluateOneRequest(this.reservables, this.reservations, this.aRequest);
     }
 
     @Test
@@ -78,11 +80,11 @@ public class RequestTreatmentTest {
         Reservation     aReservation = mock(Reservation.class);
         havingOnePendingRequest();
         Optional<Reservation> emptyOptional = Optional.of(aReservation);
-        when(reservationFactory.reserve(this.aRequest, evaluationResult)).thenReturn(emptyOptional);
+        when(this.reservationFactory.reserve(this.aRequest, this.evaluationResult)).thenReturn(emptyOptional);
 
-        requestTreatment.run();
+        this.requestTreatment.run();
 
-        verify(reservations).create(aReservation);
+        verify(this.reservations).create(aReservation);
     }
 
 }

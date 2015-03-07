@@ -1,6 +1,8 @@
 package org.Marv1n.code;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Organizer {
 
@@ -17,36 +19,35 @@ public class Organizer {
     }
 
     public void addRequest(Request request) {
-        pendingRequests.add(request);
-        if (pendingRequests.size() >= maximumPendingRequests) {
+        this.pendingRequests.add(request);
+        if (this.pendingRequests.size() >= this.maximumPendingRequests) {
             treatPendingRequestsNow();
         }
     }
 
     public void start() throws SchedulerAlreadyRunningException {
-        if (taskScheduler.isSchedulerRunning()) {
+        if (this.taskScheduler.isSchedulerRunning()) {
             throw new SchedulerAlreadyRunningException();
         }
-        taskScheduler.startScheduler(requestTreatment);
+        this.taskScheduler.startScheduler(this.requestTreatment);
     }
 
-    public void stop()
-    {
-        if (taskScheduler.isSchedulerRunning()) {
-            taskScheduler.cancelScheduler();
+    public void stop() {
+        if (this.taskScheduler.isSchedulerRunning()) {
+            this.taskScheduler.cancelScheduler();
         }
     }
 
     public boolean hasPendingRequest() {
-        return !pendingRequests.isEmpty();
+        return !this.pendingRequests.isEmpty();
     }
 
     public void treatPendingRequestsNow() {
-        taskScheduler.runNow(requestTreatment);
+        this.taskScheduler.runNow(this.requestTreatment);
     }
 
     public int getMaximumPendingRequests() {
-        return maximumPendingRequests;
+        return this.maximumPendingRequests;
     }
 
     public void setMaximumPendingRequests(int maximumPendingRequests) {

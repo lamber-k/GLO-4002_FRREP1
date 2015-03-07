@@ -1,26 +1,31 @@
 package org.Marv1n.code.Repository.Reservation;
 
-import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservation.Reservation;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+
+@RunWith(MockitoJUnitRunner.class)
 public class ReservationRepositoryTest {
-    private ReservationRepository   reservations;
+    private ReservationRepository reservations;
+    @Mock
     private Reservation aReservation;
+    @Mock
     private IReservable aReservable;
+    @Mock
     private Request aRequest;
 
     @Before
     public void initializeReservationRepository() {
-        aReservation = mock(Reservation.class);
-        aReservable = mock(IReservable.class);
-        aRequest = mock(Request.class);
         reservations = new ReservationRepository();
     }
 

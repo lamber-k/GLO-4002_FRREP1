@@ -1,12 +1,12 @@
 package org.Marv1n.code.Reservable;
 
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.Room;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -58,17 +58,17 @@ public class RoomTest {
 
     @Test
     public void newRoom_WhenTestRoomWithHigherCapacity_ShouldReturnFalse() {
-        assertFalse(room.hasEnoughCapacity(HIGHER_NUMBER_OF_SEATS));
+        assertFalse(this.room.hasEnoughCapacity(HIGHER_NUMBER_OF_SEATS));
     }
 
     @Test
     public void newRoom_WhenTestRoomWithLowerCapacity_ShouldReturnTrue() {
-        assertTrue(room.hasEnoughCapacity(LOWER_NUMBER_OF_SEATS));
+        assertTrue(this.room.hasEnoughCapacity(LOWER_NUMBER_OF_SEATS));
     }
 
     @Test
     public void newRoom_WhenTestRoomWithSameCapacity_ShouldReturnTrue() {
-        assertTrue(room.hasEnoughCapacity(NUMBER_OF_SEATS));
+        assertTrue(this.room.hasEnoughCapacity(NUMBER_OF_SEATS));
     }
 
 }

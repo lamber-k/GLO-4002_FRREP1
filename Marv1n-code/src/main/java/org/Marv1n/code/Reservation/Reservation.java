@@ -3,8 +3,6 @@ package org.Marv1n.code.Reservation;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
 
-import java.util.UUID;
-
 public class Reservation {
     private Request request;
     private IReservable reserved;
@@ -15,11 +13,11 @@ public class Reservation {
     }
 
     public Request getRequest() {
-        return request;
+        return this.request;
     }
 
     public IReservable getReserved() {
-        return reserved;
+        return this.reserved;
     }
 
     @Override
@@ -35,8 +33,8 @@ public class Reservation {
     @Override
     public int hashCode() {
         int hash = 1;
-        hash = hash * 17 + request.hashCode();
-        hash = hash * 13 + reserved.hashCode();
+        hash = hash * 17 + this.request.hashCode();
+        hash = hash * 13 + this.reserved.hashCode();
         return hash;
     }
 

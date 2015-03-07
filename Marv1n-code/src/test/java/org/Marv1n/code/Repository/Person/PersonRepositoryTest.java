@@ -1,9 +1,11 @@
 package org.Marv1n.code.Repository.Person;
 
 import org.Marv1n.code.Person;
-import org.Marv1n.code.Repository.Person.PersonRepository;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -11,33 +13,34 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class PersonRepositoryTest {
 
     private PersonRepository personRepository;
+    @Mock
     private Person mockPerson;
     private UUID personUUID;
+    @Mock
     private Person anotherMockPerson;
     private UUID anotherMockPersonUUID;
 
     @Before
     public void setUp() throws Exception {
-        personRepository = new PersonRepository();
-        mockPerson = mock(Person.class);
-        personUUID = UUID.randomUUID();
+        this.personRepository = new PersonRepository();
+        this.personUUID = UUID.randomUUID();
     }
 
     @Test
     public void emptyRepositoryWhenCreateEntryThenFindByUUIDReturnSamePerson() throws Exception {
-        when(mockPerson.getID()).thenReturn(this.personUUID);
-        this.personRepository.create(mockPerson);
+        when(this.mockPerson.getID()).thenReturn(this.personUUID);
+        this.personRepository.create(this.mockPerson);
 
         Optional<Person> result = this.personRepository.findByUUID(this.personUUID);
 
         assertTrue(result.isPresent());
-        assertEquals(mockPerson, result.get());
+        assertEquals(this.mockPerson, result.get());
     }
 
     @Test
@@ -55,11 +58,10 @@ public class PersonRepositoryTest {
     }
 
     private void putSomeItemsInRepository() {
-        when(mockPerson.getID()).thenReturn(this.personUUID);
-        anotherMockPerson = mock(Person.class);
-        anotherMockPersonUUID = UUID.randomUUID();
-        when(anotherMockPerson.getID()).thenReturn(this.anotherMockPersonUUID);
-        this.personRepository.create(mockPerson);
-        this.personRepository.create(anotherMockPerson);
+        when(this.mockPerson.getID()).thenReturn(this.personUUID);
+        this.anotherMockPersonUUID = UUID.randomUUID();
+        when(this.anotherMockPerson.getID()).thenReturn(this.anotherMockPersonUUID);
+        this.personRepository.create(this.mockPerson);
+        this.personRepository.create(this.anotherMockPerson);
     }
 }
