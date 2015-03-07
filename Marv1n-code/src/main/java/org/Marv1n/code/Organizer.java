@@ -1,14 +1,5 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.Repository.IReservableRepository;
-import org.Marv1n.code.Repository.IReservationRepository;
-import org.Marv1n.code.Reservable.IReservable;
-import org.Marv1n.code.Reservation.IReservationFactory;
-import org.Marv1n.code.Reservation.Reservation;
-import org.Marv1n.code.StrategyEvaluation.IStrategyEvaluation;
-import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
-import org.Marv1n.code.StrategySortRequest.IStrategySortRequest;
-
 import java.util.*;
 
 public class Organizer {

@@ -1,4 +1,4 @@
-package org.Marv1n.code;
+package org.Marv1n.code.StrategyEvaluation;
 
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservable.Room;

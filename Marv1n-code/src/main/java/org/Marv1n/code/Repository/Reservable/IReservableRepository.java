@@ -1,5 +1,6 @@
-package org.Marv1n.code.Repository;
+package org.Marv1n.code.Repository.Reservable;
 
+import org.Marv1n.code.Repository.IRepository;
 import org.Marv1n.code.Reservable.IReservable;
 
 import java.util.List;

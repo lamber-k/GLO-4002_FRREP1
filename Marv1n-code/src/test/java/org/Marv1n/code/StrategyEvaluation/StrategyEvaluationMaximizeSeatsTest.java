@@ -1,7 +1,9 @@
-package org.Marv1n.code;
+package org.Marv1n.code.StrategyEvaluation;
 
-import org.Marv1n.code.Repository.IReservableRepository;
-import org.Marv1n.code.Repository.IReservationRepository;
+import org.Marv1n.code.Repository.Reservable.IReservableRepository;
+import org.Marv1n.code.Repository.Reservation.IReservationRepository;
+import org.Marv1n.code.Repository.Reservation.ReservationNotFoundException;
+import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.StrategyEvaluation.IStrategyEvaluation;
 import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
@@ -16,11 +18,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class StrategyAssignationMaximizeSeatsTest {
+public class StrategyEvaluationMaximizeSeatsTest {
 
     private List<IReservable> reservableList;
     private IStrategyEvaluation assigner;
@@ -38,16 +39,27 @@ public class StrategyAssignationMaximizeSeatsTest {
     private IReservationRepository reservationRepository;
 
     @Before
-    public void init() {
+    public void initializeStrategy() {
         reservableList = new ArrayList<>();
         assigner = new StrategyEvaluationMaximizeSeats();
 
         reservableList.add(mockReservable);
+        loadDefaultBehaviours();
+    }
+
+    private void    loadDefaultBehaviours() {
         when(reservableRepository.findAll()).thenReturn(reservableList);
+        when(mockReservable.hasEnoughCapacity(any())).thenReturn(true);
+        when(anotherMockReservable.hasEnoughCapacity(any())).thenReturn(true);
+        try {
+            doThrow(ReservationNotFoundException.class).when(reservationRepository).findReservationByReservable(any());
+        } catch (ReservationNotFoundException e) {
+
+        }
     }
 
     @Test
-    public void assignationIsRun_TheSecondBestRoomIsNotBestThanFirst_ReturnTheFirst() {
+    public void assignationIsRun_TheSecondBestRoomIsNotBestThanFirst_ReturnTheFirst() throws ReservationNotFoundException {
         when(mockReservable.hasGreaterCapacityThan(anotherMockReservable)).thenReturn(false);
         reservableList.add(anotherMockReservable);
 
@@ -57,7 +69,7 @@ public class StrategyAssignationMaximizeSeatsTest {
     }
 
     @Test
-    public void assignationIsRun_TheSecondBestRoomIsBestThanFirst_ReturnTheSecond() {
+    public void assignationIsRun_TheSecondBestRoomIsBestThanFirst_ReturnTheSecond() throws ReservationNotFoundException {
         when(mockReservable.hasGreaterCapacityThan(anotherMockReservable)).thenReturn(true);
         reservableList.add(anotherMockReservable);
 

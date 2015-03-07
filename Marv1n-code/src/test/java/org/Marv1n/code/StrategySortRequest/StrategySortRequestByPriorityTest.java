@@ -1,5 +1,6 @@
-package org.Marv1n.code;
+package org.Marv1n.code.StrategySortRequest;
 
+import org.Marv1n.code.Request;
 import org.Marv1n.code.StrategySortRequest.StrategySortRequestByPriority;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,6 +1,8 @@
-package org.Marv1n.code;
+package org.Marv1n.code.Repository.Request;
 
-import org.Marv1n.code.Repository.RequestRepository;
+import org.Marv1n.code.ObjectNotFoundException;
+import org.Marv1n.code.Repository.Request.RequestRepository;
+import org.Marv1n.code.Request;
 import org.junit.Before;
 import org.junit.Test;
 

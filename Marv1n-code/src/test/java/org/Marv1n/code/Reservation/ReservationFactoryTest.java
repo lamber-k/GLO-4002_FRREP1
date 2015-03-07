@@ -1,5 +1,6 @@
-package org.Marv1n.code;
+package org.Marv1n.code.Reservation;
 
+import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservation.Reservation;
 import org.Marv1n.code.Reservation.ReservationFactory;

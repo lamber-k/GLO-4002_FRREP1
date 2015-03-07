@@ -1,14 +1,12 @@
-package org.Marv1n.code;
+package org.Marv1n.code.Reservable;
 
-import org.Marv1n.code.Reservable.ExceptionReservableAlreadyBooked;
-import org.Marv1n.code.Reservable.ExceptionReservableInsufficientCapacity;
+import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.Room;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)

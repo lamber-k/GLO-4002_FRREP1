@@ -1,6 +1,8 @@
-package org.Marv1n.code.Repository;
+package org.Marv1n.code.Repository.Person;
 
 import org.Marv1n.code.Person;
+import org.Marv1n.code.Repository.Person.IPersonRepository;
+import org.Marv1n.code.Repository.Repository;
 
 import java.util.List;
 import java.util.Optional;

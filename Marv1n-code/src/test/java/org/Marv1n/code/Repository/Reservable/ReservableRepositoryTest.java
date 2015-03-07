@@ -1,6 +1,6 @@
-package org.Marv1n.code;
+package org.Marv1n.code.Repository.Reservable;
 
-import org.Marv1n.code.Repository.ReservableRepository;
+import org.Marv1n.code.Repository.Reservable.ReservableRepository;
 import org.Marv1n.code.Reservable.IReservable;
 import org.junit.Before;
 import org.junit.Test;

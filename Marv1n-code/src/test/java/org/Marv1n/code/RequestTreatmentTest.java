@@ -1,7 +1,7 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.Repository.IReservableRepository;
-import org.Marv1n.code.Repository.IReservationRepository;
+import org.Marv1n.code.Repository.Reservable.IReservableRepository;
+import org.Marv1n.code.Repository.Reservation.IReservationRepository;
 import org.Marv1n.code.Reservation.IReservationFactory;
 import org.Marv1n.code.Reservation.Reservation;
 import org.Marv1n.code.StrategyEvaluation.IStrategyEvaluation;

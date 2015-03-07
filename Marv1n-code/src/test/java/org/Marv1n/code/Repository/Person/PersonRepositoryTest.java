@@ -1,6 +1,7 @@
-package org.Marv1n.code;
+package org.Marv1n.code.Repository.Person;
 
-import org.Marv1n.code.Repository.PersonRepository;
+import org.Marv1n.code.Person;
+import org.Marv1n.code.Repository.Person.PersonRepository;
 import org.junit.Before;
 import org.junit.Test;
 
