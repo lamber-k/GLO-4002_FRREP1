@@ -5,12 +5,8 @@ import org.Marv1n.code.Repository.Reservation.IReservationRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationNotFoundException;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
-import org.Marv1n.code.StrategyEvaluation.IStrategyEvaluation;
-import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
-import org.Marv1n.code.StrategyEvaluation.StrategyEvaluationMaximizeSeats;
 import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -18,6 +14,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)

@@ -77,7 +77,7 @@ public class RequestTreatmentTest {
 
     @Test
     public void givenOnePendingRequest_whenReserveSuccess_ShouldConfirmReservation() {
-        Reservation     aReservation = mock(Reservation.class);
+        Reservation aReservation = mock(Reservation.class);
         havingOnePendingRequest();
         Optional<Reservation> emptyOptional = Optional.of(aReservation);
         when(this.reservationFactory.reserve(this.aRequest, this.evaluationResult)).thenReturn(emptyOptional);
