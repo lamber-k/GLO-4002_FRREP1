@@ -18,9 +18,6 @@ public class RoomTest {
 
     private Room room;
 
-    @Mock
-    private Request request;
-
     @Before
     public void initializeNewRoom() {
         this.room = new Room(NUMBER_OF_SEATS);
@@ -71,4 +68,20 @@ public class RoomTest {
         assertTrue(this.room.hasEnoughCapacity(NUMBER_OF_SEATS));
     }
 
+    @Test
+    public void aRoom_WhenComparredWithNullObject_ShouldReturnFalse() {
+        assertFalse(this.room.equals(null));
+    }
+
+    @Test
+    public void aRoom_WhenComparredWithDifferentRoom_ShouldReturnFalse() {
+        Room aDifferentRoom = new Room(LOWER_NUMBER_OF_SEATS);
+        assertFalse(this.room.equals(aDifferentRoom));
+    }
+
+    @Test
+    public void aRoom_WhenComparredWithDifferentObject_ShouldReturnFalse() {
+        Integer aDifferentObject = new Integer(0);
+        assertFalse(this.room.equals(aDifferentObject));
+    }
 }
