@@ -1,12 +1,14 @@
 package org.Marv1n.code.Reservable;
 
-import org.Marv1n.code.Request;
+import java.util.UUID;
 
 public class Room implements IReservable {
 
+    private UUID    roomID;
     private int numberSeats;
 
     public Room(Integer numberOfSeats) {
+        this.roomID = UUID.randomUUID();
         this.numberSeats = numberOfSeats;
     }
 
@@ -29,4 +31,19 @@ public class Room implements IReservable {
     public boolean hasEnoughCapacity(Integer capacityNeeded) {
         return this.getNumberSeats() >= capacityNeeded;
     }
+
+    @Override
+    public int hashCode() {
+        return roomID.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object rhs) {
+        if (rhs == null) {
+            return false;
+        } else if (rhs instanceof Room) {
+            return hashCode() == rhs.hashCode();
+        }return (false);
+    }
+
 }
