@@ -18,12 +18,12 @@ public class RoomTest {
 
     @Before
     public void initializeNewRoom() {
-        this.room = new Room(NUMBER_OF_SEATS);
+        room = new Room(NUMBER_OF_SEATS);
     }
 
     @Test
     public void newRoom_ReturnsCorrectNumberOfSeats() {
-        int seats = this.room.getNumberSeats();
+        int seats = room.getNumberSeats();
         assertEquals(NUMBER_OF_SEATS, seats);
     }
 
@@ -43,43 +43,43 @@ public class RoomTest {
 
     @Test
     public void twoRooms_WhenTestRoomWithAnotherSameSeatsCapacityRoom_ShouldReturnTrue() {
-        assertTrue(this.room.hasGreaterCapacityThan(this.room));
+        assertTrue(room.hasGreaterCapacityThan(room));
     }
 
     @Test
     public void twoRooms_WhenCompareRoomWithAnotherSameSeatsCapacityRoom_ShouldReturnZero() {
-        assertEquals(0, this.room.compareReservableCapacity(this.room));
+        assertEquals(0, room.compareReservableCapacity(room));
     }
 
     @Test
     public void newRoom_WhenTestRoomWithHigherCapacity_ShouldReturnFalse() {
-        assertFalse(this.room.hasEnoughCapacity(HIGHER_NUMBER_OF_SEATS));
+        assertFalse(room.hasEnoughCapacity(HIGHER_NUMBER_OF_SEATS));
     }
 
     @Test
     public void newRoom_WhenTestRoomWithLowerCapacity_ShouldReturnTrue() {
-        assertTrue(this.room.hasEnoughCapacity(LOWER_NUMBER_OF_SEATS));
+        assertTrue(room.hasEnoughCapacity(LOWER_NUMBER_OF_SEATS));
     }
 
     @Test
     public void newRoom_WhenTestRoomWithSameCapacity_ShouldReturnTrue() {
-        assertTrue(this.room.hasEnoughCapacity(NUMBER_OF_SEATS));
+        assertTrue(room.hasEnoughCapacity(NUMBER_OF_SEATS));
     }
 
     @Test
     public void aRoom_WhenComparredWithNullObject_ShouldReturnFalse() {
-        assertFalse(this.room.equals(null));
+        assertFalse(room.equals(null));
     }
 
     @Test
     public void aRoom_WhenComparredWithDifferentRoom_ShouldReturnFalse() {
         Room aDifferentRoom = new Room(LOWER_NUMBER_OF_SEATS);
-        assertFalse(this.room.equals(aDifferentRoom));
+        assertFalse(room.equals(aDifferentRoom));
     }
 
     @Test
     public void aRoom_WhenComparredWithDifferentObject_ShouldReturnFalse() {
         Integer aDifferentObject = new Integer(0);
-        assertFalse(this.room.equals(aDifferentObject));
+        assertFalse(room.equals(aDifferentObject));
     }
 }

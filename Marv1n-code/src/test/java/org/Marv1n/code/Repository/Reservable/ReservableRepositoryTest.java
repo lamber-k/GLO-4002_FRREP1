@@ -19,14 +19,14 @@ public class ReservableRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        this.reservableRepository = new ReservableRepository();
+        reservableRepository = new ReservableRepository();
     }
 
     @Test
     public void respositoryContainsReservableWhenFindAllThenReturnAllReservable() throws Exception {
-        this.reservableRepository.create(mockIReservable);
+        reservableRepository.create(mockIReservable);
 
-        List<IReservable> results = this.reservableRepository.findAll();
+        List<IReservable> results = reservableRepository.findAll();
 
         assertFalse(results.isEmpty());
     }

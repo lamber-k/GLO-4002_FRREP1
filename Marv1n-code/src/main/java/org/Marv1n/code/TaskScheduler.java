@@ -14,40 +14,40 @@ public class TaskScheduler {
 
     public TaskScheduler(ScheduledExecutorService scheduler, Integer intervalTimer, TimeUnit timeUnit) {
         this.scheduler = scheduler;
-        this.nextRun = null;
-        this.isSchedulerRunning = false;
+        nextRun = null;
+        isSchedulerRunning = false;
         this.timeUnit = timeUnit;
         this.intervalTimer = intervalTimer;
     }
 
     public boolean isSchedulerRunning() {
-        return this.isSchedulerRunning;
+        return isSchedulerRunning;
     }
 
     public void startScheduler(Runnable task) {
-        this.startAtFixedRate(task);
+        startAtFixedRate(task);
     }
 
     public void cancelScheduler() {
-        if (this.isSchedulerRunning()) {
-            this.nextRun.cancel(true);
-            this.isSchedulerRunning = false;
+        if (isSchedulerRunning()) {
+            nextRun.cancel(true);
+            isSchedulerRunning = false;
         }
     }
 
     public void runNow(Runnable task) {
-        this.cancelScheduler();
+        cancelScheduler();
         task.run();
-        this.startAtFixedRate(task);
+        startAtFixedRate(task);
     }
 
     private void startAtFixedRate(Runnable task) {
-        this.nextRun = this.scheduler.scheduleAtFixedRate(task, this.intervalTimer, this.intervalTimer, this.timeUnit);
-        this.isSchedulerRunning = true;
+        nextRun = scheduler.scheduleAtFixedRate(task, intervalTimer, intervalTimer, timeUnit);
+        isSchedulerRunning = true;
     }
 
     public Integer getIntervalTimer() {
-        return this.intervalTimer;
+        return intervalTimer;
     }
 
     public void setIntervalTimer(Integer intervalTimer) {

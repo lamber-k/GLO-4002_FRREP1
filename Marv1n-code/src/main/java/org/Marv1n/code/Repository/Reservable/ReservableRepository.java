@@ -8,6 +8,6 @@ import java.util.stream.Collectors;
 
 public class ReservableRepository extends Repository<IReservable> implements IReservableRepository {
     public List<IReservable> findAll() {
-        return this.query().collect(Collectors.toList());
+        return query().collect(Collectors.toList());
     }
 }

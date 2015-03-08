@@ -7,16 +7,16 @@ public class Person {
     private UUID personID;
 
     public Person(String mailAddress) {
-        this.personID = UUID.randomUUID();
+        personID = UUID.randomUUID();
         this.mailAddress = mailAddress;
     }
 
     public String getMailAddress() {
-        return this.mailAddress;
+        return mailAddress;
     }
 
     public UUID getID() {
-        return this.personID;
+        return personID;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class Person {
         if (rhs == null) {
             return false;
         }
-        return rhs instanceof Person && this.personID.equals(((Person) rhs).personID);
+        return rhs instanceof Person && personID.equals(((Person) rhs).personID);
     }
 
     @Override

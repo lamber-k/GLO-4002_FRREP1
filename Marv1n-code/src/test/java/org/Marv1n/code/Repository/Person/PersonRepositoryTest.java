@@ -28,40 +28,40 @@ public class PersonRepositoryTest {
 
     @Before
     public void setUp() throws Exception {
-        this.personRepository = new PersonRepository();
-        this.personUUID = UUID.randomUUID();
+        personRepository = new PersonRepository();
+        personUUID = UUID.randomUUID();
     }
 
     @Test
     public void emptyRepositoryWhenCreateEntryThenFindByUUIDReturnSamePerson() throws Exception {
-        when(this.mockPerson.getID()).thenReturn(this.personUUID);
-        this.personRepository.create(this.mockPerson);
+        when(mockPerson.getID()).thenReturn(personUUID);
+        personRepository.create(mockPerson);
 
-        Optional<Person> result = this.personRepository.findByUUID(this.personUUID);
+        Optional<Person> result = personRepository.findByUUID(personUUID);
 
         assertTrue(result.isPresent());
-        assertEquals(this.mockPerson, result.get());
+        assertEquals(mockPerson, result.get());
     }
 
     @Test
     public void repositoryNotEmptyWhenFindWithListOfUUIDThenReturnMatchesUUIDPerson() throws Exception {
-        this.putSomeItemsInRepository();
+        putSomeItemsInRepository();
         List<UUID> listOfUUID = new LinkedList<>();
-        listOfUUID.add(this.personUUID);
-        listOfUUID.add(this.anotherMockPersonUUID);
+        listOfUUID.add(personUUID);
+        listOfUUID.add(anotherMockPersonUUID);
 
-        List<Person> results = this.personRepository.findByListOfUUID(listOfUUID);
+        List<Person> results = personRepository.findByListOfUUID(listOfUUID);
 
         assertFalse(results.isEmpty());
-        assertTrue(results.stream().filter(r -> r.getID().equals(this.personUUID)).findAny().isPresent());
-        assertTrue(results.stream().filter(r -> r.getID().equals(this.anotherMockPersonUUID)).findAny().isPresent());
+        assertTrue(results.stream().filter(r -> r.getID().equals(personUUID)).findAny().isPresent());
+        assertTrue(results.stream().filter(r -> r.getID().equals(anotherMockPersonUUID)).findAny().isPresent());
     }
 
     private void putSomeItemsInRepository() {
-        when(this.mockPerson.getID()).thenReturn(this.personUUID);
-        this.anotherMockPersonUUID = UUID.randomUUID();
-        when(this.anotherMockPerson.getID()).thenReturn(this.anotherMockPersonUUID);
-        this.personRepository.create(this.mockPerson);
-        this.personRepository.create(this.anotherMockPerson);
+        when(mockPerson.getID()).thenReturn(personUUID);
+        anotherMockPersonUUID = UUID.randomUUID();
+        when(anotherMockPerson.getID()).thenReturn(anotherMockPersonUUID);
+        personRepository.create(mockPerson);
+        personRepository.create(anotherMockPerson);
     }
 }

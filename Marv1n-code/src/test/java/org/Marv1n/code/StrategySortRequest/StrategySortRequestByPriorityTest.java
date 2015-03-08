@@ -39,36 +39,36 @@ public class StrategySortRequestByPriorityTest {
 
     @Before
     public void init() {
-        this.requestSorter = new StrategySortRequestByPriority();
-        this.listRequest = new ArrayList<>();
-        when(this.requestWithHighPriority.getPriority()).thenReturn(HIGH_PRIORITY);
-        when(this.requestWithMediumPriority.getPriority()).thenReturn(MEDIUM_PRIORITY);
-        when(this.requestWithMediumPriority_2.getPriority()).thenReturn(MEDIUM_PRIORITY);
-        when(this.requestWithLowPriority.getPriority()).thenReturn(LOW_PRIORITY);
-        this.listRequest.add(this.requestWithLowPriority);
-        this.listRequest.add(this.requestWithMediumPriority);
-        this.listRequest.add(this.requestWithHighPriority);
+        requestSorter = new StrategySortRequestByPriority();
+        listRequest = new ArrayList<>();
+        when(requestWithHighPriority.getPriority()).thenReturn(HIGH_PRIORITY);
+        when(requestWithMediumPriority.getPriority()).thenReturn(MEDIUM_PRIORITY);
+        when(requestWithMediumPriority_2.getPriority()).thenReturn(MEDIUM_PRIORITY);
+        when(requestWithLowPriority.getPriority()).thenReturn(LOW_PRIORITY);
+        listRequest.add(requestWithLowPriority);
+        listRequest.add(requestWithMediumPriority);
+        listRequest.add(requestWithHighPriority);
     }
 
     @Test
     public void whenStrategySort_SortIsCalledOnList_ContainingMoreThanOneRequestThenListIsSorted() {
-        ArrayList<Request> sortedArray = this.requestSorter.sortList(this.listRequest);
+        ArrayList<Request> sortedArray = requestSorter.sortList(listRequest);
 
-        assertEquals(this.requestWithHighPriority, sortedArray.get(REQUEST_INDEX_FIRST));
-        assertEquals(this.requestWithMediumPriority, sortedArray.get(REQUEST_INDEX_SECOND));
-        assertEquals(this.requestWithLowPriority, sortedArray.get(REQUEST_INDEX_THIRD));
+        assertEquals(requestWithHighPriority, sortedArray.get(REQUEST_INDEX_FIRST));
+        assertEquals(requestWithMediumPriority, sortedArray.get(REQUEST_INDEX_SECOND));
+        assertEquals(requestWithLowPriority, sortedArray.get(REQUEST_INDEX_THIRD));
     }
 
     @Test
     public void whenStrategySort_SortIsCalledOnListContainingElementOfSamePriority_ThenListIsSortedWithFirstInFistOutOrderForSamePriorityRequest() {
-        this.listRequest.add(this.requestWithMediumPriority_2);
+        listRequest.add(requestWithMediumPriority_2);
 
-        ArrayList<Request> sortedArray = this.requestSorter.sortList(this.listRequest);
+        ArrayList<Request> sortedArray = requestSorter.sortList(listRequest);
 
-        assertEquals(this.requestWithHighPriority, sortedArray.get(REQUEST_INDEX_FIRST));
-        assertEquals(this.requestWithMediumPriority, sortedArray.get(REQUEST_INDEX_SECOND));
-        assertEquals(this.requestWithMediumPriority_2, sortedArray.get(REQUEST_INDEX_THIRD));
-        assertEquals(this.requestWithLowPriority, sortedArray.get(REQUEST_INDEX_FOURTH));
+        assertEquals(requestWithHighPriority, sortedArray.get(REQUEST_INDEX_FIRST));
+        assertEquals(requestWithMediumPriority, sortedArray.get(REQUEST_INDEX_SECOND));
+        assertEquals(requestWithMediumPriority_2, sortedArray.get(REQUEST_INDEX_THIRD));
+        assertEquals(requestWithLowPriority, sortedArray.get(REQUEST_INDEX_FOURTH));
     }
 
 }

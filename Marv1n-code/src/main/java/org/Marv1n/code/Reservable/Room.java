@@ -8,28 +8,28 @@ public class Room implements IReservable {
     private int numberSeats;
 
     public Room(Integer numberOfSeats) {
-        this.roomID = UUID.randomUUID();
+        roomID = UUID.randomUUID();
         this.numberSeats = numberOfSeats;
     }
 
     @Override
     public int getNumberSeats() {
-        return this.numberSeats;
+        return numberSeats;
     }
 
     @Override
     public boolean hasGreaterCapacityThan(IReservable reservable) {
-        return this.getNumberSeats() >= reservable.getNumberSeats();
+        return getNumberSeats() >= reservable.getNumberSeats();
     }
 
     @Override
     public int compareReservableCapacity(IReservable reservable) {
-        return this.getNumberSeats() - reservable.getNumberSeats();
+        return getNumberSeats() - reservable.getNumberSeats();
     }
 
     @Override
     public boolean hasEnoughCapacity(Integer capacityNeeded) {
-        return this.getNumberSeats() >= capacityNeeded;
+        return getNumberSeats() >= capacityNeeded;
     }
 
     @Override

@@ -15,7 +15,7 @@ public class ReservableEvaluationResultTest {
 
     @Before
     public void initializeNewReservable() {
-        this.aIReservable = new Room(A_NUMBER_OF_SEAT);
+        aIReservable = new Room(A_NUMBER_OF_SEAT);
     }
 
     @Test
@@ -26,13 +26,13 @@ public class ReservableEvaluationResultTest {
 
     @Test
     public void newReservable_WhenAssignationResultWithReservable_ShouldFoundMatch() {
-        ReservableEvaluationResult ReservableEvaluationResult = new ReservableEvaluationResult(this.aIReservable);
+        ReservableEvaluationResult ReservableEvaluationResult = new ReservableEvaluationResult(aIReservable);
         assertTrue(ReservableEvaluationResult.matchFound());
     }
 
     @Test
     public void newReservable_WhenAssignationResultWithReservable_CanReturnMatchingReservable() {
-        ReservableEvaluationResult ReservableEvaluationResult = new ReservableEvaluationResult(this.aIReservable);
-        assertEquals(this.aIReservable, ReservableEvaluationResult.getBestReservableMatch());
+        ReservableEvaluationResult ReservableEvaluationResult = new ReservableEvaluationResult(aIReservable);
+        assertEquals(aIReservable, ReservableEvaluationResult.getBestReservableMatch());
     }
 }

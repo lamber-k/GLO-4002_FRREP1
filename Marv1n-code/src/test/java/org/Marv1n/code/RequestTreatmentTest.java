@@ -43,24 +43,24 @@ public class RequestTreatmentTest {
 
     @Before
     public void initializeRequestTreatment() {
-        this.arrayWithOneRequest = new ArrayList<>();
-        this.pendingRequests = new ArrayList<>();
+        arrayWithOneRequest = new ArrayList<>();
+        pendingRequests = new ArrayList<>();
 
-        this.arrayWithOneRequest.add(this.aRequest);
+        arrayWithOneRequest.add(aRequest);
 
-        this.requestTreatment = new RequestTreatment(this.assigner, this.requestSorter, this.reservables, this.reservationFactory, this.reservations, this.pendingRequests);
+        requestTreatment = new RequestTreatment(assigner, requestSorter, reservables, reservationFactory, reservations, pendingRequests);
     }
 
     @Test
     public void givenPendingRequest_whenRun_ShouldSortIt() {
-        this.requestTreatment.run();
+        requestTreatment.run();
 
-        verify(this.requestSorter).sortList(this.pendingRequests);
+        verify(requestSorter).sortList(pendingRequests);
     }
 
     private void havingOnePendingRequest() {
-        when(this.assigner.evaluateOneRequest(this.reservables, this.reservations, this.aRequest)).thenReturn(this.evaluationResult);
-        when(this.requestSorter.sortList(this.pendingRequests)).thenReturn(this.arrayWithOneRequest);
+        when(assigner.evaluateOneRequest(reservables, reservations, aRequest)).thenReturn(evaluationResult);
+        when(requestSorter.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
     }
 
 
@@ -68,11 +68,11 @@ public class RequestTreatmentTest {
     public void givenOnePendingRequest_whenRun_ShouldEvaluateIt() {
         havingOnePendingRequest();
         Optional<Reservation> emptyOptional = Optional.empty();
-        when(this.reservationFactory.reserve(this.aRequest, this.evaluationResult)).thenReturn(emptyOptional);
+        when(reservationFactory.reserve(aRequest, evaluationResult)).thenReturn(emptyOptional);
 
-        this.requestTreatment.run();
+        requestTreatment.run();
 
-        verify(this.assigner).evaluateOneRequest(this.reservables, this.reservations, this.aRequest);
+        verify(assigner).evaluateOneRequest(reservables, reservations, aRequest);
     }
 
     @Test
@@ -80,11 +80,11 @@ public class RequestTreatmentTest {
         Reservation aReservation = mock(Reservation.class);
         havingOnePendingRequest();
         Optional<Reservation> emptyOptional = Optional.of(aReservation);
-        when(this.reservationFactory.reserve(this.aRequest, this.evaluationResult)).thenReturn(emptyOptional);
+        when(reservationFactory.reserve(aRequest, evaluationResult)).thenReturn(emptyOptional);
 
-        this.requestTreatment.run();
+        requestTreatment.run();
 
-        verify(this.reservations).create(aReservation);
+        verify(reservations).create(aReservation);
     }
 
 }

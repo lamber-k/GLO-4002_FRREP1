@@ -31,61 +31,61 @@ public class ReservationRepositoryTest {
 
     @Test
     public void givenEmptyReservation_whenAddReservation_shouldExist() {
-        this.reservations.create(this.aReservation);
+        reservations.create(aReservation);
 
-        assertTrue(this.reservations.reservationExist(this.aReservation));
+        assertTrue(reservations.reservationExist(aReservation));
     }
 
     @Test
     public void givenEmptyReservation_whenTestReservationExist_shallNotExist() {
-        assertFalse(this.reservations.reservationExist(this.aReservation));
+        assertFalse(reservations.reservationExist(aReservation));
     }
 
     @Test
     public void givenEmptyReservation_whenAddReservation_shouldRetrieveByReservable() throws ReservationNotFoundException {
-        when(this.aReservation.getReserved()).thenReturn(this.aReservable);
+        when(aReservation.getReserved()).thenReturn(aReservable);
 
-        this.reservations.create(aReservation);
+        reservations.create(aReservation);
 
-        assertEquals(this.aReservation, this.reservations.findReservationByReservable(this.aReservable));
+        assertEquals(aReservation, reservations.findReservationByReservable(aReservable));
     }
 
     @Test(expected = ReservationNotFoundException.class)
     public void givenNonEmptyReservation_whenTryToFindResercationByReservable_thenShouldThrow() throws ReservationNotFoundException {
         IReservable anOtherReservable = mock(IReservable.class);
-        when(this.aReservation.getReserved()).thenReturn(anOtherReservable);
-        this.reservations.create(this.aReservation);
+        when(aReservation.getReserved()).thenReturn(anOtherReservable);
+        reservations.create(aReservation);
 
-        this.reservations.findReservationByReservable(this.aReservable);
+        reservations.findReservationByReservable(aReservable);
     }
 
 
     @Test(expected = ReservationNotFoundException.class)
     public void givenEmptyReservation_whenFindByReservable_shouldThrow() throws ReservationNotFoundException {
-        this.reservations.findReservationByReservable(this.aReservable);
+        reservations.findReservationByReservable(aReservable);
     }
 
     @Test
     public void givenEmptyReservation_whenAddReservation_shouldRetrieveByRequest() throws ReservationNotFoundException {
-        when(this.aReservation.getRequest()).thenReturn(this.aRequest);
+        when(aReservation.getRequest()).thenReturn(aRequest);
 
-        this.reservations.create(this.aReservation);
+        reservations.create(aReservation);
 
-        assertEquals(this.aReservation, this.reservations.findReservationByRequest(this.aRequest));
+        assertEquals(aReservation, reservations.findReservationByRequest(aRequest));
     }
 
     @Test(expected = ReservationNotFoundException.class)
     public void givenEmptyReservation_whenFindByRequest_shouldThrow() throws ReservationNotFoundException {
-        this.reservations.findReservationByRequest(this.aRequest);
+        reservations.findReservationByRequest(aRequest);
     }
 
     @Test(expected = ReservationNotFoundException.class)
     public void givenNonEmptyReservation_whenTryToFindResercationByRequest_thenShouldThrow() throws ReservationNotFoundException {
         Request anOtherRequest = mock(Request.class);
-        when(this.aReservation.getRequest()).thenReturn(anOtherRequest);
-        this.reservations.create(this.aReservation);
+        when(aReservation.getRequest()).thenReturn(anOtherRequest);
+        reservations.create(aReservation);
 
-        this.reservations.findReservationByRequest(this.aRequest);
+        reservations.findReservationByRequest(aRequest);
     }
 
 }

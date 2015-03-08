@@ -35,36 +35,36 @@ public class StrategyEvaluationFirstInFirstOutTest {
 
     @Before
     public void init() {
-        this.evaluator = new StrategyEvaluationFirstInFirstOut();
+        evaluator = new StrategyEvaluationFirstInFirstOut();
 
-        this.reservableList = new ArrayList<>();
+        reservableList = new ArrayList<>();
 
-        when(reservableRepository.findAll()).thenReturn(this.reservableList);
+        when(reservableRepository.findAll()).thenReturn(reservableList);
     }
 
     @Test
     public void whenNoReservableAvailableReturnsEmptyEvaluationResult() {
-        ReservableEvaluationResult reservableEvaluationResult = this.evaluator.evaluateOneRequest(this.reservableRepository, this.reservationsRepository, this.mockRequest);
+        ReservableEvaluationResult reservableEvaluationResult = evaluator.evaluateOneRequest(reservableRepository, reservationsRepository, mockRequest);
 
         assertFalse(reservableEvaluationResult.matchFound());
     }
 
     @Test
     public void whenOnlyOneReservableAvailableReturnsNonEmptyEvaluationResultContainingTheReservable() throws Exception {
-        this.reservableList.add(this.mockReservable);
+        reservableList.add(mockReservable);
 
-        ReservableEvaluationResult reservableEvaluationResult = this.evaluator.evaluateOneRequest(this.reservableRepository, this.reservationsRepository, this.mockRequest);
+        ReservableEvaluationResult reservableEvaluationResult = evaluator.evaluateOneRequest(reservableRepository, reservationsRepository, mockRequest);
 
-        assertEquals(this.mockReservable, reservableEvaluationResult.getBestReservableMatch());
+        assertEquals(mockReservable, reservableEvaluationResult.getBestReservableMatch());
     }
 
     @Test
     public void whenMultipleReservableAvailableReturnsNonEmptyEvaluationResultContainingTheFirstReservable() throws Exception {
-        this.reservableList.add(this.anotherMockReservable);
-        this.reservableList.add(this.mockReservable);
+        reservableList.add(anotherMockReservable);
+        reservableList.add(mockReservable);
 
-        ReservableEvaluationResult reservableEvaluationResult = this.evaluator.evaluateOneRequest(this.reservableRepository, this.reservationsRepository, this.mockRequest);
+        ReservableEvaluationResult reservableEvaluationResult = evaluator.evaluateOneRequest(reservableRepository, reservationsRepository, mockRequest);
 
-        assertEquals(this.anotherMockReservable, reservableEvaluationResult.getBestReservableMatch());
+        assertEquals(anotherMockReservable, reservableEvaluationResult.getBestReservableMatch());
     }
 }

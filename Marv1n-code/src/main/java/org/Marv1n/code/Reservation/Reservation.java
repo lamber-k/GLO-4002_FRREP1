@@ -13,11 +13,11 @@ public class Reservation {
     }
 
     public Request getRequest() {
-        return this.request;
+        return request;
     }
 
     public IReservable getReserved() {
-        return this.reserved;
+        return reserved;
     }
 
     @Override
@@ -33,8 +33,8 @@ public class Reservation {
     @Override
     public int hashCode() {
         int hash = 1;
-        hash = hash * 17 + this.request.hashCode();
-        hash = hash * 13 + this.reserved.hashCode();
+        hash = hash * 17 + request.hashCode();
+        hash = hash * 13 + reserved.hashCode();
         return hash;
     }
 

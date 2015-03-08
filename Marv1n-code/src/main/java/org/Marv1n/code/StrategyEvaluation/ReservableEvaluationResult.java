@@ -7,17 +7,17 @@ public class ReservableEvaluationResult {
     private IReservable matchingIReservable = null;
 
     public ReservableEvaluationResult(IReservable IReservable) {
-        this.matchingIReservable = IReservable;
+        matchingIReservable = IReservable;
     }
 
     public ReservableEvaluationResult() {
     }
 
     public boolean matchFound() {
-        return this.matchingIReservable != null;
+        return matchingIReservable != null;
     }
 
     public IReservable getBestReservableMatch() {
-        return this.matchingIReservable;
+        return matchingIReservable;
     }
 }
