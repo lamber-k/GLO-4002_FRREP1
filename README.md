@@ -19,7 +19,7 @@ IDUL            | Nom
 
 ## Avancement ##
 
-# Story | Scenario                                          | Status
+ Story  | Scenario                                          | Status
 --------|-------------------------------------------------- | -------------
 01      | Assigner périodiquement des salles aux demandes   | Finis
 02      | Assignation en lot des salles aux demandes        | Finis
