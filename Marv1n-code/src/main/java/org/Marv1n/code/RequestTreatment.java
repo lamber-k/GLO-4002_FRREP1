@@ -23,31 +23,31 @@ public class RequestTreatment implements Runnable {
     private List<Request> pendingRequests;
 
     RequestTreatment(IStrategyEvaluation strategyAssignation, IStrategySortRequest strategySortRequest, IReservableRepository reservableRepository, IReservationFactory reservationFactory, IReservationRepository reservationRepository, List<Request> pendingRequests) {
-        this.reservables = reservableRepository;
-        this.assigner = strategyAssignation;
-        this.requestSorter = strategySortRequest;
+        reservables = reservableRepository;
+        assigner = strategyAssignation;
+        requestSorter = strategySortRequest;
         this.reservationFactory = reservationFactory;
-        this.reservations = reservationRepository;
+        reservations = reservationRepository;
         this.pendingRequests = pendingRequests;
     }
 
     private void treatPendingRequest() {
-        ArrayList<Request> sortedRequests = this.requestSorter.sortList(this.pendingRequests);
+        ArrayList<Request> sortedRequests = requestSorter.sortList(pendingRequests);
         Iterator<Request> requestIterator = sortedRequests.iterator();
 
         while (requestIterator.hasNext()) {
             Request pendingRequest = requestIterator.next();
 
-            ReservableEvaluationResult evaluationResult = this.assigner.evaluateOneRequest(this.reservables, this.reservations, pendingRequest);
+            ReservableEvaluationResult evaluationResult = assigner.evaluateOneRequest(reservables, reservations, pendingRequest);
 
-            Optional<Reservation> reservation = this.reservationFactory.reserve(pendingRequest, evaluationResult);
+            Optional<Reservation> reservation = reservationFactory.reserve(pendingRequest, evaluationResult);
             if (reservation.isPresent()) {
-                this.reservations.create(reservation.get());
+                reservations.create(reservation.get());
             } else {
                 requestIterator.remove();
             }
         }
-        this.pendingRequests.removeAll(sortedRequests);
+        pendingRequests.removeAll(sortedRequests);
     }
 
     @Override

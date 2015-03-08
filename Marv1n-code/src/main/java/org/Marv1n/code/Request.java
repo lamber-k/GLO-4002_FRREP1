@@ -10,16 +10,16 @@ public class Request {
 
     public Request(Integer numberOfSeatsNeeded, Integer priority) {
         this.priority = priority;
-        this.requestID = UUID.randomUUID();
+        requestID = UUID.randomUUID();
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
     }
 
     public Integer getNumberOfSeatsNeeded() {
-        return this.numberOfSeatsNeeded;
+        return numberOfSeatsNeeded;
     }
 
     public Integer getPriority() {
-        return this.priority;
+        return priority;
     }
 
     @Override
@@ -34,11 +34,11 @@ public class Request {
 
     @Override
     public int hashCode() {
-        return (this.requestID.hashCode());
+        return (requestID.hashCode());
     }
 
 
     public UUID getRequestID() {
-        return this.requestID;
+        return requestID;
     }
 }

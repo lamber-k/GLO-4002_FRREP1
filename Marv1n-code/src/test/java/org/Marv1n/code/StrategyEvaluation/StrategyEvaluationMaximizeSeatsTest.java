@@ -37,19 +37,19 @@ public class StrategyEvaluationMaximizeSeatsTest {
 
     @Before
     public void initializeStrategy() {
-        this.reservableList = new ArrayList<>();
-        this.assigner = new StrategyEvaluationMaximizeSeats();
+        reservableList = new ArrayList<>();
+        assigner = new StrategyEvaluationMaximizeSeats();
 
-        this.reservableList.add(this.mockReservable);
+        reservableList.add(mockReservable);
         loadDefaultBehaviours();
     }
 
     private void loadDefaultBehaviours() {
-        when(this.reservableRepository.findAll()).thenReturn(this.reservableList);
-        when(this.mockReservable.hasEnoughCapacity(any())).thenReturn(true);
-        when(this.anotherMockReservable.hasEnoughCapacity(any())).thenReturn(true);
+        when(reservableRepository.findAll()).thenReturn(reservableList);
+        when(mockReservable.hasEnoughCapacity(any())).thenReturn(true);
+        when(anotherMockReservable.hasEnoughCapacity(any())).thenReturn(true);
         try {
-            doThrow(ReservationNotFoundException.class).when(this.reservationRepository).findReservationByReservable(any());
+            doThrow(ReservationNotFoundException.class).when(reservationRepository).findReservationByReservable(any());
         } catch (ReservationNotFoundException e) {
 
         }
@@ -57,21 +57,21 @@ public class StrategyEvaluationMaximizeSeatsTest {
 
     @Test
     public void assignationIsRun_TheSecondBestRoomIsNotBestThanFirst_ReturnTheFirst() throws ReservationNotFoundException {
-        when(this.mockReservable.hasGreaterCapacityThan(this.anotherMockReservable)).thenReturn(false);
-        this.reservableList.add(this.anotherMockReservable);
+        when(mockReservable.hasGreaterCapacityThan(anotherMockReservable)).thenReturn(false);
+        reservableList.add(anotherMockReservable);
 
-        ReservableEvaluationResult result = this.assigner.evaluateOneRequest(this.reservableRepository, this.reservationRepository, this.mockRequest);
+        ReservableEvaluationResult result = assigner.evaluateOneRequest(reservableRepository, reservationRepository, mockRequest);
 
-        assertEquals(result.getBestReservableMatch(), this.mockReservable);
+        assertEquals(result.getBestReservableMatch(), mockReservable);
     }
 
     @Test
     public void assignationIsRun_TheSecondBestRoomIsBestThanFirst_ReturnTheSecond() throws ReservationNotFoundException {
-        when(mockReservable.hasGreaterCapacityThan(this.anotherMockReservable)).thenReturn(true);
-        this.reservableList.add(this.anotherMockReservable);
+        when(mockReservable.hasGreaterCapacityThan(anotherMockReservable)).thenReturn(true);
+        reservableList.add(anotherMockReservable);
 
-        ReservableEvaluationResult result = assigner.evaluateOneRequest(this.reservableRepository, this.reservationRepository, this.mockRequest);
+        ReservableEvaluationResult result = assigner.evaluateOneRequest(reservableRepository, reservationRepository, mockRequest);
 
-        assertEquals(result.getBestReservableMatch(), this.anotherMockReservable);
+        assertEquals(result.getBestReservableMatch(), anotherMockReservable);
     }
 }
