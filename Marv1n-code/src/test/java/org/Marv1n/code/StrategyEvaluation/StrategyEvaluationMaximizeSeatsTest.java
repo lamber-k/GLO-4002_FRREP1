@@ -1,10 +1,13 @@
 package org.Marv1n.code.StrategyEvaluation;
 
 import org.Marv1n.code.Repository.Reservable.IReservableRepository;
+import org.Marv1n.code.Repository.Reservable.ReservableRepository;
 import org.Marv1n.code.Repository.Reservation.IReservationRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationNotFoundException;
+import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservation.Reservation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -36,7 +40,7 @@ public class StrategyEvaluationMaximizeSeatsTest {
     private IReservationRepository reservationRepository;
 
     @Before
-    public void initializeStrategy() {
+    public void initializeStrategy() throws ReservationNotFoundException {
         reservableList = new ArrayList<>();
         assigner = new StrategyEvaluationMaximizeSeats();
 
@@ -44,15 +48,11 @@ public class StrategyEvaluationMaximizeSeatsTest {
         loadDefaultBehaviours();
     }
 
-    private void loadDefaultBehaviours() {
+    private void loadDefaultBehaviours() throws ReservationNotFoundException {
         when(reservableRepository.findAll()).thenReturn(reservableList);
         when(mockReservable.hasEnoughCapacity(any())).thenReturn(true);
         when(anotherMockReservable.hasEnoughCapacity(any())).thenReturn(true);
-        try {
-            doThrow(ReservationNotFoundException.class).when(reservationRepository).findReservationByReservable(any());
-        } catch (ReservationNotFoundException e) {
-
-        }
+        when(reservationRepository.findReservationByReservable(any(IReservable.class))).thenThrow(ReservationNotFoundException.class);
     }
 
     @Test
@@ -73,5 +73,15 @@ public class StrategyEvaluationMaximizeSeatsTest {
         ReservableEvaluationResult result = assigner.evaluateOneRequest(reservableRepository, reservationRepository, mockRequest);
 
         assertEquals(result.getBestReservableMatch(), anotherMockReservable);
+    }
+
+    @Test
+    public void whenOneReservableCanTBeFoundReturnsEmptyEvaluationResult() throws ReservationNotFoundException {
+        ReservationRepository reservationsRepository = mock(ReservationRepository.class);
+        when(reservationsRepository.findReservationByReservable(any(IReservable.class))).thenReturn(mock(Reservation.class));
+
+        ReservableEvaluationResult result = assigner.evaluateOneRequest(reservableRepository, reservationsRepository, mockRequest);
+
+        assertFalse(result.matchFound());
     }
 }

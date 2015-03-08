@@ -22,9 +22,9 @@ public class StrategyEvaluationFirstInFirstOut implements IStrategyEvaluation {
         try {
             reservations.findReservationByReservable(reservable);
         } catch (ReservationNotFoundException e) {
-            return (false);
+            return (true);
         }
-        return (true);
+        return (false);
     }
 
 }
