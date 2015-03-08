@@ -1,5 +1,6 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.Repository.Request.IRequestRepository;
 import org.Marv1n.code.Repository.Reservable.IReservableRepository;
 import org.Marv1n.code.Repository.Reservation.IReservationRepository;
 import org.Marv1n.code.Reservation.IReservationFactory;
@@ -36,6 +37,8 @@ public class RequestTreatmentTest {
     private Request aRequest;
     @Mock
     private ReservableEvaluationResult evaluationResult;
+    @Mock
+    private IRequestRepository requestRepository;
 
     private ArrayList<Request> arrayWithOneRequest;
     private List<Request> pendingRequests;
@@ -47,8 +50,9 @@ public class RequestTreatmentTest {
         pendingRequests = new ArrayList<>();
 
         arrayWithOneRequest.add(aRequest);
+        when(requestRepository.findAllPendingRequest()).thenReturn(pendingRequests);
 
-        requestTreatment = new RequestTreatment(assigner, requestSorter, reservables, reservationFactory, reservations, pendingRequests);
+        requestTreatment = new RequestTreatment(assigner, requestSorter, reservables, reservationFactory, reservations, requestRepository);
     }
 
     @Test
@@ -61,6 +65,7 @@ public class RequestTreatmentTest {
     private void havingOnePendingRequest() {
         when(assigner.evaluateOneRequest(reservables, reservations, aRequest)).thenReturn(evaluationResult);
         when(requestSorter.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
+        pendingRequests.add(aRequest);
     }
 
 

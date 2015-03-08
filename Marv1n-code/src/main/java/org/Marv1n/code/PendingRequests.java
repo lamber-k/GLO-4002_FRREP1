@@ -1,28 +1,44 @@
 package org.Marv1n.code;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import org.Marv1n.code.Repository.Request.IRequestRepository;
+
+import java.util.Optional;
+import java.util.UUID;
 
 public class PendingRequests {
-    private List<Request> pendingRequests = Collections.synchronizedList(new ArrayList<>());
     private Organizer organizer;
     private int maximumPendingRequests;
+    private IRequestRepository requests;
 
-    public PendingRequests(Organizer organizer, int maximumPendingRequests) {
+    public PendingRequests(Organizer organizer, int maximumPendingRequests, IRequestRepository requestRepository) {
         this.organizer = organizer;
         this.maximumPendingRequests = maximumPendingRequests;
+        this.requests = requestRepository;
     }
 
     public void addRequest(Request request) {
-        pendingRequests.add(request);
-        if (pendingRequests.size() >= getMaximumPendingRequests()) {
+        requests.create(request);
+        if (requests.findAllPendingRequest().size() >= maximumPendingRequests) {
             organizer.treatPendingRequestsNow();
         }
     }
 
+    public void cancelRequest(UUID requestID) {
+        Optional result = requests.findByUUID(requestID);
+        if (result.isPresent()) {
+            Request request = (Request) result.get();
+            //TODO update within repository removing and recreating isn't the best way to do so
+            if (request.getRequestStatus().equals(RequestStatus.PENDING) || request.getRequestStatus().equals(RequestStatus.ACCEPTED)) {
+                //TODO notify cancellation
+                requests.remove(request);
+                request.setRequestStatus(RequestStatus.CANCELLED);
+                requests.create(request);
+            }
+        }
+    }
+
     public boolean hasPendingRequest() {
-        return !pendingRequests.isEmpty();
+        return !requests.findAllPendingRequest().isEmpty();
     }
 
     public int getMaximumPendingRequests() {

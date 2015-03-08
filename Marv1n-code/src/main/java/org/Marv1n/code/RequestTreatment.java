@@ -1,5 +1,6 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.Repository.Request.IRequestRepository;
 import org.Marv1n.code.Repository.Reservable.IReservableRepository;
 import org.Marv1n.code.Repository.Reservation.IReservationRepository;
 import org.Marv1n.code.Reservation.IReservationFactory;
@@ -20,18 +21,19 @@ public class RequestTreatment implements Runnable {
     private IReservationRepository reservations;
     private IReservationFactory reservationFactory;
     private IReservableRepository reservables;
-    private List<Request> pendingRequests;
+    private IRequestRepository requests;
 
-    RequestTreatment(IStrategyEvaluation strategyAssignation, IStrategySortRequest strategySortRequest, IReservableRepository reservableRepository, IReservationFactory reservationFactory, IReservationRepository reservationRepository, List<Request> pendingRequests) {
-        reservables = reservableRepository;
-        assigner = strategyAssignation;
-        requestSorter = strategySortRequest;
+    RequestTreatment(IStrategyEvaluation strategyAssignation, IStrategySortRequest strategySortRequest, IReservableRepository reservableRepository, IReservationFactory reservationFactory, IReservationRepository reservationRepository, IRequestRepository requestRepository) {
+        this.reservables = reservableRepository;
+        this.assigner = strategyAssignation;
+        this.requestSorter = strategySortRequest;
         this.reservationFactory = reservationFactory;
-        reservations = reservationRepository;
-        this.pendingRequests = pendingRequests;
+        this.reservations = reservationRepository;
+        this.requests = requestRepository;
     }
 
     private void treatPendingRequest() {
+        List<Request> pendingRequests = requests.findAllPendingRequest();
         ArrayList<Request> sortedRequests = requestSorter.sortList(pendingRequests);
         Iterator<Request> requestIterator = sortedRequests.iterator();
 
@@ -43,11 +45,19 @@ public class RequestTreatment implements Runnable {
             Optional<Reservation> reservation = reservationFactory.reserve(pendingRequest, evaluationResult);
             if (reservation.isPresent()) {
                 reservations.create(reservation.get());
+                updateAcceptedRequest(pendingRequest);
             } else {
                 requestIterator.remove();
             }
         }
         pendingRequests.removeAll(sortedRequests);
+    }
+
+    private void updateAcceptedRequest(Request request) {
+        //TODO would be better to use an update in repository
+        requests.remove(request);
+        request.setRequestStatus(RequestStatus.ACCEPTED);
+        requests.create(request);
     }
 
     @Override
