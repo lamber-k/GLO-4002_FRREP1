@@ -1,7 +1,7 @@
 package org.Marv1n.code.org.Marv1n.code.notifier;
 
 import org.Marv1n.code.Person;
-import org.Marv1n.code.Repository.IPersonRepository;
+import org.Marv1n.code.Repository.Person.IPersonRepository;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
@@ -50,7 +50,7 @@ public class NotifierMail implements Notifier{
 
     @Override
     public void sendNotification(Notification notification) {
-        List<Person> persons = this.personRepository.FindByListOfUUID(notification.getRecieverIDs());
+        List<Person> persons = this.personRepository.findByListOfUUID(notification.getRecieverIDs());
 
         try {
 

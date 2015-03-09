@@ -6,8 +6,4 @@ import org.junit.Test;
  * Created by Rafaël on 16/02/2015.
  */
 public class NotifierMailTest {
-    @Test
-    public void createNotifierMail() {
-        new NotifierMail();
-    }
 }
