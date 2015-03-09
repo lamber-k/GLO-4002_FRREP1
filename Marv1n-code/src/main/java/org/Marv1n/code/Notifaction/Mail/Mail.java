@@ -18,4 +18,19 @@ public class Mail {
         this.message = message;
     }
 
+    public boolean equals(Object rhs) {
+        if (rhs == null) {
+            return false;
+        }
+        else if (rhs instanceof Mail) {
+            Mail    rhsMail = (Mail)rhs;
+            return (rhsMail.message.equals(message) &&
+                    rhsMail.from.equals(from) &&
+                    rhsMail.to.equals(to) &&
+                    rhsMail.object.equals(object));
+        }
+        return false;
+    }
+
+
 }

@@ -7,7 +7,7 @@ import org.Marv1n.code.Notifaction.INotification;
  */
 public class MailNotification implements INotification {
 
-    private final Mail mailToSend;
+    public final Mail mailToSend;
     private IMailServiceAdapter service;
 
     public MailNotification(IMailServiceAdapter service, Mail toSend) {

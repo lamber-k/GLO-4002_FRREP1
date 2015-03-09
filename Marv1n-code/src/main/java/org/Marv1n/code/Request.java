@@ -5,18 +5,18 @@ import java.util.UUID;
 public class Request {
 
     private UUID requestID;
-    private Integer numberOfSeatsNeeded;
-    private Integer priority;
+    private int numberOfSeatsNeeded;
+    private int priority;
     private RequestStatus status;
 
-    public Request(Integer numberOfSeatsNeeded, Integer priority) {
+    public Request(int numberOfSeatsNeeded, int priority) {
         this.priority = priority;
         requestID = UUID.randomUUID();
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
         this.status = RequestStatus.PENDING;
     }
 
-    public Request(Integer numberOfSeatsNeeded, Integer priority, RequestStatus state) {
+    public Request(int numberOfSeatsNeeded, int priority, RequestStatus state) {
         this.priority = priority;
         this.requestID = UUID.randomUUID();
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
@@ -31,11 +31,11 @@ public class Request {
         this.status = state;
     }
 
-    public Integer getNumberOfSeatsNeeded() {
+    public int getNumberOfSeatsNeeded() {
         return numberOfSeatsNeeded;
     }
 
-    public Integer getPriority() {
+    public int getPriority() {
         return priority;
     }
 

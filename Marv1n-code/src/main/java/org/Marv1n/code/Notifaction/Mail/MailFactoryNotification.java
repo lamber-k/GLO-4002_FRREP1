@@ -2,6 +2,7 @@ package org.Marv1n.code.Notifaction.Mail;
 
 import org.Marv1n.code.Notifaction.FactoryNotification;
 import org.Marv1n.code.Notifaction.INotification;
+import org.Marv1n.code.Repository.Person.PersonRepository;
 import org.Marv1n.code.Repository.Request.RequestRepository;
 import org.Marv1n.code.Repository.Reservable.ReservableRepository;
 
@@ -9,9 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Created by Kevin on 08/03/2015.
- */
 public class MailFactoryNotification extends FactoryNotification {
 
     private final IMailServiceAdapter mailService;
@@ -21,7 +19,7 @@ public class MailFactoryNotification extends FactoryNotification {
     }
 
     @Override
-    public INotification createNotification(UUID requestUUID, RequestRepository requestRepository, ReservableRepository reservableRepository, StateNotification stateNotification) {
+    public INotification createNotification(UUID requestUUID, RequestRepository requestRepository, ReservableRepository reservableRepository, StateNotification stateNotification, PersonRepository personRepository) {
         String from = "";
         List<String> to = new ArrayList<>();
         String object = "none";
