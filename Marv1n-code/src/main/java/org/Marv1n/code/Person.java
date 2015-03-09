@@ -21,7 +21,7 @@ public class Person {
 
     @Override
     public boolean equals(Object rhs) {
-        return rhs == null ? false : rhs instanceof Person && personID.equals(((Person) rhs).personID);
+        return rhs != null && rhs instanceof Person && personID.equals(((Person) rhs).personID);
     }
 
     @Override

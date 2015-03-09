@@ -53,7 +53,7 @@ public class StrategyEvaluationFirstInFirstOutTest {
     }
 
     @Test
-    public void whenOnlyOneReservableAvailableReturnsNonEmptyEvaluationResultContainingTheReservable() throws Exception, ReservationNotFoundException {
+    public void whenOnlyOneReservableAvailableReturnsNonEmptyEvaluationResultContainingTheReservable() throws Exception {
         reservableList.add(mockReservable);
         when(reservationsRepository.findReservationByReservable(mockReservable)).thenThrow(ReservationNotFoundException.class);
 
@@ -63,7 +63,7 @@ public class StrategyEvaluationFirstInFirstOutTest {
     }
 
     @Test
-    public void whenMultipleReservableAvailableReturnsNonEmptyEvaluationResultContainingTheFirstReservable() throws Exception, ReservationNotFoundException {
+    public void whenMultipleReservableAvailableReturnsNonEmptyEvaluationResultContainingTheFirstReservable() throws Exception {
         reservableList.add(anotherMockReservable);
         reservableList.add(mockReservable);
         when(reservationsRepository.findReservationByReservable(mockReservable)).thenThrow(ReservationNotFoundException.class).thenReturn(mock(Reservation.class)).thenThrow(ReservationNotFoundException.class);

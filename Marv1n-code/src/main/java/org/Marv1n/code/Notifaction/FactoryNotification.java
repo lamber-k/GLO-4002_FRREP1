@@ -2,9 +2,6 @@ package org.Marv1n.code.Notifaction;
 
 import org.Marv1n.code.Request;
 
-/**
- * Created by Kevin on 08/03/2015.
- */
 public abstract class FactoryNotification implements IFactoryNotification {
 
     private static final String ASSIGNATION_REFUSED_MESSAGE = "Votre demande de salle à été refusée.\n";

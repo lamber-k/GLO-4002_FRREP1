@@ -1,4 +1,4 @@
 package org.Marv1n.code.Repository.Reservation;
 
-public class ReservationNotFoundException extends Exception {
+public class ReservationNotFoundException extends RuntimeException {
 }

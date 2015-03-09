@@ -1,5 +1,5 @@
 package org.Marv1n.code.Notifaction;
 
 
-public class InvalidRequestException extends Exception {
+public class InvalidRequestException extends RuntimeException {
 }

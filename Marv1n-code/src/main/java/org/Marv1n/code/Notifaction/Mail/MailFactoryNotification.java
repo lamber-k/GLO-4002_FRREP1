@@ -13,7 +13,6 @@ import org.Marv1n.code.RequestStatus;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservation.Reservation;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -83,8 +82,7 @@ public class MailFactoryNotification extends FactoryNotification {
     private Mail buildMail(Request request, IReservable reservable, List<String> mailTo) {
         String mailObject = buildMailObject(request);
         String message = super.buildNotification(request, reservable.toString());
-        Mail mail = new Mail(null, mailTo, mailObject, message);
 
-        return (mail);
+        return new Mail(null, mailTo, mailObject, message);
     }
 }
