@@ -24,12 +24,12 @@ public class RequestTreatment implements Runnable {
     private IRequestRepository requests;
 
     RequestTreatment(IStrategyEvaluation strategyAssignation, IStrategySortRequest strategySortRequest, IReservableRepository reservableRepository, IReservationFactory reservationFactory, IReservationRepository reservationRepository, IRequestRepository requestRepository) {
-        this.reservables = reservableRepository;
-        this.assigner = strategyAssignation;
-        this.requestSorter = strategySortRequest;
+        reservables = reservableRepository;
+        assigner = strategyAssignation;
+        requestSorter = strategySortRequest;
         this.reservationFactory = reservationFactory;
-        this.reservations = reservationRepository;
-        this.requests = requestRepository;
+        reservations = reservationRepository;
+        requests = requestRepository;
     }
 
     private void treatPendingRequest() {

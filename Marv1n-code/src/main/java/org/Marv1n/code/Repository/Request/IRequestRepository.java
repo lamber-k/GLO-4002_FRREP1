@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IRequestRepository extends IRepository<Request> {
+
     Optional<Request> findByUUID(UUID id);
 
     List<Request> findAllPendingRequest();
-
 }

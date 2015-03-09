@@ -14,7 +14,7 @@ public class Request {
         this.priority = priority;
         requestID = UUID.randomUUID();
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
-        this.status = RequestStatus.PENDING;
+        status = RequestStatus.PENDING;
     }
 
     public Request(int numberOfSeatsNeeded, int priority, RequestStatus state) {
@@ -54,7 +54,6 @@ public class Request {
     public int hashCode() {
         return (requestID.hashCode());
     }
-
 
     public UUID getRequestID() {
         return requestID;

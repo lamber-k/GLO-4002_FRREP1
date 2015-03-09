@@ -4,6 +4,7 @@ import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
 
 public class Reservation {
+
     private Request request;
     private IReservable reserved;
 
@@ -37,5 +38,4 @@ public class Reservation {
         hash = hash * 13 + reserved.hashCode();
         return hash;
     }
-
 }

@@ -10,9 +10,9 @@ public class TaskScheduler {
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> nextRun;
     private boolean isSchedulerRunning;
-    private Integer intervalTimer;
+    private int intervalTimer;
 
-    public TaskScheduler(ScheduledExecutorService scheduler, Integer intervalTimer, TimeUnit timeUnit) {
+    public TaskScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit) {
         this.scheduler = scheduler;
         nextRun = null;
         isSchedulerRunning = false;
@@ -46,11 +46,11 @@ public class TaskScheduler {
         isSchedulerRunning = true;
     }
 
-    public Integer getIntervalTimer() {
+    public int getIntervalTimer() {
         return intervalTimer;
     }
 
-    public void setIntervalTimer(Integer intervalTimer) {
+    public void setIntervalTimer(int intervalTimer) {
         this.intervalTimer = intervalTimer;
     }
 }

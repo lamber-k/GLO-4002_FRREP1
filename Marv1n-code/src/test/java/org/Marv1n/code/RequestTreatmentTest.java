@@ -91,5 +91,4 @@ public class RequestTreatmentTest {
 
         verify(reservations).create(aReservation);
     }
-
 }

@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReservationRepositoryTest {
+
     private ReservationRepository reservations;
     @Mock
     private Reservation aReservation;
@@ -87,5 +88,4 @@ public class ReservationRepositoryTest {
 
         reservations.findReservationByRequest(aRequest);
     }
-
 }

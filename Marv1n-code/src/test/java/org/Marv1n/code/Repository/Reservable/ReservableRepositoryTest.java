@@ -13,6 +13,7 @@ import static junit.framework.Assert.assertFalse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReservableRepositoryTest {
+
     private ReservableRepository reservableRepository;
     @Mock
     private IReservable mockIReservable;

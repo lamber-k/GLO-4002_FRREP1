@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class Repository<T> implements IRepository<T> {
+    
     private List<T> objectContainer = new LinkedList<>();
 
     protected Stream<T> query() {

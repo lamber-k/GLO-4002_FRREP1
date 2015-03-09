@@ -7,5 +7,4 @@ import org.Marv1n.code.Request;
 public interface IStrategyEvaluation {
 
     public abstract ReservableEvaluationResult evaluateOneRequest(IReservableRepository reservables, IReservationRepository reservations, Request request);
-
 }

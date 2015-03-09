@@ -23,7 +23,7 @@ public class RoomTest {
 
     @Test
     public void newRoom_ReturnsCorrectNumberOfSeats() {
-        int seats = room.getNumberSeats();
+        int seats = room.getNumberOfSeats();
         assertEquals(NUMBER_OF_SEATS, seats);
     }
 

@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 public class ReservableEvaluationResultTest {
 
-    private static final Integer A_NUMBER_OF_SEAT = 4;
+    private static final int A_NUMBER_OF_SEAT = 4;
 
     private IReservable aIReservable;
 

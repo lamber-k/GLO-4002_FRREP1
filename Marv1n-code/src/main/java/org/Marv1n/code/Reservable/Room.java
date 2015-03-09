@@ -5,31 +5,31 @@ import java.util.UUID;
 public class Room implements IReservable {
 
     private UUID roomID;
-    private int numberSeats;
+    private int numberOfSeats;
 
-    public Room(Integer numberOfSeats) {
+    public Room(int numberOfSeats) {
         roomID = UUID.randomUUID();
-        this.numberSeats = numberOfSeats;
+        this.numberOfSeats = numberOfSeats;
     }
 
     @Override
-    public int getNumberSeats() {
-        return numberSeats;
+    public int getNumberOfSeats() {
+        return numberOfSeats;
     }
 
     @Override
     public boolean hasGreaterCapacityThan(IReservable reservable) {
-        return getNumberSeats() >= reservable.getNumberSeats();
+        return getNumberOfSeats() >= reservable.getNumberOfSeats();
     }
 
     @Override
     public int compareReservableCapacity(IReservable reservable) {
-        return getNumberSeats() - reservable.getNumberSeats();
+        return getNumberOfSeats() - reservable.getNumberOfSeats();
     }
 
     @Override
-    public boolean hasEnoughCapacity(Integer capacityNeeded) {
-        return getNumberSeats() >= capacityNeeded;
+    public boolean hasEnoughCapacity(int capacityNeeded) {
+        return getNumberOfSeats() >= capacityNeeded;
     }
 
     @Override
@@ -46,5 +46,4 @@ public class Room implements IReservable {
         }
         return (false);
     }
-
 }
