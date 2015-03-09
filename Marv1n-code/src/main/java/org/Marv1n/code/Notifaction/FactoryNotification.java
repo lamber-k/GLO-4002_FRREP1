@@ -1,9 +1,6 @@
 package org.Marv1n.code.Notifaction;
 
-import org.Marv1n.code.Repository.Request.RequestRepository;
-import org.Marv1n.code.Repository.Reservable.ReservableRepository;
-
-import java.util.UUID;
+import org.Marv1n.code.Request;
 
 /**
  * Created by Kevin on 08/03/2015.
@@ -15,17 +12,17 @@ public abstract class FactoryNotification implements IFactoryNotification {
     private static final String ASSIGNATION_SUCCESS_FORMAT = "Votre requête a été traité avec succès.\n"
             + "Vous avez été assigné à la salle %s.\n";
 
-    protected String buildNotification(StateNotification notification, String room) {
+    protected String buildNotification(Request request, String room) {
         String  notificationDetail;
 
-        switch (notification) {
-            case ASSIGNATION_SUCCESS:
+        switch (request.getRequestStatus()) {
+            case ACCEPTED:
                 notificationDetail = String.format(ASSIGNATION_SUCCESS_FORMAT, room);
                 break;
-            case ASSIGNATION_REFUSED:
+            case REFUSED:
                 notificationDetail = ASSIGNATION_REFUSED_MESSAGE;
                 break;
-            case ASSIGNATION_CANCEL:
+            case CANCELED:
                 notificationDetail = ASSIGNATION_CANCEL_MESSAGE;
                 break;
             default:

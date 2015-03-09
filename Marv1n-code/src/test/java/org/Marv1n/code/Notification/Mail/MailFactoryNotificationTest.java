@@ -1,6 +1,5 @@
 package org.Marv1n.code.Notification.Mail;
 
-import org.Marv1n.code.Notifaction.IFactoryNotification;
 import org.Marv1n.code.Notifaction.Mail.IMailServiceAdapter;
 import org.Marv1n.code.Notifaction.Mail.Mail;
 import org.Marv1n.code.Notifaction.Mail.MailFactoryNotification;
@@ -11,7 +10,6 @@ import org.Marv1n.code.Repository.Person.PersonRepository;
 import org.Marv1n.code.Repository.Request.RequestRepository;
 import org.Marv1n.code.Repository.Reservable.ReservableRepository;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservation.Reservation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -66,14 +64,16 @@ public class MailFactoryNotificationTest {
         //when(mockPersonRepository.getAdmin()).thenReturn(AN_ADMIN);
         when(mockPersonRepository.findByListOfUUID(UUIDS_TO_NOTIFY)).thenReturn(PERSON_TO_NOTIFY);
 
-        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(A_REQUEST_UUID, mockRequestRepository, mockReservableRepository, IFactoryNotification.StateNotification.ASSIGNATION_SUCCESS, mockPersonRepository);
+        //MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(A_REQUEST_UUID, mockRequestRepository, mockReservableRepository, mockPersonRepository);
 
-        assertEquals(returnedNotification.mailToSend.to, A_MAIL.to);
+        //assertEquals(returnedNotification.mailToSend.to, A_MAIL.to);
+        fail();
     }
 
     @Test(expected = InvalidRequestException.class)
     public void givenWrongRequestUUID_whenCreate_thenThrow() {
         when(mockRequestRepository.findByUUID(A_REQUEST_UUID)).thenReturn(Optional.empty());
-        mailFactory.createNotification(A_REQUEST_UUID, mockRequestRepository, mockReservableRepository, IFactoryNotification.StateNotification.ASSIGNATION_SUCCESS, mockPersonRepository);
+        //mailFactory.createNotification(A_REQUEST_UUID, mockRequestRepository, mockReservableRepository, mockPersonRepository);
+        fail();
     }
 }

@@ -8,6 +8,7 @@ public class Request {
     private int numberOfSeatsNeeded;
     private int priority;
     private RequestStatus status;
+    private UUID responsibleUUID;
 
     public Request(int numberOfSeatsNeeded, int priority) {
         this.priority = priority;
@@ -24,11 +25,11 @@ public class Request {
     }
 
     public RequestStatus getRequestStatus() {
-        return this.status;
+        return status;
     }
 
-    public void setRequestStatus(RequestStatus state) {
-        this.status = state;
+    public void setRequestStatus(RequestStatus status) {
+        this.status = status;
     }
 
     public int getNumberOfSeatsNeeded() {
@@ -57,5 +58,13 @@ public class Request {
 
     public UUID getRequestID() {
         return requestID;
+    }
+
+    public void setResponsibleUUID(UUID responsibleUUID) {
+        this.responsibleUUID = responsibleUUID;
+    }
+
+    public UUID getResponsibleUUID() {
+        return responsibleUUID;
     }
 }

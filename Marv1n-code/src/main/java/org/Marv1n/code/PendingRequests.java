@@ -31,7 +31,7 @@ public class PendingRequests {
             if (request.getRequestStatus().equals(RequestStatus.PENDING) || request.getRequestStatus().equals(RequestStatus.ACCEPTED)) {
                 //TODO notify cancellation
                 requests.remove(request);
-                request.setRequestStatus(RequestStatus.CANCELLED);
+                request.setRequestStatus(RequestStatus.CANCELED);
                 requests.create(request);
             }
         }
