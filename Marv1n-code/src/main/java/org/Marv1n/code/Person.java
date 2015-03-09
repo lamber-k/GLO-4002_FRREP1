@@ -3,6 +3,7 @@ package org.Marv1n.code;
 import java.util.UUID;
 
 public class Person {
+
     private String mailAddress;
     private UUID personID;
 

@@ -10,7 +10,7 @@ public class MailNotification implements INotification {
 
     public MailNotification(IMailServiceAdapter service, Mail toSend) {
         this.service = service;
-        this.mailToSend = toSend;
+        mailToSend = toSend;
     }
 
     @Override

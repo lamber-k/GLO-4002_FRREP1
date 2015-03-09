@@ -26,5 +26,4 @@ public class StrategyEvaluationFirstInFirstOut implements IStrategyEvaluation {
         }
         return (false);
     }
-
 }

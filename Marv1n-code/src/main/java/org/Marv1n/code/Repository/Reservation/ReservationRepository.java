@@ -8,6 +8,7 @@ import org.Marv1n.code.Reservation.Reservation;
 import java.util.Optional;
 
 public class ReservationRepository extends Repository<Reservation> implements IReservationRepository {
+
     @Override
     public boolean reservationExist(Reservation reservable) {
         return query().anyMatch(r -> r.equals(reservable));
@@ -30,5 +31,4 @@ public class ReservationRepository extends Repository<Reservation> implements IR
             throw new ReservationNotFoundException();
         return (requestFound.get());
     }
-
 }

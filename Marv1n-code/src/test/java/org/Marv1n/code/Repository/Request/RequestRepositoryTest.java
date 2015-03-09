@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RequestRepositoryTest {
+
     private RequestRepository requestRepository;
     @Mock
     private Request mockRequest;
@@ -107,8 +108,4 @@ public class RequestRepositoryTest {
         assertEquals(pendingRequestList.get(0), mockRequest);
         assertEquals(pendingRequestList.get(1), anOtherMockRequest);
     }
-
-
-
-
 }

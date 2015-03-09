@@ -37,5 +37,4 @@ public class MailNotificationTest {
         notifier.announce();
         verify(mailService).send(A_MAIL);
     }
-
 }

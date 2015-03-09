@@ -96,5 +96,4 @@ public class PendingRequestsTest {
         verify(requestRepositoryMock, times(1)).remove(request);
         verify(requestRepositoryMock, times(1)).create(request);
     }
-
 }
