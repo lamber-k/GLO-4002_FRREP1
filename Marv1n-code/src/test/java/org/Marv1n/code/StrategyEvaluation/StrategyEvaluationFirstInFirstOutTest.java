@@ -66,8 +66,7 @@ public class StrategyEvaluationFirstInFirstOutTest {
     public void whenMultipleReservableAvailableReturnsNonEmptyEvaluationResultContainingTheFirstReservable() throws Exception, ReservationNotFoundException {
         reservableList.add(anotherMockReservable);
         reservableList.add(mockReservable);
-        when(reservationsRepository.findReservationByReservable(mockReservable)).thenThrow(ReservationNotFoundException.class).thenReturn(mock(Reservation.class));
-        when(reservationsRepository.findReservationByReservable(anotherMockReservable)).thenThrow(ReservationNotFoundException.class);
+        when(reservationsRepository.findReservationByReservable(mockReservable)).thenThrow(ReservationNotFoundException.class).thenReturn(mock(Reservation.class)).thenThrow(ReservationNotFoundException.class);
 
         ReservableEvaluationResult reservableEvaluationResult = evaluator.evaluateOneRequest(reservableRepository, reservationsRepository, mockRequest);
 

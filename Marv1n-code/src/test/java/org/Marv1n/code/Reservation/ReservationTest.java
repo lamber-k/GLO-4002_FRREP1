@@ -34,7 +34,7 @@ public class ReservationTest {
     }
 
     @Test
-    public void givenNullOject_WhenCompared_ThenEqualsReturnFalse() {
+    public void givenNullObject_WhenCompared_ThenEqualsReturnFalse() {
         assertFalse(reservation.equals(null));
     }
 
@@ -44,7 +44,7 @@ public class ReservationTest {
     }
 
     @Test
-    public void givenAnOtheRreservation_WhenCompared_ThenEqualsReturnFalse() {
+    public void givenAnotherReservations_WhenCompared_ThenEqualsReturnFalse() {
         Request aOtherMockRequest = mock(Request.class);
         IReservable aOtherMockReservable = mock(IReservable.class);
         Reservation anOtherReservation = new Reservation(aOtherMockRequest, aOtherMockReservable);

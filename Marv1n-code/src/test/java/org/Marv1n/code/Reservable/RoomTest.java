@@ -67,19 +67,19 @@ public class RoomTest {
     }
 
     @Test
-    public void aRoom_WhenComparredWithNullObject_ShouldReturnFalse() {
+    public void aRoom_WhenComparedWithNullObject_ShouldReturnFalse() {
         assertFalse(room.equals(null));
     }
 
     @Test
-    public void aRoom_WhenComparredWithDifferentRoom_ShouldReturnFalse() {
+    public void aRoom_WhenComparedWithDifferentRoom_ShouldReturnFalse() {
         Room aDifferentRoom = new Room(LOWER_NUMBER_OF_SEATS);
         assertFalse(room.equals(aDifferentRoom));
     }
 
     @Test
-    public void aRoom_WhenComparredWithDifferentObject_ShouldReturnFalse() {
-        Integer aDifferentObject = new Integer(0);
+    public void aRoom_WhenComparedWithDifferentObject_ShouldReturnFalse() {
+        Integer aDifferentObject = Integer.valueOf(0);
         assertFalse(room.equals(aDifferentObject));
     }
 }

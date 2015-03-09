@@ -14,10 +14,6 @@ import java.util.List;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-/**
- * Created by Kevin on 08/03/2015.
- */
-
 @RunWith(MockitoJUnitRunner.class)
 public class MailNotificationTest {
 
