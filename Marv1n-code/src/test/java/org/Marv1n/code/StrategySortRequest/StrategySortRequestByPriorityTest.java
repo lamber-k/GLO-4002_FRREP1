@@ -51,7 +51,7 @@ public class StrategySortRequestByPriorityTest {
     }
 
     @Test
-    public void whenStrategySort_SortIsCalledOnList_ContainingMoreThanOneRequestThenListIsSorted() {
+    public void whenStrategySortSortIsCalledOnListContainingMoreThanOneRequestThenListIsSorted() {
         ArrayList<Request> sortedArray = requestSorter.sortList(listRequest);
 
         assertEquals(requestWithHighPriority, sortedArray.get(REQUEST_INDEX_FIRST));
@@ -60,7 +60,7 @@ public class StrategySortRequestByPriorityTest {
     }
 
     @Test
-    public void whenStrategySort_SortIsCalledOnListContainingElementOfSamePriority_ThenListIsSortedWithFirstInFistOutOrderForSamePriorityRequest() {
+    public void whenStrategySortSortIsCalledOnListContainingElementOfSamePriorityThenListIsSortedWithFirstInFistOutOrderForSamePriorityRequest() {
         listRequest.add(requestWithMediumPriority_2);
 
         ArrayList<Request> sortedArray = requestSorter.sortList(listRequest);
