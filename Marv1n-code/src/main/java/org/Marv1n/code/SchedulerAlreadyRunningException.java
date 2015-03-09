@@ -1,4 +1,4 @@
 package org.Marv1n.code;
 
-public class SchedulerAlreadyRunningException extends Throwable {
+public class SchedulerAlreadyRunningException extends Exception {
 }

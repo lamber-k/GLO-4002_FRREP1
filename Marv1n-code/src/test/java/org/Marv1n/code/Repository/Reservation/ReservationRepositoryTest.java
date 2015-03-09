@@ -51,7 +51,7 @@ public class ReservationRepositoryTest {
     }
 
     @Test(expected = ReservationNotFoundException.class)
-    public void givenNonEmptyReservation_whenTryToFindResercationByReservable_thenShouldThrow() throws ReservationNotFoundException {
+    public void givenNonEmptyReservation_whenTryToFindReservationByReservable_thenShouldThrow() throws ReservationNotFoundException {
         IReservable anOtherReservable = mock(IReservable.class);
         when(aReservation.getReserved()).thenReturn(anOtherReservable);
         reservations.create(aReservation);
@@ -80,7 +80,7 @@ public class ReservationRepositoryTest {
     }
 
     @Test(expected = ReservationNotFoundException.class)
-    public void givenNonEmptyReservation_whenTryToFindResercationByRequest_thenShouldThrow() throws ReservationNotFoundException {
+    public void givenNonEmptyReservation_whenTryToFindReservationByRequest_thenShouldThrow() throws ReservationNotFoundException {
         Request anOtherRequest = mock(Request.class);
         when(aReservation.getRequest()).thenReturn(anOtherRequest);
         reservations.create(aReservation);

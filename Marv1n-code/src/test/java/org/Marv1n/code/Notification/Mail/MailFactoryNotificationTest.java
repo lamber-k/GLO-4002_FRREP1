@@ -1,17 +1,16 @@
 package org.Marv1n.code.Notification.Mail;
 
 import org.Marv1n.code.Notifaction.IFactoryNotification;
+import org.Marv1n.code.Notifaction.InvalidRequestException;
 import org.Marv1n.code.Notifaction.Mail.IMailServiceAdapter;
 import org.Marv1n.code.Notifaction.Mail.Mail;
 import org.Marv1n.code.Notifaction.Mail.MailFactoryNotification;
-import org.Marv1n.code.Notifaction.InvalidRequestException;
 import org.Marv1n.code.Notifaction.Mail.MailNotification;
 import org.Marv1n.code.Person;
 import org.Marv1n.code.Repository.Person.PersonRepository;
 import org.Marv1n.code.Repository.Request.RequestRepository;
 import org.Marv1n.code.Repository.Reservable.ReservableRepository;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservation.Reservation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
