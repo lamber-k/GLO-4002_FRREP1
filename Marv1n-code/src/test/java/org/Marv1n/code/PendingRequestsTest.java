@@ -1,6 +1,8 @@
 package org.Marv1n.code;
 
 import org.Marv1n.code.Repository.Request.IRequestRepository;
+import org.Marv1n.code.StrategyRequestCancellation.IStrategyRequestCancellation;
+import org.Marv1n.code.StrategyRequestCancellation.StrategyRequestCancellationFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,7 +14,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -28,10 +31,12 @@ public class PendingRequestsTest {
     private IRequestRepository requestRepositoryMock;
     @Mock
     private Request request;
+    @Mock
+    private StrategyRequestCancellationFactory strategyRequestCancellationFactoryMock;
 
     @Before
     public void initializeNewPendingRequests() {
-        pendingRequests2 = new PendingRequests(organizerMock, DEFAULT_MAXIMUM_PENDING_REQUESTS, requestRepositoryMock);
+        pendingRequests2 = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, requestRepositoryMock, strategyRequestCancellationFactoryMock);
     }
 
     @Test
@@ -42,7 +47,7 @@ public class PendingRequestsTest {
 
         pendingRequests2.addRequest(request);
 
-        verify(requestRepositoryMock,times(1)).create(request);
+        verify(requestRepositoryMock, times(1)).create(request);
         assertTrue(pendingRequests2.hasPendingRequest());
     }
 
@@ -58,7 +63,9 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void pendingRequestsWhenPendingRequestsReachMaximumPendingRequestsShouldRunAssignation() {
+    public void pendingRequestsWithAnObserverWhenPendingRequestsReachMaximumPendingRequestsShouldNotifyRegistredObserver() {
+        ObserverMaximumPendingRequestReached observer = mock(ObserverMaximumPendingRequestReached.class);
+        pendingRequests2.addObserverMaximumPendingRequestsReached(observer);
         pendingRequests2.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
         List<Request> reqList = new ArrayList<>();
         reqList.add(request);
@@ -66,34 +73,35 @@ public class PendingRequestsTest {
 
         pendingRequests2.addRequest(request);
 
-        verify(organizerMock, times(1)).treatPendingRequestsNow();
+        verify(observer, times(1)).onMaximumPendingRequestReached();
     }
 
     @Test
-    public void pendingRequestsWhenCancelInvalidRequestPendingRequestsShouldDoNothing() {
+    public void pendingRequestsWhenCancelRequestIsCalledPendingRequestsShouldCheckIfRequestExist() {
         when(requestRepositoryMock.findByUUID(any(UUID.class))).thenReturn(Optional.empty());
         pendingRequests2.cancelRequest(UUID.randomUUID());
 
-        verify(requestRepositoryMock, never()).remove(any(Request.class));
+        verify(requestRepositoryMock, times(1)).findByUUID(any(UUID.class));
     }
 
     @Test
-    public void pendingRequestsWhenCancelValidRequestWithNonCancellableStatusPendingRequestsShouldCheckCancellableStatusAndDoNothing() {
+    public void pendingRequestsWhenCancelRequestWithValidRequestPendingRequestsShouldCallAskForAStrategyRequestCancellation() {
         when(requestRepositoryMock.findByUUID(any(UUID.class))).thenReturn(Optional.of(request));
-        when(request.getRequestStatus()).thenReturn(RequestStatus.REFUSED);
+        when(request.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
+        when(strategyRequestCancellationFactoryMock.createStrategyCancellation(RequestStatus.ACCEPTED)).thenReturn(mock(IStrategyRequestCancellation.class));
         pendingRequests2.cancelRequest(UUID.randomUUID());
 
-        verify(request, times(2)).getRequestStatus();
-        verify(requestRepositoryMock, never()).remove(any(Request.class));
+        verify(strategyRequestCancellationFactoryMock, times(1)).createStrategyCancellation(RequestStatus.ACCEPTED);
     }
 
     @Test
-    public void pendingRequestsWhenCancelValidRequestWithCancellableStatusPendingRequestsShouldCancelRequest() {
+    public void pendingRequestsWhenCancelRequestWithValidRequestPendingRequestsShouldCreatedStrategyRequestCancellation() {
         when(requestRepositoryMock.findByUUID(any(UUID.class))).thenReturn(Optional.of(request));
-        when(request.getRequestStatus()).thenReturn(RequestStatus.PENDING);
+        when(request.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
+        IStrategyRequestCancellation generatedStrategyRequestCancellation = mock(IStrategyRequestCancellation.class);
+        when(strategyRequestCancellationFactoryMock.createStrategyCancellation(RequestStatus.ACCEPTED)).thenReturn(generatedStrategyRequestCancellation);
         pendingRequests2.cancelRequest(UUID.randomUUID());
 
-        verify(requestRepositoryMock, times(1)).remove(request);
-        verify(requestRepositoryMock, times(1)).create(request);
+        verify(generatedStrategyRequestCancellation, times(1)).cancelRequest(request);
     }
 }

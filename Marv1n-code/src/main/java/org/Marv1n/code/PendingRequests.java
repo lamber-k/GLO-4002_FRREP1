@@ -1,44 +1,46 @@
 package org.Marv1n.code;
 
 import org.Marv1n.code.Repository.Request.IRequestRepository;
+import org.Marv1n.code.StrategyRequestCancellation.IStrategyRequestCancellation;
+import org.Marv1n.code.StrategyRequestCancellation.StrategyRequestCancellationFactory;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public class PendingRequests {
-    private Organizer organizer;
     private int maximumPendingRequests;
-    private IRequestRepository requests;
+    private IRequestRepository requestRepository;
+    private StrategyRequestCancellationFactory strategyRequestCancellationFactory;
+    private List<ObserverMaximumPendingRequestReached> maximumPendingRequestReachedsObservers;
 
-    public PendingRequests(Organizer organizer, int maximumPendingRequests, IRequestRepository requestRepository) {
-        this.organizer = organizer;
+
+    public PendingRequests(int maximumPendingRequests, IRequestRepository requestRepository, StrategyRequestCancellationFactory strategyRequestCancellationFactory) {
         this.maximumPendingRequests = maximumPendingRequests;
-        this.requests = requestRepository;
+        this.requestRepository = requestRepository;
+        this.strategyRequestCancellationFactory = strategyRequestCancellationFactory;
+        this.maximumPendingRequestReachedsObservers = new ArrayList<>();
     }
 
     public void addRequest(Request request) {
-        requests.create(request);
-        if (requests.findAllPendingRequest().size() >= maximumPendingRequests) {
-            organizer.treatPendingRequestsNow();
+        requestRepository.create(request);
+        if (requestRepository.findAllPendingRequest().size() >= maximumPendingRequests) {
+            notifyMaxPendingRequestReachedObserver();
         }
     }
 
     public void cancelRequest(UUID requestID) {
-        Optional result = requests.findByUUID(requestID);
+        Optional result = requestRepository.findByUUID(requestID);
         if (result.isPresent()) {
             Request request = (Request) result.get();
-            //TODO update within repository removing and recreating isn't the best way to do so
-            if (request.getRequestStatus().equals(RequestStatus.PENDING) || request.getRequestStatus().equals(RequestStatus.ACCEPTED)) {
-                //TODO notify cancellation
-                requests.remove(request);
-                request.setRequestStatus(RequestStatus.CANCELED);
-                requests.create(request);
-            }
+            IStrategyRequestCancellation strategyRequestCancellation = strategyRequestCancellationFactory.createStrategyCancellation(request.getRequestStatus());
+            strategyRequestCancellation.cancelRequest(request);
         }
     }
 
     public boolean hasPendingRequest() {
-        return !requests.findAllPendingRequest().isEmpty();
+        return !requestRepository.findAllPendingRequest().isEmpty();
     }
 
     public int getMaximumPendingRequests() {
@@ -47,5 +49,16 @@ public class PendingRequests {
 
     public void setMaximumPendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;
+    }
+
+    public void addObserverMaximumPendingRequestsReached(ObserverMaximumPendingRequestReached observer) {
+        maximumPendingRequestReachedsObservers.add(observer);
+    }
+
+    private void notifyMaxPendingRequestReachedObserver() {
+        for (ObserverMaximumPendingRequestReached observer : maximumPendingRequestReachedsObservers) {
+            observer.onMaximumPendingRequestReached();
+        }
+
     }
 }

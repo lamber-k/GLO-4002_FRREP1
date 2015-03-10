@@ -4,7 +4,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class TaskScheduler {
+public class TaskScheduler implements ObserverMaximumPendingRequestReached {
 
     private TimeUnit timeUnit;
     private ScheduledExecutorService scheduler;
@@ -52,5 +52,10 @@ public class TaskScheduler {
 
     public void setIntervalTimer(int intervalTimer) {
         this.intervalTimer = intervalTimer;
+    }
+
+    @Override
+    public void onMaximumPendingRequestReached() {
+        //TODO implement
     }
 }

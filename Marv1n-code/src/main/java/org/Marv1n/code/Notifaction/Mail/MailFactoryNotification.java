@@ -42,7 +42,7 @@ public class MailFactoryNotification extends FactoryNotification {
     private IReservable findReservable(Request request, ReservationRepository reservationRepository, ReservableRepository reservableRepository) throws InvalidRequestException {
         Reservation reservation;
         try {
-             reservation = reservationRepository.findReservationByRequest(request);
+            reservation = reservationRepository.findReservationByRequest(request);
         } catch (ReservationNotFoundException e) {
             if (request.getRequestStatus() == RequestStatus.REFUSED) {
                 return null;
