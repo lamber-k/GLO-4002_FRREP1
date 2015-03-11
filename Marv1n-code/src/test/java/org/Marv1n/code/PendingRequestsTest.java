@@ -26,8 +26,6 @@ public class PendingRequestsTest {
     private static final int MAXIMUM_ONE_PENDING_REQUEST = 1;
     private PendingRequests pendingRequests2;
     @Mock
-    private Organizer organizerMock;
-    @Mock
     private IRequestRepository requestRepositoryMock;
     @Mock
     private Request request;

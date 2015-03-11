@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-public class RequestTreatment implements Runnable {
+public class RequestTreatment extends RunnableRequestTreatment {
 
     private IStrategyEvaluation assigner;
     private IStrategySortRequest requestSorter;
@@ -24,15 +24,16 @@ public class RequestTreatment implements Runnable {
     private IRequestRepository requests;
 
     RequestTreatment(IStrategyEvaluation strategyAssignation, IStrategySortRequest strategySortRequest, IReservableRepository reservableRepository, IReservationFactory reservationFactory, IReservationRepository reservationRepository, IRequestRepository requestRepository) {
-        reservables = reservableRepository;
-        assigner = strategyAssignation;
-        requestSorter = strategySortRequest;
+        this.reservables = reservableRepository;
+        this.assigner = strategyAssignation;
+        this.requestSorter = strategySortRequest;
         this.reservationFactory = reservationFactory;
-        reservations = reservationRepository;
-        requests = requestRepository;
+        this.reservations = reservationRepository;
+        this.requests = requestRepository;
     }
 
-    private void treatPendingRequest() {
+    @Override
+    protected void treatPendingRequest() {
         List<Request> pendingRequests = requests.findAllPendingRequest();
         ArrayList<Request> sortedRequests = requestSorter.sortList(pendingRequests);
         Iterator<Request> requestIterator = sortedRequests.iterator();
@@ -60,8 +61,5 @@ public class RequestTreatment implements Runnable {
         requests.create(request);
     }
 
-    @Override
-    public void run() {
-        treatPendingRequest();
-    }
+
 }

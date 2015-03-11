@@ -6,26 +6,29 @@ import java.util.concurrent.TimeUnit;
 
 public class TaskScheduler implements ObserverMaximumPendingRequestReached {
 
+    private final Runnable task;
     private TimeUnit timeUnit;
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> nextRun;
     private boolean isSchedulerRunning;
     private int intervalTimer;
 
-    public TaskScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit) {
+    public TaskScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit, PendingRequestObserver observer, Runnable task) {
         this.scheduler = scheduler;
-        nextRun = null;
-        isSchedulerRunning = false;
+        this.nextRun = null;
+        this.isSchedulerRunning = false;
         this.timeUnit = timeUnit;
         this.intervalTimer = intervalTimer;
+        this.task = task;
+        observer.register(() -> {this.onMaximumPendingRequestReached();return null;});
     }
 
     public boolean isSchedulerRunning() {
         return isSchedulerRunning;
     }
 
-    public void startScheduler(Runnable task) {
-        startAtFixedRate(task);
+    public void startScheduler() {
+        startAtFixedRate();
     }
 
     public void cancelScheduler() {
@@ -35,13 +38,7 @@ public class TaskScheduler implements ObserverMaximumPendingRequestReached {
         }
     }
 
-    public void runNow(Runnable task) {
-        cancelScheduler();
-        task.run();
-        startAtFixedRate(task);
-    }
-
-    private void startAtFixedRate(Runnable task) {
+    private void startAtFixedRate() {
         nextRun = scheduler.scheduleAtFixedRate(task, intervalTimer, intervalTimer, timeUnit);
         isSchedulerRunning = true;
     }
@@ -56,6 +53,7 @@ public class TaskScheduler implements ObserverMaximumPendingRequestReached {
 
     @Override
     public void onMaximumPendingRequestReached() {
-        //TODO implement
+        cancelScheduler();
+        startAtFixedRate();
     }
 }
