@@ -13,14 +13,13 @@ public class TaskScheduler implements ObserverMaximumPendingRequestReached {
     private boolean isSchedulerRunning;
     private int intervalTimer;
 
-    public TaskScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit, PendingRequestObserver observer, Runnable task) {
+    public TaskScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit, Runnable task) {
         this.scheduler = scheduler;
         this.nextRun = null;
         this.isSchedulerRunning = false;
         this.timeUnit = timeUnit;
         this.intervalTimer = intervalTimer;
         this.task = task;
-        observer.register(() -> {this.onMaximumPendingRequestReached();return null;});
     }
 
     public boolean isSchedulerRunning() {

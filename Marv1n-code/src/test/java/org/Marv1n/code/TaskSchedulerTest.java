@@ -23,12 +23,10 @@ public class TaskSchedulerTest {
     @Mock
     private Runnable aRunnable;
     private TaskScheduler taskScheduler;
-    private PendingRequestObserver anObserver;
 
     @Before
     public void createTaskScheduler() {
-        anObserver = mock(PendingRequestObserver.class);
-        taskScheduler = new TaskScheduler(A_SCHEDULER_EXECUTOR_SERVICE, DEFAULT_TIMER, TIME_UNIT_SECOND, anObserver, aRunnable);
+        taskScheduler = new TaskScheduler(A_SCHEDULER_EXECUTOR_SERVICE, DEFAULT_TIMER, TIME_UNIT_SECOND, aRunnable);
     }
 
     @Test
@@ -69,7 +67,7 @@ public class TaskSchedulerTest {
     @Test
     public void newTaskScheduler_WhenStartScheduler_MethodScheduleAtFixedRateShouldBeCalled() {
         ScheduledExecutorService aScheduledExecutorServiceMock = mock(ScheduledExecutorService.class);
-        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, anObserver, aRunnable);
+        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, aRunnable);
 
         scheduler.startScheduler();
 
@@ -81,11 +79,23 @@ public class TaskSchedulerTest {
         ScheduledExecutorService aScheduledExecutorServiceMock = mock(ScheduledExecutorService.class);
         ScheduledFuture aScheduledFutureMock = mock(ScheduledFuture.class);
         doReturn(aScheduledFutureMock).when(aScheduledExecutorServiceMock).scheduleAtFixedRate(aRunnable, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
-        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, anObserver, aRunnable);
+        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, aRunnable);
         scheduler.startScheduler();
 
         scheduler.cancelScheduler();
 
         verify(aScheduledFutureMock).cancel(anyBoolean());
+    }
+
+
+    @Test
+    public void aTaskScheduler_whenInformedOfMaximumPendingRequestReached_thenRestartSchedulerAnRun(){
+        ScheduledExecutorService aScheduledExecutorServiceMock = mock(ScheduledExecutorService.class);
+        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, aRunnable);
+
+        scheduler.onMaximumPendingRequestReached();
+
+        verify(aScheduledExecutorServiceMock, times(1)).scheduleAtFixedRate(aRunnable,DEFAULT_TIMER,DEFAULT_TIMER,TIME_UNIT_SECOND);
+
     }
 }
