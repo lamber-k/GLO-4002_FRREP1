@@ -62,7 +62,7 @@ public class PendingRequestsTest {
 
     @Test
     public void pendingRequestsWithAnObserverWhenPendingRequestsReachMaximumPendingRequestsShouldNotifyRegistredObserver() {
-        ObserverMaximumPendingRequestReached observer = mock(ObserverMaximumPendingRequestReached.class);
+        IObserverMaximumPendingRequestReached observer = mock(IObserverMaximumPendingRequestReached.class);
         pendingRequests2.addObserverMaximumPendingRequestsReached(observer);
         pendingRequests2.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
         List<Request> reqList = new ArrayList<>();

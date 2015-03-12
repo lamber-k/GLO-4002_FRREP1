@@ -4,7 +4,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class TaskScheduler implements ObserverMaximumPendingRequestReached {
+public class TaskScheduler implements IObserverMaximumPendingRequestReached {
 
     private final Runnable task;
     private TimeUnit timeUnit;

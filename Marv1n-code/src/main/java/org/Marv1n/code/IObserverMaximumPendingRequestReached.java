@@ -1,6 +1,6 @@
 package org.Marv1n.code;
 
-public interface ObserverMaximumPendingRequestReached {
+public interface IObserverMaximumPendingRequestReached {
 
     public void onMaximumPendingRequestReached();
 
