@@ -13,12 +13,13 @@ public class RoomTest {
     final static private int NUMBER_OF_SEATS = 25;
     final static private int LOWER_NUMBER_OF_SEATS = 5;
     final static private int HIGHER_NUMBER_OF_SEATS = 35;
+    final static private String A_ROOM_NAME = "The room name";
 
     private Room room;
 
     @Before
     public void initializeNewRoom() {
-        room = new Room(NUMBER_OF_SEATS);
+        room = new Room(NUMBER_OF_SEATS, A_ROOM_NAME);
     }
 
     @Test
@@ -28,16 +29,22 @@ public class RoomTest {
     }
 
     @Test
+    public void newRoom_ReturnsCorrectName() {
+        String name = room.getName();
+        assertEquals(A_ROOM_NAME, name);
+    }
+
+    @Test
     public void twoRooms_WhenTestRoomWithAnotherLowerSeatsCapacityRoom_ShouldReturnTrue() {
-        Room greaterRoom = new Room(NUMBER_OF_SEATS);
-        Room lowerRoom = new Room(LOWER_NUMBER_OF_SEATS);
+        Room greaterRoom = new Room(NUMBER_OF_SEATS, A_ROOM_NAME);
+        Room lowerRoom = new Room(LOWER_NUMBER_OF_SEATS, A_ROOM_NAME);
         assertTrue(greaterRoom.hasGreaterCapacityThan(lowerRoom));
     }
 
     @Test
     public void twoRooms_WhenTestRoomWithAnotherHigherSeatsCapacityRoom_ShouldReturnFalse() {
-        Room lowerRoom = new Room(NUMBER_OF_SEATS);
-        Room greaterRoom = new Room(HIGHER_NUMBER_OF_SEATS);
+        Room lowerRoom = new Room(NUMBER_OF_SEATS, A_ROOM_NAME);
+        Room greaterRoom = new Room(HIGHER_NUMBER_OF_SEATS, A_ROOM_NAME);
         assertFalse(lowerRoom.hasGreaterCapacityThan(greaterRoom));
     }
 
@@ -73,7 +80,7 @@ public class RoomTest {
 
     @Test
     public void aRoom_WhenComparedWithDifferentRoom_ShouldReturnFalse() {
-        Room aDifferentRoom = new Room(LOWER_NUMBER_OF_SEATS);
+        Room aDifferentRoom = new Room(LOWER_NUMBER_OF_SEATS, A_ROOM_NAME);
         assertFalse(room.equals(aDifferentRoom));
     }
 

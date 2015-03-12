@@ -1,22 +1,21 @@
 package org.Marv1n.code.StrategyEvaluation;
 
 import org.Marv1n.code.Reservable.IReservable;
-import org.Marv1n.code.Reservable.Room;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 
 public class ReservableEvaluationResultTest {
-
-    private static final int A_NUMBER_OF_SEAT = 4;
 
     private IReservable aIReservable;
 
     @Before
     public void initializeNewReservable() {
-        aIReservable = new Room(A_NUMBER_OF_SEAT);
+        aIReservable = mock(IReservable.class);
     }
+
 
     @Test
     public void newReservable_WhenAssignationResult_ShouldNotFoundMatch() {

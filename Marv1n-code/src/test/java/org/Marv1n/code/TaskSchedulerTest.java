@@ -6,7 +6,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.concurrent.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -89,13 +92,13 @@ public class TaskSchedulerTest {
 
 
     @Test
-    public void aTaskScheduler_whenInformedOfMaximumPendingRequestReached_thenRestartSchedulerAnRun(){
+    public void aTaskScheduler_whenInformedOfMaximumPendingRequestReached_thenRestartSchedulerAnRun() {
         ScheduledExecutorService aScheduledExecutorServiceMock = mock(ScheduledExecutorService.class);
         TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, aRunnable);
 
         scheduler.onMaximumPendingRequestReached();
 
-        verify(aScheduledExecutorServiceMock, times(1)).scheduleAtFixedRate(aRunnable,DEFAULT_TIMER,DEFAULT_TIMER,TIME_UNIT_SECOND);
+        verify(aScheduledExecutorServiceMock, times(1)).scheduleAtFixedRate(aRunnable, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
 
     }
 }

@@ -6,15 +6,22 @@ public class Room implements IReservable {
 
     private UUID roomID;
     private int numberOfSeats;
+    private String name;
 
-    public Room(int numberOfSeats) {
-        roomID = UUID.randomUUID();
+    public Room(int numberOfSeats, String name) {
+        this.roomID = UUID.randomUUID();
         this.numberOfSeats = numberOfSeats;
+        this.name = name;
     }
 
     @Override
     public int getNumberOfSeats() {
         return numberOfSeats;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
     @Override

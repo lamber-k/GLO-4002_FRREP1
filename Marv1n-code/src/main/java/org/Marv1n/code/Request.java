@@ -59,11 +59,11 @@ public class Request {
         return requestID;
     }
 
-    public void setResponsibleUUID(UUID responsibleUUID) {
-        this.responsibleUUID = responsibleUUID;
-    }
-
     public UUID getResponsibleUUID() {
         return responsibleUUID;
+    }
+
+    public void setResponsibleUUID(UUID responsibleUUID) {
+        this.responsibleUUID = responsibleUUID;
     }
 }
