@@ -7,12 +7,10 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -55,6 +53,22 @@ public class PersonRepositoryTest {
         assertFalse(results.isEmpty());
         assertTrue(results.stream().filter(r -> r.getID().equals(personUUID)).findAny().isPresent());
         assertTrue(results.stream().filter(r -> r.getID().equals(anotherMockPersonUUID)).findAny().isPresent());
+    }
+
+    @Test
+    public void givenRepositoryWithAdmin_whenFindAdmins_shouldReturnAllAdmins() {
+        putSomeItemsInRepository();
+        Person mockPersonAdmin1 = mock(Person.class);
+        Person mockPersonAdmin2 = mock(Person.class);
+        when(mockPersonAdmin1.isAdmin()).thenReturn(true);
+        when(mockPersonAdmin2.isAdmin()).thenReturn(true);
+        personRepository.create(mockPersonAdmin1);
+        personRepository.create(mockPersonAdmin2);
+        List<Person> expectedAdminList = Arrays.asList(mockPersonAdmin1, mockPersonAdmin2);
+
+        List<Person> adminsReturned = personRepository.findAdmins();
+
+        assertEquals(expectedAdminList, adminsReturned);
     }
 
     private void putSomeItemsInRepository() {

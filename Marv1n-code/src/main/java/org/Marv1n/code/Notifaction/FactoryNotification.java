@@ -1,6 +1,7 @@
 package org.Marv1n.code.Notifaction;
 
 import org.Marv1n.code.Request;
+import org.Marv1n.code.Reservable.IReservable;
 
 public abstract class FactoryNotification implements IFactoryNotification {
 
@@ -9,12 +10,12 @@ public abstract class FactoryNotification implements IFactoryNotification {
     private static final String ASSIGNATION_SUCCESS_FORMAT = "Votre requête a été traité avec succès.\n"
             + "Vous avez été assigné à la salle %s.\n";
 
-    protected String buildNotification(Request request, String room) {
+    protected String buildNotification(Request request, IReservable reservable) {
         String notificationDetail;
 
         switch (request.getRequestStatus()) {
             case ACCEPTED:
-                notificationDetail = String.format(ASSIGNATION_SUCCESS_FORMAT, room);
+                notificationDetail = String.format(ASSIGNATION_SUCCESS_FORMAT, reservable.getName());
                 break;
             case REFUSED:
                 notificationDetail = ASSIGNATION_REFUSED_MESSAGE;

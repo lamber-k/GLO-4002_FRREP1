@@ -17,4 +17,8 @@ public class PersonRepository extends Repository<Person> implements IPersonRepos
     public List<Person> findByListOfUUID(List<UUID> listOfUUID) {
         return query().filter(p -> listOfUUID.contains(p.getID())).collect(Collectors.toList());
     }
+
+    public List<Person> findAdmins() {
+        return query().filter(p -> p.isAdmin()).collect(Collectors.toList());
+    }
 }

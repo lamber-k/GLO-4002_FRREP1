@@ -13,16 +13,11 @@ import org.Marv1n.code.RequestStatus;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservation.Reservation;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class MailFactoryNotification extends FactoryNotification {
 
-    private static final String MAIL_OBJECT_FORMAT = "[Reservation][Demande n°%d] requête %s";
-    private static final String MAIL_OBJECT_STATUS_ACCEPTED = "acceptée";
-    private static final String MAIL_OBJECT_STATUS_REFUSED = "refusée";
-    private static final String MAIL_OBJECT_STATUS_CANCELED = "annulée";
     private final IMailServiceAdapter mailService;
 
     public MailFactoryNotification(IMailServiceAdapter mailService) {
@@ -32,14 +27,16 @@ public class MailFactoryNotification extends FactoryNotification {
     @Override
     public INotification createNotification(Request request, ReservationRepository reservationRepository, ReservableRepository reservableRepository, PersonRepository personRepository) throws InvalidRequestException {
         Person responsible = findResponsible(request, personRepository);
-        IReservable reservable = findReservable(request, reservationRepository, reservableRepository);
-        List<String> mailTo = Arrays.asList(responsible.getMailAddress()); // Ajouter Admin.
+        IReservable reservable = findReservable(request, reservationRepository);
+        List<String> mailTo = new LinkedList<>();
+        mailTo.add(responsible.getMailAddress());
+        mailTo.addAll(personRepository.findAdmins().stream().map(Person::getMailAddress).collect(Collectors.toList()));
         Mail mail = buildMail(request, reservable, mailTo);
 
         return new MailNotification(mailService, mail);
     }
 
-    private IReservable findReservable(Request request, ReservationRepository reservationRepository, ReservableRepository reservableRepository) throws InvalidRequestException {
+    private IReservable findReservable(Request request, ReservationRepository reservationRepository) throws InvalidRequestException {
         Reservation reservation;
         try {
             reservation = reservationRepository.findReservationByRequest(request);
@@ -47,7 +44,7 @@ public class MailFactoryNotification extends FactoryNotification {
             if (request.getRequestStatus() == RequestStatus.REFUSED) {
                 return null;
             }
-            throw new InvalidRequestException(); // "Aucune salle n'a été assignée"
+            throw new InvalidRequestException("Aucune salle n'a été assignée");
         }
         return reservation.getReserved();
     }
@@ -55,34 +52,23 @@ public class MailFactoryNotification extends FactoryNotification {
     private Person findResponsible(Request request, PersonRepository personRepository) throws InvalidRequestException {
         Optional<Person> optionalResponsible = personRepository.findByUUID(request.getResponsibleUUID());
         if (!optionalResponsible.isPresent()) {
-            throw new InvalidRequestException(); // "Aucune responsable assigné"
+            throw new InvalidRequestException("Aucun responsable assigné");
         }
         return optionalResponsible.get();
     }
 
-    private String buildMailObject(Request request) {
-        String mailObject;
-
-        switch (request.getRequestStatus()) {
-            case ACCEPTED:
-                mailObject = String.format(MAIL_OBJECT_FORMAT, request.hashCode(), MAIL_OBJECT_STATUS_ACCEPTED);
-                break;
-            case REFUSED:
-                mailObject = String.format(MAIL_OBJECT_FORMAT, request.hashCode(), MAIL_OBJECT_STATUS_REFUSED);
-                break;
-            case CANCELED:
-                mailObject = String.format(MAIL_OBJECT_FORMAT, request.hashCode(), MAIL_OBJECT_STATUS_CANCELED);
-                break;
-            default:
-                mailObject = "";
-        }
-        return (mailObject);
-    }
-
     private Mail buildMail(Request request, IReservable reservable, List<String> mailTo) {
-        String mailObject = buildMailObject(request);
-        String message = super.buildNotification(request, reservable.toString());
+        MailBuilder mailBuilder = new MailBuilder();
+        String message = super.buildNotification(request, reservable);
 
-        return new Mail(null, mailTo, mailObject, message);
+        try {
+            return mailBuilder.setTo(mailTo)
+                    .setMessage(message)
+                    .setStatus(request.getRequestStatus())
+                    .setRequestID(request.hashCode())
+                    .buildMail();
+        } catch (MailBuilderException e) {
+            throw new InvalidRequestException(e.getMessage());
+        }
     }
 }

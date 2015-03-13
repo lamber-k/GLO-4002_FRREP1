@@ -6,10 +6,17 @@ public class Person {
 
     private String mailAddress;
     private UUID personID;
+    private boolean admin = false;
 
     public Person(String mailAddress) {
-        personID = UUID.randomUUID();
+        this.personID = UUID.randomUUID();
         this.mailAddress = mailAddress;
+    }
+
+    public Person(String mailAddress, boolean admin) {
+        this.personID = UUID.randomUUID();
+        this.mailAddress = mailAddress;
+        this.admin = admin;
     }
 
     public String getMailAddress() {
@@ -28,5 +35,9 @@ public class Person {
     @Override
     public int hashCode() {
         return personID.hashCode();
+    }
+
+    public boolean isAdmin() {
+        return admin;
     }
 }
