@@ -4,7 +4,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class TaskScheduler implements IObserverMaximumPendingRequestReached {
+public class TaskScheduler {
 
     private final Runnable task;
     private TimeUnit timeUnit;
@@ -50,9 +50,14 @@ public class TaskScheduler implements IObserverMaximumPendingRequestReached {
         this.intervalTimer = intervalTimer;
     }
 
-    @Override
-    public void onMaximumPendingRequestReached() {
+    public void restartSchedule() {
         cancelScheduler();
         startAtFixedRate();
     }
+
+/*    @Override
+    public void onMaximumPendingRequestReached() {
+        cancelScheduler();
+        startAtFixedRate();
+  }*/
 }

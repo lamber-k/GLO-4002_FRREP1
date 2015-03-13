@@ -13,14 +13,14 @@ public class PendingRequests {
     private int maximumPendingRequests;
     private IRequestRepository requestRepository;
     private StrategyRequestCancellationFactory strategyRequestCancellationFactory;
-    private List<IObserverMaximumPendingRequestReached> maximumPendingRequestReachedsObservers;
+    private List<IObserverMaximumPendingRequestReached> maximumPendingRequestReachedObservers;
 
 
     public PendingRequests(int maximumPendingRequests, IRequestRepository requestRepository, StrategyRequestCancellationFactory strategyRequestCancellationFactory) {
         this.maximumPendingRequests = maximumPendingRequests;
         this.requestRepository = requestRepository;
         this.strategyRequestCancellationFactory = strategyRequestCancellationFactory;
-        this.maximumPendingRequestReachedsObservers = new ArrayList<>();
+        this.maximumPendingRequestReachedObservers = new ArrayList<>();
     }
 
     public void addRequest(Request request) {
@@ -52,11 +52,11 @@ public class PendingRequests {
     }
 
     public void addObserverMaximumPendingRequestsReached(IObserverMaximumPendingRequestReached observer) {
-        maximumPendingRequestReachedsObservers.add(observer);
+        maximumPendingRequestReachedObservers.add(observer);
     }
 
     private void notifyMaxPendingRequestReachedObserver() {
-        for (IObserverMaximumPendingRequestReached observer : maximumPendingRequestReachedsObservers) {
+        for (IObserverMaximumPendingRequestReached observer : maximumPendingRequestReachedObservers) {
             observer.onMaximumPendingRequestReached();
         }
 

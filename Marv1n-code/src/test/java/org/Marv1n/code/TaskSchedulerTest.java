@@ -92,11 +92,11 @@ public class TaskSchedulerTest {
 
 
     @Test
-    public void aTaskScheduler_whenInformedOfMaximumPendingRequestReached_thenRestartSchedulerAnRun() {
+    public void aTaskScheduler_whenRestartSchedule_thenRestartSchedulerAtBeginning() {
         ScheduledExecutorService aScheduledExecutorServiceMock = mock(ScheduledExecutorService.class);
         TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, aRunnable);
 
-        scheduler.onMaximumPendingRequestReached();
+        scheduler.restartSchedule();
 
         verify(aScheduledExecutorServiceMock, times(1)).scheduleAtFixedRate(aRunnable, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
 
