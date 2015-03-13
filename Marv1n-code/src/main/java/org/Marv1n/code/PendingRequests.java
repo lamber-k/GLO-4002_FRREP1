@@ -1,20 +1,15 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.StrategyRequestCancellation.IStrategyRequestCancellation;
-import org.Marv1n.code.StrategyRequestCancellation.StrategyRequestCancellationFactory;
-
 import java.util.*;
 
 public class PendingRequests {
     private int maximumPendingRequests;
     private List<Request> pendingRequests = new LinkedList<>();
-    private StrategyRequestCancellationFactory strategyRequestCancellationFactory;
     private List<IObserverMaximumPendingRequestReached> maximumPendingRequestReachedObservers;
 
 
-    public PendingRequests(int maximumPendingRequests, StrategyRequestCancellationFactory strategyRequestCancellationFactory) {
+    public PendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;
-        this.strategyRequestCancellationFactory = strategyRequestCancellationFactory;
         this.maximumPendingRequestReachedObservers = new ArrayList<>();
     }
 
@@ -25,13 +20,8 @@ public class PendingRequests {
         }
     }
 
-    public void cancelRequest(UUID requestID) {
-        Optional result = pendingRequests.stream().filter((Request r) -> r.getRequestID().equals(requestID)).findFirst();
-        if (result.isPresent()) {
-            Request request = (Request) result.get();
-            IStrategyRequestCancellation strategyRequestCancellation = strategyRequestCancellationFactory.createStrategyCancellation(request.getRequestStatus());
-            strategyRequestCancellation.cancelRequest(request);
-        }
+    public void cancelRequest(Request request) {
+        pendingRequests.remove(request);
     }
 
     public boolean hasPendingRequest() {

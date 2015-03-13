@@ -10,18 +10,20 @@ public class Request {
     private RequestStatus status;
     private UUID responsibleUUID;
 
-    public Request(int numberOfSeatsNeeded, int priority) {
+    public Request(int numberOfSeatsNeeded, int priority, UUID responsibleUUID) {
         this.priority = priority;
-        requestID = UUID.randomUUID();
+        this.requestID = UUID.randomUUID();
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
-        status = RequestStatus.PENDING;
+        this.status = RequestStatus.PENDING;
+        this.responsibleUUID = responsibleUUID;
     }
 
-    public Request(int numberOfSeatsNeeded, int priority, RequestStatus state) {
+    public Request(int numberOfSeatsNeeded, int priority, UUID responsibleUUID,  RequestStatus state) {
         this.priority = priority;
         this.requestID = UUID.randomUUID();
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
         this.status = state;
+        this.responsibleUUID = responsibleUUID;
     }
 
     public RequestStatus getRequestStatus() {

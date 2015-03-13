@@ -1,22 +1,16 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.Repository.Request.IRequestRepository;
-import org.Marv1n.code.StrategyRequestCancellation.IStrategyRequestCancellation;
-import org.Marv1n.code.StrategyRequestCancellation.StrategyRequestCancellationFactory;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PendingRequestsTest {
@@ -28,12 +22,10 @@ public class PendingRequestsTest {
     private PendingRequests pendingRequests2;
     @Mock
     private Request request;
-    @Mock
-    private StrategyRequestCancellationFactory strategyRequestCancellationFactoryMock;
 
     @Before
     public void initializeNewPendingRequests() {
-        pendingRequests2 = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, strategyRequestCancellationFactoryMock);
+        pendingRequests2 = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS);
     }
 
     @Test
@@ -65,23 +57,22 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequestsWithRequest_whenCancelRequest_thenRequestShouldBeCancelled() {
-        IStrategyRequestCancellation mockCancellationStrategy = mock(IStrategyRequestCancellation.class);
+    public void givenPendingRequestsWithOneRequest_whenCancelRequest_thenPendingRequestsShouldHaveNoRequest() {
         pendingRequests2.addRequest(request);
-        when(request.getRequestID()).thenReturn(A_REQUEST_UUID);
-        when(request.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
-        when(strategyRequestCancellationFactoryMock.createStrategyCancellation(RequestStatus.ACCEPTED)).thenReturn(mockCancellationStrategy);
 
-        pendingRequests2.cancelRequest(A_REQUEST_UUID);
+        pendingRequests2.cancelRequest(request);
 
-        verify(mockCancellationStrategy).cancelRequest(request);
+        assertFalse(pendingRequests2.hasPendingRequest());
     }
 
     @Test
-    public void givenPendingRequest_whenCancelNonExistingRequest_shouldDoNothing() {
-        pendingRequests2.cancelRequest(UUID.randomUUID());
+    public void givenPendingRequestsWithOneRequest_whenCancelRequestAnOtherRequest_thenPendingRequestsShouldHaveNoRequest() {
+        Request anOtherRequest = mock(Request.class);
+        pendingRequests2.addRequest(anOtherRequest);
 
-        verify(strategyRequestCancellationFactoryMock, never()).createStrategyCancellation(any());
+        pendingRequests2.cancelRequest(request);
+
+        assertTrue(pendingRequests2.hasPendingRequest());
     }
 
 }

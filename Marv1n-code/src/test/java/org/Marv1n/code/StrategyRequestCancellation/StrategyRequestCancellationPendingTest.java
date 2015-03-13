@@ -1,5 +1,6 @@
 package org.Marv1n.code.StrategyRequestCancellation;
 
+import org.Marv1n.code.PendingRequests;
 import org.Marv1n.code.Repository.Request.IRequestRepository;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.RequestStatus;
@@ -18,12 +19,14 @@ public class StrategyRequestCancellationPendingTest {
     @Mock
     IRequestRepository requestRepository;
     @Mock
+    PendingRequests pendingRequests;
+    @Mock
     Request request;
     private StrategyRequestCancellationPending strategyRequestCancellationPending;
 
     @Before
     public void init() {
-        strategyRequestCancellationPending = new StrategyRequestCancellationPending(requestRepository);
+        strategyRequestCancellationPending = new StrategyRequestCancellationPending(requestRepository, pendingRequests);
     }
 
 
@@ -40,6 +43,13 @@ public class StrategyRequestCancellationPendingTest {
 
         verify(requestRepository, times(1)).remove(request);
         verify(requestRepository, times(1)).create(request);
+    }
+
+    @Test
+    public void givenStrategyRequestCancellationPending_whenCancelRequestCalled_thenRequestIsRemovedFromPendingRequest() {
+        strategyRequestCancellationPending.cancelRequest(request);
+
+        verify(pendingRequests, times(1)).cancelRequest(request);
     }
 
 }

@@ -11,5 +11,8 @@ public interface IPersonRepository extends IRepository<Person> {
 
     public Optional<Person> findByUUID(UUID id);
 
-    List<Person> findByListOfUUID(List<UUID> listOfUUID);
+    public List<Person> findByListOfUUID(List<UUID> listOfUUID);
+
+    public Optional<Person> findByEmail(String email);
+
 }

@@ -1,5 +1,6 @@
 package org.Marv1n.code.StrategyRequestCancellation;
 
+import org.Marv1n.code.PendingRequests;
 import org.Marv1n.code.Repository.Request.IRequestRepository;
 import org.Marv1n.code.Repository.Reservation.IReservationRepository;
 import org.Marv1n.code.RequestStatus;
@@ -19,11 +20,13 @@ public class StrategyRequestCancellationFactoryTest {
     private IRequestRepository requestRepositoryMock;
     @Mock
     private IReservationRepository reservationRepositoryMock;
+    @Mock
+    private PendingRequests pendingRequests;
     private IStrategyRequestCancellation resultStrategy;
 
     @Before
     public void init() {
-        strategyRequestCancellationFactory = new StrategyRequestCancellationFactory(requestRepositoryMock, reservationRepositoryMock);
+        strategyRequestCancellationFactory = new StrategyRequestCancellationFactory(requestRepositoryMock, reservationRepositoryMock, pendingRequests);
     }
 
     @Test

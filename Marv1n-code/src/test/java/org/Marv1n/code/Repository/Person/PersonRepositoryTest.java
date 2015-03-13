@@ -16,6 +16,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PersonRepositoryTest {
 
+    private static String AN_EMAIL = "exemple@exemple.com";
+    private static String AN_OTHER_EMAIL = "exemple2@exemple.com";
     private PersonRepository personRepository;
     @Mock
     private Person mockPerson;
@@ -54,6 +56,32 @@ public class PersonRepositoryTest {
         assertTrue(results.stream().filter(r -> r.getID().equals(personUUID)).findAny().isPresent());
         assertTrue(results.stream().filter(r -> r.getID().equals(anotherMockPersonUUID)).findAny().isPresent());
     }
+
+    @Test
+    public void givenEmptyRepository_whenFindByEmail_thenReturnEmptyResult() {
+        Optional<Person> result = personRepository.findByEmail(AN_EMAIL);
+
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void givenRepositoryContainingNonCorrespondingElement_whenFindByEmail_thenReturnEmptyResult() {
+        when(mockPerson.getMailAddress()).thenReturn(AN_OTHER_EMAIL);
+        personRepository.create(mockPerson);
+        Optional<Person> result = personRepository.findByEmail(AN_EMAIL);
+
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void givenRepositoryContainingCorrespondingElement_whenFindByEmail_thenReturnResultWithCorrespondingElement() {
+        when(mockPerson.getMailAddress()).thenReturn(AN_EMAIL);
+        personRepository.create(mockPerson);
+        Optional<Person> result = personRepository.findByEmail(AN_EMAIL);
+
+        assertTrue(result.isPresent());
+    }
+
 
     @Test
     public void givenRepositoryWithAdmin_whenFindAdmins_shouldReturnAllAdmins() {

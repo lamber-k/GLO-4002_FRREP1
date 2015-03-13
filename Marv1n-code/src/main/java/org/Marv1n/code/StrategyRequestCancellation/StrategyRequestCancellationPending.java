@@ -1,5 +1,6 @@
 package org.Marv1n.code.StrategyRequestCancellation;
 
+import org.Marv1n.code.PendingRequests;
 import org.Marv1n.code.Repository.Request.IRequestRepository;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.RequestStatus;
@@ -10,9 +11,11 @@ import org.Marv1n.code.RequestStatus;
 public class StrategyRequestCancellationPending implements IStrategyRequestCancellation {
 
     private IRequestRepository requestRepository;
+    private PendingRequests pendingRequests;
 
-    public StrategyRequestCancellationPending(IRequestRepository requestRepository) {
+    public StrategyRequestCancellationPending(IRequestRepository requestRepository, PendingRequests pendingRequests) {
         this.requestRepository = requestRepository;
+        this.pendingRequests = pendingRequests;
     }
 
     @Override
@@ -21,5 +24,6 @@ public class StrategyRequestCancellationPending implements IStrategyRequestCance
         request.setRequestStatus(RequestStatus.CANCELED);
         requestRepository.create(request);
         //TODO use update in repository
+        pendingRequests.cancelRequest(request);
     }
 }

@@ -18,6 +18,10 @@ public class PersonRepository extends Repository<Person> implements IPersonRepos
         return query().filter(p -> listOfUUID.contains(p.getID())).collect(Collectors.toList());
     }
 
+    public Optional<Person> findByEmail(String email) {
+        return query().filter(p -> p.getMailAddress().equals(email)).findFirst();
+    }
+
     public List<Person> findAdmins() {
         return query().filter(p -> p.isAdmin()).collect(Collectors.toList());
     }
