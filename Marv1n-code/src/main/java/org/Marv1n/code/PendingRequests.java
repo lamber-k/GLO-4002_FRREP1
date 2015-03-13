@@ -1,6 +1,5 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.Repository.Request.IRequestRepository;
 import org.Marv1n.code.StrategyRequestCancellation.IStrategyRequestCancellation;
 import org.Marv1n.code.StrategyRequestCancellation.StrategyRequestCancellationFactory;
 

@@ -4,10 +4,10 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class TaskScheduler {
+public class TaskScheduler implements Scheduler {
 
     private final Runnable task;
-    private TimeUnit timeUnit;
+    private final TimeUnit timeUnit;
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> nextRun;
     private boolean isSchedulerRunning;
@@ -55,9 +55,4 @@ public class TaskScheduler {
         startAtFixedRate();
     }
 
-/*    @Override
-    public void onMaximumPendingRequestReached() {
-        cancelScheduler();
-        startAtFixedRate();
-  }*/
 }
