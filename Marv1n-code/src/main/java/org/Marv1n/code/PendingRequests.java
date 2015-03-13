@@ -4,34 +4,30 @@ import org.Marv1n.code.Repository.Request.IRequestRepository;
 import org.Marv1n.code.StrategyRequestCancellation.IStrategyRequestCancellation;
 import org.Marv1n.code.StrategyRequestCancellation.StrategyRequestCancellationFactory;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class PendingRequests {
     private int maximumPendingRequests;
-    private IRequestRepository requestRepository;
+    private List<Request> pendingRequests = new LinkedList<>();
     private StrategyRequestCancellationFactory strategyRequestCancellationFactory;
     private List<IObserverMaximumPendingRequestReached> maximumPendingRequestReachedObservers;
 
 
-    public PendingRequests(int maximumPendingRequests, IRequestRepository requestRepository, StrategyRequestCancellationFactory strategyRequestCancellationFactory) {
+    public PendingRequests(int maximumPendingRequests, StrategyRequestCancellationFactory strategyRequestCancellationFactory) {
         this.maximumPendingRequests = maximumPendingRequests;
-        this.requestRepository = requestRepository;
         this.strategyRequestCancellationFactory = strategyRequestCancellationFactory;
         this.maximumPendingRequestReachedObservers = new ArrayList<>();
     }
 
     public void addRequest(Request request) {
-        requestRepository.create(request);
-        if (requestRepository.findAllPendingRequest().size() >= maximumPendingRequests) {
+        pendingRequests.add(request);
+        if (pendingRequests.size() >= maximumPendingRequests) {
             notifyMaxPendingRequestReachedObserver();
         }
     }
 
     public void cancelRequest(UUID requestID) {
-        Optional result = requestRepository.findByUUID(requestID);
+        Optional result = pendingRequests.stream().filter((Request r) -> r.getRequestID().equals(requestID)).findFirst();
         if (result.isPresent()) {
             Request request = (Request) result.get();
             IStrategyRequestCancellation strategyRequestCancellation = strategyRequestCancellationFactory.createStrategyCancellation(request.getRequestStatus());
@@ -40,7 +36,7 @@ public class PendingRequests {
     }
 
     public boolean hasPendingRequest() {
-        return !requestRepository.findAllPendingRequest().isEmpty();
+        return !pendingRequests.isEmpty();
     }
 
     public int getMaximumPendingRequests() {
