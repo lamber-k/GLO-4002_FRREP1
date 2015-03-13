@@ -17,6 +17,6 @@ public class RequestRepository extends Repository<Request> implements IRequestRe
 
     @Override
     public List<Request> findAllPendingRequest() {
-        return this.query().filter(p -> p.getRequestStatus().equals(RequestStatus.PENDING)).collect(Collectors.toList());
+        return query().filter(p -> p.getRequestStatus().equals(RequestStatus.PENDING)).collect(Collectors.toList());
     }
 }

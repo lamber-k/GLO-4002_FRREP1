@@ -1,44 +1,41 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.Repository.Request.IRequestRepository;
+import org.Marv1n.code.StrategyRequestCancellation.IStrategyRequestCancellation;
+import org.Marv1n.code.StrategyRequestCancellation.StrategyRequestCancellationFactory;
 
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class PendingRequests {
-    private Organizer organizer;
     private int maximumPendingRequests;
-    private IRequestRepository requests;
+    private List<Request> pendingRequests = new LinkedList<>();
+    private StrategyRequestCancellationFactory strategyRequestCancellationFactory;
+    private List<IObserverMaximumPendingRequestReached> maximumPendingRequestReachedObservers;
 
-    public PendingRequests(Organizer organizer, int maximumPendingRequests, IRequestRepository requestRepository) {
-        this.organizer = organizer;
+
+    public PendingRequests(int maximumPendingRequests, StrategyRequestCancellationFactory strategyRequestCancellationFactory) {
         this.maximumPendingRequests = maximumPendingRequests;
-        this.requests = requestRepository;
+        this.strategyRequestCancellationFactory = strategyRequestCancellationFactory;
+        this.maximumPendingRequestReachedObservers = new ArrayList<>();
     }
 
     public void addRequest(Request request) {
-        requests.create(request);
-        if (requests.findAllPendingRequest().size() >= maximumPendingRequests) {
-            organizer.treatPendingRequestsNow();
+        pendingRequests.add(request);
+        if (pendingRequests.size() >= maximumPendingRequests) {
+            notifyMaxPendingRequestReachedObserver();
         }
     }
 
     public void cancelRequest(UUID requestID) {
-        Optional result = requests.findByUUID(requestID);
+        Optional result = pendingRequests.stream().filter((Request r) -> r.getRequestID().equals(requestID)).findFirst();
         if (result.isPresent()) {
             Request request = (Request) result.get();
-            //TODO update within repository removing and recreating isn't the best way to do so
-            if (request.getRequestStatus().equals(RequestStatus.PENDING) || request.getRequestStatus().equals(RequestStatus.ACCEPTED)) {
-                //TODO notify cancellation
-                requests.remove(request);
-                request.setRequestStatus(RequestStatus.CANCELED);
-                requests.create(request);
-            }
+            IStrategyRequestCancellation strategyRequestCancellation = strategyRequestCancellationFactory.createStrategyCancellation(request.getRequestStatus());
+            strategyRequestCancellation.cancelRequest(request);
         }
     }
 
     public boolean hasPendingRequest() {
-        return !requests.findAllPendingRequest().isEmpty();
+        return !pendingRequests.isEmpty();
     }
 
     public int getMaximumPendingRequests() {
@@ -47,5 +44,16 @@ public class PendingRequests {
 
     public void setMaximumPendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;
+    }
+
+    public void addObserverMaximumPendingRequestsReached(IObserverMaximumPendingRequestReached observer) {
+        maximumPendingRequestReachedObservers.add(observer);
+    }
+
+    private void notifyMaxPendingRequestReachedObserver() {
+        for (IObserverMaximumPendingRequestReached observer : maximumPendingRequestReachedObservers) {
+            observer.onMaximumPendingRequestReached();
+        }
+
     }
 }

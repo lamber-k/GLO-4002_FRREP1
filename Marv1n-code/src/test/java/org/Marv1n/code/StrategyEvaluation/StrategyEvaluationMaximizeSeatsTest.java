@@ -49,8 +49,8 @@ public class StrategyEvaluationMaximizeSeatsTest {
 
     private void loadDefaultBehaviours() throws ReservationNotFoundException {
         when(reservableRepository.findAll()).thenReturn(reservableList);
-        when(mockReservable.hasEnoughCapacity(any())).thenReturn(true);
-        when(anotherMockReservable.hasEnoughCapacity(any())).thenReturn(true);
+        when(mockReservable.hasEnoughCapacity(anyInt())).thenReturn(true);
+        when(anotherMockReservable.hasEnoughCapacity(anyInt())).thenReturn(true);
         when(reservationRepository.findReservationByReservable(any(IReservable.class))).thenThrow(ReservationNotFoundException.class);
     }
 

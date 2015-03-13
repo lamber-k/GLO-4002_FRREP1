@@ -12,33 +12,7 @@ import java.util.Properties;
  */
 public class MailService implements IMailServiceAdapter {
 
-    public enum Protocol {
-        SMTP,
-        SMTPS,
-        SSL
-    }
-
-    public static class MailServiceOptions {
-        public String host = "";
-        public String port = "";
-        public String username = "";
-        public String password = "";
-
-        public MailServiceOptions(String host, String port) {
-            this.host = host;
-            this.port = port;
-        }
-
-        public MailServiceOptions(String host, String port, String username, String password) {
-            this.host = host;
-            this.port = port;
-            this.username = username;
-            this.password = password;
-        }
-    }
-
     private final Protocol DEFAUL_PROTOCOL = Protocol.SMTP;
-
     private MailServiceOptions options;
     private Session session;
 
@@ -88,7 +62,8 @@ public class MailService implements IMailServiceAdapter {
     }
 
     private void setUnSecureSession(Properties properties) {
-        this.session = Session.getInstance(properties, new Authenticator(){});
+        this.session = Session.getInstance(properties, new Authenticator() {
+        });
     }
 
     @Override
@@ -111,6 +86,31 @@ public class MailService implements IMailServiceAdapter {
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public enum Protocol {
+        SMTP,
+        SMTPS,
+        SSL
+    }
+
+    public static class MailServiceOptions {
+        public String host = "";
+        public String port = "";
+        public String username = "";
+        public String password = "";
+
+        public MailServiceOptions(String host, String port) {
+            this.host = host;
+            this.port = port;
+        }
+
+        public MailServiceOptions(String host, String port, String username, String password) {
+            this.host = host;
+            this.port = port;
+            this.username = username;
+            this.password = password;
         }
     }
 }

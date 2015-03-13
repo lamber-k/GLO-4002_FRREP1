@@ -16,13 +16,13 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class StrategySortRequestByPriorityTest {
 
-    private static final Integer HIGH_PRIORITY = 1;
-    private static final Integer MEDIUM_PRIORITY = 3;
-    private static final Integer LOW_PRIORITY = 5;
-    private static final Integer REQUEST_INDEX_FIRST = 0;
-    private static final Integer REQUEST_INDEX_SECOND = 1;
-    private static final Integer REQUEST_INDEX_THIRD = 2;
-    private static final Integer REQUEST_INDEX_FOURTH = 3;
+    private static final int HIGH_PRIORITY = 1;
+    private static final int MEDIUM_PRIORITY = 3;
+    private static final int LOW_PRIORITY = 5;
+    private static final int REQUEST_INDEX_FIRST = 0;
+    private static final int REQUEST_INDEX_SECOND = 1;
+    private static final int REQUEST_INDEX_THIRD = 2;
+    private static final int REQUEST_INDEX_FOURTH = 3;
 
     @Mock
     private List<Request> mockListRequest;
@@ -51,7 +51,7 @@ public class StrategySortRequestByPriorityTest {
     }
 
     @Test
-    public void whenStrategySort_SortIsCalledOnList_ContainingMoreThanOneRequestThenListIsSorted() {
+    public void whenStrategySortSortIsCalledOnListContainingMoreThanOneRequestThenListIsSorted() {
         ArrayList<Request> sortedArray = requestSorter.sortList(listRequest);
 
         assertEquals(requestWithHighPriority, sortedArray.get(REQUEST_INDEX_FIRST));
@@ -60,7 +60,7 @@ public class StrategySortRequestByPriorityTest {
     }
 
     @Test
-    public void whenStrategySort_SortIsCalledOnListContainingElementOfSamePriority_ThenListIsSortedWithFirstInFistOutOrderForSamePriorityRequest() {
+    public void whenStrategySortSortIsCalledOnListContainingElementOfSamePriorityThenListIsSortedWithFirstInFistOutOrderForSamePriorityRequest() {
         listRequest.add(requestWithMediumPriority_2);
 
         ArrayList<Request> sortedArray = requestSorter.sortList(listRequest);
@@ -70,5 +70,4 @@ public class StrategySortRequestByPriorityTest {
         assertEquals(requestWithMediumPriority_2, sortedArray.get(REQUEST_INDEX_THIRD));
         assertEquals(requestWithLowPriority, sortedArray.get(REQUEST_INDEX_FOURTH));
     }
-
 }

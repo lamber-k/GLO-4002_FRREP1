@@ -20,7 +20,6 @@ public class ReservationTest {
     private IReservable mockReservable;
     private Reservation reservation;
 
-
     @Before
     public void init() {
         reservation = new Reservation(mockRequest, mockReservable);
@@ -56,5 +55,4 @@ public class ReservationTest {
     public void givenSameObject_WhenCompared_ThenEqualsReturnTrue() {
         assertTrue(reservation.equals(reservation));
     }
-
 }

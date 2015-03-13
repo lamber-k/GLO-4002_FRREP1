@@ -38,5 +38,4 @@ public class StrategyEvaluationMaximizeSeats implements IStrategyEvaluation {
         }
         return (false);
     }
-
 }

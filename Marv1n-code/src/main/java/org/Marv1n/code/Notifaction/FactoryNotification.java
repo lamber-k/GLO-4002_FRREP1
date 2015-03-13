@@ -10,7 +10,7 @@ public abstract class FactoryNotification implements IFactoryNotification {
             + "Vous avez été assigné à la salle %s.\n";
 
     protected String buildNotification(Request request, String room) {
-        String  notificationDetail;
+        String notificationDetail;
 
         switch (request.getRequestStatus()) {
             case ACCEPTED:

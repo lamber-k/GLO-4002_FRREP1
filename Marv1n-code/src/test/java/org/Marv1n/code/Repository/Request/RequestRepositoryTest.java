@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RequestRepositoryTest {
+
     private RequestRepository requestRepository;
     @Mock
     private Request mockRequest;
@@ -66,7 +67,7 @@ public class RequestRepositoryTest {
     public void givenEmptyRequestRepository_whenGetAllPendingRequest_thenReturnEmptyArray() {
         List pendingRequestList = this.requestRepository.findAllPendingRequest();
 
-        assertEquals(0,pendingRequestList.size());
+        assertEquals(0, pendingRequestList.size());
     }
 
     @Test
@@ -76,7 +77,7 @@ public class RequestRepositoryTest {
 
         List pendingRequestList = this.requestRepository.findAllPendingRequest();
 
-        assertEquals(0,pendingRequestList.size());
+        assertEquals(0, pendingRequestList.size());
     }
 
     @Test
@@ -89,8 +90,8 @@ public class RequestRepositoryTest {
 
         List pendingRequestList = this.requestRepository.findAllPendingRequest();
 
-        assertEquals(1,pendingRequestList.size());
-        assertEquals(pendingRequestList.get(0),mockRequest);
+        assertEquals(1, pendingRequestList.size());
+        assertEquals(pendingRequestList.get(0), mockRequest);
     }
 
     @Test
@@ -103,12 +104,8 @@ public class RequestRepositoryTest {
 
         List pendingRequestList = this.requestRepository.findAllPendingRequest();
 
-        assertEquals(2,pendingRequestList.size());
+        assertEquals(2, pendingRequestList.size());
         assertEquals(pendingRequestList.get(0), mockRequest);
         assertEquals(pendingRequestList.get(1), anOtherMockRequest);
     }
-
-
-
-
 }

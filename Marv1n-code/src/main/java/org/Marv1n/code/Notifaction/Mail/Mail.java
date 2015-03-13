@@ -4,6 +4,7 @@ import java.util.List;
 
 
 public class Mail {
+
     public final String from;
     public final List<String> to;
     public final String object;
@@ -19,9 +20,8 @@ public class Mail {
     public boolean equals(Object rhs) {
         if (rhs == null) {
             return false;
-        }
-        else if (rhs instanceof Mail) {
-            Mail    rhsMail = (Mail)rhs;
+        } else if (rhs instanceof Mail) {
+            Mail rhsMail = (Mail) rhs;
             return (rhsMail.message.equals(message) &&
                     rhsMail.from.equals(from) &&
                     rhsMail.to.equals(to) &&
@@ -29,6 +29,4 @@ public class Mail {
         }
         return false;
     }
-
-
 }

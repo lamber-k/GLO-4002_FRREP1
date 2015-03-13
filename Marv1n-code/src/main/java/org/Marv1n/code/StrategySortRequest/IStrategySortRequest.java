@@ -6,5 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public interface IStrategySortRequest {
+
     public ArrayList<Request> sortList(List<Request> input);
 }

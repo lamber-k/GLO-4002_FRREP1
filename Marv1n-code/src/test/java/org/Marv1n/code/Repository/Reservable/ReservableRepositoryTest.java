@@ -9,10 +9,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ReservableRepositoryTest {
+
     private ReservableRepository reservableRepository;
     @Mock
     private IReservable mockIReservable;

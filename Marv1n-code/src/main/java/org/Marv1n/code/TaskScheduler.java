@@ -4,28 +4,30 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class TaskScheduler {
+public class TaskScheduler implements Scheduler {
 
-    private TimeUnit timeUnit;
+    private final Runnable task;
+    private final TimeUnit timeUnit;
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> nextRun;
     private boolean isSchedulerRunning;
-    private Integer intervalTimer;
+    private int intervalTimer;
 
-    public TaskScheduler(ScheduledExecutorService scheduler, Integer intervalTimer, TimeUnit timeUnit) {
+    public TaskScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit, Runnable task) {
         this.scheduler = scheduler;
-        nextRun = null;
-        isSchedulerRunning = false;
+        this.nextRun = null;
+        this.isSchedulerRunning = false;
         this.timeUnit = timeUnit;
         this.intervalTimer = intervalTimer;
+        this.task = task;
     }
 
     public boolean isSchedulerRunning() {
         return isSchedulerRunning;
     }
 
-    public void startScheduler(Runnable task) {
-        startAtFixedRate(task);
+    public void startScheduler() {
+        startAtFixedRate();
     }
 
     public void cancelScheduler() {
@@ -35,22 +37,22 @@ public class TaskScheduler {
         }
     }
 
-    public void runNow(Runnable task) {
-        cancelScheduler();
-        task.run();
-        startAtFixedRate(task);
-    }
-
-    private void startAtFixedRate(Runnable task) {
+    private void startAtFixedRate() {
         nextRun = scheduler.scheduleAtFixedRate(task, intervalTimer, intervalTimer, timeUnit);
         isSchedulerRunning = true;
     }
 
-    public Integer getIntervalTimer() {
+    public int getIntervalTimer() {
         return intervalTimer;
     }
 
-    public void setIntervalTimer(Integer intervalTimer) {
+    public void setIntervalTimer(int intervalTimer) {
         this.intervalTimer = intervalTimer;
     }
+
+    public void restartSchedule() {
+        cancelScheduler();
+        startAtFixedRate();
+    }
+
 }

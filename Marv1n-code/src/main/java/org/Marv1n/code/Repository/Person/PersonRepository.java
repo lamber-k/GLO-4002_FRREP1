@@ -9,6 +9,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PersonRepository extends Repository<Person> implements IPersonRepository {
+
     public Optional<Person> findByUUID(UUID id) {
         return query().filter(p -> p.getID().equals(id)).findFirst();
     }

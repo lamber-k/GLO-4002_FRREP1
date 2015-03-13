@@ -14,7 +14,7 @@ public class Request {
         this.priority = priority;
         requestID = UUID.randomUUID();
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
-        this.status = RequestStatus.PENDING;
+        status = RequestStatus.PENDING;
     }
 
     public Request(int numberOfSeatsNeeded, int priority, RequestStatus state) {
@@ -55,16 +55,15 @@ public class Request {
         return (requestID.hashCode());
     }
 
-
     public UUID getRequestID() {
         return requestID;
     }
 
-    public void setResponsibleUUID(UUID responsibleUUID) {
-        this.responsibleUUID = responsibleUUID;
-    }
-
     public UUID getResponsibleUUID() {
         return responsibleUUID;
+    }
+
+    public void setResponsibleUUID(UUID responsibleUUID) {
+        this.responsibleUUID = responsibleUUID;
     }
 }
