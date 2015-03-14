@@ -31,7 +31,7 @@ public class MailSerciceFactoryTest {
 
         IMailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptions);
 
-        assertTrue(createdMailService instanceof MailServiceSMTPS);
+        assertTrue(createdMailService instanceof JavaxMailServiceSMTPS);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class MailSerciceFactoryTest {
 
         IMailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptions);
 
-        assertTrue(createdMailService instanceof MailServiceSSL);
+        assertTrue(createdMailService instanceof JavaxMailServiceSSL);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class MailSerciceFactoryTest {
 
         IMailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptions);
 
-        assertTrue(createdMailService instanceof MailServiceSMTP);
+        assertTrue(createdMailService instanceof JavaxMailServiceSMTP);
     }
 
 }
