@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Request {
 
-    private UUID requestID;
+    private final UUID requestID;
     private int numberOfSeatsNeeded;
     private int priority;
     private RequestStatus status;

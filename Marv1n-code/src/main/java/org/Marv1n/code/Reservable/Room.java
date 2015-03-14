@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public class Room implements IReservable {
 
-    private UUID roomID;
+    private final UUID roomID;
     private int numberOfSeats;
     private String name;
 

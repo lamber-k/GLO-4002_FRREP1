@@ -5,7 +5,7 @@ import java.util.UUID;
 public class Person {
 
     private String mailAddress;
-    private UUID personID;
+    private final UUID personID;
     private boolean admin = false;
 
     public Person(String mailAddress) {
