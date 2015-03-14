@@ -12,13 +12,13 @@ import java.util.Properties;
  */
 public class MailService implements IMailServiceAdapter {
 
-    private final Protocol DEFAUL_PROTOCOL = Protocol.SMTP;
+    private final Protocol DEFAULT_PROTOCOL = Protocol.SMTP;
     private MailServiceOptions options;
     private Session session;
 
     public MailService(MailServiceOptions options) {
         this.options = options;
-        this.setProtocol(DEFAUL_PROTOCOL);
+        this.setProtocol(DEFAULT_PROTOCOL);
     }
 
     public void setProtocol(Protocol protocol) {

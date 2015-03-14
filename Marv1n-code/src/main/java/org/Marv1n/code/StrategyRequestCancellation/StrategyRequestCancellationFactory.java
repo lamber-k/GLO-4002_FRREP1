@@ -23,7 +23,7 @@ public class StrategyRequestCancellationFactory {
         if (requestStatus.equals(RequestStatus.REFUSED))
             return new StrategyRequestCancellationRefused();
         if (requestStatus.equals(RequestStatus.PENDING))
-            return new StrategyRequestCancellationPending(requestRepository,pendingRequests);
+            return new StrategyRequestCancellationPending(requestRepository, pendingRequests);
         else
             return new StrategyRequestCancellationAccepted(requestRepository, reservationRepository);
     }

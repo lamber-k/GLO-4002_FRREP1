@@ -13,7 +13,9 @@ import org.Marv1n.code.RequestStatus;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservation.Reservation;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class MailFactoryNotification extends FactoryNotification {

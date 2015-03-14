@@ -42,7 +42,7 @@ public class Marv1nInterfaceTest {
         marv1NInterface = new Marv1nInterface(requestRepositoryMock, reservationRepositoryMock, personRepositoryMock, pendingRequestsMock);
     }
 
-    public void initWithStragegyRequestCancellationFactory() {
+    public void initWithStrategyRequestCancellationFactory() {
         marv1NInterface = new Marv1nInterface(requestRepositoryMock, personRepositoryMock, strategyRequestCancellationFactoryMock, pendingRequestsMock);
     }
 
@@ -78,7 +78,7 @@ public class Marv1nInterfaceTest {
     }
 
     @Test
-    public void givenMarv1nInterface_whenAddNewRequestWithInvalidEmailAdressFormat_thenPersonShouldBeCreated() {
+    public void givenMarv1nInterface_whenAddNewRequestWithInvalidEmailAddressFormat_thenPersonShouldBeCreated() {
         initWithReservationRepository();
         when(personRepositoryMock.findByEmail(AN_EMAIL)).thenReturn(Optional.empty());
         marv1NInterface.createRequest(A_NUMBER_OF_SEATS, A_PRIORITY, AN_INVALID_EMAIL);
@@ -87,8 +87,8 @@ public class Marv1nInterfaceTest {
     }
 
     @Test
-    public void givenMarv1nInterface_whenCancellRequestWithExistingRequest_thenRequestIsCancelledByCallingTheCancellStragey() {
-        initWithStragegyRequestCancellationFactory();
+    public void givenMarv1nInterface_whenCancelRequestWithExistingRequest_thenRequestIsCancelledByCallingTheCancelScraggy() {
+        initWithStrategyRequestCancellationFactory();
         UUID id = UUID.randomUUID();
         Request requestMock = mock(Request.class);
         when(requestRepositoryMock.findByUUID(id)).thenReturn(Optional.of(requestMock));
@@ -101,8 +101,8 @@ public class Marv1nInterfaceTest {
     }
 
     @Test
-    public void givenMarv1nInterface_whenCancellRequestWithNonExistingRequest_thenNothingIsDone() {
-        initWithStragegyRequestCancellationFactory();
+    public void givenMarv1nInterface_whenCancelRequestWithNonExistingRequest_thenNothingIsDone() {
+        initWithStrategyRequestCancellationFactory();
         UUID id = UUID.randomUUID();
         when(requestRepositoryMock.findByUUID(id)).thenReturn(Optional.empty());
         IStrategyRequestCancellation strategyRequestCancellationMock = mock(IStrategyRequestCancellation.class);

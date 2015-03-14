@@ -1,6 +1,6 @@
 package org.Marv1n.code.Interface;
 
-import org.Marv1n.code.EmailAdressValidator;
+import org.Marv1n.code.EmailAddressValidator;
 import org.Marv1n.code.PendingRequests;
 import org.Marv1n.code.Person;
 import org.Marv1n.code.Repository.Person.IPersonRepository;
@@ -41,7 +41,7 @@ public class Marv1nInterface {
     }
 
     public void createRequest(int numberOfSeatsNeeded, int priority, String email) {
-        if (EmailAdressValidator.validate(email)) {
+        if (EmailAddressValidator.validate(email)) {
 
             Person person;
             Optional<Person> result = personRepository.findByEmail(email);

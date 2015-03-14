@@ -18,7 +18,7 @@ public class Request {
         this.responsibleUUID = responsibleUUID;
     }
 
-    public Request(int numberOfSeatsNeeded, int priority, UUID responsibleUUID,  RequestStatus state) {
+    public Request(int numberOfSeatsNeeded, int priority, UUID responsibleUUID, RequestStatus state) {
         this.priority = priority;
         this.requestID = UUID.randomUUID();
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;

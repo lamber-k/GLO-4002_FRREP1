@@ -1,6 +1,8 @@
 package org.Marv1n.code;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 public class PendingRequests {
     private int maximumPendingRequests;

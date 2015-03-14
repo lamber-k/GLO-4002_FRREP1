@@ -3,7 +3,6 @@ package org.Marv1n.code.Notifaction.Mail;
 import org.Marv1n.code.RequestStatus;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by Kevin on 13/03/2015.
@@ -53,6 +52,7 @@ public class MailBuilder {
 
         return new Mail(from, to, object, message);
     }
+
     private String buildMailObject() throws MailBuilderException {
         String mailObject;
 
@@ -77,7 +77,6 @@ public class MailBuilder {
         }
         return (mailObject);
     }
-
 
 
 }
