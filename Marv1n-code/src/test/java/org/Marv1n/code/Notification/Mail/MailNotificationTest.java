@@ -1,8 +1,8 @@
 package org.Marv1n.code.Notification.Mail;
 
-import org.Marv1n.code.Notifaction.Mail.IMailServiceAdapter;
 import org.Marv1n.code.Notifaction.Mail.Mail;
 import org.Marv1n.code.Notifaction.Mail.MailNotification;
+import org.Marv1n.code.Notifaction.Mail.MailService.IMailService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,11 +24,11 @@ public class MailNotificationTest {
     private final Mail A_MAIL = new Mail(A_MAIL_ADDRESS, TO_ADDRESS, AN_OBJECT, A_MESSAGE);
 
     private MailNotification notifier;
-    private IMailServiceAdapter mailService;
+    private IMailService mailService;
 
     @Before
     public void initializeNotifier() {
-        mailService = mock(IMailServiceAdapter.class);
+        mailService = mock(IMailService.class);
         notifier = new MailNotification(mailService, A_MAIL);
     }
 

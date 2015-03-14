@@ -1,10 +1,10 @@
 package org.Marv1n.code.Notification.Mail;
 
 import org.Marv1n.code.Notifaction.InvalidRequestException;
-import org.Marv1n.code.Notifaction.Mail.IMailServiceAdapter;
 import org.Marv1n.code.Notifaction.Mail.Mail;
 import org.Marv1n.code.Notifaction.Mail.MailFactoryNotification;
 import org.Marv1n.code.Notifaction.Mail.MailNotification;
+import org.Marv1n.code.Notifaction.Mail.MailService.IMailService;
 import org.Marv1n.code.Person;
 import org.Marv1n.code.Repository.Person.PersonRepository;
 import org.Marv1n.code.Repository.Reservable.ReservableRepository;
@@ -41,7 +41,7 @@ public class MailFactoryNotificationTest {
     private static final String A_RESERVABLE_NAME = "44201";
     private static final List<Person> ADMINS = Arrays.asList(AN_ADMIN);
 
-    private IMailServiceAdapter mockMailService;
+    private IMailService mockMailService;
     private MailFactoryNotification mailFactory;
     private ReservationRepository mockReservationRepository;
     private ReservableRepository mockReservableRepository;
@@ -52,7 +52,7 @@ public class MailFactoryNotificationTest {
 
     @Before
     public void initializeMailFactory() {
-        mockMailService = mock(IMailServiceAdapter.class);
+        mockMailService = mock(IMailService.class);
         mockReservableRepository = mock(ReservableRepository.class);
         mockReservationRepository = mock(ReservationRepository.class);
         mockPersonRepository = mock(PersonRepository.class);

@@ -3,6 +3,7 @@ package org.Marv1n.code.Notifaction.Mail;
 import org.Marv1n.code.Notifaction.FactoryNotification;
 import org.Marv1n.code.Notifaction.INotification;
 import org.Marv1n.code.Notifaction.InvalidRequestException;
+import org.Marv1n.code.Notifaction.Mail.MailService.IMailService;
 import org.Marv1n.code.Person;
 import org.Marv1n.code.Repository.Person.PersonRepository;
 import org.Marv1n.code.Repository.Reservable.ReservableRepository;
@@ -20,9 +21,9 @@ import java.util.stream.Collectors;
 
 public class MailFactoryNotification extends FactoryNotification {
 
-    private final IMailServiceAdapter mailService;
+    private final IMailService mailService;
 
-    public MailFactoryNotification(IMailServiceAdapter mailService) {
+    public MailFactoryNotification(IMailService mailService) {
         this.mailService = mailService;
     }
 
