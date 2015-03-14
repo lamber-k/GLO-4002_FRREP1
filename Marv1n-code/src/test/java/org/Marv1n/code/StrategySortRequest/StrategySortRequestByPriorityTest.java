@@ -23,51 +23,48 @@ public class StrategySortRequestByPriorityTest {
     private static final int REQUEST_INDEX_SECOND = 1;
     private static final int REQUEST_INDEX_THIRD = 2;
     private static final int REQUEST_INDEX_FOURTH = 3;
-
-    @Mock
-    private List<Request> mockListRequest;
-    @Mock
-    private Request requestWithHighPriority;
-    @Mock
-    private Request requestWithMediumPriority;
-    @Mock
-    private Request requestWithMediumPriority_2;
-    @Mock
-    private Request requestWithLowPriority;
     private StrategySortRequestByPriority requestSorter;
     private List<Request> listRequest;
+    @Mock
+    private Request requestWithHighPriorityMock;
+    @Mock
+    private Request requestWithMediumPriorityMock;
+    @Mock
+    private Request requestWithMediumPriority2Mock;
+    @Mock
+    private Request requestWithLowPriorityMock;
 
     @Before
     public void init() {
         requestSorter = new StrategySortRequestByPriority();
         listRequest = new ArrayList<>();
-        when(requestWithHighPriority.getPriority()).thenReturn(HIGH_PRIORITY);
-        when(requestWithMediumPriority.getPriority()).thenReturn(MEDIUM_PRIORITY);
-        when(requestWithMediumPriority_2.getPriority()).thenReturn(MEDIUM_PRIORITY);
-        when(requestWithLowPriority.getPriority()).thenReturn(LOW_PRIORITY);
-        listRequest.add(requestWithLowPriority);
-        listRequest.add(requestWithMediumPriority);
-        listRequest.add(requestWithHighPriority);
+        when(requestWithHighPriorityMock.getPriority()).thenReturn(HIGH_PRIORITY);
+        when(requestWithMediumPriorityMock.getPriority()).thenReturn(MEDIUM_PRIORITY);
+        when(requestWithMediumPriority2Mock.getPriority()).thenReturn(MEDIUM_PRIORITY);
+        when(requestWithLowPriorityMock.getPriority()).thenReturn(LOW_PRIORITY);
+        listRequest.add(requestWithLowPriorityMock);
+        listRequest.add(requestWithMediumPriorityMock);
+        listRequest.add(requestWithHighPriorityMock);
     }
 
     @Test
-    public void whenStrategySortSortIsCalledOnListContainingMoreThanOneRequestThenListIsSorted() {
+    public void _WhenStrategySortSortIsCalledOnListContainingMoreThanOneRequest_ThenListIsSorted() {
         ArrayList<Request> sortedArray = requestSorter.sortList(listRequest);
 
-        assertEquals(requestWithHighPriority, sortedArray.get(REQUEST_INDEX_FIRST));
-        assertEquals(requestWithMediumPriority, sortedArray.get(REQUEST_INDEX_SECOND));
-        assertEquals(requestWithLowPriority, sortedArray.get(REQUEST_INDEX_THIRD));
+        assertEquals(requestWithHighPriorityMock, sortedArray.get(REQUEST_INDEX_FIRST));
+        assertEquals(requestWithMediumPriorityMock, sortedArray.get(REQUEST_INDEX_SECOND));
+        assertEquals(requestWithLowPriorityMock, sortedArray.get(REQUEST_INDEX_THIRD));
     }
 
     @Test
-    public void whenStrategySortSortIsCalledOnListContainingElementOfSamePriorityThenListIsSortedWithFirstInFistOutOrderForSamePriorityRequest() {
-        listRequest.add(requestWithMediumPriority_2);
+    public void _WhenStrategySortSortIsCalledOnListContainingElementOfSamePriority_ThenListIsSortedWithFirstInFistOutOrderForSamePriorityRequest() {
+        listRequest.add(requestWithMediumPriority2Mock);
 
         ArrayList<Request> sortedArray = requestSorter.sortList(listRequest);
 
-        assertEquals(requestWithHighPriority, sortedArray.get(REQUEST_INDEX_FIRST));
-        assertEquals(requestWithMediumPriority, sortedArray.get(REQUEST_INDEX_SECOND));
-        assertEquals(requestWithMediumPriority_2, sortedArray.get(REQUEST_INDEX_THIRD));
-        assertEquals(requestWithLowPriority, sortedArray.get(REQUEST_INDEX_FOURTH));
+        assertEquals(requestWithHighPriorityMock, sortedArray.get(REQUEST_INDEX_FIRST));
+        assertEquals(requestWithMediumPriorityMock, sortedArray.get(REQUEST_INDEX_SECOND));
+        assertEquals(requestWithMediumPriority2Mock, sortedArray.get(REQUEST_INDEX_THIRD));
+        assertEquals(requestWithLowPriorityMock, sortedArray.get(REQUEST_INDEX_FOURTH));
     }
 }

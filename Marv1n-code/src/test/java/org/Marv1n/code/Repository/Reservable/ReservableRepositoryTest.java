@@ -16,7 +16,7 @@ public class ReservableRepositoryTest {
 
     private ReservableRepository reservableRepository;
     @Mock
-    private IReservable mockIReservable;
+    private IReservable reservableMock;
 
     @Before
     public void setUp() throws Exception {
@@ -24,8 +24,8 @@ public class ReservableRepositoryTest {
     }
 
     @Test
-    public void repositoryContainsReservableWhenFindAllThenReturnAllReservable() throws Exception {
-        reservableRepository.create(mockIReservable);
+    public void repositoryContainsReservable_WhenFindAll_ThenReturnAllReservable() throws Exception {
+        reservableRepository.create(reservableMock);
 
         List<IReservable> results = reservableRepository.findAll();
 

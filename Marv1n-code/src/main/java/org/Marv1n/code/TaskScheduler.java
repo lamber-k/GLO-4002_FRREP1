@@ -54,5 +54,4 @@ public class TaskScheduler implements Scheduler {
         cancelScheduler();
         startAtFixedRate();
     }
-
 }

@@ -6,19 +6,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public abstract class Repository<T> implements IRepository<T> {
+public abstract class Repository<Type> implements IRepository<Type> {
 
-    private List<T> objectContainer = new LinkedList<>();
+    private List<Type> objectContainer = new LinkedList<>();
 
-    protected Stream<T> query() {
+    protected Stream<Type> query() {
         return objectContainer.stream();
     }
 
-    public void create(T object) {
+    public void create(Type object) {
         objectContainer.add(object);
     }
 
-    public void remove(T object) {
+    public void remove(Type object) {
         if (!objectContainer.remove(object))
             throw new ObjectNotFoundException();
     }

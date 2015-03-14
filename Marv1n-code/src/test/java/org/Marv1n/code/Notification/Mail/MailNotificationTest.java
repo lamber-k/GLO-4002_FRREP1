@@ -6,6 +6,7 @@ import org.Marv1n.code.Notifaction.Mail.MailService.IMailService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
@@ -22,19 +23,20 @@ public class MailNotificationTest {
     private final String A_MESSAGE = "Hello, World.";
     private final List<String> TO_ADDRESS = Arrays.asList(A_MAIL_ADDRESS);
     private final Mail A_MAIL = new Mail(A_MAIL_ADDRESS, TO_ADDRESS, AN_OBJECT, A_MESSAGE);
-
     private MailNotification notifier;
-    private IMailService mailService;
+
+    @Mock
+    private IMailService mailServiceMock;
 
     @Before
     public void initializeNotifier() {
-        mailService = mock(IMailService.class);
-        notifier = new MailNotification(mailService, A_MAIL);
+        mailServiceMock = mock(IMailService.class);
+        notifier = new MailNotification(mailServiceMock, A_MAIL);
     }
 
     @Test
-    public void givenNotifier_whenSendMail_shouldStartSend() {
+    public void givenNotifier_WhenSendMail_ThenShouldStartSend() {
         notifier.announce();
-        verify(mailService).send(A_MAIL);
+        verify(mailServiceMock).send(A_MAIL);
     }
 }

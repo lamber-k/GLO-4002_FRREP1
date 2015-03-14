@@ -7,6 +7,7 @@ import org.Marv1n.code.RequestStatus;
 import org.Marv1n.code.Reservation.Reservation;
 
 public class StrategyRequestCancellationAccepted implements IStrategyRequestCancellation {
+
     private IRequestRepository requestRepository;
     private IReservationRepository reservationRepository;
 

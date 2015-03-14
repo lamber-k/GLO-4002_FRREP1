@@ -24,7 +24,7 @@ public class Marv1nInterface {
                            IReservationRepository reservationRepository,
                            IPersonRepository personRepository,
                            PendingRequests pendingRequests) {
-        this.strategyRequestCancellationFactory = new StrategyRequestCancellationFactory(requestRepository, reservationRepository, pendingRequests);
+        strategyRequestCancellationFactory = new StrategyRequestCancellationFactory(requestRepository, reservationRepository, pendingRequests);
         this.requestRepository = requestRepository;
         this.personRepository = personRepository;
         this.pendingRequests = pendingRequests;
@@ -42,12 +42,12 @@ public class Marv1nInterface {
 
     public void createRequest(int numberOfSeatsNeeded, int priority, String email) {
         if (EmailAddressValidator.validate(email)) {
-
             Person person;
             Optional<Person> result = personRepository.findByEmail(email);
             if (result.isPresent()) {
                 person = result.get();
-            } else {
+            }
+            else {
                 person = new Person(email);
                 personRepository.create(person);
             }
@@ -65,6 +65,4 @@ public class Marv1nInterface {
             strategyRequestCancellation.cancelRequest(request);
         }
     }
-
-
 }

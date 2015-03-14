@@ -9,29 +9,29 @@ import static org.mockito.Mockito.mock;
 
 public class ReservableEvaluationResultTest {
 
-    private IReservable aIReservable;
+    private IReservable reservable;
 
     @Before
     public void initializeNewReservable() {
-        aIReservable = mock(IReservable.class);
+        reservable = mock(IReservable.class);
     }
 
 
     @Test
-    public void newReservable_WhenAssignationResult_ShouldNotFoundMatch() {
+    public void newReservable_WhenAssignationResult_ThenShouldNotFoundMatch() {
         ReservableEvaluationResult ReservableEvaluationResult = new ReservableEvaluationResult();
         assertFalse(ReservableEvaluationResult.matchFound());
     }
 
     @Test
-    public void newReservable_WhenAssignationResultWithReservable_ShouldFoundMatch() {
-        ReservableEvaluationResult ReservableEvaluationResult = new ReservableEvaluationResult(aIReservable);
+    public void newReservable_WhenAssignationResultWithReservable_ThenShouldFoundMatch() {
+        ReservableEvaluationResult ReservableEvaluationResult = new ReservableEvaluationResult(reservable);
         assertTrue(ReservableEvaluationResult.matchFound());
     }
 
     @Test
-    public void newReservable_WhenAssignationResultWithReservable_CanReturnMatchingReservable() {
-        ReservableEvaluationResult ReservableEvaluationResult = new ReservableEvaluationResult(aIReservable);
-        assertEquals(aIReservable, ReservableEvaluationResult.getBestReservableMatch());
+    public void newReservable_WhenAssignationResultWithReservable_ThenCanReturnMatchingReservable() {
+        ReservableEvaluationResult ReservableEvaluationResult = new ReservableEvaluationResult(reservable);
+        assertEquals(reservable, ReservableEvaluationResult.getBestReservableMatch());
     }
 }

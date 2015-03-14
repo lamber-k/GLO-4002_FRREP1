@@ -12,7 +12,6 @@ public abstract class FactoryNotification implements IFactoryNotification {
 
     protected String buildNotification(Request request, IReservable reservable) {
         String notificationDetail;
-
         switch (request.getRequestStatus()) {
             case ACCEPTED:
                 notificationDetail = String.format(ASSIGNATION_SUCCESS_FORMAT, reservable.getName());

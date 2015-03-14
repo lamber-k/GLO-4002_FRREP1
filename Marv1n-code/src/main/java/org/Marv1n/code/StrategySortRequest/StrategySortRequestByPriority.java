@@ -12,9 +12,9 @@ public class StrategySortRequestByPriority implements IStrategySortRequest {
 
     @Override
     public ArrayList<Request> sortList(List<Request> requests) {
-        ArrayList<Request> unsortRequests = new ArrayList<>(requests);
+        ArrayList<Request> unsortedRequests = new ArrayList<>(requests);
 
-        unsortRequests.sort(comparator);
-        return (unsortRequests);
+        unsortedRequests.sort(comparator);
+        return (unsortedRequests);
     }
 }

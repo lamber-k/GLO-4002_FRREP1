@@ -4,15 +4,12 @@ import org.Marv1n.code.RequestStatus;
 
 import java.util.List;
 
-/**
- * Created by Kevin on 13/03/2015.
- */
 public class MailBuilder {
+
     private static final String MAIL_OBJECT_FORMAT = "[Reservation][requête n°%d] status %s";
     private static final String MAIL_OBJECT_STATUS_ACCEPTED = "acceptée";
     private static final String MAIL_OBJECT_STATUS_REFUSED = "refusée";
     private static final String MAIL_OBJECT_STATUS_CANCELED = "annulée";
-
     private RequestStatus requestStatus = null;
     private Integer requestID = null;
     private String mailFrom;
@@ -49,13 +46,11 @@ public class MailBuilder {
         List<String> to = mailTo;
         String object = buildMailObject();
         String message = this.message;
-
         return new Mail(from, to, object, message);
     }
 
     private String buildMailObject() throws MailBuilderException {
         String mailObject;
-
         if (requestID == null) {
             throw new MailBuilderException("Request ID not set");
         }
@@ -77,6 +72,4 @@ public class MailBuilder {
         }
         return (mailObject);
     }
-
-
 }

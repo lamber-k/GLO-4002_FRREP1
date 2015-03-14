@@ -22,58 +22,58 @@ public class RequestRepositoryTest {
 
     private RequestRepository requestRepository;
     @Mock
-    private Request mockRequest;
-    private UUID mockRequestID;
+    private Request requestMock;
+    private UUID requestIDMock;
 
     @Before
     public void setUp() throws Exception {
         requestRepository = new RequestRepository();
-        mockRequestID = UUID.randomUUID();
-        when(mockRequest.getRequestID()).thenReturn(mockRequestID);
+        requestIDMock = UUID.randomUUID();
+        when(requestMock.getRequestID()).thenReturn(requestIDMock);
     }
 
     @Test
-    public void whenReservableAddedToRepositorySameObjectCanBeFound() throws Exception {
-        requestRepository.create(mockRequest);
+    public void _WhenReservableAddedToRepositorySameObjectCanBeFound() throws Exception {
+        requestRepository.create(requestMock);
 
-        Optional<Request> result = requestRepository.findByUUID(mockRequestID);
+        Optional<Request> result = requestRepository.findByUUID(requestIDMock);
 
         assertTrue(result.isPresent());
-        assertEquals(mockRequest, result.get());
+        assertEquals(requestMock, result.get());
     }
 
     @Test
-    public void whenReservableNotFoundRepositoryReturnsEmptyOptional() throws Exception {
-        Optional<Request> result = requestRepository.findByUUID(mockRequestID);
+    public void _WhenReservableNotFoundRepositoryReturnsEmptyOptional() throws Exception {
+        Optional<Request> result = requestRepository.findByUUID(requestIDMock);
         assertFalse(result.isPresent());
     }
 
     @Test
-    public void whenReservableRemovedThenRepositoryReturnsEmpty() throws Exception {
-        requestRepository.create(mockRequest);
+    public void _WhenReservableRemoved_ThenRepositoryReturnsEmpty() throws Exception {
+        requestRepository.create(requestMock);
 
-        requestRepository.remove(mockRequest);
+        requestRepository.remove(requestMock);
 
-        Optional<Request> result = requestRepository.findByUUID(mockRequestID);
+        Optional<Request> result = requestRepository.findByUUID(requestIDMock);
         assertFalse(result.isPresent());
     }
 
     @Test(expected = ObjectNotFoundException.class)
-    public void whenMissingReservableRemovedThenRepositoryThrowException() throws Exception {
-        requestRepository.remove(mockRequest);
+    public void _WhenMissingReservableRemovedThenRepositoryThrowException() throws Exception {
+        requestRepository.remove(requestMock);
     }
 
     @Test
-    public void givenEmptyRequestRepository_whenGetAllPendingRequest_thenReturnEmptyArray() {
+    public void givenEmptyRequestRepository_WhenGetAllPendingRequest_thenReturnEmptyArray() {
         List pendingRequestList = this.requestRepository.findAllPendingRequest();
 
         assertEquals(0, pendingRequestList.size());
     }
 
     @Test
-    public void givenRequestRepositoryContainingNoPendingRequest_whenGetAllPendingRequest_thenReturnEmptyArray() {
-        this.requestRepository.create(this.mockRequest);
-        when(mockRequest.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
+    public void givenRequestRepositoryContainingNoPendingRequest_WhenGetAllPendingRequest_thenReturnEmptyArray() {
+        this.requestRepository.create(this.requestMock);
+        when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
 
         List pendingRequestList = this.requestRepository.findAllPendingRequest();
 
@@ -81,31 +81,31 @@ public class RequestRepositoryTest {
     }
 
     @Test
-    public void givenRequestRepositoryContainingAPendingRequest_whenGetAllPendingRequest_thenReturnArrayWithThePendingRequest() {
+    public void givenRequestRepositoryContainingAPendingRequest_WhenGetAllPendingRequest_thenReturnArrayWithThePendingRequest() {
         Request anOtherMockRequest = mock(Request.class);
-        this.requestRepository.create(this.mockRequest);
+        this.requestRepository.create(this.requestMock);
         this.requestRepository.create(anOtherMockRequest);
         when(anOtherMockRequest.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
-        when(mockRequest.getRequestStatus()).thenReturn(RequestStatus.PENDING);
+        when(requestMock.getRequestStatus()).thenReturn(RequestStatus.PENDING);
 
         List pendingRequestList = this.requestRepository.findAllPendingRequest();
 
         assertEquals(1, pendingRequestList.size());
-        assertEquals(pendingRequestList.get(0), mockRequest);
+        assertEquals(pendingRequestList.get(0), requestMock);
     }
 
     @Test
-    public void givenRequestRepositoryContainingMultiplePendingRequest_whenGetAllPendingRequest_thenReturnArrayWithThePendingRequestsInOrderOfInsertion() {
+    public void givenRequestRepositoryContainingMultiplePendingRequest_WhenGetAllPendingRequest_thenReturnArrayWithThePendingRequestsInOrderOfInsertion() {
         Request anOtherMockRequest = mock(Request.class);
-        this.requestRepository.create(this.mockRequest);
+        this.requestRepository.create(this.requestMock);
         this.requestRepository.create(anOtherMockRequest);
         when(anOtherMockRequest.getRequestStatus()).thenReturn(RequestStatus.PENDING);
-        when(mockRequest.getRequestStatus()).thenReturn(RequestStatus.PENDING);
+        when(requestMock.getRequestStatus()).thenReturn(RequestStatus.PENDING);
 
         List pendingRequestList = this.requestRepository.findAllPendingRequest();
 
         assertEquals(2, pendingRequestList.size());
-        assertEquals(pendingRequestList.get(0), mockRequest);
+        assertEquals(pendingRequestList.get(0), requestMock);
         assertEquals(pendingRequestList.get(1), anOtherMockRequest);
     }
 }

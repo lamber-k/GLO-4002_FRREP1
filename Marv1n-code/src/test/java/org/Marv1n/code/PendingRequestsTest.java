@@ -19,60 +19,59 @@ public class PendingRequestsTest {
     private static final int A_MAXIMUM_PENDING_REQUESTS = 5;
     private static final int MAXIMUM_ONE_PENDING_REQUEST = 1;
     private static final UUID A_REQUEST_UUID = UUID.randomUUID();
-    private PendingRequests pendingRequests2;
+    private PendingRequests pendingRequests;
     @Mock
-    private Request request;
+    private Request requestMock;
 
     @Before
     public void initializeNewPendingRequests() {
-        pendingRequests2 = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS);
+        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS);
     }
 
     @Test
-    public void givenEmptyPendingRequest_whenAddOneRequest_thenNotEmpty() {
-        pendingRequests2.addRequest(request);
-        assertTrue(pendingRequests2.hasPendingRequest());
+    public void givenEmptyPendingRequest_WhenAddOneRequest_ThenNotEmpty() {
+        pendingRequests.addRequest(requestMock);
+        assertTrue(pendingRequests.hasPendingRequest());
     }
 
     @Test
-    public void givenPendingRequest_whenSetMaximumPendingAtConstructor_thenReflectValue() {
-        assertEquals(DEFAULT_MAXIMUM_PENDING_REQUESTS, pendingRequests2.getMaximumPendingRequests());
+    public void givenPendingRequest_WhenSetMaximumPendingAtConstructor_ThenReflectValue() {
+        assertEquals(DEFAULT_MAXIMUM_PENDING_REQUESTS, pendingRequests.getMaximumPendingRequests());
     }
 
     @Test
-    public void givenAPendingRequest_whenSetMaximumPendingRequest_thenReflectsValueChange() {
-        pendingRequests2.setMaximumPendingRequests(A_MAXIMUM_PENDING_REQUESTS);
-        assertEquals(A_MAXIMUM_PENDING_REQUESTS, pendingRequests2.getMaximumPendingRequests());
+    public void givenAPendingRequest_WhenSetMaximumPendingRequest_ThenReflectsValueChange() {
+        pendingRequests.setMaximumPendingRequests(A_MAXIMUM_PENDING_REQUESTS);
+        assertEquals(A_MAXIMUM_PENDING_REQUESTS, pendingRequests.getMaximumPendingRequests());
     }
 
     @Test
-    public void givenPendingRequestWithObserver_whenPendingRequestFull_thenShouldNotifyRegisteredObserver() {
+    public void givenPendingRequestWithObserver_WhenPendingRequestFull_ThenShouldNotifyRegisteredObserver() {
         IObserverMaximumPendingRequestReached observer = mock(IObserverMaximumPendingRequestReached.class);
-        pendingRequests2.addObserverMaximumPendingRequestsReached(observer);
-        pendingRequests2.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
+        pendingRequests.addObserverMaximumPendingRequestsReached(observer);
+        pendingRequests.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
 
-        pendingRequests2.addRequest(request);
+        pendingRequests.addRequest(requestMock);
 
         verify(observer).onMaximumPendingRequestReached();
     }
 
     @Test
-    public void givenPendingRequestsWithOneRequest_whenCancelRequest_thenPendingRequestsShouldHaveNoRequest() {
-        pendingRequests2.addRequest(request);
+    public void givenPendingRequestsWithOneRequest_WhenCancelRequest_ThenPendingRequestsShouldHaveNoRequest() {
+        pendingRequests.addRequest(requestMock);
 
-        pendingRequests2.cancelRequest(request);
+        pendingRequests.cancelRequest(requestMock);
 
-        assertFalse(pendingRequests2.hasPendingRequest());
+        assertFalse(pendingRequests.hasPendingRequest());
     }
 
     @Test
-    public void givenPendingRequestsWithOneRequest_whenCancelRequestAnOtherRequest_thenPendingRequestsShouldHaveNoRequest() {
+    public void givenPendingRequestsWithOneRequest_WhenCancelRequestAnOtherRequest_ThenPendingRequestsShouldHaveNoRequest() {
         Request anOtherRequest = mock(Request.class);
-        pendingRequests2.addRequest(anOtherRequest);
+        pendingRequests.addRequest(anOtherRequest);
 
-        pendingRequests2.cancelRequest(request);
+        pendingRequests.cancelRequest(requestMock);
 
-        assertTrue(pendingRequests2.hasPendingRequest());
+        assertTrue(pendingRequests.hasPendingRequest());
     }
-
 }

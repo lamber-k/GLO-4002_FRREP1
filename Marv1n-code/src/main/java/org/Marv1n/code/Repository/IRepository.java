@@ -1,8 +1,8 @@
 package org.Marv1n.code.Repository;
 
-public interface IRepository<T> {
+public interface IRepository<Type> {
 
-    public void create(T object);
+    public void create(Type object);
 
-    public void remove(T object);
+    public void remove(Type object);
 }

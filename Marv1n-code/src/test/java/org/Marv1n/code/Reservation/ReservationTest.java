@@ -14,20 +14,20 @@ import static org.mockito.Mockito.mock;
 @RunWith(MockitoJUnitRunner.class)
 public class ReservationTest {
 
-    @Mock
-    private Request mockRequest;
-    @Mock
-    private IReservable mockReservable;
     private Reservation reservation;
+    @Mock
+    private Request requestMock;
+    @Mock
+    private IReservable reservableMock;
 
     @Before
     public void init() {
-        reservation = new Reservation(mockRequest, mockReservable);
+        reservation = new Reservation(requestMock, reservableMock);
     }
 
     @Test
     public void givenAReservation_WhenHashIsCalled_ThenExpectHash() {
-        int expectedHash = (17 + mockRequest.hashCode()) * 13 + mockReservable.hashCode();
+        int expectedHash = (17 + requestMock.hashCode()) * 13 + reservableMock.hashCode();
 
         assertEquals(expectedHash, reservation.hashCode());
     }
@@ -39,7 +39,7 @@ public class ReservationTest {
 
     @Test
     public void givenDifferentObject_WhenCompared_ThenEqualsReturnFalse() {
-        assertFalse(reservation.equals(mockRequest));
+        assertFalse(reservation.equals(requestMock));
     }
 
     @Test

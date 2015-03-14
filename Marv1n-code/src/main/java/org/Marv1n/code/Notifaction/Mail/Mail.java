@@ -2,7 +2,6 @@ package org.Marv1n.code.Notifaction.Mail;
 
 import java.util.List;
 
-
 public class Mail {
 
     public final String from;
