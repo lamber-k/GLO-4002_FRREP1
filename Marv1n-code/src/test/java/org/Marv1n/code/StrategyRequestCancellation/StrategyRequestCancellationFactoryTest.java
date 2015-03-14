@@ -15,47 +15,45 @@ import static org.junit.Assert.assertTrue;
 @RunWith(MockitoJUnitRunner.class)
 public class StrategyRequestCancellationFactoryTest {
 
-    private StrategyRequestCancellationFactory strategyRequestCancellationFactory;
+    private IStrategyRequestCancellation resultStrategy;
+    private StrategyRequestCancellationFactory requestCancellationFactoryStrategy;
     @Mock
     private IRequestRepository requestRepositoryMock;
     @Mock
     private IReservationRepository reservationRepositoryMock;
     @Mock
     private PendingRequests pendingRequests;
-    private IStrategyRequestCancellation resultStrategy;
 
     @Before
     public void init() {
-        strategyRequestCancellationFactory = new StrategyRequestCancellationFactory(requestRepositoryMock, reservationRepositoryMock, pendingRequests);
+        requestCancellationFactoryStrategy = new StrategyRequestCancellationFactory(requestRepositoryMock, reservationRepositoryMock, pendingRequests);
     }
 
     @Test
-    public void givenStrategyRequestCancellationFactory_whenCreateCancellationFactoryWithRequestStatusCancelled_thenReturnStrategyRequestCancellationCancelled() {
-        resultStrategy = strategyRequestCancellationFactory.createStrategyCancellation(RequestStatus.CANCELED);
+    public void givenStrategyRequestCancellationFactory_WhenCreateCancellationFactoryWithRequestStatusCancelled_ThenReturnStrategyRequestCancellationCancelled() {
+        resultStrategy = requestCancellationFactoryStrategy.createStrategyCancellation(RequestStatus.CANCELED);
 
         assertTrue(resultStrategy instanceof StrategyRequestCancellationCancelled);
     }
 
     @Test
-    public void givenStrategyRequestCancellationFactory_whenCreateCancellationFactoryWithRequestStatusRefused_thenReturnStrategyRequestCancellationRefused() {
-        resultStrategy = strategyRequestCancellationFactory.createStrategyCancellation(RequestStatus.REFUSED);
+    public void givenStrategyRequestCancellationFactory_WhenCreateCancellationFactoryWithRequestStatusRefused_ThenReturnStrategyRequestCancellationRefused() {
+        resultStrategy = requestCancellationFactoryStrategy.createStrategyCancellation(RequestStatus.REFUSED);
 
         assertTrue(resultStrategy instanceof StrategyRequestCancellationRefused);
     }
 
     @Test
-    public void givenStrategyRequestCancellationFactory_whenCreateCancellationFactoryWithRequestStatusPending_thenReturnStrategyRequestCancellationPending() {
-        resultStrategy = strategyRequestCancellationFactory.createStrategyCancellation(RequestStatus.PENDING);
+    public void givenStrategyRequestCancellationFactory_WhenCreateCancellationFactoryWithRequestStatusPending_ThenReturnStrategyRequestCancellationPending() {
+        resultStrategy = requestCancellationFactoryStrategy.createStrategyCancellation(RequestStatus.PENDING);
 
         assertTrue(resultStrategy instanceof StrategyRequestCancellationPending);
     }
 
     @Test
-    public void givenStrategyRequestCancellationFactory_whenCreateCancellationFactoryWithRequestStatusAccepted_thenReturnStrategyRequestCancellationAccepted() {
-        resultStrategy = strategyRequestCancellationFactory.createStrategyCancellation(RequestStatus.ACCEPTED);
+    public void givenStrategyRequestCancellationFactory_WhenCreateCancellationFactoryWithRequestStatusAccepted_ThenReturnStrategyRequestCancellationAccepted() {
+        resultStrategy = requestCancellationFactoryStrategy.createStrategyCancellation(RequestStatus.ACCEPTED);
 
         assertTrue(resultStrategy instanceof StrategyRequestCancellationAccepted);
     }
-
-
 }

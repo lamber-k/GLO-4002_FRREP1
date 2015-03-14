@@ -10,46 +10,43 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class StrategyRequestCancellationPendingTest {
 
+    private StrategyRequestCancellationPending requestCancellationPendingStrategy;
     @Mock
-    IRequestRepository requestRepository;
+    IRequestRepository requestRepositoryMock;
     @Mock
-    PendingRequests pendingRequests;
+    PendingRequests pendingRequestsMock;
     @Mock
-    Request request;
-    private StrategyRequestCancellationPending strategyRequestCancellationPending;
+    Request requestMock;
 
     @Before
     public void init() {
-        strategyRequestCancellationPending = new StrategyRequestCancellationPending(requestRepository, pendingRequests);
-    }
-
-
-    @Test
-    public void givenStrategyRequestCancellationPending_whenCancelRequestCalled_thenUpdateRequestStatus() {
-        strategyRequestCancellationPending.cancelRequest(request);
-
-        verify(request, times(1)).setRequestStatus(RequestStatus.CANCELED);
+        requestCancellationPendingStrategy = new StrategyRequestCancellationPending(requestRepositoryMock, pendingRequestsMock);
     }
 
     @Test
-    public void givenStrategyRequestCancellationPending_whenCancelRequestCalled_thenRequestIsUpdatedInRequestRepository() {
-        strategyRequestCancellationPending.cancelRequest(request);
+    public void givenStrategyRequestCancellationPending_WhenCancelRequestCalled_ThenUpdateRequestStatus() {
+        requestCancellationPendingStrategy.cancelRequest(requestMock);
 
-        verify(requestRepository, times(1)).remove(request);
-        verify(requestRepository, times(1)).create(request);
+        verify(requestMock).setRequestStatus(RequestStatus.CANCELED);
     }
 
     @Test
-    public void givenStrategyRequestCancellationPending_whenCancelRequestCalled_thenRequestIsRemovedFromPendingRequest() {
-        strategyRequestCancellationPending.cancelRequest(request);
+    public void givenStrategyRequestCancellationPending_WhenCancelRequestCalled_ThenRequestIsUpdatedInRequestRepository() {
+        requestCancellationPendingStrategy.cancelRequest(requestMock);
 
-        verify(pendingRequests, times(1)).cancelRequest(request);
+        verify(requestRepositoryMock).remove(requestMock);
+        verify(requestRepositoryMock).create(requestMock);
     }
 
+    @Test
+    public void givenStrategyRequestCancellationPending_WhenCancelRequestCalled_ThenRequestIsRemovedFromPendingRequest() {
+        requestCancellationPendingStrategy.cancelRequest(requestMock);
+
+        verify(pendingRequestsMock).cancelRequest(requestMock);
+    }
 }

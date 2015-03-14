@@ -5,10 +5,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class PendingRequests {
+
     private int maximumPendingRequests;
     private List<Request> pendingRequests = new LinkedList<>();
     private List<IObserverMaximumPendingRequestReached> maximumPendingRequestReachedObservers;
-
 
     public PendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;

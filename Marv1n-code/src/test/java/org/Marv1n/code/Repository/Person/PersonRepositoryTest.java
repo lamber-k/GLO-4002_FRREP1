@@ -20,41 +20,41 @@ public class PersonRepositoryTest {
     private static String AN_OTHER_EMAIL = "exemple2@exemple.com";
     private PersonRepository personRepository;
     @Mock
-    private Person mockPerson;
-    private UUID personUUID;
+    private Person personMock;
+    private UUID personUUIDMock;
     @Mock
-    private Person anotherMockPerson;
-    private UUID anotherMockPersonUUID;
+    private Person anotherPersonMock;
+    private UUID anotherPersonUUIDMock;
 
     @Before
     public void setUp() throws Exception {
         personRepository = new PersonRepository();
-        personUUID = UUID.randomUUID();
+        personUUIDMock = UUID.randomUUID();
     }
 
     @Test
-    public void emptyRepositoryWhenCreateEntryThenFindByUUIDReturnSamePerson() throws Exception {
-        when(mockPerson.getID()).thenReturn(personUUID);
-        personRepository.create(mockPerson);
+    public void emptyRepository_WhenCreateEntry_ThenFindByUUIDReturnSamePerson() throws Exception {
+        when(personMock.getID()).thenReturn(personUUIDMock);
+        personRepository.create(personMock);
 
-        Optional<Person> result = personRepository.findByUUID(personUUID);
+        Optional<Person> result = personRepository.findByUUID(personUUIDMock);
 
         assertTrue(result.isPresent());
-        assertEquals(mockPerson, result.get());
+        assertEquals(personMock, result.get());
     }
 
     @Test
-    public void repositoryNotEmptyWhenFindWithListOfUUIDThenReturnMatchesUUIDPerson() throws Exception {
+    public void repositoryNotEmpty_WhenFindWithListOfUUID_ThenReturnMatchesUUIDPerson() throws Exception {
         putSomeItemsInRepository();
         List<UUID> listOfUUID = new LinkedList<>();
-        listOfUUID.add(personUUID);
-        listOfUUID.add(anotherMockPersonUUID);
+        listOfUUID.add(personUUIDMock);
+        listOfUUID.add(anotherPersonUUIDMock);
 
         List<Person> results = personRepository.findByListOfUUID(listOfUUID);
 
         assertFalse(results.isEmpty());
-        assertTrue(results.stream().filter(r -> r.getID().equals(personUUID)).findAny().isPresent());
-        assertTrue(results.stream().filter(r -> r.getID().equals(anotherMockPersonUUID)).findAny().isPresent());
+        assertTrue(results.stream().filter(r -> r.getID().equals(personUUIDMock)).findAny().isPresent());
+        assertTrue(results.stream().filter(r -> r.getID().equals(anotherPersonUUIDMock)).findAny().isPresent());
     }
 
     @Test
@@ -66,17 +66,19 @@ public class PersonRepositoryTest {
 
     @Test
     public void givenRepositoryContainingNonCorrespondingElement_whenFindByEmail_thenReturnEmptyResult() {
-        when(mockPerson.getMailAddress()).thenReturn(AN_OTHER_EMAIL);
-        personRepository.create(mockPerson);
+        when(personMock.getMailAddress()).thenReturn(AN_OTHER_EMAIL);
+        personRepository.create(personMock);
+
         Optional<Person> result = personRepository.findByEmail(AN_EMAIL);
 
         assertFalse(result.isPresent());
     }
 
     @Test
-    public void givenRepositoryContainingCorrespondingElement_whenFindByEmail_thenReturnResultWithCorrespondingElement() {
-        when(mockPerson.getMailAddress()).thenReturn(AN_EMAIL);
-        personRepository.create(mockPerson);
+    public void givenRepositoryContainingCorrespondingElement_WhenFindByEmail_ThenReturnResultWithCorrespondingElement() {
+        when(personMock.getMailAddress()).thenReturn(AN_EMAIL);
+        personRepository.create(personMock);
+
         Optional<Person> result = personRepository.findByEmail(AN_EMAIL);
 
         assertTrue(result.isPresent());
@@ -84,7 +86,7 @@ public class PersonRepositoryTest {
 
 
     @Test
-    public void givenRepositoryWithAdmin_whenFindAdmins_shouldReturnAllAdmins() {
+    public void givenRepositoryWithAdmin_WhenFindAdmins_ThenShouldReturnAllAdmins() {
         putSomeItemsInRepository();
         Person mockPersonAdmin1 = mock(Person.class);
         Person mockPersonAdmin2 = mock(Person.class);
@@ -100,10 +102,10 @@ public class PersonRepositoryTest {
     }
 
     private void putSomeItemsInRepository() {
-        when(mockPerson.getID()).thenReturn(personUUID);
-        anotherMockPersonUUID = UUID.randomUUID();
-        when(anotherMockPerson.getID()).thenReturn(anotherMockPersonUUID);
-        personRepository.create(mockPerson);
-        personRepository.create(anotherMockPerson);
+        when(personMock.getID()).thenReturn(personUUIDMock);
+        anotherPersonUUIDMock = UUID.randomUUID();
+        when(anotherPersonMock.getID()).thenReturn(anotherPersonUUIDMock);
+        personRepository.create(personMock);
+        personRepository.create(anotherPersonMock);
     }
 }

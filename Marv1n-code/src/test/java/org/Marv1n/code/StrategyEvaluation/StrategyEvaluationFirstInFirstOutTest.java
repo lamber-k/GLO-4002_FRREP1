@@ -24,61 +24,58 @@ import static org.mockito.Mockito.when;
 public class StrategyEvaluationFirstInFirstOutTest {
 
     private List<IReservable> reservableList;
-    private IStrategyEvaluation evaluator;
+    private IStrategyEvaluation evaluatorStrategy;
     @Mock
-    private IReservable mockReservable;
+    private IReservable reservableMock;
     @Mock
-    private IReservable anotherMockReservable;
+    private IReservable anotherReservableMock;
     @Mock
-    private Request mockRequest;
+    private Request requestMock;
     @Mock
-    private IReservableRepository reservableRepository;
+    private IReservableRepository reservableRepositoryMock;
     @Mock
-    private IReservationRepository reservationsRepository;
+    private IReservationRepository reservationsRepositoryMock;
 
     @Before
     public void init() {
-        evaluator = new StrategyEvaluationFirstInFirstOut();
-
+        evaluatorStrategy = new StrategyEvaluationFirstInFirstOut();
         reservableList = new ArrayList<>();
-
-        when(reservableRepository.findAll()).thenReturn(reservableList);
+        when(reservableRepositoryMock.findAll()).thenReturn(reservableList);
     }
 
     @Test
     public void whenNoReservableAvailableReturnsEmptyEvaluationResult() {
-        ReservableEvaluationResult reservableEvaluationResult = evaluator.evaluateOneRequest(reservableRepository, reservationsRepository, mockRequest);
-
+        ReservableEvaluationResult reservableEvaluationResult = evaluatorStrategy.evaluateOneRequest(reservableRepositoryMock, reservationsRepositoryMock, requestMock);
         assertFalse(reservableEvaluationResult.matchFound());
     }
 
     @Test
     public void whenOnlyOneReservableAvailableReturnsNonEmptyEvaluationResultContainingTheReservable() throws Exception {
-        reservableList.add(mockReservable);
-        when(reservationsRepository.findReservationByReservable(mockReservable)).thenThrow(ReservationNotFoundException.class);
+        reservableList.add(reservableMock);
+        when(reservationsRepositoryMock.findReservationByReservable(reservableMock)).thenThrow(ReservationNotFoundException.class);
 
-        ReservableEvaluationResult reservableEvaluationResult = evaluator.evaluateOneRequest(reservableRepository, reservationsRepository, mockRequest);
+        ReservableEvaluationResult reservableEvaluationResult = evaluatorStrategy.evaluateOneRequest(reservableRepositoryMock, reservationsRepositoryMock, requestMock);
 
-        assertEquals(mockReservable, reservableEvaluationResult.getBestReservableMatch());
+        assertEquals(reservableMock, reservableEvaluationResult.getBestReservableMatch());
     }
 
     @Test
     public void whenMultipleReservableAvailableReturnsNonEmptyEvaluationResultContainingTheFirstReservable() throws Exception {
-        reservableList.add(anotherMockReservable);
-        reservableList.add(mockReservable);
-        when(reservationsRepository.findReservationByReservable(mockReservable)).thenThrow(ReservationNotFoundException.class).thenReturn(mock(Reservation.class)).thenThrow(ReservationNotFoundException.class);
-        when(reservationsRepository.findReservationByReservable(anotherMockReservable)).thenThrow(ReservationNotFoundException.class).thenReturn(mock(Reservation.class)).thenThrow(ReservationNotFoundException.class);
+        reservableList.add(anotherReservableMock);
+        reservableList.add(reservableMock);
+        when(reservationsRepositoryMock.findReservationByReservable(reservableMock)).thenThrow(ReservationNotFoundException.class).thenReturn(mock(Reservation.class)).thenThrow(ReservationNotFoundException.class);
+        when(reservationsRepositoryMock.findReservationByReservable(anotherReservableMock)).thenThrow(ReservationNotFoundException.class).thenReturn(mock(Reservation.class)).thenThrow(ReservationNotFoundException.class);
 
-        ReservableEvaluationResult reservableEvaluationResult = evaluator.evaluateOneRequest(reservableRepository, reservationsRepository, mockRequest);
+        ReservableEvaluationResult reservableEvaluationResult = evaluatorStrategy.evaluateOneRequest(reservableRepositoryMock, reservationsRepositoryMock, requestMock);
 
-        assertEquals(anotherMockReservable, reservableEvaluationResult.getBestReservableMatch());
+        assertEquals(anotherReservableMock, reservableEvaluationResult.getBestReservableMatch());
     }
 
     @Test
     public void whenOneReservableCanTBeFoundReturnsEmptyEvaluationResult() throws Exception {
-        reservableList.add(mockReservable);
+        reservableList.add(reservableMock);
 
-        ReservableEvaluationResult reservableEvaluationResult = evaluator.evaluateOneRequest(reservableRepository, reservationsRepository, mockRequest);
+        ReservableEvaluationResult reservableEvaluationResult = evaluatorStrategy.evaluateOneRequest(reservableRepositoryMock, reservationsRepositoryMock, requestMock);
 
         assertFalse(reservableEvaluationResult.matchFound());
     }

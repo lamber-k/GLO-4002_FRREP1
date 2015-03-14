@@ -27,5 +27,4 @@ public class StrategyRequestCancellationFactory {
         else
             return new StrategyRequestCancellationAccepted(requestRepository, reservationRepository);
     }
-
 }

@@ -35,7 +35,6 @@ public class MailFactoryNotification extends FactoryNotification {
         mailTo.add(responsible.getMailAddress());
         mailTo.addAll(personRepository.findAdmins().stream().map(Person::getMailAddress).collect(Collectors.toList()));
         Mail mail = buildMail(request, reservable, mailTo);
-
         return new MailNotification(mailService, mail);
     }
 
@@ -63,7 +62,6 @@ public class MailFactoryNotification extends FactoryNotification {
     private Mail buildMail(Request request, IReservable reservable, List<String> mailTo) {
         MailBuilder mailBuilder = new MailBuilder();
         String message = super.buildNotification(request, reservable);
-
         try {
             return mailBuilder.setTo(mailTo)
                     .setMessage(message)

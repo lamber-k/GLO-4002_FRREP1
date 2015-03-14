@@ -5,7 +5,6 @@ import org.Marv1n.code.Repository.Request.IRequestRepository;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.RequestStatus;
 
-
 public class StrategyRequestCancellationPending implements IStrategyRequestCancellation {
 
     private IRequestRepository requestRepository;

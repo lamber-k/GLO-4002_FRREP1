@@ -19,47 +19,45 @@ public class StrategyRequestCancellationAcceptedTest {
 
     private StrategyRequestCancellationAccepted strategyRequestCancellationAccepted;
     @Mock
-    private Request request;
+    private Request requestMock;
     @Mock
-    private IRequestRepository requestRepository;
+    private IRequestRepository requestRepositoryMock;
     @Mock
-    private IReservationRepository reservationRepository;
+    private IReservationRepository reservationRepositoryMock;
     @Mock
-    private Reservation reservation;
-
+    private Reservation reservationMock;
 
     @Before
     public void init() {
-        strategyRequestCancellationAccepted = new StrategyRequestCancellationAccepted(requestRepository, reservationRepository);
-        when(reservationRepository.findReservationByRequest(request)).thenReturn(reservation);
+        strategyRequestCancellationAccepted = new StrategyRequestCancellationAccepted(requestRepositoryMock, reservationRepositoryMock);
+        when(reservationRepositoryMock.findReservationByRequest(requestMock)).thenReturn(reservationMock);
     }
 
     @Test
-    public void givenStrategyRequestCancellationAccepted_whenCallCancelRequest_thenRequestStatusShouldBeCanceled() {
-        strategyRequestCancellationAccepted.cancelRequest(request);
+    public void givenStrategyRequestCancellationAccepted_WhenCallCancelRequest_ThenRequestStatusShouldBeCanceled() {
+        strategyRequestCancellationAccepted.cancelRequest(requestMock);
 
-        verify(request, times(1)).setRequestStatus(RequestStatus.CANCELED);
+        verify(requestMock).setRequestStatus(RequestStatus.CANCELED);
     }
 
     @Test
-    public void givenStrategyRequestCancellationAccepted_whenCallCancelRequest_thenRequestShouldBeUpdateOnRequestRepository() {
-        strategyRequestCancellationAccepted.cancelRequest(request);
+    public void givenStrategyRequestCancellationAccepted_WhenCallCancelRequest_ThenRequestShouldBeUpdateOnRequestRepository() {
+        strategyRequestCancellationAccepted.cancelRequest(requestMock);
 
-        verify(requestRepository, times(1)).remove(request);
-        verify(requestRepository, times(1)).create(request);
+        verify(requestRepositoryMock).remove(requestMock);
+        verify(requestRepositoryMock).create(requestMock);
     }
 
     @Test
-    public void givenStrategyRequestCancellationAccepted_whenCallCancelRequest_thenAssociatedReservationShouldBeRemoved() {
-        strategyRequestCancellationAccepted.cancelRequest(request);
+    public void givenStrategyRequestCancellationAccepted_WhenCallCancelRequest_ThenAssociatedReservationShouldBeRemoved() {
+        strategyRequestCancellationAccepted.cancelRequest(requestMock);
 
-        verify(reservationRepository, times(1)).remove(reservation);
+        verify(reservationRepositoryMock).remove(reservationMock);
     }
 
     @Test(expected = ReservationNotFoundException.class)
-    public void givenStrategyRequestCancellationAccepted_whenCallCancelRequestAndNoReservationAssociate_thenThrowNotFoundException() {
-        when(reservationRepository.findReservationByRequest(request)).thenThrow(ReservationNotFoundException.class);
-        strategyRequestCancellationAccepted.cancelRequest(request);
+    public void givenStrategyRequestCancellationAccepted_WhenCallCancelRequestAndNoReservationAssociate_ThenThrowNotFoundException() {
+        when(reservationRepositoryMock.findReservationByRequest(requestMock)).thenThrow(ReservationNotFoundException.class);
+        strategyRequestCancellationAccepted.cancelRequest(requestMock);
     }
-
 }

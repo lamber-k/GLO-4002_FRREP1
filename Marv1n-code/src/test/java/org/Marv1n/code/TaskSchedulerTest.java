@@ -17,41 +17,40 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class TaskSchedulerTest {
 
+    private TaskScheduler taskScheduler;
     private static final int TIMER_ZERO = 0;
     private static final int A_TIMER = 5;
     private static final TimeUnit TIME_UNIT_SECOND = TimeUnit.SECONDS;
     private static final ScheduledExecutorService A_SCHEDULER_EXECUTOR_SERVICE = Executors.newSingleThreadScheduledExecutor();
     private static final int DEFAULT_TIMER = 42;
-
     @Mock
-    private Runnable aRunnable;
-    private TaskScheduler taskScheduler;
+    private Runnable runnable;
 
     @Before
     public void createTaskScheduler() {
-        taskScheduler = new TaskScheduler(A_SCHEDULER_EXECUTOR_SERVICE, DEFAULT_TIMER, TIME_UNIT_SECOND, aRunnable);
+        taskScheduler = new TaskScheduler(A_SCHEDULER_EXECUTOR_SERVICE, DEFAULT_TIMER, TIME_UNIT_SECOND, runnable);
     }
 
     @Test
-    public void taskScheduler_WhenCreate_ShouldNotRunning() {
+    public void taskScheduler_WhenCreate_ThenShouldNotRunning() {
         assertFalse(taskScheduler.isSchedulerRunning());
     }
 
     @Test
-    public void taskScheduler_WhenStarted_ShouldRunning() {
+    public void taskScheduler_WhenStarted_ThenShouldRunning() {
         taskScheduler.startScheduler();
         assertTrue(taskScheduler.isSchedulerRunning());
     }
 
     @Test
-    public void taskSchedulerRunning_WhenCanceled_ShouldNotRunning() {
+    public void taskSchedulerRunning_WhenCanceled_ThenShouldNotRunning() {
         taskScheduler.startScheduler();
         taskScheduler.cancelScheduler();
         assertFalse(taskScheduler.isSchedulerRunning());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void taskScheduler_WhenStartWithTimerZero_ShouldThrowIllegalArgumentException() {
+    public void taskScheduler_WhenStartWithTimerZero_ThenShouldThrowIllegalArgumentException() {
         taskScheduler.setIntervalTimer(TIMER_ZERO);
         taskScheduler.startScheduler();
     }
@@ -68,21 +67,21 @@ public class TaskSchedulerTest {
     }
 
     @Test
-    public void newTaskScheduler_WhenStartScheduler_MethodScheduleAtFixedRateShouldBeCalled() {
+    public void newTaskScheduler_WhenStartScheduler_ThenMethodScheduleAtFixedRateShouldBeCalled() {
         ScheduledExecutorService aScheduledExecutorServiceMock = mock(ScheduledExecutorService.class);
-        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, aRunnable);
+        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, runnable);
 
         scheduler.startScheduler();
 
-        verify(aScheduledExecutorServiceMock).scheduleAtFixedRate(aRunnable, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
+        verify(aScheduledExecutorServiceMock).scheduleAtFixedRate(runnable, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
     }
 
     @Test
-    public void aTaskSchedulerRunning_WhenCancelScheduler_MethodCancelShouldBeCalled() {
+    public void aTaskSchedulerRunning_WhenCancelScheduler_ThenMethodCancelShouldBeCalled() {
         ScheduledExecutorService aScheduledExecutorServiceMock = mock(ScheduledExecutorService.class);
         ScheduledFuture aScheduledFutureMock = mock(ScheduledFuture.class);
-        doReturn(aScheduledFutureMock).when(aScheduledExecutorServiceMock).scheduleAtFixedRate(aRunnable, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
-        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, aRunnable);
+        doReturn(aScheduledFutureMock).when(aScheduledExecutorServiceMock).scheduleAtFixedRate(runnable, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
+        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, runnable);
         scheduler.startScheduler();
 
         scheduler.cancelScheduler();
@@ -92,13 +91,12 @@ public class TaskSchedulerTest {
 
 
     @Test
-    public void aTaskScheduler_whenRestartSchedule_thenRestartSchedulerAtBeginning() {
+    public void aTaskScheduler_WhenRestartSchedule_ThenRestartSchedulerAtBeginning() {
         ScheduledExecutorService aScheduledExecutorServiceMock = mock(ScheduledExecutorService.class);
-        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, aRunnable);
+        TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, runnable);
 
         scheduler.restartSchedule();
 
-        verify(aScheduledExecutorServiceMock, times(1)).scheduleAtFixedRate(aRunnable, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
-
+        verify(aScheduledExecutorServiceMock, times(1)).scheduleAtFixedRate(runnable, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
     }
 }

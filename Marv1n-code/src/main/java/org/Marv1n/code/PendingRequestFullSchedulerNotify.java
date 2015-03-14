@@ -1,8 +1,5 @@
 package org.Marv1n.code;
 
-/**
- * Created by Kevin on 13/03/2015.
- */
 public class PendingRequestFullSchedulerNotify implements IObserverMaximumPendingRequestReached {
 
     private final Scheduler scheduler;

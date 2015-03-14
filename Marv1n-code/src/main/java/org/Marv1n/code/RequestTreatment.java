@@ -60,6 +60,4 @@ public class RequestTreatment extends RunnableRequestTreatment {
         request.setRequestStatus(RequestStatus.ACCEPTED);
         requests.create(request);
     }
-
-
 }

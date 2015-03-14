@@ -13,10 +13,8 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by Kevin on 13/03/2015.
- */
 public class MailBuilderTest {
+
     private static final String RESERVABLE_NAME = "44201";
     private static final String FROM_MAIL = "from@mail.ca";
     private static final String TO_MAIL_2 = "toMail2@mail.ca";
@@ -32,7 +30,7 @@ public class MailBuilderTest {
     }
 
     @Test
-    public void givenMailBuilder_whenCreateSuccessMail_ShouldFormatObjectAsSuccess() throws MailBuilderException {
+    public void givenMailBuilder_WhenCreateSuccessMail_ThenShouldFormatObjectAsSuccess() throws MailBuilderException {
         Mail returnedMail = mailBuilder.setStatus(RequestStatus.ACCEPTED)
                 .setRequestID(A_REQUEST_CODE)
                 .buildMail();
@@ -42,7 +40,7 @@ public class MailBuilderTest {
     }
 
     @Test
-    public void givenMailBuilder_whenCreateRefusedMail_ShouldFormatObjectAsSuccess() throws MailBuilderException {
+    public void givenMailBuilder_WhenCreateRefusedMail_ThenShouldFormatObjectAsSuccess() throws MailBuilderException {
         Mail returnedMail = mailBuilder.setStatus(RequestStatus.REFUSED)
                 .setRequestID(A_REQUEST_CODE)
                 .buildMail();
@@ -52,7 +50,7 @@ public class MailBuilderTest {
     }
 
     @Test
-    public void givenMailBuilder_whenCreateCanceledMail_ShouldFormatObjectAsSuccess() throws MailBuilderException {
+    public void givenMailBuilder_WhenCreateCanceledMail_ThenShouldFormatObjectAsSuccess() throws MailBuilderException {
         Mail returnedMail = mailBuilder.setStatus(RequestStatus.CANCELED)
                 .setRequestID(A_REQUEST_CODE)
                 .buildMail();
@@ -62,17 +60,17 @@ public class MailBuilderTest {
     }
 
     @Test(expected = MailBuilderException.class)
-    public void givenMailBuilder_whenDontSpecifyRequestID_shouldThrowIDNotSet() throws MailBuilderException {
+    public void givenMailBuilder_WhenDoNotSpecifyRequestID_ThenShouldThrowIDNotSet() throws MailBuilderException {
         mailBuilder.setStatus(RequestStatus.CANCELED).buildMail();
     }
 
     @Test(expected = MailBuilderException.class)
-    public void givenMailBuilder_whenDontSpecifyRequestStatus_shouldThrowInvalidRequestStatus() throws MailBuilderException {
+    public void givenMailBuilder_WhenDoNotSpecifyRequestStatus_ThenShouldThrowInvalidRequestStatus() throws MailBuilderException {
         mailBuilder.setRequestID(A_REQUEST_CODE).buildMail();
     }
 
     @Test
-    public void givenMailBuilder_whenSpecifyFrom_shouldSetMailProperly() throws MailBuilderException {
+    public void givenMailBuilder_WhenSpecifyFrom_ThenShouldSetMailProperly() throws MailBuilderException {
         Mail returnedMail = mailBuilder.setFrom(FROM_MAIL)
                 .setStatus(RequestStatus.REFUSED)
                 .setRequestID(A_REQUEST_CODE)
@@ -81,7 +79,7 @@ public class MailBuilderTest {
     }
 
     @Test
-    public void givenMailBuilder_whenSpecifyTo_shouldSetMailProperly() throws MailBuilderException {
+    public void givenMailBuilder_WhenSpecifyTo_ThenShouldSetMailProperly() throws MailBuilderException {
         Mail returnedMail = mailBuilder.setTo(TO_MAILS)
                 .setStatus(RequestStatus.REFUSED)
                 .setRequestID(A_REQUEST_CODE)

@@ -17,6 +17,7 @@ import org.Marv1n.code.Reservation.Reservation;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
@@ -41,86 +42,93 @@ public class MailFactoryNotificationTest {
     private static final String A_RESERVABLE_NAME = "44201";
     private static final List<Person> ADMINS = Arrays.asList(AN_ADMIN);
 
-    private IMailService mockMailService;
     private MailFactoryNotification mailFactory;
-    private ReservationRepository mockReservationRepository;
-    private ReservableRepository mockReservableRepository;
-    private PersonRepository mockPersonRepository;
-    private Request mockRequest;
-    private Reservation mockReservation;
-    private IReservable mockReservable;
+    @Mock
+    private IMailService mailServiceMock;
+    @Mock
+    private ReservationRepository reservationRepositoryMock;
+    @Mock
+    private ReservableRepository reservableRepositoryMock;
+    @Mock
+    private PersonRepository personRepositoryMock;
+    @Mock
+    private Request requestMock;
+    @Mock
+    private Reservation reservationMock;
+    @Mock
+    private IReservable reservableMock;
 
     @Before
     public void initializeMailFactory() {
-        mockMailService = mock(IMailService.class);
-        mockReservableRepository = mock(ReservableRepository.class);
-        mockReservationRepository = mock(ReservationRepository.class);
-        mockPersonRepository = mock(PersonRepository.class);
-        mockRequest = mock(Request.class);
-        mockReservation = mock(Reservation.class);
-        mockReservable = mock(IReservable.class);
-        when(mockRequest.getRequestID()).thenReturn(A_REQUEST_UUID);
-        mailFactory = new MailFactoryNotification(mockMailService);
+        mailServiceMock = mock(IMailService.class);
+        reservableRepositoryMock = mock(ReservableRepository.class);
+        reservationRepositoryMock = mock(ReservationRepository.class);
+        personRepositoryMock = mock(PersonRepository.class);
+        requestMock = mock(Request.class);
+        reservationMock = mock(Reservation.class);
+        reservableMock = mock(IReservable.class);
+        when(requestMock.getRequestID()).thenReturn(A_REQUEST_UUID);
+        mailFactory = new MailFactoryNotification(mailServiceMock);
     }
 
     @Test
-    public void givenMailFactory_whenRequestSuccess_thenShouldHaveCorrectMailNotificationCreated() {
-        when(mockRequest.getResponsibleUUID()).thenReturn(A_RESPONSIBLE.getID());
-        when(mockRequest.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
-        when(mockPersonRepository.findByUUID(A_RESPONSIBLE.getID())).thenReturn(Optional.of(A_RESPONSIBLE));
-        when(mockPersonRepository.findAdmins()).thenReturn(ADMINS);
-        when(mockReservationRepository.findReservationByRequest(mockRequest)).thenReturn(mockReservation);
-        when(mockReservation.getReserved()).thenReturn(mockReservable);
-        when(mockReservable.getName()).thenReturn(A_RESERVABLE_NAME);
+    public void givenMailFactory_WhenRequestSuccess_ThenShouldHaveCorrectMailNotificationCreated() {
+        when(requestMock.getResponsibleUUID()).thenReturn(A_RESPONSIBLE.getID());
+        when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
+        when(personRepositoryMock.findByUUID(A_RESPONSIBLE.getID())).thenReturn(Optional.of(A_RESPONSIBLE));
+        when(personRepositoryMock.findAdmins()).thenReturn(ADMINS);
+        when(reservationRepositoryMock.findReservationByRequest(requestMock)).thenReturn(reservationMock);
+        when(reservationMock.getReserved()).thenReturn(reservableMock);
+        when(reservableMock.getName()).thenReturn(A_RESERVABLE_NAME);
 
-        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(mockRequest, mockReservationRepository, mockReservableRepository, mockPersonRepository);
+        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
 
         assertEquals(returnedNotification.mailToSend.to, A_MAIL.to);
     }
 
     @Test(expected = InvalidRequestException.class)
-    public void givenWrongRequestUUID_whenCreate_thenThrow() {
-        when(mockRequest.getResponsibleUUID()).thenReturn(A_RESPONSIBLE.getID());
-        when(mockRequest.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
-        when(mockPersonRepository.findByUUID(A_RESPONSIBLE.getID())).thenReturn(Optional.of(A_RESPONSIBLE));
-        doThrow(ReservationNotFoundException.class).when(mockReservationRepository).findReservationByRequest(mockRequest);
+    public void givenWrongRequestUUID_WhenCreate_ThenThrow() {
+        when(requestMock.getResponsibleUUID()).thenReturn(A_RESPONSIBLE.getID());
+        when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
+        when(personRepositoryMock.findByUUID(A_RESPONSIBLE.getID())).thenReturn(Optional.of(A_RESPONSIBLE));
+        doThrow(ReservationNotFoundException.class).when(reservationRepositoryMock).findReservationByRequest(requestMock);
 
-        mailFactory.createNotification(mockRequest, mockReservationRepository, mockReservableRepository, mockPersonRepository);
+        mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
     }
 
     @Test
-    public void givenRefusedRequest_whenCreate_thenShouldCreateMailNotification() {
-        when(mockRequest.getResponsibleUUID()).thenReturn(A_RESPONSIBLE.getID());
-        when(mockRequest.getRequestStatus()).thenReturn(RequestStatus.REFUSED);
-        when(mockPersonRepository.findByUUID(A_RESPONSIBLE.getID())).thenReturn(Optional.of(A_RESPONSIBLE));
-        when(mockPersonRepository.findAdmins()).thenReturn(ADMINS);
-        doThrow(ReservationNotFoundException.class).when(mockReservationRepository).findReservationByRequest(mockRequest);
+    public void givenRefusedRequest_WhenCreate_ThenShouldCreateMailNotification() {
+        when(requestMock.getResponsibleUUID()).thenReturn(A_RESPONSIBLE.getID());
+        when(requestMock.getRequestStatus()).thenReturn(RequestStatus.REFUSED);
+        when(personRepositoryMock.findByUUID(A_RESPONSIBLE.getID())).thenReturn(Optional.of(A_RESPONSIBLE));
+        when(personRepositoryMock.findAdmins()).thenReturn(ADMINS);
+        doThrow(ReservationNotFoundException.class).when(reservationRepositoryMock).findReservationByRequest(requestMock);
 
-        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(mockRequest, mockReservationRepository, mockReservableRepository, mockPersonRepository);
+        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
 
         assertTrue(returnedNotification.mailToSend.object.contains("refusée"));
     }
 
     @Test
-    public void givenCanceledRequest_whenCreate_thenShouldCreateMailNotification() {
-        when(mockRequest.getResponsibleUUID()).thenReturn(A_RESPONSIBLE.getID());
-        when(mockRequest.getRequestStatus()).thenReturn(RequestStatus.CANCELED);
-        when(mockPersonRepository.findByUUID(A_RESPONSIBLE.getID())).thenReturn(Optional.of(A_RESPONSIBLE));
-        when(mockPersonRepository.findAdmins()).thenReturn(ADMINS);
-        when(mockReservationRepository.findReservationByRequest(mockRequest)).thenReturn(mockReservation);
-        when(mockReservation.getReserved()).thenReturn(mockReservable);
+    public void givenCanceledRequest_WhenCreate_ThenShouldCreateMailNotification() {
+        when(requestMock.getResponsibleUUID()).thenReturn(A_RESPONSIBLE.getID());
+        when(requestMock.getRequestStatus()).thenReturn(RequestStatus.CANCELED);
+        when(personRepositoryMock.findByUUID(A_RESPONSIBLE.getID())).thenReturn(Optional.of(A_RESPONSIBLE));
+        when(personRepositoryMock.findAdmins()).thenReturn(ADMINS);
+        when(reservationRepositoryMock.findReservationByRequest(requestMock)).thenReturn(reservationMock);
+        when(reservationMock.getReserved()).thenReturn(reservableMock);
 
-        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(mockRequest, mockReservationRepository, mockReservableRepository, mockPersonRepository);
+        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
 
         assertTrue(returnedNotification.mailToSend.object.contains("annulée"));
     }
 
     @Test(expected = InvalidRequestException.class)
-    public void givenRequestWithoutResponsible_whenCreate_thenShouldThrowNoResponsible() {
-        when(mockRequest.getResponsibleUUID()).thenReturn(A_RESPONSIBLE.getID());
-        when(mockRequest.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
-        when(mockPersonRepository.findByUUID(A_RESPONSIBLE.getID())).thenReturn(Optional.empty());
+    public void givenRequestWithoutResponsible_WhenCreate_ThenShouldThrowNoResponsible() {
+        when(requestMock.getResponsibleUUID()).thenReturn(A_RESPONSIBLE.getID());
+        when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
+        when(personRepositoryMock.findByUUID(A_RESPONSIBLE.getID())).thenReturn(Optional.empty());
 
-        mailFactory.createNotification(mockRequest, mockReservationRepository, mockReservableRepository, mockPersonRepository);
+        mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
     }
 }

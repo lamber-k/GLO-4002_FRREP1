@@ -23,72 +23,68 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class RequestTreatmentTest {
 
-    @Mock
-    private IStrategyEvaluation assigner;
-    @Mock
-    private IReservationRepository reservations;
-    @Mock
-    private IReservationFactory reservationFactory;
-    @Mock
-    private IReservableRepository reservables;
-    @Mock
-    private IStrategySortRequest requestSorter;
-    @Mock
-    private Request aRequest;
-    @Mock
-    private ReservableEvaluationResult evaluationResult;
-    @Mock
-    private IRequestRepository requestRepository;
-
     private ArrayList<Request> arrayWithOneRequest;
     private List<Request> pendingRequests;
     private RequestTreatment requestTreatment;
+    @Mock
+    private IStrategyEvaluation assignerStrategyMock;
+    @Mock
+    private IReservationRepository reservationsRepositoryMock;
+    @Mock
+    private IReservationFactory reservationFactoryMock;
+    @Mock
+    private IReservableRepository reservablesRepositoryMock;
+    @Mock
+    private IStrategySortRequest requestSortedStrategyMock;
+    @Mock
+    private Request requestMock;
+    @Mock
+    private ReservableEvaluationResult evaluationResultMock;
+    @Mock
+    private IRequestRepository requestRepositoryMock;
 
     @Before
     public void initializeRequestTreatment() {
         arrayWithOneRequest = new ArrayList<>();
+        arrayWithOneRequest.add(requestMock);
         pendingRequests = new ArrayList<>();
-
-        arrayWithOneRequest.add(aRequest);
-        when(requestRepository.findAllPendingRequest()).thenReturn(pendingRequests);
-
-        requestTreatment = new RequestTreatment(assigner, requestSorter, reservables, reservationFactory, reservations, requestRepository);
+        when(requestRepositoryMock.findAllPendingRequest()).thenReturn(pendingRequests);
+        requestTreatment = new RequestTreatment(assignerStrategyMock, requestSortedStrategyMock, reservablesRepositoryMock, reservationFactoryMock, reservationsRepositoryMock, requestRepositoryMock);
     }
 
     @Test
-    public void givenPendingRequest_whenRun_ShouldSortIt() {
+    public void givenPendingRequest_WhenRun_ThenShouldSortIt() {
         requestTreatment.run();
 
-        verify(requestSorter).sortList(pendingRequests);
+        verify(requestSortedStrategyMock).sortList(pendingRequests);
     }
 
     private void havingOnePendingRequest() {
-        when(assigner.evaluateOneRequest(reservables, reservations, aRequest)).thenReturn(evaluationResult);
-        when(requestSorter.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
-        pendingRequests.add(aRequest);
+        when(assignerStrategyMock.evaluateOneRequest(reservablesRepositoryMock, reservationsRepositoryMock, requestMock)).thenReturn(evaluationResultMock);
+        when(requestSortedStrategyMock.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
+        pendingRequests.add(requestMock);
     }
 
-
     @Test
-    public void givenOnePendingRequest_whenRun_ShouldEvaluateIt() {
+    public void givenOnePendingRequest_WhenRunTHenShouldEvaluateIt() {
         havingOnePendingRequest();
         Optional<Reservation> emptyOptional = Optional.empty();
-        when(reservationFactory.reserve(aRequest, evaluationResult)).thenReturn(emptyOptional);
+        when(reservationFactoryMock.reserve(requestMock, evaluationResultMock)).thenReturn(emptyOptional);
 
         requestTreatment.run();
 
-        verify(assigner).evaluateOneRequest(reservables, reservations, aRequest);
+        verify(assignerStrategyMock).evaluateOneRequest(reservablesRepositoryMock, reservationsRepositoryMock, requestMock);
     }
 
     @Test
-    public void givenOnePendingRequest_whenReserveSuccess_ShouldConfirmReservation() {
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldConfirmReservation() {
         Reservation aReservation = mock(Reservation.class);
         havingOnePendingRequest();
         Optional<Reservation> emptyOptional = Optional.of(aReservation);
-        when(reservationFactory.reserve(aRequest, evaluationResult)).thenReturn(emptyOptional);
+        when(reservationFactoryMock.reserve(requestMock, evaluationResultMock)).thenReturn(emptyOptional);
 
         requestTreatment.run();
 
-        verify(reservations).create(aReservation);
+        verify(reservationsRepositoryMock).create(aReservation);
     }
 }
