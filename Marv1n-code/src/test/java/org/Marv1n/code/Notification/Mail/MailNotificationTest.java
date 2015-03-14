@@ -31,6 +31,7 @@ public class MailNotificationTest {
     @Before
     public void initializeNotifier() {
         mailServiceMock = mock(IMailService.class);
+
         notifier = new MailNotification(mailServiceMock, A_MAIL);
     }
 
