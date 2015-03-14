@@ -1,26 +1,14 @@
 package org.Marv1n.code.Notifaction.Mail.MailService;
 
-import org.Marv1n.code.Notifaction.Mail.Mail;
-
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Properties;
 
 
-public class MailServiceSMTPS implements IMailService {
-    private MailServiceOptions options;
-    private Session session;
+public class MailServiceSMTPS extends JavaxMailService {
 
     public MailServiceSMTPS(MailServiceOptions options) {
         this.options = options;
-        Properties properties = new Properties();
-        properties.put("mail.smtp.socketFactory.port", options.port);
-        properties.put("mail.smtp.socketFactory.class",
-                "javax.net.ssl.SSLSocketFactory");
-        properties.put("mail.smtp.auth", "true");
+        Properties properties = this.setupProperties();
         this.session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -30,25 +18,10 @@ public class MailServiceSMTPS implements IMailService {
     }
 
     @Override
-    public void send(Mail mail) {
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(mail.from));
-
-            List<InternetAddress> tos = new ArrayList<>();
-            for (String to : mail.to) {
-                tos.add(new InternetAddress(to));
-            }
-
-            InternetAddress[] toArray = tos.toArray(new InternetAddress[tos.size()]);
-            message.addRecipients(Message.RecipientType.TO, toArray);
-            message.setSubject(mail.object);
-            message.setText(mail.message);
-
-            Transport.send(message);
-
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
+    protected Properties  additionalProperties(Properties properties) {
+        properties.put("mail.smtp.socketFactory.port", options.port);
+        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        properties.put("mail.smtp.auth", "true");
+        return properties;
     }
 }
