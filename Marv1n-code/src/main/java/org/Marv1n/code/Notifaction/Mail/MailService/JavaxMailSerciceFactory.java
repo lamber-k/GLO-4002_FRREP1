@@ -1,17 +1,17 @@
 package org.Marv1n.code.Notifaction.Mail.MailService;
 
-public class MailSerciceFactory {
+public class JavaxMailSerciceFactory {
 
 
     public IMailService createMailService(Protocol protocol, MailServiceOptions options, IMailTransporter mailTransporter) {
 
         switch (protocol) {
             case SMTPS:
-                return new MailServiceSMTPS(options, mailTransporter);
+                return new JavaxMailServiceSMTPS(options, mailTransporter);
             case SSL:
-                return new MailServiceSSL(options, mailTransporter);
+                return new JavaxMailServiceSSL(options, mailTransporter);
             default:
-                return new MailServiceSMTP(options, mailTransporter);
+                return new JavaxMailServiceSMTP(options, mailTransporter);
         }
     }
 

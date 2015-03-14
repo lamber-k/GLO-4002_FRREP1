@@ -4,9 +4,9 @@ import javax.mail.Authenticator;
 import javax.mail.Session;
 import java.util.Properties;
 
-public class MailServiceSMTP extends JavaxMailService {
+public class JavaxMailServiceSMTP extends JavaxMailService {
 
-    public MailServiceSMTP(MailServiceOptions options, IMailTransporter mailTransporter) {
+    public JavaxMailServiceSMTP(MailServiceOptions options, IMailTransporter mailTransporter) {
         this.mailTransporter = mailTransporter;
         this.options = options;
         Properties properties = this.setupProperties();

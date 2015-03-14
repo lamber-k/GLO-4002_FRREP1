@@ -17,11 +17,11 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MailServiceSMTPTest {
+public class JavaxMailServiceSMTPTest {
 
     @Mock
     private IMailTransporter mailTransporterMock;
-    private MailServiceSMTP mailServiceSMTP;
+    private JavaxMailServiceSMTP mailServiceSMTP;
     private MailServiceOptions mailServiceOptions;
     private Mail mail;
 
@@ -29,7 +29,7 @@ public class MailServiceSMTPTest {
     public void init() {
         mailServiceOptions = new MailServiceOptions("Host", "Port");
         mail = initMail();
-        mailServiceSMTP = new MailServiceSMTP(mailServiceOptions, mailTransporterMock);
+        mailServiceSMTP = new JavaxMailServiceSMTP(mailServiceOptions, mailTransporterMock);
     }
 
     public Mail initMail() {

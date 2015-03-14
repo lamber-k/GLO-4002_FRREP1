@@ -5,9 +5,9 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import java.util.Properties;
 
-public class MailServiceSSL extends JavaxMailService {
+public class JavaxMailServiceSSL extends JavaxMailService {
 
-    public MailServiceSSL(MailServiceOptions options, IMailTransporter mailTransporter) {
+    public JavaxMailServiceSSL(MailServiceOptions options, IMailTransporter mailTransporter) {
         this.mailTransporter = mailTransporter;
         this.options = options;
         Properties properties = this.setupProperties();

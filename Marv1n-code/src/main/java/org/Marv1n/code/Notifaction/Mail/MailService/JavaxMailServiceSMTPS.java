@@ -6,9 +6,9 @@ import javax.mail.Session;
 import java.util.Properties;
 
 
-public class MailServiceSMTPS extends JavaxMailService {
+public class JavaxMailServiceSMTPS extends JavaxMailService {
 
-    public MailServiceSMTPS(MailServiceOptions options, IMailTransporter mailTransporter) {
+    public JavaxMailServiceSMTPS(MailServiceOptions options, IMailTransporter mailTransporter) {
         this.mailTransporter = mailTransporter;
         this.options = options;
         Properties properties = this.setupProperties();

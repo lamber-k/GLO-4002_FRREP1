@@ -17,11 +17,10 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MailServiceSMTPSTest {
-
+public class JavaxMailServiceSSLTest {
     @Mock
     private IMailTransporter mailTransporterMock;
-    private MailServiceSMTPS mailServiceSMTPS;
+    private JavaxMailServiceSSL mailServiceSSL;
     private MailServiceOptions mailServiceOptions;
     private Mail mail;
 
@@ -29,7 +28,7 @@ public class MailServiceSMTPSTest {
     public void init() {
         mailServiceOptions = new MailServiceOptions("Host", "Port", "Username", "Password");
         mail = initMail();
-        mailServiceSMTPS = new MailServiceSMTPS(mailServiceOptions, mailTransporterMock);
+        mailServiceSSL = new JavaxMailServiceSSL(mailServiceOptions, mailTransporterMock);
     }
 
     public Mail initMail() {
@@ -39,18 +38,17 @@ public class MailServiceSMTPSTest {
     }
 
     @Test
-    public void givenMailServiceSMTPS_WhenSendCalledAnSendingSucces_ThenMailTransporterSendShouldBeCalled() throws MessagingException {
-        mailServiceSMTPS.send(mail);
+    public void givenMailServiceOptions_WhenSendCalledAnSendingSucces_ThenMailTransporterSendShouldBeCalled() throws MessagingException {
+        mailServiceSSL.send(mail);
 
         verify(mailTransporterMock).send(any(Message.class));
     }
 
     @Test(expected = RuntimeException.class)
-    public void givenMailServiceSMTPS_WhenSendCalledAnSendingFailWithException_ThenExceptionShouldBeThrow() throws MessagingException {
+    public void givenMailServiceOptions_WhenSendCalledAnSendingFailWithException_ThenExceptionShouldBeThrow() throws MessagingException {
         doThrow(new MessagingException()).when(mailTransporterMock).send(any(Message.class));
 
-        mailServiceSMTPS.send(mail);
+        mailServiceSSL.send(mail);
     }
-
 
 }

@@ -9,9 +9,9 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MailSerciceFactoryTest {
+public class JavaxMailServiceFactoryTest {
 
-    private MailSerciceFactory mailServiceFactory;
+    private JavaxMailSerciceFactory mailServiceFactory;
     private Protocol protocol;
     @Mock
     private MailServiceOptions mailServiceOptionsMock;
@@ -20,7 +20,7 @@ public class MailSerciceFactoryTest {
 
     @Before
     public void init() {
-        mailServiceFactory = new MailSerciceFactory();
+        mailServiceFactory = new JavaxMailSerciceFactory();
         mailServiceOptionsMock.port = "port";
         mailServiceOptionsMock.host = "host";
         mailServiceOptionsMock.username = "username";
@@ -33,7 +33,7 @@ public class MailSerciceFactoryTest {
 
         IMailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
 
-        assertTrue(createdMailService instanceof MailServiceSMTPS);
+        assertTrue(createdMailService instanceof JavaxMailServiceSMTPS);
     }
 
     @Test
@@ -42,7 +42,7 @@ public class MailSerciceFactoryTest {
 
         IMailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
 
-        assertTrue(createdMailService instanceof MailServiceSSL);
+        assertTrue(createdMailService instanceof JavaxMailServiceSSL);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class MailSerciceFactoryTest {
 
         IMailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
 
-        assertTrue(createdMailService instanceof MailServiceSMTP);
+        assertTrue(createdMailService instanceof JavaxMailServiceSMTP);
     }
 
 }
