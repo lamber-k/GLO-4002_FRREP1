@@ -4,7 +4,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class TaskScheduler implements Scheduler {
+public class TaskIScheduler implements IScheduler {
 
     private final Runnable task;
     private final TimeUnit timeUnit;
@@ -13,7 +13,7 @@ public class TaskScheduler implements Scheduler {
     private boolean isSchedulerRunning;
     private int intervalTimer;
 
-    public TaskScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit, Runnable task) {
+    public TaskIScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit, Runnable task) {
         this.scheduler = scheduler;
         this.nextRun = null;
         this.isSchedulerRunning = false;

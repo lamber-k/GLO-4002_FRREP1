@@ -2,14 +2,14 @@ package org.Marv1n.code;
 
 public class PendingRequestFullSchedulerNotify implements IObserverMaximumPendingRequestReached {
 
-    private final Scheduler scheduler;
+    private final IScheduler IScheduler;
 
-    public PendingRequestFullSchedulerNotify(Scheduler scheduler) {
-        this.scheduler = scheduler;
+    public PendingRequestFullSchedulerNotify(IScheduler IScheduler) {
+        this.IScheduler = IScheduler;
     }
 
     @Override
     public void onMaximumPendingRequestReached() {
-        scheduler.restartSchedule();
+        IScheduler.restartSchedule();
     }
 }

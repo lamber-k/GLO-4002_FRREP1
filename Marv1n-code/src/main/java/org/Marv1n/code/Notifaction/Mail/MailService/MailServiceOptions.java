@@ -1,6 +1,7 @@
 package org.Marv1n.code.Notifaction.Mail.MailService;
 
 public class MailServiceOptions {
+
     public String host = "";
     public String port = "";
     public String username = "";

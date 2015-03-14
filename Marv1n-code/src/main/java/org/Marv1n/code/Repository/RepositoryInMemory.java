@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
-public abstract class Repository<Type> implements IRepository<Type> {
+public abstract class RepositoryInMemory<Type> implements IRepository<Type> {
 
     private List<Type> objectContainer = new LinkedList<>();
 

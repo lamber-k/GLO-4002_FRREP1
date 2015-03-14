@@ -14,9 +14,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ReservationRepositoryTest {
+public class ReservationRepositoryInMemoryTest {
 
-    private ReservationRepository reservations;
+    private ReservationRepositoryInMemory reservations;
     @Mock
     private Reservation reservationMock;
     @Mock
@@ -26,7 +26,7 @@ public class ReservationRepositoryTest {
 
     @Before
     public void initializeReservationRepository() {
-        reservations = new ReservationRepository();
+        reservations = new ReservationRepositoryInMemory();
     }
 
     @Test

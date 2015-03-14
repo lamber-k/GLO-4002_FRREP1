@@ -13,16 +13,16 @@ public class RoomTest {
     final static private int NUMBER_OF_SEATS = 25;
     final static private int LOWER_NUMBER_OF_SEATS = 5;
     final static private int HIGHER_NUMBER_OF_SEATS = 35;
-    final static private String A_ROOM_NAME = "The room name";
+    final static private String ROOM_NAME = "The room name";
     private Room room;
 
     @Before
-    public void initializeNewRoom() {
-        room = new Room(NUMBER_OF_SEATS, A_ROOM_NAME);
+    public void initializeRoom() {
+        room = new Room(NUMBER_OF_SEATS, ROOM_NAME);
     }
 
     @Test
-    public void newRoomReturnsCorrectNumberOfSeats() {
+    public void givenRoomReturnsCorrectNumberOfSeats() {
         int seats = room.getNumberOfSeats();
         assertEquals(NUMBER_OF_SEATS, seats);
     }
@@ -30,20 +30,20 @@ public class RoomTest {
     @Test
     public void newRoomReturnsCorrectName() {
         String name = room.getName();
-        assertEquals(A_ROOM_NAME, name);
+        assertEquals(ROOM_NAME, name);
     }
 
     @Test
     public void twoRooms_WhenTestRoomWithAnotherLowerSeatsCapacityRoom_ThenShouldReturnTrue() {
-        Room greaterRoom = new Room(NUMBER_OF_SEATS, A_ROOM_NAME);
-        Room lowerRoom = new Room(LOWER_NUMBER_OF_SEATS, A_ROOM_NAME);
+        Room greaterRoom = new Room(NUMBER_OF_SEATS, ROOM_NAME);
+        Room lowerRoom = new Room(LOWER_NUMBER_OF_SEATS, ROOM_NAME);
         assertTrue(greaterRoom.hasGreaterCapacityThan(lowerRoom));
     }
 
     @Test
     public void twoRooms_WhenTestRoomWithAnotherHigherSeatsCapacityRoom_ThenShouldReturnFalse() {
-        Room lowerRoom = new Room(NUMBER_OF_SEATS, A_ROOM_NAME);
-        Room greaterRoom = new Room(HIGHER_NUMBER_OF_SEATS, A_ROOM_NAME);
+        Room lowerRoom = new Room(NUMBER_OF_SEATS, ROOM_NAME);
+        Room greaterRoom = new Room(HIGHER_NUMBER_OF_SEATS, ROOM_NAME);
         assertFalse(lowerRoom.hasGreaterCapacityThan(greaterRoom));
     }
 
@@ -79,7 +79,7 @@ public class RoomTest {
 
     @Test
     public void aRoom_WhenComparedWithDifferentRoom_ThenShouldReturnFalse() {
-        Room aDifferentRoom = new Room(LOWER_NUMBER_OF_SEATS, A_ROOM_NAME);
+        Room aDifferentRoom = new Room(LOWER_NUMBER_OF_SEATS, ROOM_NAME);
         assertFalse(room.equals(aDifferentRoom));
     }
 

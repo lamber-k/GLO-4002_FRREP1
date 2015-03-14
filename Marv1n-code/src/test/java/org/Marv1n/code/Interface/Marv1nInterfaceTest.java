@@ -22,10 +22,10 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class Marv1nInterfaceTest {
 
-    private static int A_NUMBER_OF_SEATS = 5;
-    private static int A_PRIORITY = 1;
-    private static String AN_EMAIL = "exemple@exemple.com";
-    private static String AN_INVALID_EMAIL = "invalidEmail";
+    private static final int NUMBER_OF_SEATS = 5;
+    private static final int PRIORITY = 1;
+    private static final String EMAIL = "exemple@exemple.com";
+    private static final String INVALID_EMAIL = "invalidEmail";
     private Marv1nInterface marv1nInterface;
     @Mock
     private StrategyRequestCancellationFactory requestCancellationStrategyFactoryMock;
@@ -38,59 +38,59 @@ public class Marv1nInterfaceTest {
     @Mock
     private IPersonRepository personRepositoryMock;
 
-    public void initWithReservationRepository() {
+    public void initializeWithReservationRepository() {
         marv1nInterface = new Marv1nInterface(requestRepositoryMock, reservationRepositoryMock, personRepositoryMock, pendingRequestsMock);
     }
 
-    public void initWithStrategyRequestCancellationFactory() {
+    public void initializeWithStrategyRequestCancellationFactory() {
         marv1nInterface = new Marv1nInterface(requestRepositoryMock, personRepositoryMock, requestCancellationStrategyFactoryMock, pendingRequestsMock);
     }
 
     @Test
     public void givenMarv1nInterface_WhenCreateNewRequest_ThenRequestRepositoryShouldBeCalledWithCreate() {
-        initWithReservationRepository();
+        initializeWithReservationRepository();
         Person person = mock(Person.class);
-        when(personRepositoryMock.findByEmail(AN_EMAIL)).thenReturn(Optional.of(person));
+        when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.of(person));
 
-        marv1nInterface.createRequest(A_NUMBER_OF_SEATS, A_PRIORITY, AN_EMAIL);
+        marv1nInterface.createRequest(NUMBER_OF_SEATS, PRIORITY, EMAIL);
 
         verify(requestRepositoryMock).create(any(Request.class));
     }
 
     @Test
     public void givenMarv1nInterface_WhenCreateNewRequest_ThenPendingRequestShouldBeCalledWithAddRequest() {
-        initWithReservationRepository();
+        initializeWithReservationRepository();
         Person person = mock(Person.class);
-        when(personRepositoryMock.findByEmail(AN_EMAIL)).thenReturn(Optional.of(person));
+        when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.of(person));
 
-        marv1nInterface.createRequest(A_NUMBER_OF_SEATS, A_PRIORITY, AN_EMAIL);
+        marv1nInterface.createRequest(NUMBER_OF_SEATS, PRIORITY, EMAIL);
 
         verify(pendingRequestsMock).addRequest(any(Request.class));
     }
 
     @Test
     public void givenMarv1nInterfaceWithEmptyPersonRepository_WhenAddNewRequest_ThenPersonShouldBeCreated() {
-        initWithReservationRepository();
-        when(personRepositoryMock.findByEmail(AN_EMAIL)).thenReturn(Optional.empty());
+        initializeWithReservationRepository();
+        when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.empty());
 
-        marv1nInterface.createRequest(A_NUMBER_OF_SEATS, A_PRIORITY, AN_EMAIL);
+        marv1nInterface.createRequest(NUMBER_OF_SEATS, PRIORITY, EMAIL);
 
         verify(personRepositoryMock).create(any(Person.class));
     }
 
     @Test
     public void givenMarv1nInterface_WhenCreateNewRequestWithInvalidEmailAddressFormat_ThenPersonShouldBeCreated() {
-        initWithReservationRepository();
-        when(personRepositoryMock.findByEmail(AN_EMAIL)).thenReturn(Optional.empty());
+        initializeWithReservationRepository();
+        when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.empty());
 
-        marv1nInterface.createRequest(A_NUMBER_OF_SEATS, A_PRIORITY, AN_INVALID_EMAIL);
+        marv1nInterface.createRequest(NUMBER_OF_SEATS, PRIORITY, INVALID_EMAIL);
 
         verify(requestRepositoryMock, never()).create(any(Request.class));
     }
 
     @Test
     public void givenMarv1nInterface_WhenCancelRequestWithExistingRequest_ThenRequestIsCancelledByCallingTheCancelStrategy() {
-        initWithStrategyRequestCancellationFactory();
+        initializeWithStrategyRequestCancellationFactory();
         UUID id = UUID.randomUUID();
         Request requestMock = mock(Request.class);
         when(requestRepositoryMock.findByUUID(id)).thenReturn(Optional.of(requestMock));
@@ -104,7 +104,7 @@ public class Marv1nInterfaceTest {
 
     @Test
     public void givenMarv1nInterface_WhenCancelRequestWithNonExistingRequest_ThenNothingIsDone() {
-        initWithStrategyRequestCancellationFactory();
+        initializeWithStrategyRequestCancellationFactory();
         UUID id = UUID.randomUUID();
         when(requestRepositoryMock.findByUUID(id)).thenReturn(Optional.empty());
         IStrategyRequestCancellation strategyRequestCancellationMock = mock(IStrategyRequestCancellation.class);

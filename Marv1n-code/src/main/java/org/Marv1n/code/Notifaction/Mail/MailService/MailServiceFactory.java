@@ -1,6 +1,6 @@
 package org.Marv1n.code.Notifaction.Mail.MailService;
 
-public class MailSerciceFactory {
+public class MailServiceFactory {
 
 
     public IMailService createMailService(Protocol protocol,MailServiceOptions options){

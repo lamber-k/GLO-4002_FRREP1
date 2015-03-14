@@ -11,5 +11,4 @@ public class MailServiceSMTPTest {
         MailServiceOptions options = new MailServiceOptions("host", "ports");
         new MailServiceSMTP(options);
     }
-
 }

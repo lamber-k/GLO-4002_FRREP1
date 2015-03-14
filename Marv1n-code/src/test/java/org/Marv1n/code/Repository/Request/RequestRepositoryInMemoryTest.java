@@ -18,48 +18,47 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class RequestRepositoryTest {
+public class RequestRepositoryInMemoryTest {
 
-    private RequestRepository requestRepository;
+    private RequestRepositoryInMemory requestRepository;
     @Mock
     private Request requestMock;
-    private UUID requestIDMock;
+    private UUID requestID;
 
     @Before
     public void setUp() throws Exception {
-        requestRepository = new RequestRepository();
-        requestIDMock = UUID.randomUUID();
-        when(requestMock.getRequestID()).thenReturn(requestIDMock);
+        requestRepository = new RequestRepositoryInMemory();
+        requestID = UUID.randomUUID();
+        when(requestMock.getRequestID()).thenReturn(requestID);
     }
 
     @Test
-    public void _WhenReservableAddedToRepositorySameObjectCanBeFound() throws Exception {
+    public void givenEmptyRequestRepository_WhenReservableNotFound_ThenRepositoryReturnsEmptyOptional() throws Exception {
+        Optional<Request> result = requestRepository.findByUUID(requestID);
+        assertFalse(result.isPresent());
+    }
+
+    @Test
+    public void givenEmptyRequestRepository_WhenReservableAddedToRepository_ThenSameObjectCanBeFound() throws Exception {
         requestRepository.create(requestMock);
 
-        Optional<Request> result = requestRepository.findByUUID(requestIDMock);
-
+        Optional<Request> result = requestRepository.findByUUID(requestID);
         assertTrue(result.isPresent());
         assertEquals(requestMock, result.get());
     }
 
     @Test
-    public void _WhenReservableNotFoundRepositoryReturnsEmptyOptional() throws Exception {
-        Optional<Request> result = requestRepository.findByUUID(requestIDMock);
-        assertFalse(result.isPresent());
-    }
-
-    @Test
-    public void _WhenReservableRemoved_ThenRepositoryReturnsEmpty() throws Exception {
+    public void givenNotEmptyRequestRepository_WhenReservableRemoved_ThenNotFound() throws Exception {
         requestRepository.create(requestMock);
 
         requestRepository.remove(requestMock);
 
-        Optional<Request> result = requestRepository.findByUUID(requestIDMock);
+        Optional<Request> result = requestRepository.findByUUID(requestID);
         assertFalse(result.isPresent());
     }
 
     @Test(expected = ObjectNotFoundException.class)
-    public void _WhenMissingReservableRemovedThenRepositoryThrowException() throws Exception {
+    public void givenEmptyRequestRepository_WhenMissingReservableRemoved_ThenRepositoryThrowException() throws Exception {
         requestRepository.remove(requestMock);
     }
 
