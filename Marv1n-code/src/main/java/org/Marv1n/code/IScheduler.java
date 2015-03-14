@@ -1,6 +1,6 @@
 package org.Marv1n.code;
 
-public interface Scheduler {
+public interface IScheduler {
 
     public boolean isSchedulerRunning();
 

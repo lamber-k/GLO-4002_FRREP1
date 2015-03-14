@@ -3,7 +3,7 @@ package org.Marv1n.code.StrategyEvaluation;
 import org.Marv1n.code.Repository.Reservable.IReservableRepository;
 import org.Marv1n.code.Repository.Reservation.IReservationRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationNotFoundException;
-import org.Marv1n.code.Repository.Reservation.ReservationRepository;
+import org.Marv1n.code.Repository.Reservation.ReservationRepositoryInMemory;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservation.Reservation;
@@ -75,7 +75,7 @@ public class StrategyEvaluationMaximizeSeatsTest {
 
     @Test
     public void whenOneReservableCanTBeFoundReturnsEmptyEvaluationResult() throws ReservationNotFoundException {
-        ReservationRepository reservationsRepository = mock(ReservationRepository.class);
+        ReservationRepositoryInMemory reservationsRepository = mock(ReservationRepositoryInMemory.class);
         when(reservationsRepository.findReservationByReservable(any(IReservable.class))).thenReturn(mock(Reservation.class));
 
         ReservableEvaluationResult result = assignerStrategy.evaluateOneRequest(reservableRepositoryMock, reservationsRepository, requestMock);

@@ -1,13 +1,13 @@
 package org.Marv1n.code.Repository.Reservation;
 
-import org.Marv1n.code.Repository.Repository;
+import org.Marv1n.code.Repository.RepositoryInMemory;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
 import org.Marv1n.code.Reservation.Reservation;
 
 import java.util.Optional;
 
-public class ReservationRepository extends Repository<Reservation> implements IReservationRepository {
+public class ReservationRepositoryInMemory extends RepositoryInMemory<Reservation> implements IReservationRepository {
 
     @Override
     public boolean reservationExist(Reservation reservable) {

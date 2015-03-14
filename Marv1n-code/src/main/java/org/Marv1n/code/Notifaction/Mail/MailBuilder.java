@@ -7,9 +7,9 @@ import java.util.List;
 public class MailBuilder {
 
     private static final String MAIL_OBJECT_FORMAT = "[Reservation][requête n°%d] status %s";
-    private static final String MAIL_OBJECT_STATUS_ACCEPTED = "acceptée";
-    private static final String MAIL_OBJECT_STATUS_REFUSED = "refusée";
-    private static final String MAIL_OBJECT_STATUS_CANCELED = "annulée";
+    public static final String MAIL_OBJECT_STATUS_ACCEPTED = "acceptée";
+    public static final String MAIL_OBJECT_STATUS_REFUSED = "refusée";
+    public static final String MAIL_OBJECT_STATUS_CANCELED = "annulée";
     private RequestStatus requestStatus = null;
     private Integer requestID = null;
     private String mailFrom;

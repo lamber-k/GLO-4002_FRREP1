@@ -12,15 +12,15 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 
 @RunWith(MockitoJUnitRunner.class)
-public class ReservableRepositoryTest {
+public class ReservableRepositoryInMemoryTest {
 
-    private ReservableRepository reservableRepository;
+    private ReservableRepositoryInMemory reservableRepository;
     @Mock
     private IReservable reservableMock;
 
     @Before
     public void setUp() throws Exception {
-        reservableRepository = new ReservableRepository();
+        reservableRepository = new ReservableRepositoryInMemory();
     }
 
     @Test

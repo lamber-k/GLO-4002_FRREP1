@@ -1,14 +1,14 @@
 package org.Marv1n.code.Repository.Person;
 
 import org.Marv1n.code.Person;
-import org.Marv1n.code.Repository.Repository;
+import org.Marv1n.code.Repository.RepositoryInMemory;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class PersonRepository extends Repository<Person> implements IPersonRepository {
+public class PersonRepositoryInMemory extends RepositoryInMemory<Person> implements IPersonRepository {
 
     public Optional<Person> findByUUID(UUID id) {
         return query().filter(p -> p.getID().equals(id)).findFirst();

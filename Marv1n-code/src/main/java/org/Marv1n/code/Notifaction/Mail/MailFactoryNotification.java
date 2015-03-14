@@ -5,10 +5,10 @@ import org.Marv1n.code.Notifaction.INotification;
 import org.Marv1n.code.Notifaction.InvalidRequestException;
 import org.Marv1n.code.Notifaction.Mail.MailService.IMailService;
 import org.Marv1n.code.Person;
-import org.Marv1n.code.Repository.Person.PersonRepository;
-import org.Marv1n.code.Repository.Reservable.ReservableRepository;
+import org.Marv1n.code.Repository.Person.PersonRepositoryInMemory;
+import org.Marv1n.code.Repository.Reservable.ReservableRepositoryInMemory;
 import org.Marv1n.code.Repository.Reservation.ReservationNotFoundException;
-import org.Marv1n.code.Repository.Reservation.ReservationRepository;
+import org.Marv1n.code.Repository.Reservation.ReservationRepositoryInMemory;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.RequestStatus;
 import org.Marv1n.code.Reservable.IReservable;
@@ -28,7 +28,7 @@ public class MailFactoryNotification extends FactoryNotification {
     }
 
     @Override
-    public INotification createNotification(Request request, ReservationRepository reservationRepository, ReservableRepository reservableRepository, PersonRepository personRepository) throws InvalidRequestException {
+    public INotification createNotification(Request request, ReservationRepositoryInMemory reservationRepository, ReservableRepositoryInMemory reservableRepository, PersonRepositoryInMemory personRepository) throws InvalidRequestException {
         Person responsible = findResponsible(request, personRepository);
         IReservable reservable = findReservable(request, reservationRepository);
         List<String> mailTo = new LinkedList<>();
@@ -38,7 +38,7 @@ public class MailFactoryNotification extends FactoryNotification {
         return new MailNotification(mailService, mail);
     }
 
-    private IReservable findReservable(Request request, ReservationRepository reservationRepository) throws InvalidRequestException {
+    private IReservable findReservable(Request request, ReservationRepositoryInMemory reservationRepository) throws InvalidRequestException {
         Reservation reservation;
         try {
             reservation = reservationRepository.findReservationByRequest(request);
@@ -51,7 +51,7 @@ public class MailFactoryNotification extends FactoryNotification {
         return reservation.getReserved();
     }
 
-    private Person findResponsible(Request request, PersonRepository personRepository) throws InvalidRequestException {
+    private Person findResponsible(Request request, PersonRepositoryInMemory personRepository) throws InvalidRequestException {
         Optional<Person> optionalResponsible = personRepository.findByUUID(request.getResponsibleUUID());
         if (!optionalResponsible.isPresent()) {
             throw new InvalidRequestException("Aucun responsable assigné");

@@ -7,21 +7,21 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
-public class PendingRequestFullSchedulerNotifyTest {
+public class PendingRequestFullISchedulerNotifyTest {
 
     private PendingRequestFullSchedulerNotify pendingRequestNotifier;
     @Mock
-    private Scheduler schedulerMock;
+    private IScheduler ISchedulerMock;
 
     @Before
     public void initializePendingRequestFullSchedulerNotify() {
-        schedulerMock = mock(Scheduler.class);
-        pendingRequestNotifier = new PendingRequestFullSchedulerNotify(schedulerMock);
+        ISchedulerMock = mock(IScheduler.class);
+        pendingRequestNotifier = new PendingRequestFullSchedulerNotify(ISchedulerMock);
     }
 
     @Test
     public void givenNotifier_WhenLimitReached_ThenShouldRestartScheduler() {
         pendingRequestNotifier.onMaximumPendingRequestReached();
-        verify(schedulerMock).restartSchedule();
+        verify(ISchedulerMock).restartSchedule();
     }
 }

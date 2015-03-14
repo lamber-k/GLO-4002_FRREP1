@@ -12,10 +12,10 @@ import static org.junit.Assert.assertTrue;
 public class MailTest {
 
     private Mail mail;
-    private Mail aDifferentMail;
+    private Mail differentMail;
 
     @Before
-    public void inid() {
+    public void initializeMail(){
         List<String> destinationMail = new ArrayList<>();
         destinationMail.add("TO@exemple.com");
         mail = new Mail("from@exemple.com", destinationMail, "Subject", "Message");
@@ -30,18 +30,18 @@ public class MailTest {
     public void givenAMail_WhenComparedToMailContainingDifferentFrom_ThenReturnFalse() {
         List<String> destinationMail = new ArrayList<>();
         destinationMail.add("TO@exemple.com");
-        aDifferentMail = new Mail("FromDifferentSender@exemple.com", destinationMail, "Subject", "Message");
+        differentMail = new Mail("FromDifferentSender@exemple.com", destinationMail, "Subject", "Message");
 
-        assertFalse(mail.equals(aDifferentMail));
+        assertFalse(mail.equals(differentMail));
     }
 
     @Test
     public void givenAMail_WhenComparedToMailContainingDifferentTo_ThenReturnFalse() {
         List<String> destinationMail = new ArrayList<>();
         destinationMail.add("TODifferentDestination@exemple.com");
-        aDifferentMail = new Mail("from@exemple.com", destinationMail, "Subject", "Message");
+        differentMail = new Mail("from@exemple.com", destinationMail, "Subject", "Message");
 
-        assertFalse(mail.equals(aDifferentMail));
+        assertFalse(mail.equals(differentMail));
     }
 
     @Test
@@ -49,32 +49,33 @@ public class MailTest {
         List<String> destinationMail = new ArrayList<>();
         destinationMail.add("TO@exemple.com");
         destinationMail.add("TODifferentDestination@exemple.com");
-        aDifferentMail = new Mail("from@exemple.com", destinationMail, "Subject", "Message");
+        differentMail = new Mail("from@exemple.com", destinationMail, "Subject", "Message");
 
-        assertFalse(mail.equals(aDifferentMail));
+        assertFalse(mail.equals(differentMail));
     }
 
     @Test
     public void givenAMail_WhenComparedToMailContainingDifferentSubject_ThenReturnFalse() {
         List<String> destinationMail = new ArrayList<>();
         destinationMail.add("TO@exemple.com");
-        aDifferentMail = new Mail("from@exemple.com", destinationMail, "DifferentSubject", "Message");
+        differentMail = new Mail("from@exemple.com", destinationMail, "DifferentSubject", "Message");
 
-        assertFalse(mail.equals(aDifferentMail));
+        assertFalse(mail.equals(differentMail));
     }
 
     @Test
     public void givenAMail_WhenComparedToMailContainingDifferentSubjectMessage_ThenReturnFalse() {
         List<String> destinationMail = new ArrayList<>();
         destinationMail.add("TO@exemple.com");
-        aDifferentMail = new Mail("from@exemple.com", destinationMail, "Subject", "DifferentMessage");
+        differentMail= new Mail("from@exemple.com", destinationMail, "Subject", "DifferentMessage");
 
-        assertFalse(mail.equals(aDifferentMail));
+        assertFalse(mail.equals(differentMail));
     }
 
     @Test
     public void givenAMail_WhenComparedToDifferentObjectType_ThenReturnFalse() {
         Integer differentObject = new Integer(25);
+
         assertFalse(mail.equals(differentObject));
     }
 
@@ -82,5 +83,4 @@ public class MailTest {
     public void givenAMail_WhenComparedToNull_ThenReturnFalse() {
         assertFalse(mail.equals(null));
     }
-
 }

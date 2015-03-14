@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 @RunWith(MockitoJUnitRunner.class)
 public class JavaxMailServiceFactoryTest {
 
-    private JavaxMailSerciceFactory mailServiceFactory;
+    private JavaxMailServiceFactory mailServiceFactory;
     private Protocol protocol;
     @Mock
     private MailServiceOptions mailServiceOptionsMock;
@@ -20,7 +20,7 @@ public class JavaxMailServiceFactoryTest {
 
     @Before
     public void init() {
-        mailServiceFactory = new JavaxMailSerciceFactory();
+        mailServiceFactory = new JavaxMailServiceFactory();
         mailServiceOptionsMock.port = "port";
         mailServiceOptionsMock.host = "host";
         mailServiceOptionsMock.username = "username";
