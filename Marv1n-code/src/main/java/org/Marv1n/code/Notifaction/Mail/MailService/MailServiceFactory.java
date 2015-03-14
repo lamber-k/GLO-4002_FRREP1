@@ -7,11 +7,11 @@ public class MailServiceFactory {
 
         switch (protocol) {
             case SMTPS:
-                return new MailServiceSMTPS(options);
+                return new JavaxMailServiceSMTPS(options);
             case SSL:
-                return new MailServiceSSL(options);
+                return new JavaxMailServiceSSL(options);
             default:
-                return new MailServiceSMTP(options);
+                return new JavaxMailServiceSMTP(options);
         }
     }
 

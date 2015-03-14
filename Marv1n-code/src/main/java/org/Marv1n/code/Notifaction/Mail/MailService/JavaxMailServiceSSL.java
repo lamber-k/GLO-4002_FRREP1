@@ -3,10 +3,9 @@ package org.Marv1n.code.Notifaction.Mail.MailService;
 import javax.mail.*;
 import java.util.Properties;
 
+public class JavaxMailServiceSSL extends JavaxMailService {
 
-public class MailServiceSMTPS extends JavaxMailService {
-
-    public MailServiceSMTPS(MailServiceOptions options) {
+    public JavaxMailServiceSSL(MailServiceOptions options) {
         this.options = options;
         Properties properties = this.setupProperties();
         this.session = Session.getInstance(properties, new Authenticator() {
@@ -19,9 +18,8 @@ public class MailServiceSMTPS extends JavaxMailService {
 
     @Override
     protected Properties  additionalProperties(Properties properties) {
-        properties.put("mail.smtp.socketFactory.port", options.port);
-        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
         return properties;
     }
 }
