@@ -46,8 +46,7 @@ public class Marv1nInterface {
             Optional<Person> result = personRepository.findByEmail(email);
             if (result.isPresent()) {
                 person = result.get();
-            }
-            else {
+            } else {
                 person = new Person(email);
                 personRepository.create(person);
             }

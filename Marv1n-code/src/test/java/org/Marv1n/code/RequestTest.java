@@ -5,7 +5,8 @@ import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class RequestTest {
 
@@ -16,29 +17,29 @@ public class RequestTest {
     private UUID REQUESTER_UUID = UUID.randomUUID();
 
     @Before
-    public void init(){
-        request = new Request(NUMBER_OF_SEATS_NEEDED,PRIORITY,REQUESTER_UUID);
+    public void init() {
+        request = new Request(NUMBER_OF_SEATS_NEEDED, PRIORITY, REQUESTER_UUID);
     }
 
     @Test
-    public void givenRequest_WhenComparedToIdenticalRequest_ThenReturnTrue(){
+    public void givenRequest_WhenComparedToIdenticalRequest_ThenReturnTrue() {
         assertTrue(request.equals(request));
     }
 
     @Test
-    public void givenRequest_WhenComparedToDifferentRequest_ThenReturnFalse(){
-        aDifferentRequest = new Request(NUMBER_OF_SEATS_NEEDED,PRIORITY,UUID.randomUUID());
+    public void givenRequest_WhenComparedToDifferentRequest_ThenReturnFalse() {
+        aDifferentRequest = new Request(NUMBER_OF_SEATS_NEEDED, PRIORITY, UUID.randomUUID());
         assertFalse(request.equals(aDifferentRequest));
     }
 
     @Test
-    public void givenRequest_WhenComparedToDifferentObject_ThenReturnFalse(){
+    public void givenRequest_WhenComparedToDifferentObject_ThenReturnFalse() {
         Integer aDifferentObject = new Integer(25);
         assertFalse(request.equals(aDifferentObject));
     }
 
     @Test
-    public void givenRequest_WhenComparedToNull_ThenReturnFalse(){
+    public void givenRequest_WhenComparedToNull_ThenReturnFalse() {
         assertFalse(request.equals(null));
     }
 

@@ -15,13 +15,11 @@ import static org.junit.Assert.assertTrue;
 
 public class MailBuilderTest {
 
-    private static final String RESERVABLE_NAME = "44201";
     private static final String FROM_MAIL = "from@mail.ca";
     private static final String TO_MAIL_2 = "toMail2@mail.ca";
     private static final String TO_MAIL_1 = "toMail1@mail.ca";
     private static final List<String> TO_MAILS = Arrays.asList(TO_MAIL_1, TO_MAIL_2);
     private static final int A_REQUEST_CODE = 68;
-    private static final String A_MESSAGE = "Mail Builder Test Message";
     private MailBuilder mailBuilder;
 
     @Before
@@ -57,6 +55,13 @@ public class MailBuilderTest {
 
         assertTrue(returnedMail.object.contains("annulée"));
         assertTrue(returnedMail.object.contains(String.valueOf(A_REQUEST_CODE)));
+    }
+
+    @Test(expected = MailBuilderException.class)
+    public void givenMailBuilder_WhenCreatePendingMail_ThenShouldFormatObjectAsSuccess() throws MailBuilderException {
+        Mail returnedMail = mailBuilder.setStatus(RequestStatus.PENDING)
+                .setRequestID(A_REQUEST_CODE)
+                .buildMail();
     }
 
     @Test(expected = MailBuilderException.class)

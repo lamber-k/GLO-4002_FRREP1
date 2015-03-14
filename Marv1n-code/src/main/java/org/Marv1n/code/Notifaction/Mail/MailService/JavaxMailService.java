@@ -5,7 +5,6 @@ import org.Marv1n.code.Notifaction.Mail.Mail;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.ArrayList;
@@ -15,6 +14,7 @@ import java.util.Properties;
 public abstract class JavaxMailService implements IMailService {
     protected MailServiceOptions options;
     protected Session session;
+    protected IMailTransporter mailTransporter;
 
     protected Properties setupProperties() {
         Properties properties = new Properties();
@@ -42,7 +42,7 @@ public abstract class JavaxMailService implements IMailService {
             message.setSubject(mail.object);
             message.setText(mail.message);
 
-            Transport.send(message);
+            mailTransporter.send(message);
 
         } catch (MessagingException e) {
             throw new RuntimeException(e);

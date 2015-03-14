@@ -15,13 +15,13 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class StrategyRequestCancellationPendingTest {
 
-    private StrategyRequestCancellationPending requestCancellationPendingStrategy;
     @Mock
     IRequestRepository requestRepositoryMock;
     @Mock
     PendingRequests pendingRequestsMock;
     @Mock
     Request requestMock;
+    private StrategyRequestCancellationPending requestCancellationPendingStrategy;
 
     @Before
     public void init() {

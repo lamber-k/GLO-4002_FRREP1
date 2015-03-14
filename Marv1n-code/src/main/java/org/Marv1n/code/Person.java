@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public class Person {
 
-    private String mailAddress;
     private final UUID personID;
+    private String mailAddress;
     private boolean admin = false;
 
     public Person(String mailAddress) {
