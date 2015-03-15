@@ -6,7 +6,7 @@ public interface IReservable {
 
     public String getName();
 
-    public boolean hasGreaterCapacityThan(IReservable reservable);
+    public boolean hasGreaterOrEqualCapacityThan(IReservable reservable);
 
     public int compareReservableCapacity(IReservable reservable);
 

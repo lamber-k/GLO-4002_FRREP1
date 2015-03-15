@@ -55,7 +55,7 @@ public class StrategyEvaluationMaximizeSeatsTest {
 
     @Test
     public void assignationIsRun_WhenTheSecondBestRoomIsNotBestThanFirst_ThenReturnTheFirst() throws ReservationNotFoundException {
-        when(reservableMock.hasGreaterCapacityThan(anotherReservableMock)).thenReturn(false);
+        when(reservableMock.hasGreaterOrEqualCapacityThan(anotherReservableMock)).thenReturn(false);
         reservableList.add(anotherReservableMock);
 
         ReservableEvaluationResult result = assignerStrategy.evaluateOneRequest(reservableRepositoryMock, reservationRepositoryMock, requestMock);
@@ -65,7 +65,7 @@ public class StrategyEvaluationMaximizeSeatsTest {
 
     @Test
     public void assignationIsRun_WhenTheSecondBestRoomIsBestThanFirst_ThenReturnTheSecond() throws ReservationNotFoundException {
-        when(reservableMock.hasGreaterCapacityThan(anotherReservableMock)).thenReturn(true);
+        when(reservableMock.hasGreaterOrEqualCapacityThan(anotherReservableMock)).thenReturn(true);
         reservableList.add(anotherReservableMock);
 
         ReservableEvaluationResult result = assignerStrategy.evaluateOneRequest(reservableRepositoryMock, reservationRepositoryMock, requestMock);

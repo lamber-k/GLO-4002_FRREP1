@@ -25,7 +25,7 @@ public class Room implements IReservable {
     }
 
     @Override
-    public boolean hasGreaterCapacityThan(IReservable reservable) {
+    public boolean hasGreaterOrEqualCapacityThan(IReservable reservable) {
         return getNumberOfSeats() >= reservable.getNumberOfSeats();
     }
 
