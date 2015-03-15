@@ -19,12 +19,12 @@ public class ReservableRepositoryInMemoryTest {
     private IReservable reservableMock;
 
     @Before
-    public void setUp() throws Exception {
+    public void initializeReservableRepositoryInMemory() throws Exception {
         reservableRepository = new ReservableRepositoryInMemory();
     }
 
     @Test
-    public void repositoryContainsReservable_WhenFindAll_ThenReturnAllReservable() throws Exception {
+    public void givenNotEmptyRepository_WhenFindAll_ThenReturnAllReservable() throws Exception {
         reservableRepository.create(reservableMock);
 
         List<IReservable> results = reservableRepository.findAll();

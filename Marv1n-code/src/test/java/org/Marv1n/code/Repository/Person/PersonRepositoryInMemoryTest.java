@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 public class PersonRepositoryInMemoryTest {
 
     private static String EMAIL = "exemple@exemple.com";
-    private static String ANOTHER_EMAIL = "exemple2@exemple.com";
+    private static String WRONG_EMAIL = "exemple2@exemple.com";
     private PersonRepositoryInMemory personRepository;
     @Mock
     private Person personMock;
@@ -27,7 +27,7 @@ public class PersonRepositoryInMemoryTest {
     private UUID anotherPersonUUID;
 
     @Before
-    public void setUp() throws Exception {
+    public void initializePersonRepositoryInMemory() throws Exception {
         personRepository = new PersonRepositoryInMemory();
         personUUID = UUID.randomUUID();
     }
@@ -43,7 +43,7 @@ public class PersonRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenPersonRepositoryNotEmpty_WhenFindWithListOfUUID_ThenReturnMatchesUUIDPerson() throws Exception {
+    public void givenNotEmptyPersonRepository_WhenFindWithListOfUUID_ThenReturnMatchesUUIDPerson() throws Exception {
         putSomeItemsInRepository();
 
         List<UUID> listOfUUID = new LinkedList<>();
@@ -64,17 +64,17 @@ public class PersonRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenPersonRepositoryContainingNonCorrespondingElement_WhenFindByEmail_ThenReturnEmptyResult() {
-        when(personMock.getMailAddress()).thenReturn(ANOTHER_EMAIL);
+    public void givenNotEmptyPersonRepository_WhenFindByEmailWithWrongEmail_ThenReturnEmptyResult() {
+        when(personMock.getMailAddress()).thenReturn(EMAIL);
         personRepository.create(personMock);
 
-        Optional<Person> result = personRepository.findByEmail(EMAIL);
+        Optional<Person> result = personRepository.findByEmail(WRONG_EMAIL);
 
         assertFalse(result.isPresent());
     }
 
     @Test
-    public void givenPersonRepositoryContainingCorrespondingElement_WhenFindByEmail_ThenReturnResultWithCorrespondingElement() {
+    public void givenNotEmptyPersonRepository_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() {
         when(personMock.getMailAddress()).thenReturn(EMAIL);
         personRepository.create(personMock);
 
@@ -85,18 +85,18 @@ public class PersonRepositoryInMemoryTest {
 
 
     @Test
-    public void givenPersonRepositoryWithAdmin_WhenFindAdmins_ThenShouldReturnAllAdmins() {
+    public void givenNotEmptyPersonRepositoryWithAdmin_WhenFindAdmins_ThenShouldReturnAllAdmins() {
         putSomeItemsInRepository();
-        Person mockPersonAdmin1 = mock(Person.class);
-        Person mockPersonAdmin2 = mock(Person.class);
-        when(mockPersonAdmin1.isAdmin()).thenReturn(true);
-        when(mockPersonAdmin2.isAdmin()).thenReturn(true);
-        personRepository.create(mockPersonAdmin1);
-        personRepository.create(mockPersonAdmin2);
+        Person personAdmin1Mock = mock(Person.class);
+        Person personAdmin2Mock = mock(Person.class);
+        when(personAdmin1Mock.isAdmin()).thenReturn(true);
+        when(personAdmin2Mock.isAdmin()).thenReturn(true);
+        personRepository.create(personAdmin1Mock);
+        personRepository.create(personAdmin2Mock);
 
         List<Person> adminsReturned = personRepository.findAdmins();
 
-        List<Person> expectedAdminList = Arrays.asList(mockPersonAdmin1, mockPersonAdmin2);
+        List<Person> expectedAdminList = Arrays.asList(personAdmin1Mock, personAdmin2Mock);
         assertEquals(expectedAdminList, adminsReturned);
     }
 

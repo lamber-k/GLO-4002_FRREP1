@@ -25,33 +25,33 @@ public class ReservationRepositoryInMemoryTest {
     private Request requestMock;
 
     @Before
-    public void initializeReservationRepository() {
+    public void initializeReservationRepositoryInMemory() {
         reservations = new ReservationRepositoryInMemory();
     }
 
     @Test
     public void givenEmptyReservation_WhenAddReservation_ThenShouldExist() {
         reservations.create(reservationMock);
-
-        assertTrue(reservations.reservationExist(reservationMock));
+        boolean reservationExist = reservations.reservationExist(reservationMock);
+        assertTrue(reservationExist);
     }
 
     @Test
     public void givenEmptyReservation_WhenTestReservationExist_ThenShallNotExist() {
-        assertFalse(reservations.reservationExist(reservationMock));
+        boolean reservationNotExist = reservations.reservationExist(reservationMock);
+        assertFalse(reservationNotExist);
     }
 
     @Test
     public void givenEmptyReservation_WhenAddReservation_ThenShouldRetrieveByReservable() throws ReservationNotFoundException {
         when(reservationMock.getReserved()).thenReturn(reservableMock);
-
         reservations.create(reservationMock);
 
         assertEquals(reservationMock, reservations.findReservationByReservable(reservableMock));
     }
 
     @Test(expected = ReservationNotFoundException.class)
-    public void givenNonEmptyReservation_WhenTryToFindReservationByReservable_ThenShouldThrow() throws ReservationNotFoundException {
+    public void givenNotEmptyReservation_WhenTryToFindReservationByReservable_ThenShouldThrow() throws ReservationNotFoundException {
         IReservable anOtherReservable = mock(IReservable.class);
         when(reservationMock.getReserved()).thenReturn(anOtherReservable);
         reservations.create(reservationMock);
@@ -68,7 +68,6 @@ public class ReservationRepositoryInMemoryTest {
     @Test
     public void givenEmptyReservation_WhenAddReservation_ThenShouldRetrieveByRequest() throws ReservationNotFoundException {
         when(reservationMock.getRequest()).thenReturn(requestMock);
-
         reservations.create(reservationMock);
 
         assertEquals(reservationMock, reservations.findReservationByRequest(requestMock));
@@ -81,8 +80,8 @@ public class ReservationRepositoryInMemoryTest {
 
     @Test(expected = ReservationNotFoundException.class)
     public void givenNonEmptyReservation_WhenTryToFindReservationByRequest_ThenShouldThrow() throws ReservationNotFoundException {
-        Request anOtherRequest = mock(Request.class);
-        when(reservationMock.getRequest()).thenReturn(anOtherRequest);
+        Request anotherRequestMock = mock(Request.class);
+        when(reservationMock.getRequest()).thenReturn(anotherRequestMock);
         reservations.create(reservationMock);
 
         reservations.findReservationByRequest(requestMock);
