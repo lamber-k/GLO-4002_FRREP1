@@ -1,5 +1,6 @@
-package org.Marv1n.code.Notifaction.Mail.MailService;
+package org.Marv1n.code.Notification.Mail;
 
+import org.Marv1n.code.Notification.Mail.MailService.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

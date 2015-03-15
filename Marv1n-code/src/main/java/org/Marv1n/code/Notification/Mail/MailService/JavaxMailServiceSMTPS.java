@@ -1,23 +1,17 @@
-package org.Marv1n.code.Notifaction.Mail.MailService;
+package org.Marv1n.code.Notification.Mail.MailService;
 
 import javax.mail.Authenticator;
-import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import java.util.Properties;
 
 
 public class JavaxMailServiceSMTPS extends JavaxMailService {
 
-    public JavaxMailServiceSMTPS(MailServiceOptions options, IMailTransporter mailTransporter) {
+    public JavaxMailServiceSMTPS(MailServiceOptions options, IMailTransporter mailTransporter, Authenticator authenticator) {
         this.mailTransporter = mailTransporter;
         this.options = options;
         Properties properties = this.setupProperties();
-        this.session = Session.getInstance(properties, new Authenticator() {
-            @Override
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(options.username, options.password);
-            }
-        });
+        this.session = Session.getInstance(properties, authenticator);
     }
 
     @Override

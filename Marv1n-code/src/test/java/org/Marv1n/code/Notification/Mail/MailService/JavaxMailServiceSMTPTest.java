@@ -1,12 +1,13 @@
-package org.Marv1n.code.Notifaction.Mail.MailService;
+package org.Marv1n.code.Notification.Mail.MailService;
 
-import org.Marv1n.code.Notifaction.Mail.Mail;
+import org.Marv1n.code.Notification.Mail.Mail;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import java.util.ArrayList;
@@ -21,6 +22,10 @@ public class JavaxMailServiceSMTPTest {
 
     @Mock
     private IMailTransporter mailTransporterMock;
+
+    @Mock
+    private Authenticator authenticatorMock;
+
     private JavaxMailServiceSMTP mailServiceSMTP;
     private MailServiceOptions mailServiceOptions;
     private Mail mail;
@@ -29,7 +34,7 @@ public class JavaxMailServiceSMTPTest {
     public void init() {
         mailServiceOptions = new MailServiceOptions("Host", "Port");
         mail = initMail();
-        mailServiceSMTP = new JavaxMailServiceSMTP(mailServiceOptions, mailTransporterMock);
+        mailServiceSMTP = new JavaxMailServiceSMTP(mailServiceOptions, mailTransporterMock, authenticatorMock);
     }
 
     public Mail initMail() {
@@ -39,7 +44,7 @@ public class JavaxMailServiceSMTPTest {
     }
 
     @Test
-    public void givenMailServiceSMTP_WhenSendCalledAnSendingSucces_ThenMailTransporterSendShouldBeCalled() throws MessagingException {
+    public void givenMailServiceSFTP_WhenSendCalledAnSendingSuccess_ThenMailTransporterSendShouldBeCalled() throws MessagingException {
         mailServiceSMTP.send(mail);
 
         verify(mailTransporterMock).send(any(Message.class));

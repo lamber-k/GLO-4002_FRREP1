@@ -1,9 +1,9 @@
-package org.Marv1n.code.Notifaction.Mail;
+package org.Marv1n.code.Notification.Mail;
 
-import org.Marv1n.code.Notifaction.FactoryNotification;
-import org.Marv1n.code.Notifaction.INotification;
-import org.Marv1n.code.Notifaction.InvalidRequestException;
-import org.Marv1n.code.Notifaction.Mail.MailService.IMailService;
+import org.Marv1n.code.Notification.FactoryNotification;
+import org.Marv1n.code.Notification.INotification;
+import org.Marv1n.code.Notification.InvalidRequestException;
+import org.Marv1n.code.Notification.Mail.MailService.IMailService;
 import org.Marv1n.code.Person;
 import org.Marv1n.code.Repository.Person.PersonRepositoryInMemory;
 import org.Marv1n.code.Repository.Reservable.ReservableRepositoryInMemory;

@@ -1,8 +1,5 @@
 package org.Marv1n.code.Notification.Mail;
 
-import org.Marv1n.code.Notifaction.Mail.Mail;
-import org.Marv1n.code.Notifaction.Mail.MailBuilder;
-import org.Marv1n.code.Notifaction.Mail.MailBuilderException;
 import org.Marv1n.code.RequestStatus;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,7 +56,7 @@ public class MailBuilderTest {
 
     @Test(expected = MailBuilderException.class)
     public void givenMailBuilder_WhenCreatePendingMail_ThenShouldFormatObjectAsSuccess() throws MailBuilderException {
-        Mail returnedMail = mailBuilder.setStatus(RequestStatus.PENDING)
+        mailBuilder.setStatus(RequestStatus.PENDING)
                 .setRequestID(REQUEST_CODE)
                 .buildMail();
     }

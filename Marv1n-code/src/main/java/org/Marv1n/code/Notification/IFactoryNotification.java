@@ -1,4 +1,4 @@
-package org.Marv1n.code.Notifaction;
+package org.Marv1n.code.Notification;
 
 import org.Marv1n.code.Repository.Person.PersonRepositoryInMemory;
 import org.Marv1n.code.Repository.Reservable.ReservableRepositoryInMemory;

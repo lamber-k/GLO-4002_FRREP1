@@ -1,11 +1,7 @@
 package org.Marv1n.code.Notification.Mail;
 
-import org.Marv1n.code.Notifaction.InvalidRequestException;
-import org.Marv1n.code.Notifaction.Mail.Mail;
-import org.Marv1n.code.Notifaction.Mail.MailBuilder;
-import org.Marv1n.code.Notifaction.Mail.MailFactoryNotification;
-import org.Marv1n.code.Notifaction.Mail.MailNotification;
-import org.Marv1n.code.Notifaction.Mail.MailService.IMailService;
+import org.Marv1n.code.Notification.InvalidRequestException;
+import org.Marv1n.code.Notification.Mail.MailService.IMailService;
 import org.Marv1n.code.Person;
 import org.Marv1n.code.Repository.Person.PersonRepositoryInMemory;
 import org.Marv1n.code.Repository.Reservable.ReservableRepositoryInMemory;
@@ -28,7 +24,8 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MailFactoryNotificationTest {
