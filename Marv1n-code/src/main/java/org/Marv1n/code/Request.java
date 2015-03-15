@@ -46,7 +46,8 @@ public class Request {
     public boolean equals(Object rhs) {
         if (rhs == null) {
             return false;
-        } else if (rhs instanceof Request) {
+        }
+        else if (rhs instanceof Request) {
             return hashCode() == rhs.hashCode();
         }
         return (false);
