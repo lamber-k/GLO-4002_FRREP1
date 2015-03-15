@@ -52,8 +52,8 @@ public class ReservationRepositoryInMemoryTest {
 
     @Test(expected = ReservationNotFoundException.class)
     public void givenNotEmptyReservation_WhenTryToFindReservationByReservable_ThenShouldThrow() throws ReservationNotFoundException {
-        IReservable anOtherReservable = mock(IReservable.class);
-        when(reservationMock.getReserved()).thenReturn(anOtherReservable);
+        IReservable anotherReservableMock = mock(IReservable.class);
+        when(reservationMock.getReserved()).thenReturn(anotherReservableMock);
         reservations.create(reservationMock);
 
         reservations.findReservationByReservable(reservableMock);

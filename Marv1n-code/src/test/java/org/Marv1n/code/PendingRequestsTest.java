@@ -66,9 +66,9 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequestsWithOneRequest_WhenCancelRequestAnOtherRequest_ThenPendingRequestsShouldHaveNoRequest() {
-        Request anOtherRequest = mock(Request.class);
-        pendingRequests.addRequest(anOtherRequest);
+    public void givenPendingRequestsWithOneRequest_WhenCancelRequestAnotherRequest_ThenPendingRequestsShouldHaveNoRequest() {
+        Request anotherRequestMock = mock(Request.class);
+        pendingRequests.addRequest(anotherRequestMock);
 
         pendingRequests.cancelRequest(requestMock);
 
