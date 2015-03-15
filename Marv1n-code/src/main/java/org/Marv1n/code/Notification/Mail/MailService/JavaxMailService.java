@@ -1,6 +1,6 @@
-package org.Marv1n.code.Notifaction.Mail.MailService;
+package org.Marv1n.code.Notification.Mail.MailService;
 
-import org.Marv1n.code.Notifaction.Mail.Mail;
+import org.Marv1n.code.Notification.Mail.Mail;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

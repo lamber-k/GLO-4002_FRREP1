@@ -1,6 +1,6 @@
-package org.Marv1n.code.Notifaction.Mail.MailService;
+package org.Marv1n.code.Notification.Mail.MailService;
 
-import org.Marv1n.code.Notifaction.Mail.Mail;
+import org.Marv1n.code.Notification.Mail.Mail;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +20,10 @@ import static org.mockito.Mockito.verify;
 public class JavaxMailServiceSSLTest {
     @Mock
     private IMailTransporter mailTransporterMock;
+
+    @Mock
+    private PasswordBasedAuthenticator passwordBasedAuthenticatorMock;
+
     private JavaxMailServiceSSL mailServiceSSL;
     private MailServiceOptions mailServiceOptions;
     private Mail mail;
@@ -28,7 +32,7 @@ public class JavaxMailServiceSSLTest {
     public void init() {
         mailServiceOptions = new MailServiceOptions("Host", "Port", "Username", "Password");
         mail = initMail();
-        mailServiceSSL = new JavaxMailServiceSSL(mailServiceOptions, mailTransporterMock);
+        mailServiceSSL = new JavaxMailServiceSSL(mailServiceOptions, mailTransporterMock, passwordBasedAuthenticatorMock);
     }
 
     public Mail initMail() {
@@ -38,7 +42,7 @@ public class JavaxMailServiceSSLTest {
     }
 
     @Test
-    public void givenMailServiceOptions_WhenSendCalledAnSendingSucces_ThenMailTransporterSendShouldBeCalled() throws MessagingException {
+    public void givenMailServiceOptions_WhenSendCalledAnSendingSuccess_ThenMailTransporterSendShouldBeCalled() throws MessagingException {
         mailServiceSSL.send(mail);
 
         verify(mailTransporterMock).send(any(Message.class));

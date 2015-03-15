@@ -1,8 +1,6 @@
 package org.Marv1n.code.Notification.Mail;
 
-import org.Marv1n.code.Notifaction.Mail.Mail;
-import org.Marv1n.code.Notifaction.Mail.MailNotification;
-import org.Marv1n.code.Notifaction.Mail.MailService.IMailService;
+import org.Marv1n.code.Notification.Mail.MailService.IMailService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package org.Marv1n.code.Notifaction.Mail;
+package org.Marv1n.code.Notification.Mail;
 
 public class MailBuilderException extends Exception {
 

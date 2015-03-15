@@ -1,4 +1,4 @@
-package org.Marv1n.code.Notifaction.Mail.MailService;
+package org.Marv1n.code.Notification.Mail.MailService;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

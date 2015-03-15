@@ -1,7 +1,7 @@
-package org.Marv1n.code.Notifaction.Mail;
+package org.Marv1n.code.Notification.Mail;
 
-import org.Marv1n.code.Notifaction.INotification;
-import org.Marv1n.code.Notifaction.Mail.MailService.IMailService;
+import org.Marv1n.code.Notification.INotification;
+import org.Marv1n.code.Notification.Mail.MailService.IMailService;
 
 public class MailNotification implements INotification {
 

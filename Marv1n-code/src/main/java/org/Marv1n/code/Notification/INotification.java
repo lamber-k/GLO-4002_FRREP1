@@ -1,4 +1,4 @@
-package org.Marv1n.code.Notifaction;
+package org.Marv1n.code.Notification;
 
 public interface INotification {
 

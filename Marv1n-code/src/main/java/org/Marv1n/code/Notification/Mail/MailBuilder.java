@@ -1,4 +1,4 @@
-package org.Marv1n.code.Notifaction.Mail;
+package org.Marv1n.code.Notification.Mail;
 
 import org.Marv1n.code.RequestStatus;
 
@@ -6,10 +6,10 @@ import java.util.List;
 
 public class MailBuilder {
 
-    private static final String MAIL_OBJECT_FORMAT = "[Reservation][requête n°%d] status %s";
     public static final String MAIL_OBJECT_STATUS_ACCEPTED = "acceptée";
     public static final String MAIL_OBJECT_STATUS_REFUSED = "refusée";
     public static final String MAIL_OBJECT_STATUS_CANCELED = "annulée";
+    private static final String MAIL_OBJECT_FORMAT = "[Reservation][requête n°%d] status %s";
     private RequestStatus requestStatus = null;
     private Integer requestID = null;
     private String mailFrom;

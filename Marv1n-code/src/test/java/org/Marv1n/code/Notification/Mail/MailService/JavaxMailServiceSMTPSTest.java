@@ -1,6 +1,6 @@
-package org.Marv1n.code.Notifaction.Mail.MailService;
+package org.Marv1n.code.Notification.Mail.MailService;
 
-import org.Marv1n.code.Notifaction.Mail.Mail;
+import org.Marv1n.code.Notification.Mail.Mail;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,6 +21,10 @@ public class JavaxMailServiceSMTPSTest {
 
     @Mock
     private IMailTransporter mailTransporterMock;
+
+    @Mock
+    private PasswordBasedAuthenticator passwordBasedAuthenticatorMock;
+
     private JavaxMailServiceSMTPS mailServiceSMTPS;
     private MailServiceOptions mailServiceOptions;
     private Mail mail;
@@ -29,7 +33,7 @@ public class JavaxMailServiceSMTPSTest {
     public void init() {
         mailServiceOptions = new MailServiceOptions("Host", "Port", "Username", "Password");
         mail = initMail();
-        mailServiceSMTPS = new JavaxMailServiceSMTPS(mailServiceOptions, mailTransporterMock);
+        mailServiceSMTPS = new JavaxMailServiceSMTPS(mailServiceOptions, mailTransporterMock, passwordBasedAuthenticatorMock);
     }
 
     public Mail initMail() {

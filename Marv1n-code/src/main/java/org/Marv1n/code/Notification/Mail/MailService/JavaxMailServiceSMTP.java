@@ -1,4 +1,4 @@
-package org.Marv1n.code.Notifaction.Mail.MailService;
+package org.Marv1n.code.Notification.Mail.MailService;
 
 import javax.mail.Authenticator;
 import javax.mail.Session;
@@ -6,12 +6,11 @@ import java.util.Properties;
 
 public class JavaxMailServiceSMTP extends JavaxMailService {
 
-    public JavaxMailServiceSMTP(MailServiceOptions options, IMailTransporter mailTransporter) {
+    public JavaxMailServiceSMTP(MailServiceOptions options, IMailTransporter mailTransporter, Authenticator authenticator) {
         this.mailTransporter = mailTransporter;
         this.options = options;
         Properties properties = this.setupProperties();
-        this.session = Session.getInstance(properties, new Authenticator() {
-        });
+        this.session = Session.getInstance(properties, authenticator);
     }
 
     @Override
