@@ -45,5 +45,29 @@
             <artifactId>mail</artifactId>
             <version>1.4.3</version>
         </dependency>
+
+        <!-- Jersey -->
+        <dependency>
+            <groupId>org.glassfish.jersey.containers</groupId>
+            <artifactId>jersey-container-jetty-servlet</artifactId>
+            <version>2.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jersey.media</groupId>
+            <artifactId>jersey-media-json-jackson</artifactId>
+            <version>2.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>4.3.8.Final</version>
+        </dependency>
+
+        <!-- Pour H2 -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.186</version>
+        </dependency>
     </dependencies>
 </project>
