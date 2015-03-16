@@ -18,15 +18,10 @@ public class StrategyRequestCancellationAccepted implements IStrategyRequestCanc
 
     @Override
     public void cancelRequest(Request request) {
-        Reservation reservation;
-        try {
-            reservation = reservationRepository.findReservationByRequest(request);
-            reservationRepository.remove(reservation);
-            requestRepository.remove(request);
-            request.setRequestStatus(RequestStatus.CANCELED);
-            requestRepository.create(request);
-        } catch (Exception e) {
-            throw e;
-        }
+        Reservation reservation = reservationRepository.findReservationByRequest(request);
+        reservationRepository.remove(reservation);
+        requestRepository.remove(request);
+        request.setRequestStatus(RequestStatus.CANCELED);
+        requestRepository.create(request);
     }
 }
