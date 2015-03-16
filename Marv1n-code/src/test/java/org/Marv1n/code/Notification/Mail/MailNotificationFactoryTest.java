@@ -121,4 +121,17 @@ public class MailNotificationFactoryTest {
 
         mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
     }
+
+    @Test(expected = InvalidRequestException.class)
+    public void givenRequestWithNoRequestStatus_WhenCreate_ThenShouldThrowNoRequestStatus() {
+        when(requestMock.getResponsibleUUID()).thenReturn(RESPONSIBLE.getID());
+        when(requestMock.getRequestStatus()).thenReturn(null);
+        when(personRepositoryMock.findByUUID(RESPONSIBLE.getID())).thenReturn(Optional.of(RESPONSIBLE));
+        when(personRepositoryMock.findAdmins()).thenReturn(ADMINS);
+        when(reservationRepositoryMock.findReservationByRequest(requestMock)).thenReturn(reservationMock);
+        when(reservationMock.getReserved()).thenReturn(reservableMock);
+        when(reservableMock.getName()).thenReturn(RESERVABLE_NAME);
+
+        mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
+    }
 }
