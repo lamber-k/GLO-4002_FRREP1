@@ -34,9 +34,6 @@ public class Reservation {
 
     @Override
     public int hashCode() {
-        int hash = 1;
-        hash = hash * 17 + request.hashCode();
-        hash = hash * 13 + reserved.hashCode();
-        return hash;
+        return request.hashCode() * 3 + reserved.hashCode() * 5;
     }
 }

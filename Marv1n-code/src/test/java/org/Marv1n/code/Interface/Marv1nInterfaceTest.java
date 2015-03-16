@@ -2,12 +2,12 @@ package org.Marv1n.code.Interface;
 
 import org.Marv1n.code.PendingRequests;
 import org.Marv1n.code.Person;
-import org.Marv1n.code.Repository.Person.IPersonRepository;
-import org.Marv1n.code.Repository.Request.IRequestRepository;
-import org.Marv1n.code.Repository.Reservation.IReservationRepository;
+import org.Marv1n.code.Repository.Person.PersonRepository;
+import org.Marv1n.code.Repository.Request.RequestRepository;
+import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.StrategyRequestCancellation.IStrategyRequestCancellation;
-import org.Marv1n.code.StrategyRequestCancellation.StrategyRequestCancellationFactory;
+import org.Marv1n.code.RequestCancellationStrategy.RequestCancellationStrategy;
+import org.Marv1n.code.RequestCancellationStrategy.RequestCancellationFactoryStrategy;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -27,15 +27,15 @@ public class Marv1nInterfaceTest {
     private static final String INVALID_EMAIL = "invalidEmail";
     private Marv1nInterface marv1nInterface;
     @Mock
-    private StrategyRequestCancellationFactory requestCancellationStrategyFactoryMock;
+    private RequestCancellationFactoryStrategy requestCancellationStrategyFactoryMock;
     @Mock
     private PendingRequests pendingRequestsMock;
     @Mock
-    private IRequestRepository requestRepositoryMock;
+    private RequestRepository requestRepositoryMock;
     @Mock
-    private IReservationRepository reservationRepositoryMock;
+    private ReservationRepository reservationRepositoryMock;
     @Mock
-    private IPersonRepository personRepositoryMock;
+    private PersonRepository personRepositoryMock;
 
     public void initializeWithReservationRepository() {
         marv1nInterface = new Marv1nInterface(requestRepositoryMock, reservationRepositoryMock, personRepositoryMock, pendingRequestsMock);
@@ -93,7 +93,7 @@ public class Marv1nInterfaceTest {
         UUID id = UUID.randomUUID();
         Request requestMock = mock(Request.class);
         when(requestRepositoryMock.findByUUID(id)).thenReturn(Optional.of(requestMock));
-        IStrategyRequestCancellation strategyRequestCancellationMock = mock(IStrategyRequestCancellation.class);
+        RequestCancellationStrategy strategyRequestCancellationMock = mock(RequestCancellationStrategy.class);
         when(requestCancellationStrategyFactoryMock.createStrategyCancellation(any())).thenReturn(strategyRequestCancellationMock);
 
         marv1nInterface.cancelRequest(id);
@@ -106,7 +106,7 @@ public class Marv1nInterfaceTest {
         initializeWithStrategyRequestCancellationFactory();
         UUID id = UUID.randomUUID();
         when(requestRepositoryMock.findByUUID(id)).thenReturn(Optional.empty());
-        IStrategyRequestCancellation strategyRequestCancellationMock = mock(IStrategyRequestCancellation.class);
+        RequestCancellationStrategy strategyRequestCancellationMock = mock(RequestCancellationStrategy.class);
 
         marv1nInterface.cancelRequest(id);
 

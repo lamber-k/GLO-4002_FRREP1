@@ -8,13 +8,12 @@ import static org.junit.Assert.assertTrue;
 
 public class PersonTest {
 
-    private final String EMAIL_ADDRESS = "exemple@exemple.com";
+    private static final String EMAIL_ADDRESS = "exemple@exemple.com";
     private Person person;
-    private Person aDifferentPerson;
 
     @Before
-    public void init() {
-        person = new Person("exemple@exemple.com");
+    public void initializePerson() {
+        person = new Person(EMAIL_ADDRESS);
     }
 
     @Test
@@ -24,7 +23,7 @@ public class PersonTest {
 
     @Test
     public void givenPerson_WhenComparedToDifferentPerson_ThenReturnFalse() {
-        aDifferentPerson = new Person(EMAIL_ADDRESS);
+        Person aDifferentPerson = new Person(EMAIL_ADDRESS);
         assertFalse(person.equals(aDifferentPerson));
     }
 

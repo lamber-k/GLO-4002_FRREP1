@@ -2,7 +2,7 @@ package org.Marv1n.code.Reservation;
 
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.IReservable;
-import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
+import org.Marv1n.code.EvaluationStrategy.ReservableEvaluationResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ReservationFactoryTest {
 
-    private static final int REQUEST_NUMBER_OF_SEATS = 20;
+    private static final int NUMBER_OF_SEATS_REQUEST = 20;
     private ReservationFactory reservationFactory;
     @Mock
     private Request requestMock;
@@ -28,12 +28,12 @@ public class ReservationFactoryTest {
     private IReservable reservableMock;
 
     @Before
-    public void initializeNewReservationFactory() throws Exception {
+    public void initializeReservationFactory() throws Exception {
         reservationFactory = new ReservationFactory();
     }
 
     @Test
-    public void EmptyEvaluation_WhenReservation_ThenReturnsEmptyOptional() throws Exception {
+    public void givenEmptyEvaluation_WhenReservation_ThenReturnEmptyOptional() throws Exception {
         when(evaluationResultMock.matchFound()).thenReturn(false);
 
         Optional<Reservation> reservation = reservationFactory.reserve(requestMock, evaluationResultMock);
@@ -42,11 +42,11 @@ public class ReservationFactoryTest {
     }
 
     @Test
-    public void FullEvaluation_WhenReservation_ThenReturnsFullOptional() {
+    public void givenNotEmptyEvaluation_WhenReservation_ThenReturnNotEmptyOptional() {
         when(evaluationResultMock.matchFound()).thenReturn(true);
         when(evaluationResultMock.getBestReservableMatch()).thenReturn(reservableMock);
-        when(requestMock.getNumberOfSeatsNeeded()).thenReturn(REQUEST_NUMBER_OF_SEATS);
-        when(reservableMock.hasEnoughCapacity(REQUEST_NUMBER_OF_SEATS)).thenReturn(true);
+        when(requestMock.getNumberOfSeatsNeeded()).thenReturn(NUMBER_OF_SEATS_REQUEST);
+        when(reservableMock.hasEnoughCapacity(NUMBER_OF_SEATS_REQUEST)).thenReturn(true);
 
         Optional<Reservation> reservation = reservationFactory.reserve(requestMock, evaluationResultMock);
 
@@ -55,11 +55,11 @@ public class ReservationFactoryTest {
     }
 
     @Test
-    public void InsufficientCapacityEvaluation_WhenReservation_ThenReturnsEmptyOptional() {
+    public void givenInsufficientCapacityEvaluation_WhenReservation_ThenReturnEmptyOptional() {
         when(evaluationResultMock.matchFound()).thenReturn(true);
         when(evaluationResultMock.getBestReservableMatch()).thenReturn(reservableMock);
-        when(requestMock.getNumberOfSeatsNeeded()).thenReturn(REQUEST_NUMBER_OF_SEATS);
-        when(reservableMock.hasEnoughCapacity(REQUEST_NUMBER_OF_SEATS)).thenReturn(false);
+        when(requestMock.getNumberOfSeatsNeeded()).thenReturn(NUMBER_OF_SEATS_REQUEST);
+        when(reservableMock.hasEnoughCapacity(NUMBER_OF_SEATS_REQUEST)).thenReturn(false);
 
         Optional<Reservation> reservation = reservationFactory.reserve(requestMock, evaluationResultMock);
 

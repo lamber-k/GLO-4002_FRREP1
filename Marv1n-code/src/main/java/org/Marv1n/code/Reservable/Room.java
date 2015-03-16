@@ -52,6 +52,6 @@ public class Room implements IReservable {
         else if (rhs instanceof Room) {
             return hashCode() == rhs.hashCode();
         }
-        return (false);
+        return false;
     }
 }

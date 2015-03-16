@@ -14,7 +14,7 @@ public class Person {
     }
 
     public Person(String mailAddress, boolean admin) {
-        this.personID = UUID.randomUUID();
+        personID = UUID.randomUUID();
         this.mailAddress = mailAddress;
         this.admin = admin;
     }

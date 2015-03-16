@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class RequestRepositoryInMemory extends RepositoryInMemory<Request> implements IRequestRepository {
+public class RequestRepositoryInMemory extends RepositoryInMemory<Request> implements RequestRepository {
 
     public Optional<Request> findByUUID(UUID id) {
         return query().filter(r -> r.getRequestID().equals(id)).findFirst();

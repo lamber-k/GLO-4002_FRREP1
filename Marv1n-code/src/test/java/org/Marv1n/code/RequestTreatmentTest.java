@@ -1,13 +1,13 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.Repository.Request.IRequestRepository;
-import org.Marv1n.code.Repository.Reservable.IReservableRepository;
-import org.Marv1n.code.Repository.Reservation.IReservationRepository;
+import org.Marv1n.code.Repository.Request.RequestRepository;
+import org.Marv1n.code.Repository.Reservable.ReservableRepository;
+import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Reservation.IReservationFactory;
 import org.Marv1n.code.Reservation.Reservation;
-import org.Marv1n.code.StrategyEvaluation.IStrategyEvaluation;
-import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
-import org.Marv1n.code.StrategySortRequest.IStrategySortRequest;
+import org.Marv1n.code.EvaluationStrategy.EvaluationStrategy;
+import org.Marv1n.code.EvaluationStrategy.ReservableEvaluationResult;
+import org.Marv1n.code.SortingRequestStrategy.SortingRequestStrategy;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,21 +27,21 @@ public class RequestTreatmentTest {
     private List<Request> pendingRequests;
     private RequestTreatment requestTreatment;
     @Mock
-    private IStrategyEvaluation assignerStrategyMock;
+    private EvaluationStrategy assignerStrategyMock;
     @Mock
-    private IReservationRepository reservationsRepositoryMock;
+    private ReservationRepository reservationsRepositoryMock;
     @Mock
     private IReservationFactory reservationFactoryMock;
     @Mock
-    private IReservableRepository reservablesRepositoryMock;
+    private ReservableRepository reservablesRepositoryMock;
     @Mock
-    private IStrategySortRequest requestSortedStrategyMock;
+    private SortingRequestStrategy requestSortedStrategyMock;
     @Mock
     private Request requestMock;
     @Mock
     private ReservableEvaluationResult evaluationResultMock;
     @Mock
-    private IRequestRepository requestRepositoryMock;
+    private RequestRepository requestRepositoryMock;
 
     @Before
     public void initializeRequestTreatment() {
@@ -66,7 +66,7 @@ public class RequestTreatmentTest {
     }
 
     @Test
-    public void givenOnePendingRequest_WhenRunTHenShouldEvaluateIt() {
+    public void givenOnePendingRequest_WhenRun_ThenShouldEvaluateIt() {
         havingOnePendingRequest();
         Optional<Reservation> emptyOptional = Optional.empty();
         when(reservationFactoryMock.reserve(requestMock, evaluationResultMock)).thenReturn(emptyOptional);

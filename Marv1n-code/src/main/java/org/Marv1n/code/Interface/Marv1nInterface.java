@@ -3,38 +3,38 @@ package org.Marv1n.code.Interface;
 import org.Marv1n.code.EmailAddressValidator;
 import org.Marv1n.code.PendingRequests;
 import org.Marv1n.code.Person;
-import org.Marv1n.code.Repository.Person.IPersonRepository;
-import org.Marv1n.code.Repository.Request.IRequestRepository;
-import org.Marv1n.code.Repository.Reservation.IReservationRepository;
+import org.Marv1n.code.Repository.Person.PersonRepository;
+import org.Marv1n.code.Repository.Request.RequestRepository;
+import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.StrategyRequestCancellation.IStrategyRequestCancellation;
-import org.Marv1n.code.StrategyRequestCancellation.StrategyRequestCancellationFactory;
+import org.Marv1n.code.RequestCancellationStrategy.RequestCancellationStrategy;
+import org.Marv1n.code.RequestCancellationStrategy.RequestCancellationFactoryStrategy;
 
 import java.util.Optional;
 import java.util.UUID;
 
 public class Marv1nInterface {
 
-    private StrategyRequestCancellationFactory strategyRequestCancellationFactory;
-    private IRequestRepository requestRepository;
-    private IPersonRepository personRepository;
+    private RequestCancellationFactoryStrategy requestCancellationFactoryStrategy;
+    private RequestRepository requestRepository;
+    private PersonRepository personRepository;
     private PendingRequests pendingRequests;
 
-    public Marv1nInterface(IRequestRepository requestRepository,
-                           IReservationRepository reservationRepository,
-                           IPersonRepository personRepository,
+    public Marv1nInterface(RequestRepository requestRepository,
+                           ReservationRepository reservationRepository,
+                           PersonRepository personRepository,
                            PendingRequests pendingRequests) {
-        this.strategyRequestCancellationFactory = new StrategyRequestCancellationFactory(requestRepository, reservationRepository, pendingRequests);
+        this.requestCancellationFactoryStrategy = new RequestCancellationFactoryStrategy(requestRepository, reservationRepository, pendingRequests);
         this.requestRepository = requestRepository;
         this.personRepository = personRepository;
         this.pendingRequests = pendingRequests;
     }
 
-    public Marv1nInterface(IRequestRepository requestRepository,
-                           IPersonRepository personRepository,
-                           StrategyRequestCancellationFactory strategyRequestCancellationFactory,
+    public Marv1nInterface(RequestRepository requestRepository,
+                           PersonRepository personRepository,
+                           RequestCancellationFactoryStrategy requestCancellationFactoryStrategy,
                            PendingRequests pendingRequests) {
-        this.strategyRequestCancellationFactory = strategyRequestCancellationFactory;
+        this.requestCancellationFactoryStrategy = requestCancellationFactoryStrategy;
         this.requestRepository = requestRepository;
         this.personRepository = personRepository;
         this.pendingRequests = pendingRequests;
@@ -61,7 +61,7 @@ public class Marv1nInterface {
         Optional result = requestRepository.findByUUID(requestID);
         if (result.isPresent()) {
             Request request = (Request) result.get();
-            IStrategyRequestCancellation strategyRequestCancellation = strategyRequestCancellationFactory.createStrategyCancellation(request.getRequestStatus());
+            RequestCancellationStrategy strategyRequestCancellation = requestCancellationFactoryStrategy.createStrategyCancellation(request.getRequestStatus());
             strategyRequestCancellation.cancelRequest(request);
         }
     }

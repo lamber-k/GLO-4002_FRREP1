@@ -26,7 +26,7 @@ public class JavaxMailServiceSMTPTest {
     private MailServiceOptions mailServiceOptions;
     private Mail mail;
     @Mock
-    private IMailTransporter mailTransporterMock;
+    private MailTransporter mailTransporterMock;
     @Mock
     private Authenticator authenticatorMock;
 

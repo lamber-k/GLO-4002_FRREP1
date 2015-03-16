@@ -1,13 +1,13 @@
 package org.Marv1n.code;
 
-import org.Marv1n.code.Repository.Request.IRequestRepository;
-import org.Marv1n.code.Repository.Reservable.IReservableRepository;
-import org.Marv1n.code.Repository.Reservation.IReservationRepository;
+import org.Marv1n.code.Repository.Request.RequestRepository;
+import org.Marv1n.code.Repository.Reservable.ReservableRepository;
+import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Reservation.IReservationFactory;
 import org.Marv1n.code.Reservation.Reservation;
-import org.Marv1n.code.StrategyEvaluation.IStrategyEvaluation;
-import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
-import org.Marv1n.code.StrategySortRequest.IStrategySortRequest;
+import org.Marv1n.code.EvaluationStrategy.EvaluationStrategy;
+import org.Marv1n.code.EvaluationStrategy.ReservableEvaluationResult;
+import org.Marv1n.code.SortingRequestStrategy.SortingRequestStrategy;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,14 +16,14 @@ import java.util.Optional;
 
 public class RequestTreatment extends RunnableRequestTreatment {
 
-    private IStrategyEvaluation assigner;
-    private IStrategySortRequest requestSorter;
-    private IReservationRepository reservations;
+    private EvaluationStrategy assigner;
+    private SortingRequestStrategy requestSorter;
+    private ReservationRepository reservations;
     private IReservationFactory reservationFactory;
-    private IReservableRepository reservables;
-    private IRequestRepository requests;
+    private ReservableRepository reservables;
+    private RequestRepository requests;
 
-    RequestTreatment(IStrategyEvaluation strategyAssignation, IStrategySortRequest strategySortRequest, IReservableRepository reservableRepository, IReservationFactory reservationFactory, IReservationRepository reservationRepository, IRequestRepository requestRepository) {
+    RequestTreatment(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, ReservableRepository reservableRepository, IReservationFactory reservationFactory, ReservationRepository reservationRepository, RequestRepository requestRepository) {
         this.reservables = reservableRepository;
         this.assigner = strategyAssignation;
         this.requestSorter = strategySortRequest;

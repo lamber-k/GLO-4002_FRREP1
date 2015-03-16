@@ -21,7 +21,7 @@ public class PendingRequestsTest {
     private Request requestMock;
 
     @Before
-    public void initializeNewPendingRequests() {
+    public void initializePendingRequests() {
         pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS);
     }
 
@@ -44,7 +44,7 @@ public class PendingRequestsTest {
 
     @Test
     public void givenPendingRequestWithObserver_WhenPendingRequestFull_ThenShouldNotifyRegisteredObserver() {
-        IObserverMaximumPendingRequestReached observer = mock(IObserverMaximumPendingRequestReached.class);
+        MaximumPendingRequestReachedObserver observer = mock(MaximumPendingRequestReachedObserver.class);
         pendingRequests.addObserverMaximumPendingRequestsReached(observer);
         pendingRequests.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
 

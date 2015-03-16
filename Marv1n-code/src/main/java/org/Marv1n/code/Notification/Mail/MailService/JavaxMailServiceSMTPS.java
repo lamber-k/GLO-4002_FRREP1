@@ -7,7 +7,7 @@ import java.util.Properties;
 
 public class JavaxMailServiceSMTPS extends JavaxMailService {
 
-    public JavaxMailServiceSMTPS(MailServiceOptions options, IMailTransporter mailTransporter, Authenticator authenticator) {
+    public JavaxMailServiceSMTPS(MailServiceOptions options, MailTransporter mailTransporter, Authenticator authenticator) {
         this.mailTransporter = mailTransporter;
         this.options = options;
         Properties properties = this.setupProperties();

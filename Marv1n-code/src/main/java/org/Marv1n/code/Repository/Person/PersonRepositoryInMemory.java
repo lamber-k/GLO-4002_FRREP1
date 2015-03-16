@@ -8,7 +8,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-public class PersonRepositoryInMemory extends RepositoryInMemory<Person> implements IPersonRepository {
+public class PersonRepositoryInMemory extends RepositoryInMemory<Person> implements PersonRepository {
 
     public Optional<Person> findByUUID(UUID id) {
         return query().filter(p -> p.getID().equals(id)).findFirst();
