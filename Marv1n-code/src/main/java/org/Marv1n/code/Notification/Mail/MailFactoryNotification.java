@@ -61,8 +61,8 @@ public class MailFactoryNotification extends FactoryNotification {
 
     private Mail buildMail(Request request, IReservable reservable, List<String> mailTo) {
         MailBuilder mailBuilder = new MailBuilder();
-        String message = super.buildNotification(request, reservable);
         try {
+            String message = super.buildNotification(request, reservable);
             return mailBuilder.setTo(mailTo)
                     .setMessage(message)
                     .setStatus(request.getRequestStatus())
