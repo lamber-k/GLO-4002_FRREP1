@@ -3,6 +3,7 @@ package org.Marv1n.code.Notification.Mail.MailService;
 import javax.mail.Authenticator;
 
 public class PasswordBasedAuthenticator extends Authenticator {
+
     private MailServiceOptions options;
 
     public PasswordBasedAuthenticator(MailServiceOptions options) {

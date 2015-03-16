@@ -34,8 +34,8 @@ public class StrategyEvaluationMaximizeSeats implements IStrategyEvaluation {
         try {
             reservations.findReservationByReservable(reservable);
         } catch (ReservationNotFoundException e) {
-            return (true);
+            return true;
         }
-        return (false);
+        return false;
     }
 }

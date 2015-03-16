@@ -20,7 +20,7 @@ public abstract class JavaxMailService implements IMailService {
         Properties properties = new Properties();
         properties.put("mail.smtp.host", options.host);
         properties.put("mail.smtp.port", options.port);
-        this.additionalProperties(properties);
+        additionalProperties(properties);
         return properties;
     }
 

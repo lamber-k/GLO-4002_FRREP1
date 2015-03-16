@@ -17,14 +17,12 @@ public class PasswordBasedAuthenticatorTest {
     private static final java.lang.String A_PORT = "333";
     private static final String A_HOST = "127.0.0.1";
 
-
     @Test
-    public void givenThePassWordBasedAuthentication_whenCalled_ShouldReturnTheProperAuthentication() {
+    public void givenThePasswordBasedAuthentication_whenCalled_ShouldReturnTheProperAuthentication() {
         MailServiceOptions mailServiceOptions = new MailServiceOptions(A_HOST, A_PORT, A_USERNAME, A_PASSWORD);
+        PasswordBasedAuthenticator passwordBasedAuthenticator = new PasswordBasedAuthenticator(mailServiceOptions);
 
-        PasswordBasedAuthenticator passwordBasedAuthenticatorMock = new PasswordBasedAuthenticator(mailServiceOptions);
-
-        PasswordAuthentication passwordAuthentication = passwordBasedAuthenticatorMock.getPasswordAuthentication();
+        PasswordAuthentication passwordAuthentication = passwordBasedAuthenticator.getPasswordAuthentication();
 
         assertEquals(A_PASSWORD, passwordAuthentication.getPassword());
         assertEquals(A_USERNAME, passwordAuthentication.getUserName());

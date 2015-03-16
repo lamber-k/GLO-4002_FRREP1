@@ -18,27 +18,28 @@ import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
 public class JavaxMailServiceSSLTest {
-    @Mock
-    private IMailTransporter mailTransporterMock;
 
-    @Mock
-    private PasswordBasedAuthenticator passwordBasedAuthenticatorMock;
-
+    public static final String DESTINATION_MAIL = "to@exemple.com";
+    public static final String FROM_MAIL = "from@exemple.com";
     private JavaxMailServiceSSL mailServiceSSL;
     private MailServiceOptions mailServiceOptions;
     private Mail mail;
+    @Mock
+    private IMailTransporter mailTransporterMock;
+    @Mock
+    private PasswordBasedAuthenticator passwordBasedAuthenticatorMock;
 
     @Before
-    public void init() {
+    public void initializeMailServiceSSL() {
         mailServiceOptions = new MailServiceOptions("Host", "Port", "Username", "Password");
-        mail = initMail();
+        mail = initializeMail();
         mailServiceSSL = new JavaxMailServiceSSL(mailServiceOptions, mailTransporterMock, passwordBasedAuthenticatorMock);
     }
 
-    public Mail initMail() {
+    public Mail initializeMail() {
         List<String> destination = new ArrayList<>();
-        destination.add("to@exemple.com");
-        return new Mail("from@exemple.com", destination, "Subject", "Message");
+        destination.add(DESTINATION_MAIL);
+        return new Mail(FROM_MAIL, destination, "Subject", "Message");
     }
 
     @Test

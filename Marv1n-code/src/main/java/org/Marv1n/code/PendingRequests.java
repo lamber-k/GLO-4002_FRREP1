@@ -46,6 +46,5 @@ public class PendingRequests {
         for (IObserverMaximumPendingRequestReached observer : maximumPendingRequestReachedObservers) {
             observer.onMaximumPendingRequestReached();
         }
-
     }
 }

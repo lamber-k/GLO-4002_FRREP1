@@ -9,7 +9,7 @@ public class Room implements IReservable {
     private String name;
 
     public Room(int numberOfSeats, String name) {
-        roomID = UUID.randomUUID();
+        this.roomID = UUID.randomUUID();
         this.numberOfSeats = numberOfSeats;
         this.name = name;
     }

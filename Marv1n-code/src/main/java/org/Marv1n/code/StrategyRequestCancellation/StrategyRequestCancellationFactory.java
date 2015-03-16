@@ -18,13 +18,15 @@ public class StrategyRequestCancellationFactory {
     }
 
     public IStrategyRequestCancellation createStrategyCancellation(RequestStatus requestStatus) {
-        if (requestStatus.equals(RequestStatus.CANCELED))
-            return new StrategyRequestCancellationCancelled();
-        if (requestStatus.equals(RequestStatus.REFUSED))
-            return new StrategyRequestCancellationRefused();
-        if (requestStatus.equals(RequestStatus.PENDING))
-            return new StrategyRequestCancellationPending(requestRepository, pendingRequests);
-        else
-            return new StrategyRequestCancellationAccepted(requestRepository, reservationRepository);
+        switch (requestStatus) {
+            case CANCELED:
+                return new StrategyRequestCancellationCancelled();
+            case REFUSED:
+                return new StrategyRequestCancellationRefused();
+            case PENDING:
+                return new StrategyRequestCancellationPending(requestRepository, pendingRequests);
+            default:
+                return new StrategyRequestCancellationAccepted(requestRepository, reservationRepository);
+        }
     }
 }

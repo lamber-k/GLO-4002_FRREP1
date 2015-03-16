@@ -19,31 +19,31 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class JavaxMailServiceSMTPSTest {
 
-    @Mock
-    private IMailTransporter mailTransporterMock;
-
-    @Mock
-    private PasswordBasedAuthenticator passwordBasedAuthenticatorMock;
-
+    public static final String DESTINATION_MAIL = "to@exemple.com";
+    public static final String FROM_MAIL = "from@exemple.com";
     private JavaxMailServiceSMTPS mailServiceSMTPS;
     private MailServiceOptions mailServiceOptions;
     private Mail mail;
+    @Mock
+    private IMailTransporter mailTransporterMock;
+    @Mock
+    private PasswordBasedAuthenticator passwordBasedAuthenticatorMock;
 
     @Before
-    public void init() {
+    public void initializeMailServiceSMTPS() {
         mailServiceOptions = new MailServiceOptions("Host", "Port", "Username", "Password");
-        mail = initMail();
+        mail = initializeMail();
         mailServiceSMTPS = new JavaxMailServiceSMTPS(mailServiceOptions, mailTransporterMock, passwordBasedAuthenticatorMock);
     }
 
-    public Mail initMail() {
+    public Mail initializeMail() {
         List<String> destination = new ArrayList<>();
-        destination.add("to@exemple.com");
-        return new Mail("from@exemple.com", destination, "Subject", "Message");
+        destination.add(DESTINATION_MAIL);
+        return new Mail(FROM_MAIL, destination, "Subject", "Message");
     }
 
     @Test
-    public void givenMailServiceSMTPS_WhenSendCalledAnSendingSucces_ThenMailTransporterSendShouldBeCalled() throws MessagingException {
+    public void givenMailServiceSMTPS_WhenSendCalledAnSendingSuccess_ThenMailTransporterSendShouldBeCalled() throws MessagingException {
         mailServiceSMTPS.send(mail);
 
         verify(mailTransporterMock).send(any(Message.class));

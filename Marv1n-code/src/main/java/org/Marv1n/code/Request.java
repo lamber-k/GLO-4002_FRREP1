@@ -46,16 +46,15 @@ public class Request {
     public boolean equals(Object rhs) {
         if (rhs == null) {
             return false;
-        }
-        else if (rhs instanceof Request) {
+        } else if (rhs instanceof Request) {
             return hashCode() == rhs.hashCode();
         }
-        return (false);
+        return false;
     }
 
     @Override
     public int hashCode() {
-        return (requestID.hashCode());
+        return requestID.hashCode();
     }
 
     public UUID getRequestID() {

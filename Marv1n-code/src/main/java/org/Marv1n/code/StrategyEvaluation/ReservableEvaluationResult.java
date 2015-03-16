@@ -7,7 +7,7 @@ public class ReservableEvaluationResult {
     private IReservable matchingIReservable = null;
 
     public ReservableEvaluationResult(IReservable IReservable) {
-        matchingIReservable = IReservable;
+        this.matchingIReservable = IReservable;
     }
 
     public ReservableEvaluationResult() {

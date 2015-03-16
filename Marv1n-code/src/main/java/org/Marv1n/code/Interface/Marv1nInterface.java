@@ -24,7 +24,7 @@ public class Marv1nInterface {
                            IReservationRepository reservationRepository,
                            IPersonRepository personRepository,
                            PendingRequests pendingRequests) {
-        strategyRequestCancellationFactory = new StrategyRequestCancellationFactory(requestRepository, reservationRepository, pendingRequests);
+        this.strategyRequestCancellationFactory = new StrategyRequestCancellationFactory(requestRepository, reservationRepository, pendingRequests);
         this.requestRepository = requestRepository;
         this.personRepository = personRepository;
         this.pendingRequests = pendingRequests;

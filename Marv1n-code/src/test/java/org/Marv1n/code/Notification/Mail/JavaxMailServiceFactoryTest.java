@@ -20,7 +20,7 @@ public class JavaxMailServiceFactoryTest {
     private IMailTransporter mailTransporterMock;
 
     @Before
-    public void init() {
+    public void initializeMailServiceFactory() {
         mailServiceFactory = new JavaxMailServiceFactory();
         mailServiceOptionsMock.port = "port";
         mailServiceOptionsMock.host = "host";

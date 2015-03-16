@@ -19,12 +19,12 @@ public class PersonRepositoryInMemoryTest {
     private static String EMAIL = "exemple@exemple.com";
     private static String WRONG_EMAIL = "exemple2@exemple.com";
     private PersonRepositoryInMemory personRepository;
+    private UUID personUUID;
+    private UUID anotherPersonUUID;
     @Mock
     private Person personMock;
-    private UUID personUUID;
     @Mock
     private Person anotherPersonMock;
-    private UUID anotherPersonUUID;
 
     @Before
     public void initializePersonRepositoryInMemory() throws Exception {

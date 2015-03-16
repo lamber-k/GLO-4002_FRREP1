@@ -9,14 +9,12 @@ public class TaskIScheduler implements IScheduler {
     private final Runnable task;
     private final TimeUnit timeUnit;
     private ScheduledExecutorService scheduler;
-    private ScheduledFuture<?> nextRun;
-    private boolean isSchedulerRunning;
+    private ScheduledFuture<?> nextRun = null;
+    private boolean isSchedulerRunning = false;
     private int intervalTimer;
 
     public TaskIScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit, Runnable task) {
         this.scheduler = scheduler;
-        this.nextRun = null;
-        this.isSchedulerRunning = false;
         this.timeUnit = timeUnit;
         this.intervalTimer = intervalTimer;
         this.task = task;
