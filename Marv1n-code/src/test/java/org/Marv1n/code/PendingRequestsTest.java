@@ -6,8 +6,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.UUID;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -18,7 +16,6 @@ public class PendingRequestsTest {
     private static final int DEFAULT_MAXIMUM_PENDING_REQUESTS = 2;
     private static final int A_MAXIMUM_PENDING_REQUESTS = 5;
     private static final int MAXIMUM_ONE_PENDING_REQUEST = 1;
-    private static final UUID A_REQUEST_UUID = UUID.randomUUID();
     private PendingRequests pendingRequests;
     @Mock
     private Request requestMock;

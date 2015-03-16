@@ -64,8 +64,4 @@ public class Request {
     public UUID getResponsibleUUID() {
         return responsibleUUID;
     }
-
-    public void setResponsibleUUID(UUID responsibleUUID) {
-        this.responsibleUUID = responsibleUUID;
-    }
 }

@@ -16,7 +16,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
