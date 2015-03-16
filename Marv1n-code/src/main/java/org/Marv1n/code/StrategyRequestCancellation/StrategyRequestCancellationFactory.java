@@ -27,6 +27,16 @@ public class StrategyRequestCancellationFactory {
                 return new StrategyRequestCancellationPending(requestRepository, pendingRequests);
             default:
                 return new StrategyRequestCancellationAccepted(requestRepository, reservationRepository);
+        }
+        switch (requestStatus) {
+            case CANCELED:
+                return new StrategyRequestCancellationCancelled();
+            case REFUSED:
+                return new StrategyRequestCancellationRefused();
+            case PENDING:
+                return new StrategyRequestCancellationPending(requestRepository, pendingRequests);
+            default:
+                return new StrategyRequestCancellationAccepted(requestRepository, reservationRepository);
 
         }
     }

@@ -27,7 +27,6 @@ public class StrategyRequestCancellationAccepted implements IStrategyRequestCanc
             requestRepository.create(request);
         } catch (Exception e) {
             throw e;
-            //TODO Handle exception??
         }
     }
 }

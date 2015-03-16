@@ -21,9 +21,9 @@ import static org.mockito.Mockito.when;
 public class RequestRepositoryInMemoryTest {
 
     private RequestRepositoryInMemory requestRepository;
+    private UUID requestID;
     @Mock
     private Request requestMock;
-    private UUID requestID;
 
     @Before
     public void initializeRequestRepositoryInMemory() throws Exception {

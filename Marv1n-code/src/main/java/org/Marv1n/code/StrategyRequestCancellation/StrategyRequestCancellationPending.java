@@ -20,7 +20,6 @@ public class StrategyRequestCancellationPending implements IStrategyRequestCance
         requestRepository.remove(request);
         request.setRequestStatus(RequestStatus.CANCELED);
         requestRepository.create(request);
-        //TODO use update in repository
         pendingRequests.cancelRequest(request);
     }
 }

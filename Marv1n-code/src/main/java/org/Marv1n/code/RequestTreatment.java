@@ -56,7 +56,6 @@ public class RequestTreatment extends RunnableRequestTreatment {
     }
 
     private void updateAcceptedRequest(Request request) {
-        //TODO would be better to use an update in repository
         requests.remove(request);
         request.setRequestStatus(RequestStatus.ACCEPTED);
         requests.create(request);
