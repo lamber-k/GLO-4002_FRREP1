@@ -5,10 +5,10 @@ import java.util.UUID;
 public class Request {
 
     private final UUID requestID;
-    private int numberOfSeatsNeeded;
-    private int priority;
+    private final int numberOfSeatsNeeded;
+    private final int priority;
     private RequestStatus status;
-    private UUID responsibleUUID;
+    private final UUID responsibleUUID;
 
     public Request(int numberOfSeatsNeeded, int priority, UUID responsibleUUID) {
         this.priority = priority;
