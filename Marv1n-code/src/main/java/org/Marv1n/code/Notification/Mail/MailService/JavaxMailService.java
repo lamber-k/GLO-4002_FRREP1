@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public abstract class JavaxMailService implements IMailService {
+public abstract class JavaxMailService implements MailService {
     protected MailServiceOptions options;
     protected Session session;
-    protected IMailTransporter mailTransporter;
+    protected MailTransporter mailTransporter;
 
     protected Properties setupProperties() {
         Properties properties = new Properties();
@@ -44,8 +44,8 @@ public abstract class JavaxMailService implements IMailService {
 
             mailTransporter.send(message);
 
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+        } catch (MessagingException exception) {
+            throw new RuntimeException(exception);
         }
     }
 }

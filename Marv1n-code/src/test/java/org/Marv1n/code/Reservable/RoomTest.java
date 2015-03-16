@@ -23,13 +23,13 @@ public class RoomTest {
     }
 
     @Test
-    public void givenRoomWithXNumberOfSeats_WhenGetNumberOfSeats_ThenReturnsCorrectNumberOfSeats() {
+    public void givenRoomWithXNumberOfSeats_WhenGetNumberOfSeats_ThenReturnCorrectNumberOfSeats() {
         int seats = room.getNumberOfSeats();
         assertEquals(NUMBER_OF_SEATS, seats);
     }
 
     @Test
-    public void givenRoomWithAName_WhenGetName_ThenReturnsCorrectName() {
+    public void givenRoomWithAName_WhenGetName_ThenReturnCorrectName() {
         String name = room.getName();
         assertEquals(ROOM_NAME, name);
     }

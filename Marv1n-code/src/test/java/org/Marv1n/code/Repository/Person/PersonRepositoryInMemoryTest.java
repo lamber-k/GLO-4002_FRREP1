@@ -16,8 +16,8 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PersonRepositoryInMemoryTest {
 
-    private static String EMAIL = "exemple@exemple.com";
-    private static String WRONG_EMAIL = "exemple2@exemple.com";
+    private static String EMAIL_VALID = "exemple@exemple.com";
+    private static String EMAIL_WRONG = "exemple2@exemple.com";
     private PersonRepositoryInMemory personRepository;
     private UUID personUUID;
     private UUID anotherPersonUUID;
@@ -58,27 +58,27 @@ public class PersonRepositoryInMemoryTest {
 
     @Test
     public void givenEmptyPersonRepository_WhenFindByEmail_ThenReturnEmptyResult() {
-        Optional<Person> result = personRepository.findByEmail(EMAIL);
+        Optional<Person> result = personRepository.findByEmail(EMAIL_VALID);
 
         assertFalse(result.isPresent());
     }
 
     @Test
     public void givenNotEmptyPersonRepository_WhenFindByEmailWithWrongEmail_ThenReturnEmptyResult() {
-        when(personMock.getMailAddress()).thenReturn(EMAIL);
+        when(personMock.getMailAddress()).thenReturn(EMAIL_VALID);
         personRepository.create(personMock);
 
-        Optional<Person> result = personRepository.findByEmail(WRONG_EMAIL);
+        Optional<Person> result = personRepository.findByEmail(EMAIL_WRONG);
 
         assertFalse(result.isPresent());
     }
 
     @Test
     public void givenNotEmptyPersonRepository_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() {
-        when(personMock.getMailAddress()).thenReturn(EMAIL);
+        when(personMock.getMailAddress()).thenReturn(EMAIL_VALID);
         personRepository.create(personMock);
 
-        Optional<Person> result = personRepository.findByEmail(EMAIL);
+        Optional<Person> result = personRepository.findByEmail(EMAIL_VALID);
 
         assertTrue(result.isPresent());
     }

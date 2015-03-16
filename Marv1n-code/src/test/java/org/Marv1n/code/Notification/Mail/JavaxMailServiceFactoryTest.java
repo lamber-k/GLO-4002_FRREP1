@@ -17,7 +17,7 @@ public class JavaxMailServiceFactoryTest {
     @Mock
     private MailServiceOptions mailServiceOptionsMock;
     @Mock
-    private IMailTransporter mailTransporterMock;
+    private MailTransporter mailTransporterMock;
 
     @Before
     public void initializeMailServiceFactory() {
@@ -32,7 +32,7 @@ public class JavaxMailServiceFactoryTest {
     public void givenMailServiceFactory_WhenProtocolSMTPS_ThenCreateAMailServiceSMTPS() {
         protocol = Protocol.SMTPS;
 
-        IMailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
+        MailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
 
         assertTrue(createdMailService instanceof JavaxMailServiceSMTPS);
     }
@@ -41,7 +41,7 @@ public class JavaxMailServiceFactoryTest {
     public void givenMailServiceFactory_WhenProtocolSSL_ThenCreateAMailServiceSSL() {
         protocol = Protocol.SSL;
 
-        IMailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
+        MailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
 
         assertTrue(createdMailService instanceof JavaxMailServiceSSL);
     }
@@ -50,7 +50,7 @@ public class JavaxMailServiceFactoryTest {
     public void givenMailServiceFactory_WhenProtocolSMTP_ThenCreateAMailServiceSMTP() {
         protocol = Protocol.SMTP;
 
-        IMailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
+        MailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
 
         assertTrue(createdMailService instanceof JavaxMailServiceSMTP);
     }

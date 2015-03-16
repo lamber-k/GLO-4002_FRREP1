@@ -5,16 +5,17 @@ import java.util.UUID;
 public class Person {
 
     private final UUID personID;
-    private String mailAddress;
-    private boolean admin = false;
+    private final String mailAddress;
+    private final boolean admin;
 
     public Person(String mailAddress) {
         this.personID = UUID.randomUUID();
         this.mailAddress = mailAddress;
+        this.admin = false;
     }
 
     public Person(String mailAddress, boolean admin) {
-        this.personID = UUID.randomUUID();
+        personID = UUID.randomUUID();
         this.mailAddress = mailAddress;
         this.admin = admin;
     }

@@ -6,7 +6,7 @@ import java.util.Properties;
 
 public class JavaxMailServiceSSL extends JavaxMailService {
 
-    public JavaxMailServiceSSL(MailServiceOptions options, IMailTransporter mailTransporter, Authenticator authenticator) {
+    public JavaxMailServiceSSL(MailServiceOptions options, MailTransporter mailTransporter, Authenticator authenticator) {
         this.mailTransporter = mailTransporter;
         this.options = options;
         Properties properties = this.setupProperties();

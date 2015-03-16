@@ -33,7 +33,7 @@ public class RequestRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenEmptyRequestRepository_WhenReservableNotFound_ThenRepositoryReturnsEmptyOptional() throws Exception {
+    public void givenEmptyRequestRepository_WhenReservableNotFound_ThenRepositoryReturnEmptyOptional() throws Exception {
         Optional<Request> result = requestRepository.findByUUID(requestID);
         assertFalse(result.isPresent());
     }

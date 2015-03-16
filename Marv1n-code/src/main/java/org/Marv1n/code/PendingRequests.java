@@ -8,7 +8,7 @@ public class PendingRequests {
 
     private int maximumPendingRequests;
     private List<Request> pendingRequests = new LinkedList<>();
-    private List<IObserverMaximumPendingRequestReached> maximumPendingRequestReachedObservers;
+    private List<MaximumPendingRequestReachedObserver> maximumPendingRequestReachedObservers;
 
     public PendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;
@@ -38,12 +38,12 @@ public class PendingRequests {
         this.maximumPendingRequests = maximumPendingRequests;
     }
 
-    public void addObserverMaximumPendingRequestsReached(IObserverMaximumPendingRequestReached observer) {
+    public void addObserverMaximumPendingRequestsReached(MaximumPendingRequestReachedObserver observer) {
         maximumPendingRequestReachedObservers.add(observer);
     }
 
     private void notifyMaxPendingRequestReachedObserver() {
-        for (IObserverMaximumPendingRequestReached observer : maximumPendingRequestReachedObservers)
+        for (MaximumPendingRequestReachedObserver observer : maximumPendingRequestReachedObservers)
             observer.onMaximumPendingRequestReached();
     }
 }

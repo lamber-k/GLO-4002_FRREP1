@@ -21,15 +21,8 @@ public class ReservationTest {
     private IReservable reservableMock;
 
     @Before
-    public void init() {
+    public void initializeReservation() {
         reservation = new Reservation(requestMock, reservableMock);
-    }
-
-    @Test
-    public void givenReservation_WhenHashIsCalled_ThenExpectHash() {
-        int expectedHash = (17 + requestMock.hashCode()) * 13 + reservableMock.hashCode();
-
-        assertEquals(expectedHash, reservation.hashCode());
     }
 
     @Test
@@ -49,10 +42,17 @@ public class ReservationTest {
         Reservation anotherReservation = new Reservation(anotherRequestMock, anotherReservableMock);
 
         assertFalse(reservation.equals(anotherReservation));
+        assertNotEquals(reservation.hashCode(), anotherReservation.hashCode());
     }
 
     @Test
     public void givenSameObject_WhenCompared_ThenEqualsReturnTrue() {
         assertTrue(reservation.equals(reservation));
+    }
+
+    @Test
+     public void givenTwoSameObject_WhenCompared_ThenEqualsReturnTrue() {
+        Reservation sameReservation = new Reservation(requestMock, reservableMock);
+        assertTrue(reservation.equals(sameReservation));
     }
 }

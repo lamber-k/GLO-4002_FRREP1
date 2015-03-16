@@ -9,7 +9,7 @@ public final class EmailAddressValidator {
         try {
             InternetAddress emailAddress = new InternetAddress(email);
             emailAddress.validate();
-        } catch (AddressException | NullPointerException ex) {
+        } catch (AddressException | NullPointerException exception) {
             return false;
         }
         return true;

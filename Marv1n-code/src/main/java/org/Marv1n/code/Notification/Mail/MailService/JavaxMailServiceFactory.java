@@ -4,7 +4,7 @@ import javax.mail.Authenticator;
 
 public class JavaxMailServiceFactory {
 
-    public IMailService createMailService(Protocol protocol, MailServiceOptions options, IMailTransporter mailTransporter) {
+    public MailService createMailService(Protocol protocol, MailServiceOptions options, MailTransporter mailTransporter) {
         switch (protocol) {
             case SMTPS:
                 PasswordBasedAuthenticator authenticatorSMTPS = new PasswordBasedAuthenticator(options);

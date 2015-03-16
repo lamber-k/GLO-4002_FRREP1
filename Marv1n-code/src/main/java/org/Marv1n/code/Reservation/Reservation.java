@@ -25,7 +25,8 @@ public class Reservation {
     public boolean equals(Object rhs) {
         if (rhs == null) {
             return false;
-        } else if (rhs instanceof Reservation) {
+        }
+        else if (rhs instanceof Reservation) {
             return hashCode() == rhs.hashCode();
         }
         return false;
@@ -33,9 +34,6 @@ public class Reservation {
 
     @Override
     public int hashCode() {
-        int hash = 1;
-        hash = hash * 17 + request.hashCode();
-        hash = hash * 13 + reserved.hashCode();
-        return hash;
+        return request.hashCode() * 3 + reserved.hashCode() * 5;
     }
 }

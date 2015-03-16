@@ -7,7 +7,7 @@ import org.Marv1n.code.Reservation.Reservation;
 
 import java.util.Optional;
 
-public class ReservationRepositoryInMemory extends RepositoryInMemory<Reservation> implements IReservationRepository {
+public class ReservationRepositoryInMemory extends RepositoryInMemory<Reservation> implements ReservationRepository {
 
     @Override
     public boolean reservationExist(Reservation reservable) {

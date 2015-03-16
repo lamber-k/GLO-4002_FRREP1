@@ -1,7 +1,7 @@
 package org.Marv1n.code.Reservation;
 
 import org.Marv1n.code.Request;
-import org.Marv1n.code.StrategyEvaluation.ReservableEvaluationResult;
+import org.Marv1n.code.EvaluationStrategy.ReservableEvaluationResult;
 
 import java.util.Optional;
 
