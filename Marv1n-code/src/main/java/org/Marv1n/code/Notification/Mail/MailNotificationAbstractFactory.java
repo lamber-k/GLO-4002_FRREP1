@@ -42,7 +42,7 @@ public class MailNotificationAbstractFactory extends NotificationAbstractFactory
         Reservation reservation;
         try {
             reservation = reservationRepository.findReservationByRequest(request);
-        } catch (ReservationNotFoundException e) {
+        } catch (ReservationNotFoundException exception) {
             if (request.getRequestStatus() == RequestStatus.REFUSED) {
                 return null;
             }
@@ -68,8 +68,8 @@ public class MailNotificationAbstractFactory extends NotificationAbstractFactory
                     .setStatus(request.getRequestStatus())
                     .setRequestID(request.hashCode())
                     .buildMail();
-        } catch (MailBuilderException e) {
-            throw new InvalidRequestException(e.getMessage());
+        } catch (MailBuilderException exception) {
+            throw new InvalidRequestException(exception.getMessage());
         }
     }
 }

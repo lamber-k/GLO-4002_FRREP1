@@ -21,7 +21,7 @@ public class FirstInFirstOutEvaluationStrategy implements EvaluationStrategy {
     private boolean reservableAvailable(ReservationRepository reservations, IReservable reservable) {
         try {
             reservations.findReservationByReservable(reservable);
-        } catch (ReservationNotFoundException e) {
+        } catch (ReservationNotFoundException exception) {
             return true;
         }
         return false;

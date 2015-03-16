@@ -44,8 +44,8 @@ public abstract class JavaxMailService implements MailService {
 
             mailTransporter.send(message);
 
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
+        } catch (MessagingException exception) {
+            throw new RuntimeException(exception);
         }
     }
 }
