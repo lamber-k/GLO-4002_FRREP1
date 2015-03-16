@@ -48,7 +48,8 @@ public class Room implements IReservable {
     public boolean equals(Object rhs) {
         if (rhs == null) {
             return false;
-        } else if (rhs instanceof Room) {
+        }
+        else if (rhs instanceof Room) {
             return hashCode() == rhs.hashCode();
         }
         return (false);

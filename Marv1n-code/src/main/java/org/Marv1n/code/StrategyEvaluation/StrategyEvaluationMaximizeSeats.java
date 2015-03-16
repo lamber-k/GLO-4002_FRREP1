@@ -21,8 +21,12 @@ public class StrategyEvaluationMaximizeSeats implements IStrategyEvaluation {
     }
 
     private IReservable getBetterReservableOf(IReservable bestReservable, IReservable reservable) {
-        if (bestReservable == null || bestReservable.hasGreaterOrEqualCapacityThan(reservable))
+        if (bestReservable == null) {
             return reservable;
+        }
+        else if (bestReservable.hasGreaterOrEqualCapacityThan(reservable)) {
+            return reservable;
+        }
         return bestReservable;
     }
 

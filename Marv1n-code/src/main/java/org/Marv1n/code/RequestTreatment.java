@@ -47,7 +47,8 @@ public class RequestTreatment extends RunnableRequestTreatment {
             if (reservation.isPresent()) {
                 reservations.create(reservation.get());
                 updateAcceptedRequest(pendingRequest);
-            } else {
+            }
+            else {
                 requestIterator.remove();
             }
         }
