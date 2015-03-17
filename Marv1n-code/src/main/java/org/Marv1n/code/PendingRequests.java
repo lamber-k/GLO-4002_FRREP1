@@ -1,33 +1,32 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.Repository.Request.RequestRepository;
+
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class PendingRequests {
 
     private int maximumPendingRequests;
-    private List<Request> pendingRequests = new LinkedList<>();
     private List<MaximumPendingRequestReachedObserver> maximumPendingRequestReachedObservers;
+    private RequestRepository requestRepository;
 
-    public PendingRequests(int maximumPendingRequests) {
+    public PendingRequests(int maximumPendingRequests, RequestRepository requestRepository) {
         this.maximumPendingRequests = maximumPendingRequests;
         this.maximumPendingRequestReachedObservers = new ArrayList<>();
+        this.requestRepository = requestRepository;
     }
 
     public void addRequest(Request request) {
-        pendingRequests.add(request);
-        if (pendingRequests.size() >= maximumPendingRequests) {
+        requestRepository.create(request);
+        if (requestRepository.findAllPendingRequest().size() >= maximumPendingRequests) {
             notifyMaxPendingRequestReachedObserver();
         }
     }
 
-    public void cancelRequest(Request request) {
-        pendingRequests.remove(request);
-    }
 
     public boolean hasPendingRequest() {
-        return !pendingRequests.isEmpty();
+        return !requestRepository.findAllPendingRequest().isEmpty();
     }
 
     public int getMaximumPendingRequests() {

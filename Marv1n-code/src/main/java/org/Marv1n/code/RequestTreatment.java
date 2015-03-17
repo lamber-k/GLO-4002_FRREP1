@@ -1,12 +1,12 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.EvaluationStrategy.EvaluationStrategy;
+import org.Marv1n.code.EvaluationStrategy.ReservableEvaluationResult;
 import org.Marv1n.code.Repository.Request.RequestRepository;
 import org.Marv1n.code.Repository.Reservable.ReservableRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Reservation.IReservationFactory;
 import org.Marv1n.code.Reservation.Reservation;
-import org.Marv1n.code.EvaluationStrategy.EvaluationStrategy;
-import org.Marv1n.code.EvaluationStrategy.ReservableEvaluationResult;
 import org.Marv1n.code.SortingRequestStrategy.SortingRequestStrategy;
 
 import java.util.ArrayList;
@@ -22,14 +22,16 @@ public class RequestTreatment extends RunnableRequestTreatment {
     private IReservationFactory reservationFactory;
     private ReservableRepository reservables;
     private RequestRepository requests;
+    private RequestStatusUpdater requestStatusUpdater;
 
-    RequestTreatment(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, ReservableRepository reservableRepository, IReservationFactory reservationFactory, ReservationRepository reservationRepository, RequestRepository requestRepository) {
+    RequestTreatment(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, ReservableRepository reservableRepository, IReservationFactory reservationFactory, ReservationRepository reservationRepository, RequestRepository requestRepository, RequestStatusUpdater requestStatusUpdater) {
         this.reservables = reservableRepository;
         this.assigner = strategyAssignation;
         this.requestSorter = strategySortRequest;
         this.reservationFactory = reservationFactory;
         this.reservations = reservationRepository;
         this.requests = requestRepository;
+        this.requestStatusUpdater = requestStatusUpdater;
     }
 
     @Override
@@ -46,7 +48,7 @@ public class RequestTreatment extends RunnableRequestTreatment {
             Optional<Reservation> reservation = reservationFactory.reserve(pendingRequest, evaluationResult);
             if (reservation.isPresent()) {
                 reservations.create(reservation.get());
-                updateAcceptedRequest(pendingRequest);
+                requestStatusUpdater.updateRequest(pendingRequest, RequestStatus.ACCEPTED);
             }
             else {
                 requestIterator.remove();
@@ -55,9 +57,5 @@ public class RequestTreatment extends RunnableRequestTreatment {
         pendingRequests.removeAll(sortedRequests);
     }
 
-    private void updateAcceptedRequest(Request request) {
-        requests.remove(request);
-        request.setRequestStatus(RequestStatus.ACCEPTED);
-        requests.create(request);
-    }
+
 }

@@ -1,14 +1,13 @@
 package org.Marv1n.code.Notification.Mail;
 
-import org.Marv1n.code.Notification.NotificationAbstractFactory;
-import org.Marv1n.code.Notification.Notification;
 import org.Marv1n.code.Notification.InvalidRequestException;
 import org.Marv1n.code.Notification.Mail.MailService.MailService;
+import org.Marv1n.code.Notification.NotificationAbstractFactory;
 import org.Marv1n.code.Person;
-import org.Marv1n.code.Repository.Person.PersonRepositoryInMemory;
-import org.Marv1n.code.Repository.Reservable.ReservableRepositoryInMemory;
+import org.Marv1n.code.Repository.Person.PersonRepository;
+import org.Marv1n.code.Repository.Reservable.ReservableRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationNotFoundException;
-import org.Marv1n.code.Repository.Reservation.ReservationRepositoryInMemory;
+import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.RequestStatus;
 import org.Marv1n.code.Reservable.IReservable;
@@ -22,13 +21,19 @@ import java.util.stream.Collectors;
 public class MailNotificationAbstractFactory extends NotificationAbstractFactory {
 
     private final MailService mailService;
+    ReservationRepository reservationRepository;
+    ReservableRepository reservableRepository;
+    PersonRepository personRepository;
 
-    public MailNotificationAbstractFactory(MailService mailService) {
+    public MailNotificationAbstractFactory(MailService mailService, ReservationRepository reservationRepository, ReservableRepository reservableRepository, PersonRepository personRepository) {
         this.mailService = mailService;
+        this.reservationRepository = reservationRepository;
+        this.reservableRepository = reservableRepository;
+        this.personRepository = personRepository;
     }
 
     @Override
-    public Notification createNotification(Request request, ReservationRepositoryInMemory reservationRepository, ReservableRepositoryInMemory reservableRepository, PersonRepositoryInMemory personRepository) throws InvalidRequestException {
+    public MailNotification createNotification(Request request) throws InvalidRequestException {
         Person responsible = findResponsible(request, personRepository);
         IReservable reservable = findReservable(request, reservationRepository);
         List<String> mailTo = new LinkedList<>();
@@ -38,7 +43,8 @@ public class MailNotificationAbstractFactory extends NotificationAbstractFactory
         return new MailNotification(mailService, mail);
     }
 
-    private IReservable findReservable(Request request, ReservationRepositoryInMemory reservationRepository) throws InvalidRequestException {
+
+    private IReservable findReservable(Request request, ReservationRepository reservationRepository) throws InvalidRequestException {
         Reservation reservation;
         try {
             reservation = reservationRepository.findReservationByRequest(request);
@@ -51,7 +57,7 @@ public class MailNotificationAbstractFactory extends NotificationAbstractFactory
         return reservation.getReserved();
     }
 
-    private Person findResponsible(Request request, PersonRepositoryInMemory personRepository) throws InvalidRequestException {
+    private Person findResponsible(Request request, PersonRepository personRepository) throws InvalidRequestException {
         Optional<Person> optionalResponsible = personRepository.findByUUID(request.getResponsibleUUID());
         if (!optionalResponsible.isPresent()) {
             throw new InvalidRequestException("Aucun responsable assigné");
@@ -72,4 +78,6 @@ public class MailNotificationAbstractFactory extends NotificationAbstractFactory
             throw new InvalidRequestException(exception.getMessage());
         }
     }
+
+
 }

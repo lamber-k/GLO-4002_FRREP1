@@ -58,7 +58,7 @@ public class MailNotificationFactoryTest {
     @Before
     public void initializeMailFactory() {
         when(requestMock.getRequestID()).thenReturn(REQUEST_UUID);
-        mailFactory = new MailNotificationAbstractFactory(mailServiceMock);
+        mailFactory = new MailNotificationAbstractFactory(mailServiceMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class MailNotificationFactoryTest {
         when(reservationMock.getReserved()).thenReturn(reservableMock);
         when(reservableMock.getName()).thenReturn(RESERVABLE_NAME);
 
-        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
+        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(requestMock);
 
         assertEquals(returnedNotification.mailToSend.to, MAIL.to);
     }
@@ -83,7 +83,7 @@ public class MailNotificationFactoryTest {
         when(personRepositoryMock.findByUUID(RESPONSIBLE.getID())).thenReturn(Optional.of(RESPONSIBLE));
         doThrow(ReservationNotFoundException.class).when(reservationRepositoryMock).findReservationByRequest(requestMock);
 
-        mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
+        mailFactory.createNotification(requestMock);
     }
 
     @Test
@@ -94,7 +94,7 @@ public class MailNotificationFactoryTest {
         when(personRepositoryMock.findAdmins()).thenReturn(ADMINS);
         doThrow(ReservationNotFoundException.class).when(reservationRepositoryMock).findReservationByRequest(requestMock);
 
-        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
+        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(requestMock);
 
         assertTrue(returnedNotification.mailToSend.object.contains(MailBuilder.MAIL_OBJECT_STATUS_REFUSED));
     }
@@ -108,7 +108,7 @@ public class MailNotificationFactoryTest {
         when(reservationRepositoryMock.findReservationByRequest(requestMock)).thenReturn(reservationMock);
         when(reservationMock.getReserved()).thenReturn(reservableMock);
 
-        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
+        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(requestMock);
 
         assertTrue(returnedNotification.mailToSend.object.contains(MailBuilder.MAIL_OBJECT_STATUS_CANCELED));
     }
@@ -119,7 +119,7 @@ public class MailNotificationFactoryTest {
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
         when(personRepositoryMock.findByUUID(RESPONSIBLE.getID())).thenReturn(Optional.empty());
 
-        mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
+        mailFactory.createNotification(requestMock);
     }
 
     @Test(expected = InvalidRequestException.class)
@@ -132,6 +132,6 @@ public class MailNotificationFactoryTest {
         when(reservationMock.getReserved()).thenReturn(reservableMock);
         when(reservableMock.getName()).thenReturn(RESERVABLE_NAME);
 
-        mailFactory.createNotification(requestMock, reservationRepositoryMock, reservableRepositoryMock, personRepositoryMock);
+        mailFactory.createNotification(requestMock);
     }
 }

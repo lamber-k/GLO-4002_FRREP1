@@ -1,12 +1,15 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.Repository.Request.RequestRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -19,16 +22,18 @@ public class PendingRequestsTest {
     private PendingRequests pendingRequests;
     @Mock
     private Request requestMock;
+    @Mock
+    private RequestRepository requestRepositoryMock;
 
     @Before
     public void initializePendingRequests() {
-        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS);
+        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, requestRepositoryMock);
     }
 
     @Test
-    public void givenEmptyPendingRequest_WhenAddOneRequest_ThenNotEmpty() {
+    public void givenEmptyPendingRequest_WhenAddOneRequest_ThenItIsAddedToTheRepository() {
         pendingRequests.addRequest(requestMock);
-        assertTrue(pendingRequests.hasPendingRequest());
+        verify(requestRepositoryMock).create(requestMock);
     }
 
     @Test
@@ -51,24 +56,9 @@ public class PendingRequestsTest {
         pendingRequests.addRequest(requestMock);
 
         verify(observer).onMaximumPendingRequestReached();
+
+        fail();
     }
 
-    @Test
-    public void givenPendingRequestsWithOneRequest_WhenCancelRequest_ThenPendingRequestsShouldHaveNoRequest() {
-        pendingRequests.addRequest(requestMock);
 
-        pendingRequests.cancelRequest(requestMock);
-
-        assertFalse(pendingRequests.hasPendingRequest());
-    }
-
-    @Test
-    public void givenPendingRequestsWithOneRequest_WhenCancelRequestAnotherRequest_ThenPendingRequestsShouldHaveNoRequest() {
-        Request anotherRequestMock = mock(Request.class);
-        pendingRequests.addRequest(anotherRequestMock);
-
-        pendingRequests.cancelRequest(requestMock);
-
-        assertTrue(pendingRequests.hasPendingRequest());
-    }
 }

@@ -14,4 +14,6 @@ public interface PersonRepository extends Repository<Person> {
     public List<Person> findByListOfUUID(List<UUID> listOfUUID);
 
     public Optional<Person> findByEmail(String email);
+
+    public List<Person> findAdmins();
 }

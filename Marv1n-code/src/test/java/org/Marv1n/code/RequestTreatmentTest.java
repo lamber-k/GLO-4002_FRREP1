@@ -43,13 +43,16 @@ public class RequestTreatmentTest {
     @Mock
     private RequestRepository requestRepositoryMock;
 
+    @Mock
+    private RequestStatusUpdater requestStatusUpdaterMock;
+
     @Before
     public void initializeRequestTreatment() {
         arrayWithOneRequest = new ArrayList<>();
         arrayWithOneRequest.add(requestMock);
         pendingRequests = new ArrayList<>();
         when(requestRepositoryMock.findAllPendingRequest()).thenReturn(pendingRequests);
-        requestTreatment = new RequestTreatment(assignerStrategyMock, requestSortedStrategyMock, reservablesRepositoryMock, reservationFactoryMock, reservationsRepositoryMock, requestRepositoryMock);
+        requestTreatment = new RequestTreatment(assignerStrategyMock, requestSortedStrategyMock, reservablesRepositoryMock, reservationFactoryMock, reservationsRepositoryMock, requestRepositoryMock, requestStatusUpdaterMock);
     }
 
     @Test
