@@ -25,19 +25,18 @@ public class RequestStatusUpdaterTest {
     private static final java.util.UUID A_UUID = UUID.randomUUID();
     private static final RequestStatus A_STATUS = RequestStatus.REFUSED;
     private static final RequestStatus ANOTHER_STATUS = RequestStatus.PENDING;
+    private RequestStatusUpdater requestStatusUpdater;
     @Mock
     private RequestRepository pendingRequestsMock;
     @Mock
     private ReservationRepository reservationRepositoryMock;
     @Mock
     private NotificationFactory notificationFactoryMock;
-    private RequestStatusUpdater requestStatusUpdater;
 
     @Before
     public void initializeNewRequestStatusUpdater() throws Exception {
         requestStatusUpdater = new RequestStatusUpdater(pendingRequestsMock, reservationRepositoryMock, notificationFactoryMock);
     }
-
 
     @Test
     public void givenRequest_WhenRequestingAnUpdate_ThenRepositoryShouldBeChanged() throws Exception {

@@ -30,7 +30,12 @@ public class Person {
 
     @Override
     public boolean equals(Object rhs) {
-        return rhs != null && rhs instanceof Person && personID.equals(((Person) rhs).personID);
+        if (rhs == null) {
+            return false;
+        } else if (rhs instanceof Person) {
+            return (personID.equals(((Person) rhs).personID));
+        }
+        return false;
     }
 
     @Override

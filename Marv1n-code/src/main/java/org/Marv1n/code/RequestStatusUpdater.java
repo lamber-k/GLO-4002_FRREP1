@@ -7,6 +7,7 @@ import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Reservation.Reservation;
 
 public class RequestStatusUpdater {
+
     private final RequestRepository pendingRequests;
     private final ReservationRepository reservationRepository;
     private final NotificationFactory notificationFactory;
@@ -24,7 +25,6 @@ public class RequestStatusUpdater {
         if (newStatus == RequestStatus.CANCELED && request.getRequestStatus() == RequestStatus.ACCEPTED) {
             cancelReservation(request);
         }
-
         pendingRequests.remove(request);
         request.setRequestStatus(newStatus);
         pendingRequests.create(request);
