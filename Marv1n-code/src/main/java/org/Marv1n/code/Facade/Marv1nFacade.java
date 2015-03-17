@@ -18,7 +18,9 @@ public class Marv1nFacade {
 
     public Marv1nFacade(RequestRepository requestRepository,
                         PersonRepository personRepository,
-                        PendingRequests pendingRequests, ReservationRepository reservationRepository, NotificationFactory notificationFactory) {
+                        PendingRequests pendingRequests,
+                        ReservationRepository reservationRepository,
+                        NotificationFactory notificationFactory) {
         this.requestRepository = requestRepository;
         this.personRepository = personRepository;
         this.pendingRequests = pendingRequests;

@@ -17,7 +17,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class Marv1NFacadeTest {
+public class Marv1nFacadeTest {
 
     private static final int NUMBER_OF_SEATS = 5;
     private static final int PRIORITY = 1;
@@ -41,10 +41,8 @@ public class Marv1NFacadeTest {
         marv1NFacade = new Marv1nFacade(requestRepositoryMock, personRepositoryMock, pendingRequestsMock, reservationRepository, notificationFactory);
     }
 
-
-
     @Test
-    public void givenMarv1nInterface_WhenCreateNewRequest_ThenPendingRequestShouldBeCalledWithAddRequest() {
+    public void givenMarv1nFacade_WhenCreateNewRequest_ThenPendingRequestShouldBeCalledWithAddRequest() {
         initializeWithReservationRepository();
         Person person = mock(Person.class);
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.of(person));
@@ -55,7 +53,7 @@ public class Marv1NFacadeTest {
     }
 
     @Test
-    public void givenMarv1nInterfaceWithEmptyPersonRepository_WhenAddNewRequest_ThenPersonShouldBeCreated() {
+    public void givenMarv1nFacadeWithEmptyPersonRepository_WhenAddNewRequest_ThenPersonShouldBeCreated() {
         initializeWithReservationRepository();
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.empty());
 
@@ -65,7 +63,7 @@ public class Marv1NFacadeTest {
     }
 
     @Test
-    public void givenMarv1nInterface_WhenCreateNewRequestWithInvalidEmailAddressFormat_ThenPersonShouldBeCreated() {
+    public void givenMarv1nFacade_WhenCreateNewRequestWithInvalidEmailAddressFormat_ThenPersonShouldBeCreated() {
         initializeWithReservationRepository();
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.empty());
 
@@ -73,5 +71,4 @@ public class Marv1NFacadeTest {
 
         verify(requestRepositoryMock, never()).create(any(Request.class));
     }
-
 }
