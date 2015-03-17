@@ -7,11 +7,13 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PendingRequestsTest {
@@ -52,12 +54,26 @@ public class PendingRequestsTest {
         MaximumPendingRequestReachedObserver observer = mock(MaximumPendingRequestReachedObserver.class);
         pendingRequests.addObserverMaximumPendingRequestsReached(observer);
         pendingRequests.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
+        List requestlist = new ArrayList<>();
+        requestlist.add(requestMock);
+        when(requestRepositoryMock.findAllPendingRequest()).thenReturn(requestlist);
 
         pendingRequests.addRequest(requestMock);
 
         verify(observer).onMaximumPendingRequestReached();
+    }
 
-        fail();
+    @Test
+    public void givenPendingRequestWithObserver_WhenPendingRequestIsNotFull_ThenDosenNotNotifyRegisteredObserver() {
+        MaximumPendingRequestReachedObserver observer = mock(MaximumPendingRequestReachedObserver.class);
+        pendingRequests.addObserverMaximumPendingRequestsReached(observer);
+        List requestlist = new ArrayList<>();
+        requestlist.add(requestMock);
+        when(requestRepositoryMock.findAllPendingRequest()).thenReturn(requestlist);
+
+        pendingRequests.addRequest(requestMock);
+
+        verify(observer,never()).onMaximumPendingRequestReached();
     }
 
 
