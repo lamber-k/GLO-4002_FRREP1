@@ -27,6 +27,16 @@ public class Marv1nFacade {
         this.requestStatusUpdater = new RequestStatusUpdater(requestRepository, reservationRepository, notificationFactory);
     }
 
+    public Marv1nFacade(RequestRepository requestRepository,
+                        PersonRepository personRepository,
+                        PendingRequests pendingRequests,
+                        RequestStatusUpdater requestStatusUpdater) {
+        this.requestRepository = requestRepository;
+        this.personRepository = personRepository;
+        this.pendingRequests = pendingRequests;
+        this.requestStatusUpdater = requestStatusUpdater;
+    }
+
     public void createRequest(int numberOfSeatsNeeded, int priority, String email) {
         if (EmailAddressValidator.validate(email)) {
             Person person;
