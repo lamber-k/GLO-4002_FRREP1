@@ -42,7 +42,7 @@ public class Marv1nFacadeTest {
     }
 
     @Test
-    public void givenMarv1nInterface_WhenCreateNewRequest_ThenPendingRequestShouldBeCalledWithAddRequest() {
+    public void givenMarv1nFacade_WhenCreateNewRequest_ThenPendingRequestShouldBeCalledWithAddRequest() {
         initializeWithReservationRepository();
         Person person = mock(Person.class);
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.of(person));
@@ -53,7 +53,7 @@ public class Marv1nFacadeTest {
     }
 
     @Test
-    public void givenMarv1nInterfaceWithEmptyPersonRepository_WhenAddNewRequest_ThenPersonShouldBeCreated() {
+    public void givenMarv1nFacadeWithEmptyPersonRepository_WhenAddNewRequest_ThenPersonShouldBeCreated() {
         initializeWithReservationRepository();
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.empty());
 
@@ -63,7 +63,7 @@ public class Marv1nFacadeTest {
     }
 
     @Test
-    public void givenMarv1nInterface_WhenCreateNewRequestWithInvalidEmailAddressFormat_ThenPersonShouldBeCreated() {
+    public void givenMarv1nFacade_WhenCreateNewRequestWithInvalidEmailAddressFormat_ThenPersonShouldBeCreated() {
         initializeWithReservationRepository();
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.empty());
 
