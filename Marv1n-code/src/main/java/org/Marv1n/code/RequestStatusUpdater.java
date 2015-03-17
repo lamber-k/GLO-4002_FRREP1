@@ -38,5 +38,6 @@ public class RequestStatusUpdater {
     private void notifyRequestStatusUpdate(Request request) {
         Notification notification = notificationFactory.createNotification(request);
         notification.announce();
+
     }
 }
