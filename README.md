@@ -25,9 +25,9 @@ IDUL            | Nom
 02      | Assignation en lot des salles aux demandes        | Finis
 03      | Maximiser les places dans la salle                | Finis
 04      | Ordonner les demandes par priorité                | Finis
-05      | Notifier par courriel après l'assignation         | En cours
-06      | Annuler une demande                               | En attente
-07      | Notifier par courriel lors d'une annulation       | En attente
+05      | Notifier par courriel après l'assignation         | Finis
+06      | Annuler une demande                               | Finis
+07      | Notifier par courriel lors d'une annulation       | En cours
 08      | Afficher une demande                              | En attente
 09      | Permettre la réservation d'une salle              | En attente
 10      | Afficher les demandes d'un organisateur           | En attente
