@@ -5,12 +5,11 @@ import org.Marv1n.code.Notification.Mail.MailService.MailService;
 import org.Marv1n.code.Notification.NotificationAbstractFactory;
 import org.Marv1n.code.Person;
 import org.Marv1n.code.Repository.Person.PersonRepository;
-import org.Marv1n.code.Repository.Reservable.ReservableRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationNotFoundException;
 import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.RequestStatus;
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 import org.Marv1n.code.Reservation.Reservation;
 
 import java.util.LinkedList;
@@ -22,20 +21,18 @@ public class MailNotificationAbstractFactory extends NotificationAbstractFactory
 
     private final MailService mailService;
     private ReservationRepository reservationRepository;
-    private ReservableRepository reservableRepository;
     private PersonRepository personRepository;
 
-    public MailNotificationAbstractFactory(MailService mailService, ReservationRepository reservationRepository, ReservableRepository reservableRepository, PersonRepository personRepository) {
+    public MailNotificationAbstractFactory(MailService mailService, ReservationRepository reservationRepository, PersonRepository personRepository) {
         this.mailService = mailService;
         this.reservationRepository = reservationRepository;
-        this.reservableRepository = reservableRepository;
         this.personRepository = personRepository;
     }
 
     @Override
     public MailNotification createNotification(Request request) throws InvalidRequestException {
         Person responsible = findResponsible(request, personRepository);
-        IReservable reservable = findReservable(request, reservationRepository);
+        Reservable reservable = findReservable(request, reservationRepository);
         List<String> mailTo = new LinkedList<>();
         mailTo.add(responsible.getMailAddress());
         mailTo.addAll(personRepository.findAdmins().stream().map(Person::getMailAddress).collect(Collectors.toList()));
@@ -43,8 +40,7 @@ public class MailNotificationAbstractFactory extends NotificationAbstractFactory
         return new MailNotification(mailService, mail);
     }
 
-
-    private IReservable findReservable(Request request, ReservationRepository reservationRepository) throws InvalidRequestException {
+    private Reservable findReservable(Request request, ReservationRepository reservationRepository) throws InvalidRequestException {
         Reservation reservation;
         try {
             reservation = reservationRepository.findReservationByRequest(request);
@@ -65,7 +61,7 @@ public class MailNotificationAbstractFactory extends NotificationAbstractFactory
         return optionalResponsible.get();
     }
 
-    private Mail buildMail(Request request, IReservable reservable, List<String> mailTo) {
+    private Mail buildMail(Request request, Reservable reservable, List<String> mailTo) {
         MailBuilder mailBuilder = new MailBuilder();
         try {
             String message = super.buildNotification(request, reservable);

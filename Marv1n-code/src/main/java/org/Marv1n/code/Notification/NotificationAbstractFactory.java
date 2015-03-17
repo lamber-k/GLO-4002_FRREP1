@@ -2,7 +2,7 @@ package org.Marv1n.code.Notification;
 
 import org.Marv1n.code.Notification.Mail.MailBuilderException;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 
 public abstract class NotificationAbstractFactory implements NotificationFactory {
 
@@ -11,7 +11,7 @@ public abstract class NotificationAbstractFactory implements NotificationFactory
     private static final String ASSIGNATION_SUCCESS_FORMAT = "Votre requête a été traité avec succès.%n"
             + "Vous avez été assigné à la salle %s.%n";
 
-    protected String buildNotification(Request request, IReservable reservable) throws MailBuilderException {
+    protected String buildNotification(Request request, Reservable reservable) throws MailBuilderException {
         String notificationDetail;
         if (request.getRequestStatus() == null) {
             throw new MailBuilderException("Request Status not set");

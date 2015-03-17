@@ -1,6 +1,6 @@
 package org.Marv1n.code.Repository.Reservable;
 
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,7 +16,7 @@ public class ReservableRepositoryInMemoryTest {
 
     private ReservableRepositoryInMemory reservableRepository;
     @Mock
-    private IReservable reservableMock;
+    private Reservable reservableMock;
 
     @Before
     public void initializeReservableRepositoryInMemory() throws Exception {
@@ -26,7 +26,7 @@ public class ReservableRepositoryInMemoryTest {
     @Test
     public void givenNotEmptyRepository_WhenFindAll_ThenReturnAllReservable() throws Exception {
         reservableRepository.create(reservableMock);
-        List<IReservable> results = reservableRepository.findAll();
+        List<Reservable> results = reservableRepository.findAll();
         assertFalse(results.isEmpty());
     }
 }

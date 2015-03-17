@@ -2,7 +2,7 @@ package org.Marv1n.code.Repository.Reservation;
 
 import org.Marv1n.code.Repository.RepositoryInMemory;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 import org.Marv1n.code.Reservation.Reservation;
 
 import java.util.Optional;
@@ -15,11 +15,11 @@ public class ReservationRepositoryInMemory extends RepositoryInMemory<Reservatio
     }
 
     @Override
-    public Reservation findReservationByReservable(IReservable reservableSearched) throws ReservationNotFoundException {
+    public Reservation findReservationByReservable(Reservable reservableSearched) throws ReservationNotFoundException {
         Optional<Reservation> reservationFound = query().filter(r -> r.getReserved().equals(reservableSearched)).findFirst();
         if (!reservationFound.isPresent())
             throw new ReservationNotFoundException();
-        return (reservationFound.get());
+        return reservationFound.get();
     }
 
     @Override
@@ -27,6 +27,6 @@ public class ReservationRepositoryInMemory extends RepositoryInMemory<Reservatio
         Optional<Reservation> requestFound = query().filter(r -> r.getRequest().equals(requestSearched)).findFirst();
         if (!requestFound.isPresent())
             throw new ReservationNotFoundException();
-        return (requestFound.get());
+        return requestFound.get();
     }
 }

@@ -17,7 +17,7 @@ public class PasswordBasedAuthenticatorTest {
     private static final String A_HOST = "127.0.0.1";
 
     @Test
-    public void givenThePasswordBasedAuthentication_whenCalled_ShouldReturnTheProperAuthentication() {
+    public void givenThePasswordBasedAuthentication_WhenCalled_ThenShouldReturnTheProperAuthentication() {
         MailServiceOptions mailServiceOptions = new MailServiceOptions(A_HOST, A_PORT, A_USERNAME, A_PASSWORD);
         PasswordBasedAuthenticator passwordBasedAuthenticator = new PasswordBasedAuthenticator(mailServiceOptions);
 

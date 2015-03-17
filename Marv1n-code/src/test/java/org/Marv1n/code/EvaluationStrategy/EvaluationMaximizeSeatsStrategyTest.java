@@ -5,7 +5,7 @@ import org.Marv1n.code.Repository.Reservation.ReservationNotFoundException;
 import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationRepositoryInMemory;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 import org.Marv1n.code.Reservation.Reservation;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,12 +23,12 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class EvaluationMaximizeSeatsStrategyTest {
 
-    private List<IReservable> reservableList;
+    private List<Reservable> reservableList;
     private EvaluationStrategy assignerStrategy;
     @Mock
-    private IReservable reservableMock;
+    private Reservable reservableMock;
     @Mock
-    private IReservable anotherReservableMock;
+    private Reservable anotherReservableMock;
     @Mock
     private Request requestMock;
     @Mock
@@ -50,7 +50,7 @@ public class EvaluationMaximizeSeatsStrategyTest {
         when(reservableRepositoryMock.findAll()).thenReturn(reservableList);
         when(reservableMock.hasEnoughCapacity(anyInt())).thenReturn(true);
         when(anotherReservableMock.hasEnoughCapacity(anyInt())).thenReturn(true);
-        when(reservationRepositoryMock.findReservationByReservable(any(IReservable.class))).thenThrow(ReservationNotFoundException.class);
+        when(reservationRepositoryMock.findReservationByReservable(any(Reservable.class))).thenThrow(ReservationNotFoundException.class);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class EvaluationMaximizeSeatsStrategyTest {
     @Test
     public void givenAssignationIsRun_WhenOneReservableCanNotBeFound_ThenReturnEmptyEvaluationResult() throws ReservationNotFoundException {
         ReservationRepositoryInMemory reservationsRepository = mock(ReservationRepositoryInMemory.class);
-        when(reservationsRepository.findReservationByReservable(any(IReservable.class))).thenReturn(mock(Reservation.class));
+        when(reservationsRepository.findReservationByReservable(any(Reservable.class))).thenReturn(mock(Reservation.class));
 
         ReservableEvaluationResult result = assignerStrategy.evaluateOneRequest(reservableRepositoryMock, reservationsRepository, requestMock);
 

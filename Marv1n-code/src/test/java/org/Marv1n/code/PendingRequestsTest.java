@@ -52,9 +52,9 @@ public class PendingRequestsTest {
         MaximumPendingRequestReachedObserver observer = mock(MaximumPendingRequestReachedObserver.class);
         pendingRequests.addObserverMaximumPendingRequestsReached(observer);
         pendingRequests.setMaximumPendingRequests(A_MAXIMUM_ONE_PENDING_REQUEST);
-        List requestlist = new ArrayList<>();
-        requestlist.add(requestMock);
-        when(requestRepositoryMock.findAllPendingRequest()).thenReturn(requestlist);
+        List requestList = new ArrayList<>();
+        requestList.add(requestMock);
+        when(requestRepositoryMock.findAllPendingRequest()).thenReturn(requestList);
 
         pendingRequests.addRequest(requestMock);
 
@@ -62,7 +62,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequestWithObserver_WhenPendingRequestIsNotFull_ThenDosenNotNotifyRegisteredObserver() {
+    public void givenPendingRequestWithObserver_WhenPendingRequestIsNotFull_ThenDoesNotNotifyRegisteredObserver() {
         MaximumPendingRequestReachedObserver observer = mock(MaximumPendingRequestReachedObserver.class);
         pendingRequests.addObserverMaximumPendingRequestsReached(observer);
         List requestList = new ArrayList<>();

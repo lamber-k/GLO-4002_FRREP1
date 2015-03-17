@@ -2,7 +2,7 @@ package org.Marv1n.code.Reservable;
 
 import java.util.UUID;
 
-public class Room implements IReservable {
+public class Room implements Reservable {
 
     private final UUID roomID;
     private int numberOfSeats;
@@ -25,12 +25,12 @@ public class Room implements IReservable {
     }
 
     @Override
-    public boolean hasGreaterOrEqualCapacityThan(IReservable reservable) {
+    public boolean hasGreaterOrEqualCapacityThan(Reservable reservable) {
         return getNumberOfSeats() >= reservable.getNumberOfSeats();
     }
 
     @Override
-    public int compareReservableCapacity(IReservable reservable) {
+    public int compareReservableCapacity(Reservable reservable) {
         return getNumberOfSeats() - reservable.getNumberOfSeats();
     }
 

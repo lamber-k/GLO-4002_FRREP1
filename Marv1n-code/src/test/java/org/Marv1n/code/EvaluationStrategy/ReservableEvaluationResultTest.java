@@ -1,6 +1,6 @@
 package org.Marv1n.code.EvaluationStrategy;
 
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -13,7 +13,7 @@ public class ReservableEvaluationResultTest {
 
     private ReservableEvaluationResult reservableEvaluationResult;
     @Mock
-    private IReservable reservableMock;
+    private Reservable reservableMock;
 
     @Test
     public void givenReservableEvaluationResult_WhenAssignationResult_ThenShouldNotFoundMatch() {

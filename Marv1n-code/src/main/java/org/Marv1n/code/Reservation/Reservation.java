@@ -1,14 +1,14 @@
 package org.Marv1n.code.Reservation;
 
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 
 public class Reservation {
 
     private Request request;
-    private IReservable reserved;
+    private Reservable reserved;
 
-    public Reservation(Request request, IReservable reserved) {
+    public Reservation(Request request, Reservable reserved) {
         this.request = request;
         this.reserved = reserved;
     }
@@ -17,7 +17,7 @@ public class Reservation {
         return request;
     }
 
-    public IReservable getReserved() {
+    public Reservable getReserved() {
         return reserved;
     }
 

@@ -1,23 +1,23 @@
 package org.Marv1n.code.EvaluationStrategy;
 
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 
 public class ReservableEvaluationResult {
 
-    private IReservable matchingIReservable = null;
+    private Reservable matchingReservable = null;
 
-    public ReservableEvaluationResult(IReservable IReservable) {
-        this.matchingIReservable = IReservable;
+    public ReservableEvaluationResult(Reservable Reservable) {
+        this.matchingReservable = Reservable;
     }
 
     public ReservableEvaluationResult() {
     }
 
     public boolean matchFound() {
-        return matchingIReservable != null;
+        return matchingReservable != null;
     }
 
-    public IReservable getBestReservableMatch() {
-        return matchingIReservable;
+    public Reservable getBestReservableMatch() {
+        return matchingReservable;
     }
 }

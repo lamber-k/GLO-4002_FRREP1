@@ -4,13 +4,13 @@ import org.Marv1n.code.Repository.Reservable.ReservableRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationNotFoundException;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 
 public class FirstInFirstOutEvaluationStrategy implements EvaluationStrategy {
 
     @Override
     public ReservableEvaluationResult evaluateOneRequest(ReservableRepository reservables, ReservationRepository reservations, Request request) {
-        for (IReservable reservable : reservables.findAll()) {
+        for (Reservable reservable : reservables.findAll()) {
             if (reservableAvailable(reservations, reservable)) {
                 return new ReservableEvaluationResult(reservable);
             }
@@ -18,7 +18,7 @@ public class FirstInFirstOutEvaluationStrategy implements EvaluationStrategy {
         return new ReservableEvaluationResult();
     }
 
-    private boolean reservableAvailable(ReservationRepository reservations, IReservable reservable) {
+    private boolean reservableAvailable(ReservationRepository reservations, Reservable reservable) {
         try {
             reservations.findReservationByReservable(reservable);
         } catch (ReservationNotFoundException exception) {

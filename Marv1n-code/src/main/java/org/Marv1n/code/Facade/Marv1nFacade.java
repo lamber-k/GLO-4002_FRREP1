@@ -19,17 +19,6 @@ public class Marv1nFacade {
     public Marv1nFacade(RequestRepository requestRepository,
                         PersonRepository personRepository,
                         PendingRequests pendingRequests,
-                        ReservationRepository reservationRepository,
-                        NotificationFactory notificationFactory) {
-        this.requestRepository = requestRepository;
-        this.personRepository = personRepository;
-        this.pendingRequests = pendingRequests;
-        this.requestStatusUpdater = new RequestStatusUpdater(requestRepository, reservationRepository, notificationFactory);
-    }
-
-    public Marv1nFacade(RequestRepository requestRepository,
-                        PersonRepository personRepository,
-                        PendingRequests pendingRequests,
                         RequestStatusUpdater requestStatusUpdater) {
         this.requestRepository = requestRepository;
         this.personRepository = personRepository;

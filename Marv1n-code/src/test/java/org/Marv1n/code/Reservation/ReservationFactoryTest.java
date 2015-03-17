@@ -1,7 +1,7 @@
 package org.Marv1n.code.Reservation;
 
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 import org.Marv1n.code.EvaluationStrategy.ReservableEvaluationResult;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class ReservationFactoryTest {
     @Mock
     private ReservableEvaluationResult evaluationResultMock;
     @Mock
-    private IReservable reservableMock;
+    private Reservable reservableMock;
 
     @Before
     public void initializeReservationFactory() throws Exception {
@@ -35,9 +35,7 @@ public class ReservationFactoryTest {
     @Test
     public void givenEmptyEvaluation_WhenReservation_ThenReturnEmptyOptional() throws Exception {
         when(evaluationResultMock.matchFound()).thenReturn(false);
-
         Optional<Reservation> reservation = reservationFactory.reserve(requestMock, evaluationResultMock);
-
         assertFalse(reservation.isPresent());
     }
 

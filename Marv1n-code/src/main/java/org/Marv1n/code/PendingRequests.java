@@ -37,7 +37,8 @@ public class PendingRequests {
     }
 
     private void notifyMaxPendingRequestReachedObserver() {
-        for (MaximumPendingRequestReachedObserver observer : maximumPendingRequestReachedObservers)
+        for (MaximumPendingRequestReachedObserver observer : maximumPendingRequestReachedObservers) {
             observer.onMaximumPendingRequestReached();
+        }
     }
 }

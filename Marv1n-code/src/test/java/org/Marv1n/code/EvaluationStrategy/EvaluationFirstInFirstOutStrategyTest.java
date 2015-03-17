@@ -4,7 +4,7 @@ import org.Marv1n.code.Repository.Reservable.ReservableRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationNotFoundException;
 import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 import org.Marv1n.code.Reservation.Reservation;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,12 +23,12 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class EvaluationFirstInFirstOutStrategyTest {
 
-    private List<IReservable> reservableList;
+    private List<Reservable> reservableList;
     private EvaluationStrategy assignerStrategy;
     @Mock
-    private IReservable reservableMock;
+    private Reservable reservableMock;
     @Mock
-    private IReservable anotherReservableMock;
+    private Reservable anotherReservableMock;
     @Mock
     private Request requestMock;
     @Mock

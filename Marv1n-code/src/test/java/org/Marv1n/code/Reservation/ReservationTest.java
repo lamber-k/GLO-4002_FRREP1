@@ -1,7 +1,7 @@
 package org.Marv1n.code.Reservation;
 
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,7 +18,7 @@ public class ReservationTest {
     @Mock
     private Request requestMock;
     @Mock
-    private IReservable reservableMock;
+    private Reservable reservableMock;
 
     @Before
     public void initializeReservation() {
@@ -38,7 +38,7 @@ public class ReservationTest {
     @Test
     public void givenAnotherReservations_WhenCompared_ThenEqualsReturnFalse() {
         Request anotherRequestMock = mock(Request.class);
-        IReservable anotherReservableMock = mock(IReservable.class);
+        Reservable anotherReservableMock = mock(Reservable.class);
         Reservation anotherReservation = new Reservation(anotherRequestMock, anotherReservableMock);
 
         assertFalse(reservation.equals(anotherReservation));

@@ -1,7 +1,7 @@
 package org.Marv1n.code.Repository.Reservation;
 
 import org.Marv1n.code.Request;
-import org.Marv1n.code.Reservable.IReservable;
+import org.Marv1n.code.Reservable.Reservable;
 import org.Marv1n.code.Reservation.Reservation;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class ReservationRepositoryInMemoryTest {
     @Mock
     private Reservation reservationMock;
     @Mock
-    private IReservable reservableMock;
+    private Reservable reservableMock;
     @Mock
     private Request requestMock;
 
@@ -52,7 +52,7 @@ public class ReservationRepositoryInMemoryTest {
 
     @Test(expected = ReservationNotFoundException.class)
     public void givenNotEmptyReservation_WhenTryToFindReservationByReservable_ThenShouldThrow() throws ReservationNotFoundException {
-        IReservable anotherReservableMock = mock(IReservable.class);
+        Reservable anotherReservableMock = mock(Reservable.class);
         when(reservationMock.getReserved()).thenReturn(anotherReservableMock);
         reservations.create(reservationMock);
 
