@@ -24,11 +24,6 @@ public class PendingRequests {
         }
     }
 
-
-    public boolean hasPendingRequest() {
-        return !requestRepository.findAllPendingRequest().isEmpty();
-    }
-
     public int getMaximumPendingRequests() {
         return maximumPendingRequests;
     }
