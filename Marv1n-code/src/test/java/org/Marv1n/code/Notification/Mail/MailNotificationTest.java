@@ -15,11 +15,11 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class MailNotificationTest {
 
-    private final String MAIL_ADDRESS = "test@test.ca";
-    private final String OBJECT = "test";
-    private final String MESSAGE = "Hello, World.";
-    private final List<String> TO_ADDRESS = Arrays.asList(MAIL_ADDRESS);
-    private final Mail MAIL = new Mail(MAIL_ADDRESS, TO_ADDRESS, OBJECT, MESSAGE);
+    private static final String MAIL_ADDRESS = "test@test.ca";
+    private static final String OBJECT = "test";
+    private static final String MESSAGE = "Hello, World.";
+    private static final List<String> TO_ADDRESS = Arrays.asList(MAIL_ADDRESS);
+    private static final Mail MAIL = new Mail(MAIL_ADDRESS, TO_ADDRESS, OBJECT, MESSAGE);
     private MailNotification notifier;
     @Mock
     private MailService mailServiceMock;

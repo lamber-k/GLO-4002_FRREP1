@@ -10,14 +10,14 @@ import static org.junit.Assert.assertTrue;
 
 public class RequestTest {
 
-    private static final int NUMBER_OF_SEATS_NEEDED = 5;
-    private static final int PRIORITY = 2;
-    private static final UUID REQUESTER_UUID = UUID.randomUUID();
+    private static final int A_NUMBER_OF_SEATS_NEEDED = 5;
+    private static final int A_PRIORITY = 2;
+    private static final UUID A_UUID_REQUEST = UUID.randomUUID();
     private Request request;
 
     @Before
     public void initializeRequest() {
-        request = new Request(NUMBER_OF_SEATS_NEEDED, PRIORITY, REQUESTER_UUID);
+        request = new Request(A_NUMBER_OF_SEATS_NEEDED, A_PRIORITY, A_UUID_REQUEST);
     }
 
     @Test
@@ -27,7 +27,7 @@ public class RequestTest {
 
     @Test
     public void givenRequest_WhenComparedToDifferentRequest_ThenReturnFalse() {
-        Request aDifferentRequest = new Request(NUMBER_OF_SEATS_NEEDED, PRIORITY, UUID.randomUUID());
+        Request aDifferentRequest = new Request(A_NUMBER_OF_SEATS_NEEDED, A_PRIORITY, UUID.randomUUID());
         assertFalse(request.equals(aDifferentRequest));
     }
 

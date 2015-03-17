@@ -11,9 +11,9 @@ import static org.junit.Assert.*;
 @RunWith(MockitoJUnitRunner.class)
 public class ReservableEvaluationResultTest {
 
-    ReservableEvaluationResult reservableEvaluationResult;
+    private ReservableEvaluationResult reservableEvaluationResult;
     @Mock
-    private IReservable reservable;
+    private IReservable reservableMock;
 
     @Test
     public void givenReservableEvaluationResult_WhenAssignationResult_ThenShouldNotFoundMatch() {
@@ -22,7 +22,7 @@ public class ReservableEvaluationResultTest {
     }
 
     private void initializeReservableEvaluationResultWithReservable() {
-        reservableEvaluationResult = new ReservableEvaluationResult(reservable);
+        reservableEvaluationResult = new ReservableEvaluationResult(reservableMock);
     }
 
     @Test
@@ -34,6 +34,6 @@ public class ReservableEvaluationResultTest {
     @Test
     public void givenReservableEvaluationResult_WhenAssignationResultWithReservable_ThenCanReturnMatchingReservable() {
         initializeReservableEvaluationResultWithReservable();
-        assertEquals(reservable, reservableEvaluationResult.getBestReservableMatch());
+        assertEquals(reservableMock, reservableEvaluationResult.getBestReservableMatch());
     }
 }

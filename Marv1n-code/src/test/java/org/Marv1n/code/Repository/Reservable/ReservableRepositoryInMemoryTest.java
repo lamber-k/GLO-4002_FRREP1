@@ -26,9 +26,7 @@ public class ReservableRepositoryInMemoryTest {
     @Test
     public void givenNotEmptyRepository_WhenFindAll_ThenReturnAllReservable() throws Exception {
         reservableRepository.create(reservableMock);
-
         List<IReservable> results = reservableRepository.findAll();
-
         assertFalse(results.isEmpty());
     }
 }

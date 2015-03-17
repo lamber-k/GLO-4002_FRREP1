@@ -8,7 +8,6 @@ import javax.mail.PasswordAuthentication;
 
 import static org.junit.Assert.assertEquals;
 
-
 @RunWith(MockitoJUnitRunner.class)
 public class PasswordBasedAuthenticatorTest {
 
@@ -27,6 +26,4 @@ public class PasswordBasedAuthenticatorTest {
         assertEquals(A_PASSWORD, passwordAuthentication.getPassword());
         assertEquals(A_USERNAME, passwordAuthentication.getUserName());
     }
-
-
 }

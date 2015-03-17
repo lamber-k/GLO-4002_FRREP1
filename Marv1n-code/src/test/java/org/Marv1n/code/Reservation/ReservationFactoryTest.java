@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class ReservationFactoryTest {
 
-    private static final int NUMBER_OF_SEATS_REQUEST = 20;
+    private static final int A_NUMBER_OF_SEATS_REQUEST = 20;
     private ReservationFactory reservationFactory;
     @Mock
     private Request requestMock;
@@ -45,8 +45,8 @@ public class ReservationFactoryTest {
     public void givenNotEmptyEvaluation_WhenReservation_ThenReturnNotEmptyOptional() {
         when(evaluationResultMock.matchFound()).thenReturn(true);
         when(evaluationResultMock.getBestReservableMatch()).thenReturn(reservableMock);
-        when(requestMock.getNumberOfSeatsNeeded()).thenReturn(NUMBER_OF_SEATS_REQUEST);
-        when(reservableMock.hasEnoughCapacity(NUMBER_OF_SEATS_REQUEST)).thenReturn(true);
+        when(requestMock.getNumberOfSeatsNeeded()).thenReturn(A_NUMBER_OF_SEATS_REQUEST);
+        when(reservableMock.hasEnoughCapacity(A_NUMBER_OF_SEATS_REQUEST)).thenReturn(true);
 
         Optional<Reservation> reservation = reservationFactory.reserve(requestMock, evaluationResultMock);
 
@@ -58,8 +58,8 @@ public class ReservationFactoryTest {
     public void givenInsufficientCapacityEvaluation_WhenReservation_ThenReturnEmptyOptional() {
         when(evaluationResultMock.matchFound()).thenReturn(true);
         when(evaluationResultMock.getBestReservableMatch()).thenReturn(reservableMock);
-        when(requestMock.getNumberOfSeatsNeeded()).thenReturn(NUMBER_OF_SEATS_REQUEST);
-        when(reservableMock.hasEnoughCapacity(NUMBER_OF_SEATS_REQUEST)).thenReturn(false);
+        when(requestMock.getNumberOfSeatsNeeded()).thenReturn(A_NUMBER_OF_SEATS_REQUEST);
+        when(reservableMock.hasEnoughCapacity(A_NUMBER_OF_SEATS_REQUEST)).thenReturn(false);
 
         Optional<Reservation> reservation = reservationFactory.reserve(requestMock, evaluationResultMock);
 

@@ -42,7 +42,6 @@ public class RequestTreatmentTest {
     private ReservableEvaluationResult evaluationResultMock;
     @Mock
     private RequestRepository requestRepositoryMock;
-
     @Mock
     private RequestStatusUpdater requestStatusUpdaterMock;
 

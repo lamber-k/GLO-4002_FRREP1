@@ -8,9 +8,9 @@ import static org.junit.Assert.assertTrue;
 
 public class EmailAddressValidatorTest {
 
-    private static final String EMAIL_VALID = "exemple@exemple.com";
-    private static final String EMAIL_WRONG = "InvalidEmail";
-    private static final String STRING_NULL = null;
+    private static final String A_VALID_EMAIL = "exemple@exemple.com";
+    private static final String A_WRONG_EMAIL = "InvalidEmail";
+    private static final String A_NULL_STRING = null;
     private static EmailAddressValidator emailAddressValidator;
 
     @Before
@@ -20,18 +20,18 @@ public class EmailAddressValidatorTest {
 
     @Test
     public void givenEmailAddressValidator_WhenValidateCalledWithValidEmail_ThenReturnTrue() {
-        assertTrue(emailAddressValidator.validate(EMAIL_VALID));
+        assertTrue(emailAddressValidator.validate(A_VALID_EMAIL));
     }
 
     @Test
     public void givenEmailAddressValidator_WhenValidateCalledWithInvalidEmail_ThenReturnFalse() {
-        boolean result = emailAddressValidator.validate(EMAIL_WRONG);
+        boolean result = emailAddressValidator.validate(A_WRONG_EMAIL);
         assertFalse(result);
     }
 
     @Test
     public void givenEmailAddressValidator_WhenValidateCalledWithNullString_ThenReturnFalse() {
-        boolean result = emailAddressValidator.validate(STRING_NULL);
+        boolean result = emailAddressValidator.validate(A_NULL_STRING);
         assertFalse(result);
     }
 }

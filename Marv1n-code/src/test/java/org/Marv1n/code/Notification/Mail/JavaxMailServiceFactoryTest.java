@@ -54,5 +54,4 @@ public class JavaxMailServiceFactoryTest {
 
         assertTrue(createdMailService instanceof JavaxMailServiceSMTP);
     }
-
 }

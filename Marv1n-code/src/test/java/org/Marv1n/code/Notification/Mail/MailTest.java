@@ -11,14 +11,14 @@ import static org.junit.Assert.assertTrue;
 
 public class MailTest {
 
-    public static final String TO_MAIL = "TO@exemple.com";
-    public static final String FROM_MAIL = "from@exemple.com";
-    public static final String ANOTHER_FROM_MAIL = "FromDifferentSender@exemple.com";
-    public static final String ANOTHER_TO_MAIL = "TODifferentDestination@exemple.com";
+    private static final String TO_MAIL = "TO@exemple.com";
+    private static final String FROM_MAIL = "from@exemple.com";
+    private static final String ANOTHER_FROM_MAIL = "FromDifferentSender@exemple.com";
+    private static final String ANOTHER_TO_MAIL = "TODifferentDestination@exemple.com";
     private static final String A_SUBJECT = "Subject";
     private static final String A_MESSAGE = "Message";
-    public static final String DIFFERENT_SUBJECT = "DifferentSubject";
-    public static final String DIFFERENT_MESSAGE = "DifferentMessage";
+    private static final String DIFFERENT_SUBJECT = "DifferentSubject";
+    private static final String DIFFERENT_MESSAGE = "DifferentMessage";
     private Mail mail;
     private Mail differentMail;
 

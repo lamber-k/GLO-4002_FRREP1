@@ -19,8 +19,8 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class JavaxMailServiceSSLTest {
 
-    public static final String DESTINATION_MAIL = "to@exemple.com";
-    public static final String FROM_MAIL = "from@exemple.com";
+    private static final String DESTINATION_MAIL = "to@exemple.com";
+    private static final String FROM_MAIL = "from@exemple.com";
     private JavaxMailServiceSSL mailServiceSSL;
     private MailServiceOptions mailServiceOptions;
     private Mail mail;
@@ -55,5 +55,4 @@ public class JavaxMailServiceSSLTest {
 
         mailServiceSSL.send(mail);
     }
-
 }

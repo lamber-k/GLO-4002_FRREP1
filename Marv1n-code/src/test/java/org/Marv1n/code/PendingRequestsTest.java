@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -20,7 +18,7 @@ public class PendingRequestsTest {
 
     private static final int DEFAULT_MAXIMUM_PENDING_REQUESTS = 2;
     private static final int A_MAXIMUM_PENDING_REQUESTS = 5;
-    private static final int MAXIMUM_ONE_PENDING_REQUEST = 1;
+    private static final int A_MAXIMUM_ONE_PENDING_REQUEST = 1;
     private PendingRequests pendingRequests;
     @Mock
     private Request requestMock;
@@ -53,7 +51,7 @@ public class PendingRequestsTest {
     public void givenPendingRequestWithObserver_WhenPendingRequestFull_ThenShouldNotifyRegisteredObserver() {
         MaximumPendingRequestReachedObserver observer = mock(MaximumPendingRequestReachedObserver.class);
         pendingRequests.addObserverMaximumPendingRequestsReached(observer);
-        pendingRequests.setMaximumPendingRequests(MAXIMUM_ONE_PENDING_REQUEST);
+        pendingRequests.setMaximumPendingRequests(A_MAXIMUM_ONE_PENDING_REQUEST);
         List requestlist = new ArrayList<>();
         requestlist.add(requestMock);
         when(requestRepositoryMock.findAllPendingRequest()).thenReturn(requestlist);
@@ -67,14 +65,12 @@ public class PendingRequestsTest {
     public void givenPendingRequestWithObserver_WhenPendingRequestIsNotFull_ThenDosenNotNotifyRegisteredObserver() {
         MaximumPendingRequestReachedObserver observer = mock(MaximumPendingRequestReachedObserver.class);
         pendingRequests.addObserverMaximumPendingRequestsReached(observer);
-        List requestlist = new ArrayList<>();
-        requestlist.add(requestMock);
-        when(requestRepositoryMock.findAllPendingRequest()).thenReturn(requestlist);
+        List requestList = new ArrayList<>();
+        requestList.add(requestMock);
+        when(requestRepositoryMock.findAllPendingRequest()).thenReturn(requestList);
 
         pendingRequests.addRequest(requestMock);
 
         verify(observer,never()).onMaximumPendingRequestReached();
     }
-
-
 }

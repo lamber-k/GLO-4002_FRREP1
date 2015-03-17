@@ -59,7 +59,6 @@ public class ReservationRepositoryInMemoryTest {
         reservations.findReservationByReservable(reservableMock);
     }
 
-
     @Test(expected = ReservationNotFoundException.class)
     public void givenEmptyReservation_WhenFindByReservable_ThenShouldThrow() throws ReservationNotFoundException {
         reservations.findReservationByReservable(reservableMock);

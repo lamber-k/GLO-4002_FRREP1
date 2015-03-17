@@ -20,8 +20,8 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class JavaxMailServiceSMTPTest {
 
-    public static final String DESTINATION_MAIL = "to@exemple.com";
-    public static final String FROM_MAIL = "from@exemple.com";
+    private static final String DESTINATION_MAIL = "to@exemple.com";
+    private static final String FROM_MAIL = "from@exemple.com";
     private JavaxMailServiceSMTP mailServiceSMTP;
     private MailServiceOptions mailServiceOptions;
     private Mail mail;
@@ -56,6 +56,4 @@ public class JavaxMailServiceSMTPTest {
 
         mailServiceSMTP.send(mail);
     }
-
-
 }

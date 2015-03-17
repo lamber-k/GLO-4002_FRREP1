@@ -34,12 +34,12 @@ public class RequestStatusUpdaterTest {
     private NotificationFactory notificationFactoryMock;
 
     @Before
-    public void initializeNewRequestStatusUpdater() throws Exception {
+    public void initializeRequestStatusUpdater() throws Exception {
         requestStatusUpdater = new RequestStatusUpdater(pendingRequestsMock, reservationRepositoryMock, notificationFactoryMock);
     }
 
     @Test
-    public void givenRequest_WhenRequestingAnUpdate_ThenRepositoryShouldBeChanged() throws Exception {
+    public void givenRequestWithAStatus_WhenRequestingAnUpdateWithAnotherStatus_ThenRepositoryShouldBeChanged() throws Exception {
         Request request = new Request(A_NUMBER_OF_SEATS, A_PRIORITY, A_UUID, A_STATUS);
 
         requestStatusUpdater.updateRequest(request, ANOTHER_STATUS);
@@ -54,7 +54,7 @@ public class RequestStatusUpdaterTest {
     }
 
     @Test
-    public void givenRequest_WhenRequestingAnUpdate_ThenNotificationShouldBeSent() throws Exception {
+    public void givenRequestWithAnotherStatus_WhenRequestingAnUpdateWithAStatus_ThenNotificationShouldBeSent() throws Exception {
         Notification notificationMock = mock(Notification.class);
         Request request = new Request(A_NUMBER_OF_SEATS, A_PRIORITY, A_UUID, ANOTHER_STATUS);
         when(notificationFactoryMock.createNotification(request)).thenReturn(notificationMock);
