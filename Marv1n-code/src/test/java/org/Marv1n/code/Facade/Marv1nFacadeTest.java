@@ -1,7 +1,7 @@
 package org.Marv1n.code.Facade;
 
-import org.Marv1n.code.*;
 import org.Marv1n.code.Notification.NotificationFactory;
+import org.Marv1n.code.*;
 import org.Marv1n.code.Repository.Person.PersonRepository;
 import org.Marv1n.code.Repository.Request.RequestRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationRepository;
@@ -24,7 +24,7 @@ public class Marv1nFacadeTest {
     private static final String EMAIL = "exemple@exemple.com";
     private static final String INVALID_EMAIL = "invalidEmail";
     private static final UUID A_REQUEST_ID = UUID.randomUUID();
-    private Marv1nFacade marv1NFacade;
+    private Marv1nFacade marv1nFacade;
     @Mock
     private Request requestMock;
     @Mock
@@ -44,7 +44,7 @@ public class Marv1nFacadeTest {
 
     @Before
     public void initializeMarv1nFacade() {
-        marv1NFacade = new Marv1nFacade(requestRepositoryMock, personRepositoryMock, pendingRequestsMock, requestStatusUpdaterMock);
+        marv1nFacade = new Marv1nFacade(requestRepositoryMock, personRepositoryMock, pendingRequestsMock, requestStatusUpdaterMock);
     }
 
     @Test
@@ -52,7 +52,7 @@ public class Marv1nFacadeTest {
         Person person = mock(Person.class);
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.of(person));
 
-        marv1NFacade.createRequest(NUMBER_OF_SEATS, PRIORITY, EMAIL);
+        marv1nFacade.createRequest(NUMBER_OF_SEATS, PRIORITY, EMAIL);
 
         verify(pendingRequestsMock).addRequest(any(Request.class));
     }
@@ -60,28 +60,28 @@ public class Marv1nFacadeTest {
     @Test
     public void givenMarv1nFacadeWithEmptyPersonRepository_WhenAddNewRequest_ThenPersonShouldBeCreated() {
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.empty());
-        marv1NFacade.createRequest(NUMBER_OF_SEATS, PRIORITY, EMAIL);
+        marv1nFacade.createRequest(NUMBER_OF_SEATS, PRIORITY, EMAIL);
         verify(personRepositoryMock).create(any(Person.class));
     }
 
     @Test
     public void givenMarv1nFacade_WhenCreateNewRequestWithInvalidEmailAddressFormat_ThenPersonShouldBeCreated() {
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.empty());
-        marv1NFacade.createRequest(NUMBER_OF_SEATS, PRIORITY, INVALID_EMAIL);
+        marv1nFacade.createRequest(NUMBER_OF_SEATS, PRIORITY, INVALID_EMAIL);
         verify(requestRepositoryMock, never()).create(any(Request.class));
     }
 
     @Test
     public void givenMarv1nFacade_WhenCancelExistingRequest_ThenUpdateRequestToCancelled() {
         when(requestRepositoryMock.findByUUID(A_REQUEST_ID)).thenReturn(Optional.of(requestMock));
-        marv1NFacade.cancelRequest(A_REQUEST_ID);
+        marv1nFacade.cancelRequest(A_REQUEST_ID);
         verify(requestStatusUpdaterMock).updateRequest(requestMock, RequestStatus.CANCELED);
     }
 
     @Test
     public void givenMarv1nFacade_WhenCancelNonExistingRequest_ThenShouldDoNothing() {
         when(requestRepositoryMock.findByUUID(A_REQUEST_ID)).thenReturn(Optional.empty());
-        marv1NFacade.cancelRequest(A_REQUEST_ID);
+        marv1nFacade.cancelRequest(A_REQUEST_ID);
         verify(requestStatusUpdaterMock, never()).updateRequest(requestMock, RequestStatus.CANCELED);
     }
 }
