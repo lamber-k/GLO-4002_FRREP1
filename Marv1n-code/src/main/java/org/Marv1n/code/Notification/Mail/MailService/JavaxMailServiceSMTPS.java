@@ -4,7 +4,6 @@ import javax.mail.Authenticator;
 import javax.mail.Session;
 import java.util.Properties;
 
-
 public class JavaxMailServiceSMTPS extends JavaxMailService {
 
     public JavaxMailServiceSMTPS(MailServiceOptions options, MailTransporter mailTransporter, Authenticator authenticator) {

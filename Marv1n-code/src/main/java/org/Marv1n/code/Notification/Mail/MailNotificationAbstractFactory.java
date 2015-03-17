@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
 public class MailNotificationAbstractFactory extends NotificationAbstractFactory {
 
     private final MailService mailService;
-    ReservationRepository reservationRepository;
-    ReservableRepository reservableRepository;
-    PersonRepository personRepository;
+    private ReservationRepository reservationRepository;
+    private ReservableRepository reservableRepository;
+    private PersonRepository personRepository;
 
     public MailNotificationAbstractFactory(MailService mailService, ReservationRepository reservationRepository, ReservableRepository reservableRepository, PersonRepository personRepository) {
         this.mailService = mailService;
@@ -78,6 +78,4 @@ public class MailNotificationAbstractFactory extends NotificationAbstractFactory
             throw new InvalidRequestException(exception.getMessage());
         }
     }
-
-
 }

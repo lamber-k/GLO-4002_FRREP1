@@ -11,7 +11,6 @@ public class MaximizeSeatsEvaluationStrategy implements EvaluationStrategy {
     @Override
     public ReservableEvaluationResult evaluateOneRequest(ReservableRepository reservables, ReservationRepository reservations, Request evaluatedRequest) {
         IReservable betterReservable = null;
-
         for (IReservable reservable : reservables.findAll()) {
             if (doesTheReservableFitsTheRequest(evaluatedRequest, reservable, reservations)) {
                 betterReservable = getBetterReservableOf(betterReservable, reservable);
@@ -21,10 +20,7 @@ public class MaximizeSeatsEvaluationStrategy implements EvaluationStrategy {
     }
 
     private IReservable getBetterReservableOf(IReservable bestReservable, IReservable reservable) {
-        if (bestReservable == null) {
-            return reservable;
-        }
-        else if (bestReservable.hasGreaterOrEqualCapacityThan(reservable)) {
+        if (bestReservable == null || bestReservable.hasGreaterOrEqualCapacityThan(reservable)) {
             return reservable;
         }
         return bestReservable;

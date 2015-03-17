@@ -25,8 +25,7 @@ public class Reservation {
     public boolean equals(Object rhs) {
         if (rhs == null) {
             return false;
-        }
-        else if (rhs instanceof Reservation) {
+        } else if (rhs instanceof Reservation) {
             return hashCode() == rhs.hashCode();
         }
         return false;

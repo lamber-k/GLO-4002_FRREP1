@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Properties;
 
 public abstract class JavaxMailService implements MailService {
+
     protected MailServiceOptions options;
     protected Session session;
     protected MailTransporter mailTransporter;
@@ -36,14 +37,11 @@ public abstract class JavaxMailService implements MailService {
             for (String to : mail.to) {
                 tos.add(new InternetAddress(to));
             }
-
             InternetAddress[] toArray = tos.toArray(new InternetAddress[tos.size()]);
             message.addRecipients(Message.RecipientType.TO, toArray);
             message.setSubject(mail.object);
             message.setText(mail.message);
-
             mailTransporter.send(message);
-
         } catch (MessagingException exception) {
             throw new RuntimeException(exception);
         }

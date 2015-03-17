@@ -19,8 +19,7 @@ public class Mail {
     public boolean equals(Object rhs) {
         if (rhs == null) {
             return false;
-        }
-        else if (rhs instanceof Mail) {
+        } else if (rhs instanceof Mail) {
             Mail rhsMail = (Mail) rhs;
             return (rhsMail.message.equals(message) &&
                     rhsMail.from.equals(from) &&

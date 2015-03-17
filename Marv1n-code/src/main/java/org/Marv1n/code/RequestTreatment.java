@@ -39,12 +39,9 @@ public class RequestTreatment extends RunnableRequestTreatment {
         List<Request> pendingRequests = requests.findAllPendingRequest();
         ArrayList<Request> sortedRequests = requestSorter.sortList(pendingRequests);
         Iterator<Request> requestIterator = sortedRequests.iterator();
-
         while (requestIterator.hasNext()) {
             Request pendingRequest = requestIterator.next();
-
             ReservableEvaluationResult evaluationResult = assigner.evaluateOneRequest(reservables, reservations, pendingRequest);
-
             Optional<Reservation> reservation = reservationFactory.reserve(pendingRequest, evaluationResult);
             if (reservation.isPresent()) {
                 reservations.create(reservation.get());
@@ -56,6 +53,4 @@ public class RequestTreatment extends RunnableRequestTreatment {
         }
         pendingRequests.removeAll(sortedRequests);
     }
-
-
 }

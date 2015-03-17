@@ -57,7 +57,6 @@ public class Marv1nFacade {
         if (result.isPresent()) {
             Request request = (Request) result.get();
             requestStatusUpdater.updateRequest(request, RequestStatus.CANCELED);
-
         }
     }
 }

@@ -10,7 +10,7 @@ public class MailNotification implements Notification {
 
     public MailNotification(MailService service, Mail toSend) {
         this.service = service;
-        mailToSend = toSend;
+        this.mailToSend = toSend;
     }
 
     @Override
