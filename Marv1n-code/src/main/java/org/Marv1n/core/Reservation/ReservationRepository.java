@@ -1,6 +1,6 @@
 package org.Marv1n.core.Reservation;
 
-import org.Marv1n.core.Repository.Repository;
+import org.Marv1n.core.Persistence.Repository;
 import org.Marv1n.core.Request.Request;
 import org.Marv1n.core.Room.Room;
 

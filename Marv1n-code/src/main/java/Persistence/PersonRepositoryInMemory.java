@@ -1,8 +1,7 @@
 package Persistence;
 
-import org.Marv1n.code.Person.Person;
-import org.Marv1n.code.Person.PersonRepository;
-import Persistence.RepositoryInMemory;
+import org.Marv1n.core.Person.Person;
+import org.Marv1n.core.Person.PersonRepository;
 
 import java.util.List;
 import java.util.Optional;

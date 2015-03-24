@@ -1,7 +1,7 @@
 package Persistence;
 
-import org.Marv1n.code.ObjectNotFoundException;
-import org.Marv1n.code.Repository.Repository;
+import org.Marv1n.core.ObjectNotFoundException;
+import org.Marv1n.core.Persistence.Repository;
 
 import java.util.Collection;
 import java.util.LinkedList;

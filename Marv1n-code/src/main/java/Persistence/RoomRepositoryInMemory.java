@@ -1,8 +1,7 @@
 package Persistence;
 
-import Persistence.RepositoryInMemory;
-import org.Marv1n.code.Room.Room;
-import org.Marv1n.code.Room.RoomRepository;
+import org.Marv1n.core.Room.Room;
+import org.Marv1n.core.Room.RoomRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

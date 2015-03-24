@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class EmailAddressValidatorTest {
+public class EmailAddressValidatorsTest {
 
     private static final String A_VALID_EMAIL = "exemple@exemple.com";
     private static final String A_WRONG_EMAIL = "InvalidEmail";

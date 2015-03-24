@@ -1,9 +1,8 @@
 package Persistence;
 
-import Persistence.RepositoryInMemory;
-import org.Marv1n.code.Request.Request;
-import org.Marv1n.code.Request.RequestRepository;
-import org.Marv1n.code.RequestStatus;
+import org.Marv1n.core.Request.Request;
+import org.Marv1n.core.Request.RequestRepository;
+import org.Marv1n.core.Request.RequestStatus;
 
 import java.util.List;
 import java.util.Optional;
