@@ -1,0 +1,77 @@
+package org.Marv1n.core.Notification.Mail;
+
+import org.Marv1n.core.Notification.InvalidRequestException;
+import org.Marv1n.core.Notification.Mail.MailService.MailService;
+import org.Marv1n.core.Notification.NotificationAbstractFactory;
+import org.Marv1n.core.Person.Person;
+import org.Marv1n.core.Person.PersonRepository;
+import org.Marv1n.core.Reservation.ReservationNotFoundException;
+import org.Marv1n.core.Reservation.ReservationRepository;
+import org.Marv1n.core.Request.Request;
+import org.Marv1n.core.Request.RequestStatus;
+import org.Marv1n.core.Room.Room;
+import org.Marv1n.core.Reservation.Reservation;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+public class MailNotificationAbstractFactory extends NotificationAbstractFactory {
+
+    private final MailService mailService;
+    private ReservationRepository reservationRepository;
+    private PersonRepository personRepository;
+
+    public MailNotificationAbstractFactory(MailService mailService, ReservationRepository reservationRepository, PersonRepository personRepository) {
+        this.mailService = mailService;
+        this.reservationRepository = reservationRepository;
+        this.personRepository = personRepository;
+    }
+
+    @Override
+    public MailNotification createNotification(Request request) throws InvalidRequestException {
+        Person responsible = findResponsible(request, personRepository);
+        Room room = findReservable(request, reservationRepository);
+        List<String> mailTo = new LinkedList<>();
+        mailTo.add(responsible.getMailAddress());
+        mailTo.addAll(personRepository.findAdmins().stream().map(Person::getMailAddress).collect(Collectors.toList()));
+        Mail mail = buildMail(request, room, mailTo);
+        return new MailNotification(mailService, mail);
+    }
+
+    private Room findReservable(Request request, ReservationRepository reservationRepository) throws InvalidRequestException {
+        Reservation reservation;
+        try {
+            reservation = reservationRepository.findReservationByRequest(request);
+        } catch (ReservationNotFoundException exception) {
+            if (request.getRequestStatus() == RequestStatus.REFUSED) {
+                return null;
+            }
+            throw new InvalidRequestException("Aucune salle n'a été assignée");
+        }
+        return reservation.getReserved();
+    }
+
+    private Person findResponsible(Request request, PersonRepository personRepository) throws InvalidRequestException {
+        Optional<Person> optionalResponsible = personRepository.findByUUID(request.getResponsibleUUID());
+        if (!optionalResponsible.isPresent()) {
+            throw new InvalidRequestException("Aucun responsable assigné");
+        }
+        return optionalResponsible.get();
+    }
+
+    private Mail buildMail(Request request, Room room, List<String> mailTo) {
+        MailBuilder mailBuilder = new MailBuilder();
+        try {
+            String message = buildNotification(request, room);
+            return mailBuilder.setTo(mailTo)
+                    .setMessage(message)
+                    .setStatus(request.getRequestStatus())
+                    .setRequestID(request.hashCode())
+                    .buildMail();
+        } catch (MailBuilderException exception) {
+            throw new InvalidRequestException(exception.getMessage());
+        }
+    }
+}
