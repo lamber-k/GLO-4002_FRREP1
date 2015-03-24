@@ -20,16 +20,19 @@ public class TaskScheduler implements Scheduler {
         this.task = task;
     }
 
+    @Override
     public boolean isSchedulerRunning() {
         return isSchedulerRunning;
     }
 
+    @Override
     public void startScheduler() {
         startAtFixedRate();
     }
 
+    @Override
     public void cancelScheduler() {
-        if (isSchedulerRunning()) {
+        if (isSchedulerRunning) {
             nextRun.cancel(true);
             isSchedulerRunning = false;
         }
@@ -40,14 +43,17 @@ public class TaskScheduler implements Scheduler {
         isSchedulerRunning = true;
     }
 
+    @Override
     public int getIntervalTimer() {
         return intervalTimer;
     }
 
+    @Override
     public void setIntervalTimer(int intervalTimer) {
         this.intervalTimer = intervalTimer;
     }
 
+    @Override
     public void restartSchedule() {
         cancelScheduler();
         startAtFixedRate();

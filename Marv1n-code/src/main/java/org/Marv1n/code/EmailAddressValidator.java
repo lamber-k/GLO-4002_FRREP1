@@ -5,6 +5,9 @@ import javax.mail.internet.InternetAddress;
 
 public final class EmailAddressValidator {
 
+    private EmailAddressValidator() {
+    }
+
     public static boolean validate(String email) {
         try {
             InternetAddress emailAddress = new InternetAddress(email);

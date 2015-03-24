@@ -27,12 +27,13 @@ public class Reservation {
             return false;
         } else if (rhs instanceof Reservation) {
             return hashCode() == rhs.hashCode();
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override
     public int hashCode() {
-        return request.hashCode() * 3 + reserved.hashCode() * 5;
+        return (request.hashCode() * 3) + (reserved.hashCode() * 5);
     }
 }

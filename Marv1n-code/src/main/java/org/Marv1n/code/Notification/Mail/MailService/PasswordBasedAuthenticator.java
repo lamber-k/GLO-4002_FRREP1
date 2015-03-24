@@ -1,6 +1,7 @@
 package org.Marv1n.code.Notification.Mail.MailService;
 
 import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
 
 public class PasswordBasedAuthenticator extends Authenticator {
 
@@ -11,7 +12,7 @@ public class PasswordBasedAuthenticator extends Authenticator {
     }
 
     @Override
-    protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
-        return new javax.mail.PasswordAuthentication(options.username, options.password);
+    protected PasswordAuthentication getPasswordAuthentication() {
+        return new PasswordAuthentication(options.username, options.password);
     }
 }

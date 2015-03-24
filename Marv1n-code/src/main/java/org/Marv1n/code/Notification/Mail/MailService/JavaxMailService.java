@@ -25,7 +25,7 @@ public abstract class JavaxMailService implements MailService {
         return properties;
     }
 
-    abstract protected Properties additionalProperties(Properties properties);
+    protected abstract Properties additionalProperties(Properties properties);
 
     @Override
     public void send(Mail mail) {

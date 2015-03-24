@@ -1,12 +1,12 @@
 package org.Marv1n.code;
 
+import org.Marv1n.code.EvaluationStrategy.EvaluationStrategy;
+import org.Marv1n.code.EvaluationStrategy.ReservableEvaluationResult;
 import org.Marv1n.code.Repository.Request.RequestRepository;
 import org.Marv1n.code.Repository.Reservable.ReservableRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Reservation.IReservationFactory;
 import org.Marv1n.code.Reservation.Reservation;
-import org.Marv1n.code.EvaluationStrategy.EvaluationStrategy;
-import org.Marv1n.code.EvaluationStrategy.ReservableEvaluationResult;
 import org.Marv1n.code.SortingRequestStrategy.SortingRequestStrategy;
 import org.junit.Before;
 import org.junit.Test;

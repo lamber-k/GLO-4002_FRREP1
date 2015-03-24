@@ -7,9 +7,9 @@ import org.Marv1n.code.Reservation.Reservation;
 
 public interface ReservationRepository extends Repository<Reservation> {
 
-    public boolean reservationExist(Reservation reservationSearched);
+    boolean reservationExist(Reservation reservationSearched);
 
-    public Reservation findReservationByReservable(Reservable reservableSearched) throws ReservationNotFoundException;
+    Reservation findReservationByReservable(Reservable reservableSearched) throws ReservationNotFoundException;
 
-    public Reservation findReservationByRequest(Request requestSearched) throws ReservationNotFoundException;
+    Reservation findReservationByRequest(Request requestSearched) throws ReservationNotFoundException;
 }

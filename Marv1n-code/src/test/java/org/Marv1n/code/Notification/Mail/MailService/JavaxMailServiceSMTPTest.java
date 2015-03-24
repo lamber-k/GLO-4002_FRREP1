@@ -23,7 +23,6 @@ public class JavaxMailServiceSMTPTest {
     private static final String DESTINATION_MAIL = "to@exemple.com";
     private static final String FROM_MAIL = "from@exemple.com";
     private JavaxMailServiceSMTP mailServiceSMTP;
-    private MailServiceOptions mailServiceOptions;
     private Mail mail;
     @Mock
     private MailTransporter mailTransporterMock;
@@ -32,7 +31,7 @@ public class JavaxMailServiceSMTPTest {
 
     @Before
     public void initializeMailServiceSMTP() {
-        mailServiceOptions = new MailServiceOptions("Host", "Port");
+        MailServiceOptions mailServiceOptions = new MailServiceOptions("Host", "Port");
         mail = initializeMail();
         mailServiceSMTP = new JavaxMailServiceSMTP(mailServiceOptions, mailTransporterMock, authenticatorMock);
     }

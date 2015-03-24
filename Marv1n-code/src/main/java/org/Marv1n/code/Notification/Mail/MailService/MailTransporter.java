@@ -5,5 +5,5 @@ import javax.mail.MessagingException;
 
 public interface MailTransporter {
 
-    public void send(Message message) throws MessagingException;
+    void send(Message message) throws MessagingException;
 }

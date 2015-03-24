@@ -2,13 +2,13 @@ package org.Marv1n.code.Reservable;
 
 public interface Reservable {
 
-    public int getNumberOfSeats();
+    int getNumberOfSeats();
 
-    public String getName();
+    String getName();
 
-    public boolean hasGreaterOrEqualCapacityThan(Reservable reservable);
+    boolean hasGreaterOrEqualCapacityThan(Reservable reservable);
 
-    public int compareReservableCapacity(Reservable reservable);
+    int compareReservableCapacity(Reservable reservable);
 
-    public boolean hasEnoughCapacity(int capacityNeeded);
+    boolean hasEnoughCapacity(int capacityNeeded);
 }

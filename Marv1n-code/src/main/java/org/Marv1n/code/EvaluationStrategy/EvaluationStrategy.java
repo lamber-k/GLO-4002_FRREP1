@@ -6,5 +6,5 @@ import org.Marv1n.code.Request;
 
 public interface EvaluationStrategy {
 
-    public abstract ReservableEvaluationResult evaluateOneRequest(ReservableRepository reservables, ReservationRepository reservations, Request request);
+    ReservableEvaluationResult evaluateOneRequest(ReservableRepository reservables, ReservationRepository reservations, Request request);
 }

@@ -22,7 +22,7 @@ public class RequestStatusUpdaterTest {
 
     private static final int A_NUMBER_OF_SEATS = 2;
     private static final int A_PRIORITY = 4;
-    private static final java.util.UUID A_UUID = UUID.randomUUID();
+    private static final UUID A_UUID = UUID.randomUUID();
     private static final RequestStatus A_STATUS = RequestStatus.REFUSED;
     private static final RequestStatus ANOTHER_STATUS = RequestStatus.PENDING;
     private RequestStatusUpdater requestStatusUpdater;
@@ -46,6 +46,7 @@ public class RequestStatusUpdaterTest {
 
         verify(pendingRequestsMock).remove(request);
         class DoesRequestHaveTheProperStatus extends ArgumentMatcher {
+            @Override
             public boolean matches(Object request) {
                 return ((Request) request).getRequestStatus() == ANOTHER_STATUS;
             }

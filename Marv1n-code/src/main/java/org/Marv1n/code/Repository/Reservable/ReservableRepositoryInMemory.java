@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 public class ReservableRepositoryInMemory extends RepositoryInMemory<Reservable> implements ReservableRepository {
 
+    @Override
     public List<Reservable> findAll() {
         return query().collect(Collectors.toList());
     }

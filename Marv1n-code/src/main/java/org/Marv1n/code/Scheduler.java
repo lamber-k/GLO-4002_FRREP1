@@ -2,15 +2,15 @@ package org.Marv1n.code;
 
 public interface Scheduler {
 
-    public boolean isSchedulerRunning();
+    boolean isSchedulerRunning();
 
-    public void startScheduler();
+    void startScheduler();
 
-    public void cancelScheduler();
+    void cancelScheduler();
 
-    public int getIntervalTimer();
+    int getIntervalTimer();
 
-    public void setIntervalTimer(int intervalTimer);
+    void setIntervalTimer(int intervalTimer);
 
-    public void restartSchedule();
+    void restartSchedule();
 }

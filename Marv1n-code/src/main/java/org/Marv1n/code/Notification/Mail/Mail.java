@@ -16,16 +16,17 @@ public class Mail {
         this.message = message;
     }
 
+    public int hashCode() {
+        return 3 * message.hashCode() + 5 * from.hashCode() + 7 * to.hashCode() + 11 * object.hashCode();
+    }
+
     public boolean equals(Object rhs) {
         if (rhs == null) {
             return false;
         } else if (rhs instanceof Mail) {
-            Mail rhsMail = (Mail) rhs;
-            return (rhsMail.message.equals(message) &&
-                    rhsMail.from.equals(from) &&
-                    rhsMail.to.equals(to) &&
-                    rhsMail.object.equals(object));
+            return hashCode() == rhs.hashCode();
+        } else {
+            return false;
         }
-        return false;
     }
 }

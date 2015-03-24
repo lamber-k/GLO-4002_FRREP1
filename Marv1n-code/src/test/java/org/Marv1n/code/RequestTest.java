@@ -33,7 +33,7 @@ public class RequestTest {
 
     @Test
     public void givenRequest_WhenComparedToDifferentObject_ThenReturnFalse() {
-        Integer aDifferentObject = new Integer(25);
+        Integer aDifferentObject = 25;
         assertFalse(request.equals(aDifferentObject));
     }
 

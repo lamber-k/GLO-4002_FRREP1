@@ -71,6 +71,6 @@ public class PendingRequestsTest {
 
         pendingRequests.addRequest(requestMock);
 
-        verify(observer,never()).onMaximumPendingRequestReached();
+        verify(observer, never()).onMaximumPendingRequestReached();
     }
 }

@@ -1,7 +1,7 @@
 package org.Marv1n.code.Notification.Mail;
 
-import org.Marv1n.code.Notification.Notification;
 import org.Marv1n.code.Notification.Mail.MailService.MailService;
+import org.Marv1n.code.Notification.Notification;
 
 public class MailNotification implements Notification {
 

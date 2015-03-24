@@ -9,11 +9,11 @@ import java.util.UUID;
 
 public interface PersonRepository extends Repository<Person> {
 
-    public Optional<Person> findByUUID(UUID id);
+    Optional<Person> findByUUID(UUID id);
 
-    public List<Person> findByListOfUUID(List<UUID> listOfUUID);
+    List<Person> findByListOfUUID(List<UUID> listOfUUID);
 
-    public Optional<Person> findByEmail(String email);
+    Optional<Person> findByEmail(String email);
 
-    public List<Person> findAdmins();
+    List<Person> findAdmins();
 }

@@ -32,12 +32,12 @@ public class MailNotificationFactoryTest {
     private static final String RESPONSIBLE_MAIL_ADDRESS = "responsible@test.ca";
     private static final String ADMIN_MAIL_ADDRESS = "admin@test.ca";
     private static final List<String> TO_ADDRESS = Arrays.asList(RESPONSIBLE_MAIL_ADDRESS, ADMIN_MAIL_ADDRESS);
-    private static final Mail MAIL = new Mail(RESPONSIBLE_MAIL_ADDRESS, TO_ADDRESS, null, null);
-    private static final Person RESPONSIBLE = new Person(RESPONSIBLE_MAIL_ADDRESS);
-    private static final Person ADMIN = new Person(ADMIN_MAIL_ADDRESS);
     private static final UUID REQUEST_UUID = UUID.randomUUID();
     private static final String RESERVABLE_NAME = "44201";
-    private static final List<Person> ADMINS = Arrays.asList(ADMIN);
+    private final Mail MAIL = new Mail(RESPONSIBLE_MAIL_ADDRESS, TO_ADDRESS, null, null);
+    private final Person RESPONSIBLE = new Person(RESPONSIBLE_MAIL_ADDRESS);
+    private final Person ADMIN = new Person(ADMIN_MAIL_ADDRESS);
+    private final List<Person> ADMINS = Arrays.asList(ADMIN);
     private MailNotificationAbstractFactory mailFactory;
     @Mock
     private MailService mailServiceMock;

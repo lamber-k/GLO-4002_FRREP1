@@ -51,7 +51,7 @@ public class ReservationTest {
     }
 
     @Test
-     public void givenTwoSameObject_WhenCompared_ThenEqualsReturnTrue() {
+    public void givenTwoSameObject_WhenCompared_ThenEqualsReturnTrue() {
         Reservation sameReservation = new Reservation(requestMock, reservableMock);
         assertTrue(reservation.equals(sameReservation));
     }

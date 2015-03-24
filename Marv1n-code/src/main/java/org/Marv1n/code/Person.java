@@ -33,9 +33,10 @@ public class Person {
         if (rhs == null) {
             return false;
         } else if (rhs instanceof Person) {
-            return (personID.equals(((Person) rhs).personID));
+            return hashCode() == rhs.hashCode();
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override

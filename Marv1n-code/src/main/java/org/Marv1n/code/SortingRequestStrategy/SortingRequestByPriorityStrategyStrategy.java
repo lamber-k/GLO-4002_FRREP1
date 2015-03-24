@@ -11,9 +11,9 @@ public class SortingRequestByPriorityStrategyStrategy implements SortingRequestS
     private static final Comparator<Request> comparator = (lhs, rhs) -> lhs.getPriority() - rhs.getPriority();
 
     @Override
-    public ArrayList<Request> sortList(List<Request> requests) {
-        ArrayList<Request> unsortedRequests = new ArrayList<>(requests);
+    public List<Request> sortList(List<Request> requests) {
+        List<Request> unsortedRequests = new ArrayList<>(requests);
         unsortedRequests.sort(comparator);
-        return (unsortedRequests);
+        return unsortedRequests;
     }
 }

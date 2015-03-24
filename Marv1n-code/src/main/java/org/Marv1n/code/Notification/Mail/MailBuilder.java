@@ -50,13 +50,13 @@ public class MailBuilder {
     }
 
     private String buildMailObject() throws MailBuilderException {
-        String mailObject;
         if (requestID == null) {
             throw new MailBuilderException("Request ID not set");
         }
         if (requestStatus == null) {
             throw new MailBuilderException("Request Status not set");
         }
+        String mailObject;
         switch (requestStatus) {
             case ACCEPTED:
                 mailObject = String.format(MAIL_OBJECT_FORMAT, requestID, MAIL_OBJECT_STATUS_ACCEPTED);
@@ -70,6 +70,6 @@ public class MailBuilder {
             default:
                 throw new MailBuilderException("Invalid Request Status");
         }
-        return (mailObject);
+        return mailObject;
     }
 }

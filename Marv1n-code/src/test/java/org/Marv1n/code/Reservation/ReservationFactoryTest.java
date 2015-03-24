@@ -1,8 +1,8 @@
 package org.Marv1n.code.Reservation;
 
+import org.Marv1n.code.EvaluationStrategy.ReservableEvaluationResult;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.Reservable;
-import org.Marv1n.code.EvaluationStrategy.ReservableEvaluationResult;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -23,7 +23,7 @@ public class MailTest {
     private Mail differentMail;
 
     @Before
-    public void initializeMail(){
+    public void initializeMail() {
         List<String> destinationMail = new ArrayList<>();
         destinationMail.add(TO_MAIL);
         mail = new Mail(FROM_MAIL, destinationMail, A_SUBJECT, A_MESSAGE);
@@ -75,14 +75,14 @@ public class MailTest {
     public void givenAMail_WhenComparedToMailContainingDifferentSubjectMessage_ThenReturnFalse() {
         List<String> destinationMail = new ArrayList<>();
         destinationMail.add(TO_MAIL);
-        differentMail= new Mail(FROM_MAIL, destinationMail, A_SUBJECT, DIFFERENT_MESSAGE);
+        differentMail = new Mail(FROM_MAIL, destinationMail, A_SUBJECT, DIFFERENT_MESSAGE);
 
         assertFalse(mail.equals(differentMail));
     }
 
     @Test
     public void givenAMail_WhenComparedToDifferentObjectType_ThenReturnFalse() {
-        Integer differentObject = new Integer(25);
+        Integer differentObject = 25;
 
         assertFalse(mail.equals(differentObject));
     }

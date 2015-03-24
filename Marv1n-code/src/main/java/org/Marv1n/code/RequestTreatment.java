@@ -9,7 +9,6 @@ import org.Marv1n.code.Reservation.IReservationFactory;
 import org.Marv1n.code.Reservation.Reservation;
 import org.Marv1n.code.SortingRequestStrategy.SortingRequestStrategy;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +36,7 @@ public class RequestTreatment extends RunnableRequestTreatment {
     @Override
     protected void treatPendingRequest() {
         List<Request> pendingRequests = requests.findAllPendingRequest();
-        ArrayList<Request> sortedRequests = requestSorter.sortList(pendingRequests);
+        List<Request> sortedRequests = requestSorter.sortList(pendingRequests);
         Iterator<Request> requestIterator = sortedRequests.iterator();
         while (requestIterator.hasNext()) {
             Request pendingRequest = requestIterator.next();

@@ -10,11 +10,11 @@ import static org.junit.Assert.*;
 @RunWith(MockitoJUnitRunner.class)
 public class RoomTest {
 
-    final static private int A_NUMBER_OF_SEATS = 25;
-    final static private int A_NUMBER_OF_SEATS_DIFFERENT = A_NUMBER_OF_SEATS + 1;
-    final static private int A_LOWER_NUMBER_OF_SEATS = 5;
-    final static private int A_HIGHER_NUMBER_OF_SEATS = 35;
-    final static private String A_ROOM_NAME = "The room name";
+    private static final int A_NUMBER_OF_SEATS = 25;
+    private static final int A_NUMBER_OF_SEATS_DIFFERENT = A_NUMBER_OF_SEATS + 1;
+    private static final int A_LOWER_NUMBER_OF_SEATS = 5;
+    private static final int A_HIGHER_NUMBER_OF_SEATS = 35;
+    private static final String A_ROOM_NAME = "The room name";
     private Room room;
 
     @Before
@@ -103,7 +103,7 @@ public class RoomTest {
 
     @Test
     public void givenRoom_WhenComparedWithDifferentObject_ThenShouldReturnFalse() {
-        Integer aDifferentObject = Integer.valueOf(0);
+        Integer aDifferentObject = 0;
         assertFalse(room.equals(aDifferentObject));
     }
 }

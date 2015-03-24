@@ -13,7 +13,7 @@ public class PasswordBasedAuthenticatorTest {
 
     private static final String A_PASSWORD = "password";
     private static final String A_USERNAME = "bob@alice.com";
-    private static final java.lang.String A_PORT = "333";
+    private static final String A_PORT = "333";
     private static final String A_HOST = "127.0.0.1";
 
     @Test

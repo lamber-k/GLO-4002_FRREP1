@@ -64,7 +64,7 @@ public class MailNotificationAbstractFactory extends NotificationAbstractFactory
     private Mail buildMail(Request request, Reservable reservable, List<String> mailTo) {
         MailBuilder mailBuilder = new MailBuilder();
         try {
-            String message = super.buildNotification(request, reservable);
+            String message = buildNotification(request, reservable);
             return mailBuilder.setTo(mailTo)
                     .setMessage(message)
                     .setStatus(request.getRequestStatus())

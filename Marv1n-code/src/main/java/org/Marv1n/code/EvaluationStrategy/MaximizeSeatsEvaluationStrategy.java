@@ -1,8 +1,8 @@
 package org.Marv1n.code.EvaluationStrategy;
 
 import org.Marv1n.code.Repository.Reservable.ReservableRepository;
-import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Repository.Reservation.ReservationNotFoundException;
+import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 import org.Marv1n.code.Request;
 import org.Marv1n.code.Reservable.Reservable;
 
@@ -20,7 +20,7 @@ public class MaximizeSeatsEvaluationStrategy implements EvaluationStrategy {
     }
 
     private Reservable getBetterReservableOf(Reservable bestReservable, Reservable reservable) {
-        if (bestReservable == null || bestReservable.hasGreaterOrEqualCapacityThan(reservable)) {
+        if ((bestReservable == null) || bestReservable.hasGreaterOrEqualCapacityThan(reservable)) {
             return reservable;
         }
         return bestReservable;

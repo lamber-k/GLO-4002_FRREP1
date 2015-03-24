@@ -10,19 +10,23 @@ import java.util.stream.Collectors;
 
 public class PersonRepositoryInMemory extends RepositoryInMemory<Person> implements PersonRepository {
 
+    @Override
     public Optional<Person> findByUUID(UUID id) {
         return query().filter(p -> p.getID().equals(id)).findFirst();
     }
 
+    @Override
     public List<Person> findByListOfUUID(List<UUID> listOfUUID) {
         return query().filter(p -> listOfUUID.contains(p.getID())).collect(Collectors.toList());
     }
 
+    @Override
     public Optional<Person> findByEmail(String email) {
         return query().filter(p -> p.getMailAddress().equals(email)).findFirst();
     }
 
+    @Override
     public List<Person> findAdmins() {
-        return query().filter(p -> p.isAdmin()).collect(Collectors.toList());
+        return query().filter(Person::isAdmin).collect(Collectors.toList());
     }
 }

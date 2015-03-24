@@ -16,8 +16,7 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PersonRepositoryInMemoryTest {
 
-    private static String A_VALID_EMAIL = "exemple@exemple.com";
-    private static String A_WRONG_EMAIL = "exemple2@exemple.com";
+    private String A_VALID_EMAIL = "exemple@exemple.com";
     private PersonRepositoryInMemory personRepository;
     private UUID personUUID;
     private UUID anotherPersonUUID;
@@ -68,7 +67,8 @@ public class PersonRepositoryInMemoryTest {
         when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
         personRepository.create(personMock);
 
-        Optional<Person> result = personRepository.findByEmail(A_WRONG_EMAIL);
+        String a_WRONG_EMAIL = "exemple2@exemple.com";
+        Optional<Person> result = personRepository.findByEmail(a_WRONG_EMAIL);
 
         assertFalse(result.isPresent());
     }

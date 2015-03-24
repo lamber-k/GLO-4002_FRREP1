@@ -26,17 +26,17 @@ public class Room implements Reservable {
 
     @Override
     public boolean hasGreaterOrEqualCapacityThan(Reservable reservable) {
-        return getNumberOfSeats() >= reservable.getNumberOfSeats();
+        return numberOfSeats >= reservable.getNumberOfSeats();
     }
 
     @Override
     public int compareReservableCapacity(Reservable reservable) {
-        return getNumberOfSeats() - reservable.getNumberOfSeats();
+        return numberOfSeats - reservable.getNumberOfSeats();
     }
 
     @Override
     public boolean hasEnoughCapacity(int capacityNeeded) {
-        return getNumberOfSeats() >= capacityNeeded;
+        return numberOfSeats >= capacityNeeded;
     }
 
     @Override
@@ -50,7 +50,8 @@ public class Room implements Reservable {
             return false;
         } else if (rhs instanceof Room) {
             return hashCode() == rhs.hashCode();
+        } else {
+            return false;
         }
-        return false;
     }
 }

@@ -49,7 +49,7 @@ public class SortingRequestByPriorityStrategyTest {
 
     @Test
     public void givenSortingRequestByPriority_WhenStrategySortIsCalledOnListContainingMoreThanOneRequest_ThenListIsSorted() {
-        ArrayList<Request> sortedArray = requestSorter.sortList(requestList);
+        List<Request> sortedArray = requestSorter.sortList(requestList);
 
         assertEquals(requestWithHighPriorityMock, sortedArray.get(REQUEST_INDEX_FIRST));
         assertEquals(requestWithMediumPriorityMock, sortedArray.get(REQUEST_INDEX_SECOND));
@@ -60,7 +60,7 @@ public class SortingRequestByPriorityStrategyTest {
     public void givenSortingRequestByPriority_WhenStrategySortIsCalledOnListContainingElementOfSamePriority_ThenListIsSortedWithFirstInFistOutOrderForSamePriorityRequest() {
         requestList.add(requestWithMediumPriority2Mock);
 
-        ArrayList<Request> sortedArray = requestSorter.sortList(requestList);
+        List<Request> sortedArray = requestSorter.sortList(requestList);
 
         assertEquals(requestWithHighPriorityMock, sortedArray.get(REQUEST_INDEX_FIRST));
         assertEquals(requestWithMediumPriorityMock, sortedArray.get(REQUEST_INDEX_SECOND));

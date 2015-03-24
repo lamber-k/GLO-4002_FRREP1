@@ -7,8 +7,8 @@ public class Request {
     private final UUID requestID;
     private final int numberOfSeatsNeeded;
     private final int priority;
-    private RequestStatus status;
     private final UUID responsibleUUID;
+    private RequestStatus status;
 
     public Request(int numberOfSeatsNeeded, int priority, UUID responsibleUUID) {
         this.priority = priority;
@@ -48,8 +48,9 @@ public class Request {
             return false;
         } else if (rhs instanceof Request) {
             return hashCode() == rhs.hashCode();
+        } else {
+            return false;
         }
-        return false;
     }
 
     @Override

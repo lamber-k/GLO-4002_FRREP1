@@ -29,7 +29,7 @@ public class PersonTest {
 
     @Test
     public void givenPerson_WhenComparedToDifferentObject_ThenReturnFalse() {
-        Integer aDifferentObject = new Integer(25);
+        Integer aDifferentObject = 25;
         assertFalse(person.equals(aDifferentObject));
     }
 
