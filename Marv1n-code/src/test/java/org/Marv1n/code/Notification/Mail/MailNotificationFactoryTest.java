@@ -68,7 +68,7 @@ public class MailNotificationFactoryTest {
         when(reservationMock.getReserved()).thenReturn(reservableMock);
         when(reservableMock.getName()).thenReturn(RESERVABLE_NAME);
 
-        MailNotification returnedNotification = (MailNotification) mailFactory.createNotification(requestMock);
+        MailNotification returnedNotification = mailFactory.createNotification(requestMock);
 
         assertEquals(returnedNotification.mailToSend.to, MAIL.to);
     }

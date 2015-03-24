@@ -1,10 +1,8 @@
 package org.Marv1n.code.Facade;
 
 import org.Marv1n.code.*;
-import org.Marv1n.code.Notification.NotificationFactory;
 import org.Marv1n.code.Repository.Person.PersonRepository;
 import org.Marv1n.code.Repository.Request.RequestRepository;
-import org.Marv1n.code.Repository.Reservation.ReservationRepository;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -42,9 +40,9 @@ public class Marv1nFacade {
     }
 
     public void cancelRequest(UUID requestID) {
-        Optional result = requestRepository.findByUUID(requestID);
+        Optional<Request> result = requestRepository.findByUUID(requestID);
         if (result.isPresent()) {
-            Request request = (Request) result.get();
+            Request request = result.get();
             requestStatusUpdater.updateRequest(request, RequestStatus.CANCELED);
         }
     }

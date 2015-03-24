@@ -79,7 +79,7 @@ public class TaskSchedulerTest {
     @Test
     public void givenTaskSchedulerRunning_WhenCancelScheduler_ThenMethodCancelShouldBeCalled() {
         ScheduledExecutorService aScheduledExecutorServiceMock = mock(ScheduledExecutorService.class);
-        ScheduledFuture aScheduledFutureMock = mock(ScheduledFuture.class);
+        ScheduledFuture<?> aScheduledFutureMock = mock(ScheduledFuture.class);
         doReturn(aScheduledFutureMock).when(aScheduledExecutorServiceMock).scheduleAtFixedRate(runnableMock, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
         TaskScheduler scheduler = new TaskScheduler(aScheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, runnableMock);
         scheduler.startScheduler();
