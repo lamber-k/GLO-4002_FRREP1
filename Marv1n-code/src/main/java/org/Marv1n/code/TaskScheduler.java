@@ -58,4 +58,10 @@ public class TaskScheduler implements Scheduler {
         cancelScheduler();
         startAtFixedRate();
     }
+
+    public void runNow() {
+        cancelScheduler();
+        task.run();
+        startAtFixedRate();
+    }
 }

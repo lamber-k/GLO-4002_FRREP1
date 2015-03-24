@@ -23,6 +23,6 @@ public class PendingRequestFullSchedulerNotifyTest {
     @Test
     public void givenNotifier_WhenLimitReached_ThenShouldRestartScheduler() {
         pendingRequestNotifier.onMaximumPendingRequestReached();
-        verify(schedulerMock).restartSchedule();
+        verify(schedulerMock).runNow();
     }
 }

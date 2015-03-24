@@ -10,6 +10,6 @@ public class PendingRequestFullSchedulerNotifyObserver implements MaximumPending
 
     @Override
     public void onMaximumPendingRequestReached() {
-        Scheduler.restartSchedule();
+        Scheduler.runNow();
     }
 }

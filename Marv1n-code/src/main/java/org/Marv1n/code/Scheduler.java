@@ -13,4 +13,6 @@ public interface Scheduler {
     void setIntervalTimer(int intervalTimer);
 
     void restartSchedule();
+
+    void runNow();
 }
