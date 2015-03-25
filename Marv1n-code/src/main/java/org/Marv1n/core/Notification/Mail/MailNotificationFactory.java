@@ -1,30 +1,29 @@
 package org.Marv1n.core.Notification.Mail;
 
 import org.Marv1n.core.Notification.InvalidRequestException;
-import org.Marv1n.core.Notification.Mail.MailService.MailService;
 import org.Marv1n.core.Notification.NotificationAbstractFactory;
 import org.Marv1n.core.Person.Person;
 import org.Marv1n.core.Person.PersonRepository;
-import org.Marv1n.core.Reservation.ReservationNotFoundException;
-import org.Marv1n.core.Reservation.ReservationRepository;
 import org.Marv1n.core.Request.Request;
 import org.Marv1n.core.Request.RequestStatus;
-import org.Marv1n.core.Room.Room;
 import org.Marv1n.core.Reservation.Reservation;
+import org.Marv1n.core.Reservation.ReservationNotFoundException;
+import org.Marv1n.core.Reservation.ReservationRepository;
+import org.Marv1n.core.Room.Room;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class MailNotificationAbstractFactory extends NotificationAbstractFactory {
+public class MailNotificationFactory extends NotificationAbstractFactory {
 
-    private final MailService mailService;
+    private final MailSender mailSender;
     private ReservationRepository reservationRepository;
     private PersonRepository personRepository;
 
-    public MailNotificationAbstractFactory(MailService mailService, ReservationRepository reservationRepository, PersonRepository personRepository) {
-        this.mailService = mailService;
+    public MailNotificationFactory(MailSender mailSender, ReservationRepository reservationRepository, PersonRepository personRepository) {
+        this.mailSender = mailSender;
         this.reservationRepository = reservationRepository;
         this.personRepository = personRepository;
     }
@@ -37,7 +36,7 @@ public class MailNotificationAbstractFactory extends NotificationAbstractFactory
         mailTo.add(responsible.getMailAddress());
         mailTo.addAll(personRepository.findAdmins().stream().map(Person::getMailAddress).collect(Collectors.toList()));
         Mail mail = buildMail(request, room, mailTo);
-        return new MailNotification(mailService, mail);
+        return new MailNotification(mailSender, mail);
     }
 
     private Room findReservable(Request request, ReservationRepository reservationRepository) throws InvalidRequestException {

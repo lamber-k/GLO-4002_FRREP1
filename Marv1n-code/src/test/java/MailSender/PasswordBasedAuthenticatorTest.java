@@ -1,5 +1,7 @@
-package org.Marv1n.core.Notification.Mail.MailService;
+package MailSender;
 
+import MailSender.MailServiceOptions;
+import MailSender.PasswordBasedAuthenticator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;

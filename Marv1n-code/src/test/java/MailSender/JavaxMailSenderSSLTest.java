@@ -1,4 +1,4 @@
-package org.Marv1n.core.Notification.Mail.MailService;
+package MailSender;
 
 import org.Marv1n.core.Notification.Mail.Mail;
 import org.junit.Before;
@@ -17,11 +17,11 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class JavaxMailServiceSSLTest {
+public class JavaxMailSenderSSLTest {
 
     private static final String DESTINATION_MAIL = "to@exemple.com";
     private static final String FROM_MAIL = "from@exemple.com";
-    private JavaxMailServiceSSL mailServiceSSL;
+    private JavaxMailSenderSSL mailServiceSSL;
     private Mail mail;
     @Mock
     private MailTransporter mailTransporterMock;
@@ -32,7 +32,7 @@ public class JavaxMailServiceSSLTest {
     public void initializeMailServiceSSL() {
         MailServiceOptions mailServiceOptions = new MailServiceOptions("Host", "Port", "Username", "Password");
         mail = initializeMail();
-        mailServiceSSL = new JavaxMailServiceSSL(mailServiceOptions, mailTransporterMock, passwordBasedAuthenticatorMock);
+        mailServiceSSL = new JavaxMailSenderSSL(mailServiceOptions, mailTransporterMock, passwordBasedAuthenticatorMock);
     }
 
     public Mail initializeMail() {

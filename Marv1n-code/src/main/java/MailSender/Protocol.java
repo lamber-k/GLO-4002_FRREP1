@@ -1,4 +1,4 @@
-package org.Marv1n.core.Notification.Mail.MailService;
+package MailSender;
 
 public enum Protocol {
     SMTP,

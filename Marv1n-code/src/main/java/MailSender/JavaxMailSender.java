@@ -1,6 +1,7 @@
-package org.Marv1n.core.Notification.Mail.MailService;
+package MailSender;
 
 import org.Marv1n.core.Notification.Mail.Mail;
+import org.Marv1n.core.Notification.Mail.MailSender;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public abstract class JavaxMailService implements MailService {
+public abstract class JavaxMailSender implements MailSender {
 
     protected MailServiceOptions options;
     protected Session session;

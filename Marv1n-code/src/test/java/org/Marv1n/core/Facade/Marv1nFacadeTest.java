@@ -68,7 +68,7 @@ public class Marv1nFacadeTest {
     }
 
     @Test
-    public void givenMarv1nFacade_WhenCreateNewRequestWithInvalidEmailAddressFormat_ThenPersonShouldBeCreated() {
+    public void givenMarv1nFacade_WhenCreateNewRequestWithInvalidEmailAddressFormat_ThenPersonShouldNotBeCreated() {
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.empty());
         marv1nFacade.createRequest(NUMBER_OF_SEATS, PRIORITY, INVALID_EMAIL);
         verify(requestRepositoryMock, never()).create(any(Request.class));

@@ -1,4 +1,4 @@
-package org.Marv1n.core.Notification.Mail.MailService;
+package MailSender;
 
 import org.Marv1n.core.Notification.Mail.Mail;
 import org.junit.Before;
@@ -7,7 +7,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import java.util.ArrayList;
@@ -18,22 +17,22 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
 
 @RunWith(MockitoJUnitRunner.class)
-public class JavaxMailServiceSMTPTest {
+public class JavaxMailSenderSMTPSTest {
 
     private static final String DESTINATION_MAIL = "to@exemple.com";
     private static final String FROM_MAIL = "from@exemple.com";
-    private JavaxMailServiceSMTP mailServiceSMTP;
+    private JavaxMailSenderSMTPS mailServiceSMTPS;
     private Mail mail;
     @Mock
     private MailTransporter mailTransporterMock;
     @Mock
-    private Authenticator authenticatorMock;
+    private PasswordBasedAuthenticator passwordBasedAuthenticatorMock;
 
     @Before
-    public void initializeMailServiceSMTP() {
-        MailServiceOptions mailServiceOptions = new MailServiceOptions("Host", "Port");
+    public void initializeMailServiceSMTPS() {
+        MailServiceOptions mailServiceOptions = new MailServiceOptions("Host", "Port", "Username", "Password");
         mail = initializeMail();
-        mailServiceSMTP = new JavaxMailServiceSMTP(mailServiceOptions, mailTransporterMock, authenticatorMock);
+        mailServiceSMTPS = new JavaxMailSenderSMTPS(mailServiceOptions, mailTransporterMock, passwordBasedAuthenticatorMock);
     }
 
     public Mail initializeMail() {
@@ -43,16 +42,16 @@ public class JavaxMailServiceSMTPTest {
     }
 
     @Test
-    public void givenMailServiceSFTP_WhenSendCalledAnSendingSuccess_ThenMailTransporterSendShouldBeCalled() throws MessagingException {
-        mailServiceSMTP.send(mail);
+    public void givenMailServiceSMTPS_WhenSendCalledAnSendingSuccess_ThenMailTransporterSendShouldBeCalled() throws MessagingException {
+        mailServiceSMTPS.send(mail);
 
         verify(mailTransporterMock).send(any(Message.class));
     }
 
     @Test(expected = RuntimeException.class)
-    public void givenMailServiceSMTP_WhenSendCalledAnSendingFailWithException_ThenExceptionShouldBeThrow() throws MessagingException {
+    public void givenMailServiceSMTPS_WhenSendCalledAnSendingFailWithException_ThenExceptionShouldBeThrow() throws MessagingException {
         doThrow(new MessagingException()).when(mailTransporterMock).send(any(Message.class));
 
-        mailServiceSMTP.send(mail);
+        mailServiceSMTPS.send(mail);
     }
 }

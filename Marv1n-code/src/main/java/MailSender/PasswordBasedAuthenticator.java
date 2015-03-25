@@ -1,4 +1,4 @@
-package org.Marv1n.core.Notification.Mail.MailService;
+package MailSender;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;

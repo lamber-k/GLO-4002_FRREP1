@@ -1,12 +1,16 @@
-package org.Marv1n.core.Notification.Mail.MailService;
+package MailSender;
+
+import MailSender.JavaxMailSender;
+import MailSender.MailServiceOptions;
+import MailSender.MailTransporter;
 
 import javax.mail.Authenticator;
 import javax.mail.Session;
 import java.util.Properties;
 
-public class JavaxMailServiceSMTP extends JavaxMailService {
+public class JavaxMailSenderSMTP extends JavaxMailSender {
 
-    public JavaxMailServiceSMTP(MailServiceOptions options, MailTransporter mailTransporter, Authenticator authenticator) {
+    public JavaxMailSenderSMTP(MailServiceOptions options, MailTransporter mailTransporter, Authenticator authenticator) {
         this.mailTransporter = mailTransporter;
         this.options = options;
         Properties properties = this.setupProperties();

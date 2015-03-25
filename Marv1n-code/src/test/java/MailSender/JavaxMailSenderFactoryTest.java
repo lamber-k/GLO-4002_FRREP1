@@ -1,6 +1,6 @@
-package org.Marv1n.core.Notification.Mail;
+package MailSender;
 
-import org.Marv1n.core.Notification.Mail.MailService.*;
+import org.Marv1n.core.Notification.Mail.MailSender;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,7 +10,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(MockitoJUnitRunner.class)
-public class JavaxMailServiceFactoryTest {
+public class JavaxMailSenderFactoryTest {
 
     private JavaxMailServiceFactory mailServiceFactory;
     private Protocol protocol;
@@ -31,21 +31,21 @@ public class JavaxMailServiceFactoryTest {
     @Test
     public void givenMailServiceFactory_WhenProtocolSMTPS_ThenCreateAMailServiceSMTPS() {
         protocol = Protocol.SMTPS;
-        MailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
-        assertTrue(createdMailService instanceof JavaxMailServiceSMTPS);
+        MailSender createdMailSender = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
+        assertTrue(createdMailSender instanceof JavaxMailSenderSMTPS);
     }
 
     @Test
     public void givenMailServiceFactory_WhenProtocolSSL_ThenCreateAMailServiceSSL() {
         protocol = Protocol.SSL;
-        MailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
-        assertTrue(createdMailService instanceof JavaxMailServiceSSL);
+        MailSender createdMailSender = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
+        assertTrue(createdMailSender instanceof JavaxMailSenderSSL);
     }
 
     @Test
     public void givenMailServiceFactory_WhenProtocolSMTP_ThenCreateAMailServiceSMTP() {
         protocol = Protocol.SMTP;
-        MailService createdMailService = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
-        assertTrue(createdMailService instanceof JavaxMailServiceSMTP);
+        MailSender createdMailSender = mailServiceFactory.createMailService(protocol, mailServiceOptionsMock, mailTransporterMock);
+        assertTrue(createdMailSender instanceof JavaxMailSenderSMTP);
     }
 }

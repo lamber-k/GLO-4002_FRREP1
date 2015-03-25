@@ -1,15 +1,14 @@
 package org.Marv1n.core.Notification.Mail;
 
-import org.Marv1n.core.Notification.InvalidRequestException;
-import org.Marv1n.core.Notification.Mail.MailService.MailService;
-import org.Marv1n.core.Person.Person;
 import Persistence.PersonRepositoryInMemory;
-import org.Marv1n.core.Reservation.ReservationNotFoundException;
 import Persistence.ReservationRepositoryInMemory;
+import org.Marv1n.core.Notification.InvalidRequestException;
+import org.Marv1n.core.Person.Person;
 import org.Marv1n.core.Request.Request;
 import org.Marv1n.core.Request.RequestStatus;
-import org.Marv1n.core.Room.Room;
 import org.Marv1n.core.Reservation.Reservation;
+import org.Marv1n.core.Reservation.ReservationNotFoundException;
+import org.Marv1n.core.Room.Room;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,9 +37,9 @@ public class MailNotificationFactoryTest {
     private final Person RESPONSIBLE = new Person(RESPONSIBLE_MAIL_ADDRESS);
     private final Person ADMIN = new Person(ADMIN_MAIL_ADDRESS);
     private final List<Person> ADMINS = Arrays.asList(ADMIN);
-    private MailNotificationAbstractFactory mailFactory;
+    private MailNotificationFactory mailFactory;
     @Mock
-    private MailService mailServiceMock;
+    private MailSender mailSenderMock;
     @Mock
     private ReservationRepositoryInMemory reservationRepositoryMock;
     @Mock
@@ -55,7 +54,7 @@ public class MailNotificationFactoryTest {
     @Before
     public void initializeMailFactory() {
         when(requestMock.getRequestID()).thenReturn(REQUEST_UUID);
-        mailFactory = new MailNotificationAbstractFactory(mailServiceMock, reservationRepositoryMock, personRepositoryMock);
+        mailFactory = new MailNotificationFactory(mailSenderMock, reservationRepositoryMock, personRepositoryMock);
     }
 
     @Test
