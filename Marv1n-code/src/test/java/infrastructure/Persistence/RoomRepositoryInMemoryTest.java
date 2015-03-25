@@ -1,6 +1,6 @@
-package infrastructure.Persistence;
+package infrastructure.persistence;
 
-import org.Marv1n.core.Room.Room;
+import org.Marv1n.core.room.Room;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,7 +25,7 @@ public class RoomRepositoryInMemoryTest {
 
     @Test
     public void givenNotEmptyRepository_WhenFindAll_ThenReturnAllReservable() throws Exception {
-        reservableRepository.create(roomMock);
+        reservableRepository.persist(roomMock);
         List<Room> results = reservableRepository.findAll();
         assertFalse(results.isEmpty());
     }

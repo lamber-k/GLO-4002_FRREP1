@@ -1,4 +1,4 @@
-package org.Marv1n.core.Request;
+package org.Marv1n.core.request;
 
 import org.junit.Before;
 import org.junit.Test;

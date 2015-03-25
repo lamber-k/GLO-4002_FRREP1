@@ -1,8 +1,8 @@
-package infrastructure.Persistence;
+package infrastructure.persistence;
 
 import org.Marv1n.core.ObjectNotFoundException;
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Request.RequestStatus;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.request.RequestStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,7 +40,7 @@ public class RequestRepositoryInMemoryTest {
 
     @Test
     public void givenEmptyRequestRepository_WhenCreateReservable_ThenSameObjectCanBeFound() throws Exception {
-        requestRepository.create(requestMock);
+        requestRepository.persist(requestMock);
 
         Optional<Request> result = requestRepository.findByUUID(requestID);
         assertTrue(result.isPresent());
@@ -49,7 +49,7 @@ public class RequestRepositoryInMemoryTest {
 
     @Test
     public void givenNotEmptyRequestRepository_WhenRemoveReservable_ThenNotFound() throws Exception {
-        requestRepository.create(requestMock);
+        requestRepository.persist(requestMock);
 
         requestRepository.remove(requestMock);
 
@@ -71,7 +71,7 @@ public class RequestRepositoryInMemoryTest {
 
     @Test
     public void givenRequestRepositoryContainingNoPendingRequest_WhenGetAllPendingRequest_ThenReturnEmptyArray() {
-        this.requestRepository.create(this.requestMock);
+        this.requestRepository.persist(this.requestMock);
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
 
         List<Request> pendingRequestList = this.requestRepository.findAllPendingRequest();
@@ -82,8 +82,8 @@ public class RequestRepositoryInMemoryTest {
     @Test
     public void givenRequestRepositoryContainingAPendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequest() {
         Request anotherRequestMock = mock(Request.class);
-        this.requestRepository.create(this.requestMock);
-        this.requestRepository.create(anotherRequestMock);
+        this.requestRepository.persist(this.requestMock);
+        this.requestRepository.persist(anotherRequestMock);
         when(anotherRequestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.PENDING);
 
@@ -96,8 +96,8 @@ public class RequestRepositoryInMemoryTest {
     @Test
     public void givenRequestRepositoryContainingMultiplePendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequestsInOrderOfInsertion() {
         Request anotherRequestMock = mock(Request.class);
-        this.requestRepository.create(this.requestMock);
-        this.requestRepository.create(anotherRequestMock);
+        this.requestRepository.persist(this.requestMock);
+        this.requestRepository.persist(anotherRequestMock);
         when(anotherRequestMock.getRequestStatus()).thenReturn(RequestStatus.PENDING);
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.PENDING);
 

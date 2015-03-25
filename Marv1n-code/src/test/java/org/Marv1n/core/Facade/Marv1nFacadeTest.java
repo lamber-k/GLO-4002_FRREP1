@@ -1,14 +1,14 @@
 package org.Marv1n.core.Facade;
 
-import org.Marv1n.core.Notification.NotificationFactory;
+import org.Marv1n.core.notification.NotificationFactory;
 import org.Marv1n.core.PendingRequests;
-import org.Marv1n.core.Person.Person;
-import org.Marv1n.core.Person.PersonRepository;
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Request.RequestRepository;
-import org.Marv1n.core.Request.RequestStatus;
+import org.Marv1n.core.person.Person;
+import org.Marv1n.core.persistence.PersonRepository;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.persistence.RequestRepository;
+import org.Marv1n.core.request.RequestStatus;
 import org.Marv1n.core.RequestStatusUpdater;
-import org.Marv1n.core.Reservation.ReservationRepository;
+import org.Marv1n.core.persistence.ReservationRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,14 +65,14 @@ public class Marv1nFacadeTest {
     public void givenMarv1nFacadeWithEmptyPersonRepository_WhenAddNewRequest_ThenPersonShouldBeCreated() {
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.empty());
         marv1nFacade.createRequest(NUMBER_OF_SEATS, PRIORITY, EMAIL);
-        verify(personRepositoryMock).create(any(Person.class));
+        verify(personRepositoryMock).persist(any(Person.class));
     }
 
     @Test
     public void givenMarv1nFacade_WhenCreateNewRequestWithInvalidEmailAddressFormat_ThenPersonShouldNotBeCreated() {
         when(personRepositoryMock.findByEmail(EMAIL)).thenReturn(Optional.empty());
         marv1nFacade.createRequest(NUMBER_OF_SEATS, PRIORITY, INVALID_EMAIL);
-        verify(requestRepositoryMock, never()).create(any(Request.class));
+        verify(requestRepositoryMock, never()).persist(any(Request.class));
     }
 
     @Test

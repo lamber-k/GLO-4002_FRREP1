@@ -1,15 +1,15 @@
 package org.Marv1n.core;
 
-import org.Marv1n.core.EvaluationStrategy.EvaluationStrategy;
-import org.Marv1n.core.EvaluationStrategy.ReservableEvaluationResult;
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Request.RequestRepository;
-import org.Marv1n.core.Request.RequestStatus;
-import org.Marv1n.core.Reservation.IReservationFactory;
-import org.Marv1n.core.Reservation.Reservation;
-import org.Marv1n.core.Reservation.ReservationRepository;
-import org.Marv1n.core.Room.RoomRepository;
-import org.Marv1n.core.SortingRequestStrategy.SortingRequestStrategy;
+import org.Marv1n.core.request.evaluation.EvaluationStrategy;
+import org.Marv1n.core.request.evaluation.ReservableEvaluationResult;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.persistence.RequestRepository;
+import org.Marv1n.core.request.RequestStatus;
+import org.Marv1n.core.reservation.IReservationFactory;
+import org.Marv1n.core.reservation.Reservation;
+import org.Marv1n.core.persistence.ReservationRepository;
+import org.Marv1n.core.persistence.RoomRepository;
+import org.Marv1n.core.request.sorting.SortingRequestStrategy;
 
 import java.util.Iterator;
 import java.util.List;
@@ -45,7 +45,7 @@ public class RequestTreatment extends RunnableRequestTreatment {
             ReservableEvaluationResult evaluationResult = assigner.evaluateOneRequest(reservables, reservations, pendingRequest);
             Optional<Reservation> reservation = reservationFactory.reserve(pendingRequest, evaluationResult);
             if (reservation.isPresent()) {
-                reservations.create(reservation.get());
+                reservations.persist(reservation.get());
                 requestStatusUpdater.updateRequest(pendingRequest, RequestStatus.ACCEPTED);
             } else {
                 requestIterator.remove();
