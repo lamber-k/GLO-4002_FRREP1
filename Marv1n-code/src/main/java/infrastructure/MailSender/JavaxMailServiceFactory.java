@@ -1,4 +1,4 @@
-package MailSender;
+package infrastructure.MailSender;
 
 import org.Marv1n.core.Notification.Mail.MailSender;
 

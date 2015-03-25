@@ -1,4 +1,4 @@
-package Persistence;
+package infrastructure.Persistence;
 
 import org.Marv1n.core.ObjectNotFoundException;
 import org.Marv1n.core.Persistence.Repository;

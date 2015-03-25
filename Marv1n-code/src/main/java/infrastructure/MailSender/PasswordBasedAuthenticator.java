@@ -1,4 +1,4 @@
-package MailSender;
+package infrastructure.MailSender;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;

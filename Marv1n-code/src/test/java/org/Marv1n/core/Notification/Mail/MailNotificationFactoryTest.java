@@ -1,7 +1,7 @@
 package org.Marv1n.core.Notification.Mail;
 
-import Persistence.PersonRepositoryInMemory;
-import Persistence.ReservationRepositoryInMemory;
+import infrastructure.Persistence.PersonRepositoryInMemory;
+import infrastructure.Persistence.ReservationRepositoryInMemory;
 import org.Marv1n.core.Notification.InvalidRequestException;
 import org.Marv1n.core.Person.Person;
 import org.Marv1n.core.Request.Request;

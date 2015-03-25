@@ -1,4 +1,4 @@
-package Persistence;
+package infrastructure.Persistence;
 
 import org.Marv1n.core.Room.Room;
 import org.junit.Before;

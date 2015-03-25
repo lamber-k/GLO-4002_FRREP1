@@ -1,4 +1,4 @@
-package MailSender;
+package infrastructure.MailSender;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

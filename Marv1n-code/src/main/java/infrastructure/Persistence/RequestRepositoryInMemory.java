@@ -1,4 +1,4 @@
-package Persistence;
+package infrastructure.Persistence;
 
 import org.Marv1n.core.Request.Request;
 import org.Marv1n.core.Request.RequestRepository;

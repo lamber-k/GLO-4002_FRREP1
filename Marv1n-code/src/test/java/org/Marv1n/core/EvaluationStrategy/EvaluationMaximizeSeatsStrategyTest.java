@@ -1,6 +1,6 @@
 package org.Marv1n.core.EvaluationStrategy;
 
-import Persistence.ReservationRepositoryInMemory;
+import infrastructure.Persistence.ReservationRepositoryInMemory;
 import org.Marv1n.core.Request.Request;
 import org.Marv1n.core.Reservation.Reservation;
 import org.Marv1n.core.Reservation.ReservationNotFoundException;
