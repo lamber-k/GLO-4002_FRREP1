@@ -59,6 +59,7 @@ public class TaskScheduler implements Scheduler {
         startAtFixedRate();
     }
 
+    @Override
     public void runNow() {
         cancelScheduler();
         task.run();

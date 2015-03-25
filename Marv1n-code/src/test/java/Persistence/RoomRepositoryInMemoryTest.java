@@ -1,6 +1,5 @@
 package Persistence;
 
-import Persistence.RoomRepositoryInMemory;
 import org.Marv1n.core.Room.Room;
 import org.junit.Before;
 import org.junit.Test;

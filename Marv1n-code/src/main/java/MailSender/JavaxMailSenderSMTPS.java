@@ -1,9 +1,5 @@
 package MailSender;
 
-import MailSender.JavaxMailSender;
-import MailSender.MailServiceOptions;
-import MailSender.MailTransporter;
-
 import javax.mail.Authenticator;
 import javax.mail.Session;
 import java.util.Properties;

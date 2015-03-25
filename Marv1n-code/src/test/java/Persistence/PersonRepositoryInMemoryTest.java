@@ -1,6 +1,5 @@
 package Persistence;
 
-import Persistence.PersonRepositoryInMemory;
 import org.Marv1n.core.Person.Person;
 import org.junit.Before;
 import org.junit.Test;

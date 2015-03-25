@@ -1,11 +1,11 @@
 package org.Marv1n.core.EvaluationStrategy;
 
-import org.Marv1n.core.Room.RoomRepository;
+import org.Marv1n.core.Request.Request;
+import org.Marv1n.core.Reservation.Reservation;
 import org.Marv1n.core.Reservation.ReservationNotFoundException;
 import org.Marv1n.core.Reservation.ReservationRepository;
-import org.Marv1n.core.Request.Request;
 import org.Marv1n.core.Room.Room;
-import org.Marv1n.core.Reservation.Reservation;
+import org.Marv1n.core.Room.RoomRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
