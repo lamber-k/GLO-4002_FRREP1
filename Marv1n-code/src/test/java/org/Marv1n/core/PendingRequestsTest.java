@@ -1,7 +1,7 @@
 package org.Marv1n.core;
 
 import org.Marv1n.core.request.Request;
-import org.Marv1n.core.request.RequestRepository;
+import org.Marv1n.core.persistence.RequestRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +34,7 @@ public class PendingRequestsTest {
     @Test
     public void givenEmptyPendingRequest_WhenAddOneRequest_ThenItIsAddedToTheRepository() {
         pendingRequests.addRequest(requestMock);
-        verify(requestRepositoryMock).create(requestMock);
+        verify(requestRepositoryMock).persist(requestMock);
     }
 
     @Test

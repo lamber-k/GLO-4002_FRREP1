@@ -32,7 +32,7 @@ public class ReservationRepositoryInMemoryTest {
 
     @Test
     public void givenEmptyReservation_WhenAddReservation_ThenShouldExist() {
-        reservations.create(reservationMock);
+        reservations.persist(reservationMock);
         boolean reservationExist = reservations.reservationExist(reservationMock);
         assertTrue(reservationExist);
     }
@@ -46,7 +46,7 @@ public class ReservationRepositoryInMemoryTest {
     @Test
     public void givenEmptyReservation_WhenAddReservation_ThenShouldRetrieveByReservable() throws ReservationNotFoundException {
         when(reservationMock.getReserved()).thenReturn(roomMock);
-        reservations.create(reservationMock);
+        reservations.persist(reservationMock);
 
         assertEquals(reservationMock, reservations.findReservationByReservable(roomMock));
     }
@@ -55,7 +55,7 @@ public class ReservationRepositoryInMemoryTest {
     public void givenNotEmptyReservation_WhenTryToFindReservationByReservable_ThenShouldThrow() throws ReservationNotFoundException {
         Room anotherRoomMock = mock(Room.class);
         when(reservationMock.getReserved()).thenReturn(anotherRoomMock);
-        reservations.create(reservationMock);
+        reservations.persist(reservationMock);
 
         reservations.findReservationByReservable(roomMock);
     }
@@ -68,7 +68,7 @@ public class ReservationRepositoryInMemoryTest {
     @Test
     public void givenEmptyReservation_WhenAddReservation_ThenShouldRetrieveByRequest() throws ReservationNotFoundException {
         when(reservationMock.getRequest()).thenReturn(requestMock);
-        reservations.create(reservationMock);
+        reservations.persist(reservationMock);
 
         assertEquals(reservationMock, reservations.findReservationByRequest(requestMock));
     }
@@ -82,7 +82,7 @@ public class ReservationRepositoryInMemoryTest {
     public void givenNonEmptyReservation_WhenTryToFindReservationByRequest_ThenShouldThrow() throws ReservationNotFoundException {
         Request anotherRequestMock = mock(Request.class);
         when(reservationMock.getRequest()).thenReturn(anotherRequestMock);
-        reservations.create(reservationMock);
+        reservations.persist(reservationMock);
 
         reservations.findReservationByRequest(requestMock);
     }

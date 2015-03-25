@@ -34,7 +34,7 @@ public class PersonRepositoryInMemoryTest {
     @Test
     public void givenEmptyPersonRepository_WhenCreateEntry_ThenFindByUUIDReturnSamePerson() throws Exception {
         when(personMock.getID()).thenReturn(personUUID);
-        personRepository.create(personMock);
+        personRepository.persist(personMock);
 
         Optional<Person> result = personRepository.findByUUID(personUUID);
         assertTrue(result.isPresent());
@@ -65,7 +65,7 @@ public class PersonRepositoryInMemoryTest {
     @Test
     public void givenNotEmptyPersonRepository_WhenFindByEmailWithWrongEmail_ThenReturnEmptyResult() {
         when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
-        personRepository.create(personMock);
+        personRepository.persist(personMock);
 
         String a_WRONG_EMAIL = "exemple2@exemple.com";
         Optional<Person> result = personRepository.findByEmail(a_WRONG_EMAIL);
@@ -76,7 +76,7 @@ public class PersonRepositoryInMemoryTest {
     @Test
     public void givenNotEmptyPersonRepository_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() {
         when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
-        personRepository.create(personMock);
+        personRepository.persist(personMock);
 
         Optional<Person> result = personRepository.findByEmail(A_VALID_EMAIL);
 
@@ -90,8 +90,8 @@ public class PersonRepositoryInMemoryTest {
         Person personAdmin2Mock = mock(Person.class);
         when(personAdmin1Mock.isAdmin()).thenReturn(true);
         when(personAdmin2Mock.isAdmin()).thenReturn(true);
-        personRepository.create(personAdmin1Mock);
-        personRepository.create(personAdmin2Mock);
+        personRepository.persist(personAdmin1Mock);
+        personRepository.persist(personAdmin2Mock);
 
         List<Person> adminsReturned = personRepository.findAdmins();
 
@@ -103,7 +103,7 @@ public class PersonRepositoryInMemoryTest {
         when(personMock.getID()).thenReturn(personUUID);
         anotherPersonUUID = UUID.randomUUID();
         when(anotherPersonMock.getID()).thenReturn(anotherPersonUUID);
-        personRepository.create(personMock);
-        personRepository.create(anotherPersonMock);
+        personRepository.persist(personMock);
+        personRepository.persist(anotherPersonMock);
     }
 }

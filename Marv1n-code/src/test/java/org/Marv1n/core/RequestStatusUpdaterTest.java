@@ -3,10 +3,10 @@ package org.Marv1n.core;
 import org.Marv1n.core.notification.Notification;
 import org.Marv1n.core.notification.NotificationFactory;
 import org.Marv1n.core.request.Request;
-import org.Marv1n.core.request.RequestRepository;
+import org.Marv1n.core.persistence.RequestRepository;
 import org.Marv1n.core.request.RequestStatus;
 import org.Marv1n.core.reservation.Reservation;
-import org.Marv1n.core.reservation.ReservationRepository;
+import org.Marv1n.core.persistence.ReservationRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,7 +53,7 @@ public class RequestStatusUpdaterTest {
                 return ((Request) request).getRequestStatus() == ANOTHER_STATUS;
             }
         }
-        verify(pendingRequestsMock).create(Matchers.<Request>argThat(new DoesRequestHaveTheProperStatus()));
+        verify(pendingRequestsMock).persist(Matchers.<Request>argThat(new DoesRequestHaveTheProperStatus()));
     }
 
     @Test

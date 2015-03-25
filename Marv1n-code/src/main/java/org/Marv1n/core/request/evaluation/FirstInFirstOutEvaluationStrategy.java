@@ -2,9 +2,9 @@ package org.Marv1n.core.request.evaluation;
 
 import org.Marv1n.core.request.Request;
 import org.Marv1n.core.reservation.ReservationNotFoundException;
-import org.Marv1n.core.reservation.ReservationRepository;
+import org.Marv1n.core.persistence.ReservationRepository;
 import org.Marv1n.core.room.Room;
-import org.Marv1n.core.room.RoomRepository;
+import org.Marv1n.core.persistence.RoomRepository;
 
 public class FirstInFirstOutEvaluationStrategy implements EvaluationStrategy {
 

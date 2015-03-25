@@ -1,7 +1,7 @@
 package infrastructure.persistence;
 
 import org.Marv1n.core.person.Person;
-import org.Marv1n.core.person.PersonRepository;
+import org.Marv1n.core.persistence.PersonRepository;
 
 import java.util.List;
 import java.util.Optional;

@@ -25,7 +25,7 @@ public class RoomRepositoryInMemoryTest {
 
     @Test
     public void givenNotEmptyRepository_WhenFindAll_ThenReturnAllReservable() throws Exception {
-        reservableRepository.create(roomMock);
+        reservableRepository.persist(roomMock);
         List<Room> results = reservableRepository.findAll();
         assertFalse(results.isEmpty());
     }

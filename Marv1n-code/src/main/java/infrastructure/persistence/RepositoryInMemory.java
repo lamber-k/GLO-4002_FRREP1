@@ -16,7 +16,7 @@ public abstract class RepositoryInMemory<Type> implements Repository<Type> {
     }
 
     @Override
-    public void create(Type object) {
+    public void persist(Type object) {
         objectContainer.add(object);
     }
 

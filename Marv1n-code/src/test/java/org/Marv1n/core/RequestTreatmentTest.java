@@ -3,11 +3,11 @@ package org.Marv1n.core;
 import org.Marv1n.core.request.evaluation.EvaluationStrategy;
 import org.Marv1n.core.request.evaluation.ReservableEvaluationResult;
 import org.Marv1n.core.request.Request;
-import org.Marv1n.core.request.RequestRepository;
+import org.Marv1n.core.persistence.RequestRepository;
 import org.Marv1n.core.reservation.IReservationFactory;
 import org.Marv1n.core.reservation.Reservation;
-import org.Marv1n.core.reservation.ReservationRepository;
-import org.Marv1n.core.room.RoomRepository;
+import org.Marv1n.core.persistence.ReservationRepository;
+import org.Marv1n.core.persistence.RoomRepository;
 import org.Marv1n.core.request.sorting.SortingRequestStrategy;
 import org.junit.Before;
 import org.junit.Test;
@@ -88,6 +88,6 @@ public class RequestTreatmentTest {
 
         requestTreatment.run();
 
-        verify(reservationsRepositoryMock).create(aReservation);
+        verify(reservationsRepositoryMock).persist(aReservation);
     }
 }
