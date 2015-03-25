@@ -8,25 +8,49 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public abstract class JavaxMailSender implements MailSender {
+public class JavaxMailSender implements MailSender {
 
-    protected MailServiceOptions options;
-    protected Session session;
-    protected MailTransporter mailTransporter;
+    private static final String CONFIG_FILE_NAME = "config/mail.properties";
+    private Session session;
+    private MailTransporter mailTransporter;
 
-    protected Properties setupProperties() {
-        Properties properties = new Properties();
-        properties.put("mail.smtp.host", options.host);
-        properties.put("mail.smtp.port", options.port);
-        additionalProperties(properties);
-        return properties;
+    public JavaxMailSender(MailTransporter mailTransporter) throws IOException {
+        this.mailTransporter = mailTransporter;
+        Properties properties = retreiveProperties();
+        String username = properties.getProperty("username");
+        String password = properties.getProperty("password");
+
+        if(username == null || password == null) {
+            session = Session.getDefaultInstance(properties);
+        } else {
+            session = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
+                @Override
+                protected javax.mail.PasswordAuthentication getPasswordAuthentication() {
+                    return new javax.mail.PasswordAuthentication(username, password);
+                }
+            });
+        }
     }
 
-    protected abstract Properties additionalProperties(Properties properties);
+    private Properties retreiveProperties() throws IOException {
+        Properties properties = new Properties();
+        InputStream configFile = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
+
+        if (configFile != null) {
+            properties.load(configFile);
+        } else {
+            throw new FileNotFoundException("Property file '" + CONFIG_FILE_NAME +"'.");
+        }
+
+        return properties;
+    }
 
     @Override
     public void send(Mail mail) {
