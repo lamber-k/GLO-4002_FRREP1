@@ -1,12 +1,12 @@
 package org.Marv1n.core;
 
-import org.Marv1n.core.Notification.Notification;
-import org.Marv1n.core.Notification.NotificationFactory;
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Request.RequestRepository;
-import org.Marv1n.core.Request.RequestStatus;
-import org.Marv1n.core.Reservation.Reservation;
-import org.Marv1n.core.Reservation.ReservationRepository;
+import org.Marv1n.core.notification.Notification;
+import org.Marv1n.core.notification.NotificationFactory;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.request.RequestRepository;
+import org.Marv1n.core.request.RequestStatus;
+import org.Marv1n.core.reservation.Reservation;
+import org.Marv1n.core.reservation.ReservationRepository;
 
 public class RequestStatusUpdater {
 

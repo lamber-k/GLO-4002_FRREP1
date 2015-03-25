@@ -1,6 +1,6 @@
-package org.Marv1n.core.EvaluationStrategy;
+package org.Marv1n.core.request.evaluation;
 
-import org.Marv1n.core.Room.Room;
+import org.Marv1n.core.room.Room;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

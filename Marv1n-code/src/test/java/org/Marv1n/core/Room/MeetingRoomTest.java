@@ -1,4 +1,4 @@
-package org.Marv1n.core.Room;
+package org.Marv1n.core.room;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -1,4 +1,4 @@
-package org.Marv1n.core.Persistence;
+package org.Marv1n.core.persistence;
 
 public interface Repository<Type> {
 

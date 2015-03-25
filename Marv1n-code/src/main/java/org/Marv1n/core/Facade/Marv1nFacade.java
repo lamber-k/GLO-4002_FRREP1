@@ -2,11 +2,11 @@ package org.Marv1n.core.Facade;
 
 import org.Marv1n.core.EmailAddressValidator;
 import org.Marv1n.core.PendingRequests;
-import org.Marv1n.core.Person.Person;
-import org.Marv1n.core.Person.PersonRepository;
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Request.RequestRepository;
-import org.Marv1n.core.Request.RequestStatus;
+import org.Marv1n.core.person.Person;
+import org.Marv1n.core.person.PersonRepository;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.request.RequestRepository;
+import org.Marv1n.core.request.RequestStatus;
 import org.Marv1n.core.RequestStatusUpdater;
 
 import java.util.Optional;

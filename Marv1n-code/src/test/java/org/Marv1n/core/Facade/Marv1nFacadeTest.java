@@ -1,14 +1,14 @@
 package org.Marv1n.core.Facade;
 
-import org.Marv1n.core.Notification.NotificationFactory;
+import org.Marv1n.core.notification.NotificationFactory;
 import org.Marv1n.core.PendingRequests;
-import org.Marv1n.core.Person.Person;
-import org.Marv1n.core.Person.PersonRepository;
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Request.RequestRepository;
-import org.Marv1n.core.Request.RequestStatus;
+import org.Marv1n.core.person.Person;
+import org.Marv1n.core.person.PersonRepository;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.request.RequestRepository;
+import org.Marv1n.core.request.RequestStatus;
 import org.Marv1n.core.RequestStatusUpdater;
-import org.Marv1n.core.Reservation.ReservationRepository;
+import org.Marv1n.core.reservation.ReservationRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,12 +1,12 @@
-package infrastructure.MailSender;
+package infrastructure.mail;
 
 import javax.mail.Authenticator;
 import javax.mail.Session;
 import java.util.Properties;
 
-public class JavaxMailSenderSMTPS extends JavaxMailSender {
+public class JavaxMailSenderSSL extends JavaxMailSender {
 
-    public JavaxMailSenderSMTPS(MailServiceOptions options, MailTransporter mailTransporter, Authenticator authenticator) {
+    public JavaxMailSenderSSL(MailServiceOptions options, MailTransporter mailTransporter, Authenticator authenticator) {
         this.mailTransporter = mailTransporter;
         this.options = options;
         Properties properties = this.setupProperties();
@@ -15,9 +15,9 @@ public class JavaxMailSenderSMTPS extends JavaxMailSender {
 
     @Override
     protected Properties additionalProperties(Properties properties) {
-        properties.put("mail.smtp.socketFactory.port", options.port);
-        properties.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         properties.put("mail.smtp.auth", "true");
+        properties.put("mail.smtp.starttls.enable", "true");
         return properties;
     }
 }
+

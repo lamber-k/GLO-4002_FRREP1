@@ -1,4 +1,4 @@
-package infrastructure.MailSender;
+package infrastructure.mail;
 
 public class MailServiceOptions {
 

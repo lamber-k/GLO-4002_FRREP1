@@ -1,8 +1,8 @@
-package org.Marv1n.core.Reservation;
+package org.Marv1n.core.reservation;
 
-import org.Marv1n.core.Persistence.Repository;
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Room.Room;
+import org.Marv1n.core.persistence.Repository;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.room.Room;
 
 public interface ReservationRepository extends Repository<Reservation> {
 

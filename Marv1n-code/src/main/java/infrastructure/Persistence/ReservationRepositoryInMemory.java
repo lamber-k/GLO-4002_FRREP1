@@ -1,10 +1,10 @@
-package infrastructure.Persistence;
+package infrastructure.persistence;
 
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Reservation.Reservation;
-import org.Marv1n.core.Reservation.ReservationNotFoundException;
-import org.Marv1n.core.Reservation.ReservationRepository;
-import org.Marv1n.core.Room.Room;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.reservation.Reservation;
+import org.Marv1n.core.reservation.ReservationNotFoundException;
+import org.Marv1n.core.reservation.ReservationRepository;
+import org.Marv1n.core.room.Room;
 
 import java.util.Optional;
 

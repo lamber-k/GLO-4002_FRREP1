@@ -1,8 +1,8 @@
-package infrastructure.Persistence;
+package infrastructure.persistence;
 
 import org.Marv1n.core.ObjectNotFoundException;
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Request.RequestStatus;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.request.RequestStatus;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

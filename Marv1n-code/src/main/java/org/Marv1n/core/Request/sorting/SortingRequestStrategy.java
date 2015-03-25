@@ -1,6 +1,6 @@
-package org.Marv1n.core.SortingRequestStrategy;
+package org.Marv1n.core.request.sorting;
 
-import org.Marv1n.core.Request.Request;
+import org.Marv1n.core.request.Request;
 
 import java.util.List;
 

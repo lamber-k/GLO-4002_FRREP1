@@ -1,8 +1,8 @@
-package org.Marv1n.core.Reservation;
+package org.Marv1n.core.reservation;
 
-import org.Marv1n.core.EvaluationStrategy.ReservableEvaluationResult;
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Room.Room;
+import org.Marv1n.core.request.evaluation.ReservableEvaluationResult;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.room.Room;
 
 import java.util.Optional;
 

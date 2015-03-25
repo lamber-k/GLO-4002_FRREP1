@@ -1,6 +1,6 @@
-package org.Marv1n.core.Room;
+package org.Marv1n.core.room;
 
-import org.Marv1n.core.Persistence.Repository;
+import org.Marv1n.core.persistence.Repository;
 
 import java.util.List;
 

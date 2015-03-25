@@ -1,7 +1,7 @@
-package infrastructure.MailSender;
+package infrastructure.mail;
 
-import org.Marv1n.core.Notification.Mail.Mail;
-import org.Marv1n.core.Notification.Mail.MailSender;
+import org.Marv1n.core.notification.mail.Mail;
+import org.Marv1n.core.notification.mail.MailSender;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
