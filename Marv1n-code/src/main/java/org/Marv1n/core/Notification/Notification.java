@@ -1,4 +1,4 @@
-package org.Marv1n.core.Notification;
+package org.Marv1n.core.notification;
 
 @FunctionalInterface
 public interface Notification {

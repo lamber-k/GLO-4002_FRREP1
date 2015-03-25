@@ -1,6 +1,6 @@
-package infrastructure.Persistence;
+package infrastructure.persistence;
 
-import org.Marv1n.core.Person.Person;
+import org.Marv1n.core.person.Person;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

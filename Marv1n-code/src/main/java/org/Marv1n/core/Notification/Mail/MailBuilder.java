@@ -1,6 +1,6 @@
-package org.Marv1n.core.Notification.Mail;
+package org.Marv1n.core.notification.mail;
 
-import org.Marv1n.core.Request.RequestStatus;
+import org.Marv1n.core.request.RequestStatus;
 
 import java.util.List;
 

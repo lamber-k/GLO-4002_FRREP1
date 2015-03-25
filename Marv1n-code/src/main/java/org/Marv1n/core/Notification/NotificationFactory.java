@@ -1,6 +1,6 @@
-package org.Marv1n.core.Notification;
+package org.Marv1n.core.notification;
 
-import org.Marv1n.core.Request.Request;
+import org.Marv1n.core.request.Request;
 
 @FunctionalInterface
 public interface NotificationFactory {

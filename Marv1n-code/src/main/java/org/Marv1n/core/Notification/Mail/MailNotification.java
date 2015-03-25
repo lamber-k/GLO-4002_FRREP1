@@ -1,6 +1,6 @@
-package org.Marv1n.core.Notification.Mail;
+package org.Marv1n.core.notification.mail;
 
-import org.Marv1n.core.Notification.Notification;
+import org.Marv1n.core.notification.Notification;
 
 public class MailNotification implements Notification {
 

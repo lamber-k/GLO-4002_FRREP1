@@ -1,7 +1,7 @@
-package infrastructure.Persistence;
+package infrastructure.persistence;
 
-import org.Marv1n.core.Room.Room;
-import org.Marv1n.core.Room.RoomRepository;
+import org.Marv1n.core.room.Room;
+import org.Marv1n.core.room.RoomRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

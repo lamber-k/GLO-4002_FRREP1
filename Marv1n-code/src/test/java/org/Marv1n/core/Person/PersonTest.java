@@ -1,4 +1,4 @@
-package org.Marv1n.core.Person;
+package org.Marv1n.core.person;
 
 import org.junit.Before;
 import org.junit.Test;

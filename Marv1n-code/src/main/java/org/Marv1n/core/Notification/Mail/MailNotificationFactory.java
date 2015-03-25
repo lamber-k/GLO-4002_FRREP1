@@ -1,15 +1,15 @@
-package org.Marv1n.core.Notification.Mail;
+package org.Marv1n.core.notification.mail;
 
-import org.Marv1n.core.Notification.InvalidRequestException;
-import org.Marv1n.core.Notification.NotificationAbstractFactory;
-import org.Marv1n.core.Person.Person;
-import org.Marv1n.core.Person.PersonRepository;
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Request.RequestStatus;
-import org.Marv1n.core.Reservation.Reservation;
-import org.Marv1n.core.Reservation.ReservationNotFoundException;
-import org.Marv1n.core.Reservation.ReservationRepository;
-import org.Marv1n.core.Room.Room;
+import org.Marv1n.core.notification.InvalidRequestException;
+import org.Marv1n.core.notification.NotificationAbstractFactory;
+import org.Marv1n.core.person.Person;
+import org.Marv1n.core.person.PersonRepository;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.request.RequestStatus;
+import org.Marv1n.core.reservation.Reservation;
+import org.Marv1n.core.reservation.ReservationNotFoundException;
+import org.Marv1n.core.reservation.ReservationRepository;
+import org.Marv1n.core.room.Room;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -1,8 +1,8 @@
-package org.Marv1n.core.Notification;
+package org.Marv1n.core.notification;
 
-import org.Marv1n.core.Notification.Mail.MailBuilderException;
-import org.Marv1n.core.Request.Request;
-import org.Marv1n.core.Room.Room;
+import org.Marv1n.core.notification.mail.MailBuilderException;
+import org.Marv1n.core.request.Request;
+import org.Marv1n.core.room.Room;
 
 public abstract class NotificationAbstractFactory implements NotificationFactory {
 

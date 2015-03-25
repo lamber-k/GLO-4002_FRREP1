@@ -1,4 +1,4 @@
-package org.Marv1n.core.Reservation;
+package org.Marv1n.core.reservation;
 
 public class ReservationNotFoundException extends RuntimeException {
 
