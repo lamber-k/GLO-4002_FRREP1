@@ -8,36 +8,48 @@ import org.mockito.runners.MockitoJUnitRunner;
 import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class MeetingRoomTest {
+public class RoomTest {
 
     private static final int A_NUMBER_OF_SEATS = 25;
     private static final int A_NUMBER_OF_SEATS_DIFFERENT = A_NUMBER_OF_SEATS + 1;
     private static final int A_LOWER_NUMBER_OF_SEATS = 5;
     private static final int A_HIGHER_NUMBER_OF_SEATS = 35;
     private static final String A_ROOM_NAME = "The room name";
-    private MeetingRoom meetingRoom;
+    private static final boolean NOT_RESERVED = false;
+    private Room room;
 
     @Before
     public void initializeRoom() {
-        meetingRoom = new MeetingRoom(A_NUMBER_OF_SEATS, A_ROOM_NAME);
+        room = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME, NOT_RESERVED);
+    }
+
+    @Test
+    public void givenNotReservedRoom_WhenReserved_ThenTheRoomIsReserved() throws RoomIsAlreadyReserved {
+        room.reserve();
+    }
+
+    @Test (expected = RoomIsAlreadyReserved.class)
+    public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomIsAlreadyReserved() throws RoomIsAlreadyReserved {
+        room.reserve();
+        room.reserve();
     }
 
     @Test
     public void givenRoomWithXNumberOfSeats_WhenGetNumberOfSeats_ThenReturnCorrectNumberOfSeats() {
-        int seats = meetingRoom.getNumberOfSeats();
+        int seats = room.getNumberOfSeats();
         assertEquals(A_NUMBER_OF_SEATS, seats);
     }
 
     @Test
     public void givenRoomWithAName_WhenGetName_ThenReturnCorrectName() {
-        String name = meetingRoom.getName();
+        String name = room.getName();
         assertEquals(A_ROOM_NAME, name);
     }
 
     @Test
     public void givenTwoRoomsWithDifferentNumberOfSeats_WhenComparedRoomWithGreaterCapacityThanLower_ThenShouldReturnTrue() {
-        MeetingRoom greaterMeetingRoom = new MeetingRoom(A_NUMBER_OF_SEATS, A_ROOM_NAME);
-        MeetingRoom lowerMeetingRoom = new MeetingRoom(A_LOWER_NUMBER_OF_SEATS, A_ROOM_NAME);
+        Room greaterMeetingRoom = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME, NOT_RESERVED);
+        Room lowerMeetingRoom = new Room(A_LOWER_NUMBER_OF_SEATS, A_ROOM_NAME, NOT_RESERVED);
 
         boolean greaterRoomHasGreaterCapacity = greaterMeetingRoom.hasGreaterOrEqualCapacityThan(lowerMeetingRoom);
 
@@ -46,8 +58,8 @@ public class MeetingRoomTest {
 
     @Test
     public void givenTwoRoomsWithDifferentNumberOfSeats_WhenComparedRoomWithLowerCapacityThanGreater_ThenShouldReturnFalse() {
-        MeetingRoom lowerMeetingRoom = new MeetingRoom(A_NUMBER_OF_SEATS, A_ROOM_NAME);
-        MeetingRoom greaterMeetingRoom = new MeetingRoom(A_HIGHER_NUMBER_OF_SEATS, A_ROOM_NAME);
+        Room lowerMeetingRoom = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME, NOT_RESERVED);
+        Room greaterMeetingRoom = new Room(A_HIGHER_NUMBER_OF_SEATS, A_ROOM_NAME, NOT_RESERVED);
 
         boolean lowerRoomHasNotGreaterCapacity = lowerMeetingRoom.hasGreaterOrEqualCapacityThan(greaterMeetingRoom);
 
@@ -56,54 +68,54 @@ public class MeetingRoomTest {
 
     @Test
     public void givenTwoRoomsWithEqualNumberOfSeats_WhenComparedBetweenThem_ThenShouldReturnTrue() {
-        MeetingRoom sameMeetingRoom = new MeetingRoom(A_NUMBER_OF_SEATS, A_ROOM_NAME);
-        boolean roomHasEqualCapacity = meetingRoom.hasGreaterOrEqualCapacityThan(sameMeetingRoom);
+        Room sameMeetingRoom = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME, NOT_RESERVED);
+        boolean roomHasEqualCapacity = room.hasGreaterOrEqualCapacityThan(sameMeetingRoom);
         assertTrue(roomHasEqualCapacity);
     }
 
     @Test
     public void givenTwoRooms_WhenComparedRoomWithAnotherSameSeatsCapacity_ThenShouldReturnZero() {
-        MeetingRoom sameMeetingRoom = new MeetingRoom(A_NUMBER_OF_SEATS, A_ROOM_NAME);
-        int sameCapacity = meetingRoom.compareReservableCapacity(sameMeetingRoom);
+        Room sameMeetingRoom = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME, NOT_RESERVED);
+        int sameCapacity = room.compareReservableCapacity(sameMeetingRoom);
         assertEquals(0, sameCapacity);
     }
 
     @Test
     public void givenTwoRooms_WhenComparedRoomWithDifferentSeatsCapacity_ThenShouldReturnTheDifference() {
-        MeetingRoom meetingRoomWithDifferentCapacity = new MeetingRoom(A_NUMBER_OF_SEATS_DIFFERENT, A_ROOM_NAME);
-        int capacity = meetingRoom.compareReservableCapacity(meetingRoomWithDifferentCapacity);
+        Room meetingRoomWithDifferentCapacity = new Room(A_NUMBER_OF_SEATS_DIFFERENT, A_ROOM_NAME, NOT_RESERVED);
+        int capacity = room.compareReservableCapacity(meetingRoomWithDifferentCapacity);
         assertEquals(A_NUMBER_OF_SEATS - A_NUMBER_OF_SEATS_DIFFERENT, capacity);
     }
 
     @Test
     public void givenRoom_WhenComparedRoomWithHigherCapacity_ThenShouldReturnFalse() {
-        assertFalse(meetingRoom.hasEnoughCapacity(A_HIGHER_NUMBER_OF_SEATS));
+        assertFalse(room.hasEnoughCapacity(A_HIGHER_NUMBER_OF_SEATS));
     }
 
     @Test
     public void givenRoom_WhenComparedRoomWithLowerCapacity_ThenShouldReturnTrue() {
-        assertTrue(meetingRoom.hasEnoughCapacity(A_LOWER_NUMBER_OF_SEATS));
+        assertTrue(room.hasEnoughCapacity(A_LOWER_NUMBER_OF_SEATS));
     }
 
     @Test
     public void givenRoom_WhenComparedRoomWithSameCapacity_ThenShouldReturnTrue() {
-        assertTrue(meetingRoom.hasEnoughCapacity(A_NUMBER_OF_SEATS));
+        assertTrue(room.hasEnoughCapacity(A_NUMBER_OF_SEATS));
     }
 
     @Test
     public void givenRoom_WhenComparedWithNullObject_ThenShouldReturnFalse() {
-        assertFalse(meetingRoom.equals(null));
+        assertFalse(room.equals(null));
     }
 
     @Test
     public void givenRoom_WhenComparedWithDifferentRoom_ThenShouldReturnFalse() {
-        MeetingRoom aDifferentMeetingRoom = new MeetingRoom(A_NUMBER_OF_SEATS_DIFFERENT, A_ROOM_NAME);
-        assertFalse(meetingRoom.equals(aDifferentMeetingRoom));
+        Room aDifferentMeetingRoom = new Room(A_NUMBER_OF_SEATS_DIFFERENT, A_ROOM_NAME, NOT_RESERVED);
+        assertFalse(room.equals(aDifferentMeetingRoom));
     }
 
     @Test
     public void givenRoom_WhenComparedWithDifferentObject_ThenShouldReturnFalse() {
         Integer aDifferentObject = 0;
-        assertFalse(meetingRoom.equals(aDifferentObject));
+        assertFalse(room.equals(aDifferentObject));
     }
 }
