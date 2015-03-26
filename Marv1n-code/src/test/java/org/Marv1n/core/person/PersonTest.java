@@ -3,6 +3,8 @@ package org.Marv1n.core.person;
 import org.junit.Before;
 import org.junit.Test;
 
+import javax.mail.internet.AddressException;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -12,7 +14,7 @@ public class PersonTest {
     private Person person;
 
     @Before
-    public void initializePerson() {
+    public void initializePerson() throws AddressException {
         person = new Person(A_EMAIL_ADDRESS);
     }
 
@@ -22,7 +24,7 @@ public class PersonTest {
     }
 
     @Test
-    public void givenPerson_WhenComparedToDifferentPerson_ThenReturnFalse() {
+    public void givenPerson_WhenComparedToDifferentPerson_ThenReturnFalse() throws AddressException {
         Person aDifferentPerson = new Person(A_EMAIL_ADDRESS);
         assertFalse(person.equals(aDifferentPerson));
     }
