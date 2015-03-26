@@ -19,11 +19,11 @@ public class JavaxMailSender implements MailSender {
 
     private static final String CONFIG_FILE_NAME = "config/mail.properties";
     private Session session;
-    private MailTransporter mailTransporter;
+    private JavaxMailTransporter mailTransporter;
 
-    public JavaxMailSender(MailTransporter mailTransporter) throws IOException {
+    public JavaxMailSender(JavaxMailTransporter mailTransporter) throws IOException {
         this.mailTransporter = mailTransporter;
-        Properties properties = retreiveProperties();
+        Properties properties = retrieveProperties();
         String username = properties.getProperty("username");
         String password = properties.getProperty("password");
 
@@ -39,7 +39,7 @@ public class JavaxMailSender implements MailSender {
         }
     }
 
-    private Properties retreiveProperties() throws IOException {
+    private Properties retrieveProperties() throws IOException {
         Properties properties = new Properties();
         InputStream configFile = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
 
