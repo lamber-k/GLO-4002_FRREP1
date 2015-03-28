@@ -65,7 +65,7 @@ public class RequestRepositoryInMemoryTest {
 
     @Test
     public void givenEmptyRequestRepositoryInMemory_WhenGetAllPendingRequest_ThenReturnEmptyArray() {
-        List pendingRequestList = requestRepository.findAllPendingRequest();
+        List<Request> pendingRequestList = requestRepository.findAllPendingRequest();
 
         assertEquals(0, pendingRequestList.size());
     }
@@ -75,7 +75,7 @@ public class RequestRepositoryInMemoryTest {
         requestRepository.persist(requestMock);
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
 
-        List pendingRequestList = requestRepository.findAllPendingRequest();
+        List<Request> pendingRequestList = requestRepository.findAllPendingRequest();
 
         assertEquals(0, pendingRequestList.size());
     }
@@ -88,7 +88,7 @@ public class RequestRepositoryInMemoryTest {
         when(anotherRequestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.PENDING);
 
-        List pendingRequestList = requestRepository.findAllPendingRequest();
+        List<Request> pendingRequestList = requestRepository.findAllPendingRequest();
 
         assertEquals(1, pendingRequestList.size());
         assertEquals(pendingRequestList.get(0), requestMock);
@@ -102,7 +102,7 @@ public class RequestRepositoryInMemoryTest {
         when(anotherRequestMock.getRequestStatus()).thenReturn(RequestStatus.PENDING);
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.PENDING);
 
-        List pendingRequestList = requestRepository.findAllPendingRequest();
+        List<Request> pendingRequestList = requestRepository.findAllPendingRequest();
 
         assertEquals(2, pendingRequestList.size());
         assertEquals(pendingRequestList.get(0), requestMock);
