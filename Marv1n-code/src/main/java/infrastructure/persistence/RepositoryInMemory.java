@@ -1,27 +1,27 @@
 package infrastructure.persistence;
 
-import org.Marv1n.core.ObjectNotFoundException;
-import org.Marv1n.core.persistence.Repository;
+import core.ObjectNotFoundException;
+import core.persistence.Repository;
 
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.stream.Stream;
 
-public abstract class RepositoryInMemory<Type> implements Repository<Type> {
+public abstract class RepositoryInMemory<T> implements Repository<T> {
 
-    private Collection<Type> objectContainer = new LinkedList<>();
+    private Collection<T> objectContainer = new LinkedList<>();
 
-    protected Stream<Type> query() {
+    protected Stream<T> query() {
         return objectContainer.stream();
     }
 
     @Override
-    public void persist(Type object) {
+    public void persist(T object) {
         objectContainer.add(object);
     }
 
     @Override
-    public void remove(Type object) {
+    public void remove(T object) {
         if (!objectContainer.remove(object)) {
             throw new ObjectNotFoundException();
         }

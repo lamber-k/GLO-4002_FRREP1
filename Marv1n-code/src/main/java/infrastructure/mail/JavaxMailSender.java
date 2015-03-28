@@ -1,7 +1,8 @@
 package infrastructure.mail;
 
-import org.Marv1n.core.notification.mail.Mail;
-import org.Marv1n.core.notification.mail.MailSender;
+import core.notification.mail.Mail;
+import core.notification.mail.MailSender;
+import core.notification.mail.MailSendingException;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -53,11 +54,10 @@ public class JavaxMailSender implements MailSender {
     }
 
     @Override
-    public void send(Mail mail) {
+    public void send(Mail mail) throws MailSendingException {
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(mail.from));
-
             List<InternetAddress> tos = new ArrayList<>();
             for (String to : mail.to) {
                 tos.add(new InternetAddress(to));
@@ -68,7 +68,7 @@ public class JavaxMailSender implements MailSender {
             message.setText(mail.message);
             mailTransporter.send(message);
         } catch (MessagingException exception) {
-            throw new RuntimeException(exception);
+            throw new MailSendingException(exception.getMessage());
         }
     }
 }
