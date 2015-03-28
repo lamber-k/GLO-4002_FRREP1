@@ -27,7 +27,6 @@ public class JavaxMailSender implements MailSender {
         Properties properties = retrieveProperties();
         String username = properties.getProperty("username");
         String password = properties.getProperty("password");
-
         if(username == null || password == null) {
             session = Session.getDefaultInstance(properties);
         } else {
@@ -43,13 +42,11 @@ public class JavaxMailSender implements MailSender {
     private Properties retrieveProperties() throws IOException {
         Properties properties = new Properties();
         InputStream configFile = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
-
         if (configFile != null) {
             properties.load(configFile);
         } else {
             throw new FileNotFoundException("Property file '" + CONFIG_FILE_NAME +"'.");
         }
-
         return properties;
     }
 
