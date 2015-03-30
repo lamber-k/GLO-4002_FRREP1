@@ -18,6 +18,7 @@ public class PendingRequests {
         this.requestRepository = requestRepository;
     }
 
+    // TODO ALL ne pas save dans repository -> stack
     public void addRequest(Request request) {
         requestRepository.persist(request);
         if (requestRepository.findAllPendingRequest().size() >= maximumPendingRequests) {
@@ -31,12 +32,14 @@ public class PendingRequests {
 
     public void setMaximumPendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;
+        // TODO ALL si on set la limite en dessous du nombre actuel de request rerun ?
     }
 
     public void addObserverMaximumPendingRequestsReached(MaximumPendingRequestReachedObserver observer) {
         maximumPendingRequestReachedObservers.add(observer);
     }
 
+    // TODO ALL a revoir
     private void notifyMaxPendingRequestReachedObserver() {
         maximumPendingRequestReachedObservers.forEach(MaximumPendingRequestReachedObserver::onMaximumPendingRequestReached);
     }

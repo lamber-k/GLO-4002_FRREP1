@@ -4,6 +4,7 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import java.util.UUID;
 
+// TODO ALL extraire javax
 public class Person {
 
     private final UUID personID;

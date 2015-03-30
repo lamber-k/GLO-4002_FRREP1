@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+//TODO ALL feed back des erreurs
 public class RequestTreatment extends RunnableRequestTreatment {
 
     private EvaluationStrategy assigner;
@@ -38,7 +39,6 @@ public class RequestTreatment extends RunnableRequestTreatment {
                 Room roomFound = assigner.evaluateOneRequest(reservables, pendingRequest);
                 roomFound.reserve(pendingRequest);
             } catch (EvaluationNoRoomFoundException e) {
-
             } catch (RoomInsufficientSeatsException e) {
                 e.printStackTrace();
             } catch (RoomAlreadyReservedException e) {

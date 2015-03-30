@@ -4,6 +4,7 @@ import core.request.Request;
 import core.room.Room;
 import core.room.RoomRepository;
 
+// TODO ALL DELETE ?
 public class FirstInFirstOutEvaluationStrategy implements EvaluationStrategy {
 
     @Override

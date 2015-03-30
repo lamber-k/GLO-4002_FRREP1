@@ -28,11 +28,14 @@ public class Room {
 
     public void reserve(Request request) throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
         if (associatedRequest != null) {
+            request.refuse();
             throw new RoomAlreadyReservedException();
         }
         if (request.getNumberOfSeatsNeeded() > numberOfSeats) {
+            request.refuse();
             throw new RoomInsufficientSeatsException();
         }
+        request.accept();
         associatedRequest = request;
     }
 
