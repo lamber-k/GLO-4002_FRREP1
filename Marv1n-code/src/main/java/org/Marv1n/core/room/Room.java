@@ -1,5 +1,7 @@
 package org.Marv1n.core.room;
 
+import org.Marv1n.core.request.Request;
+
 import java.util.UUID;
 
 public class Room {
@@ -7,40 +9,46 @@ public class Room {
     private final UUID roomID;
     private int numberOfSeats;
     private String name;
-    private boolean isReserved;
+    private Request associatedRequest = null;
 
-    public Room(int numberOfSeats, String name, boolean isReserved) {
+    public Room(int numberOfSeats, String name) {
         this.roomID = UUID.randomUUID();
         this.numberOfSeats = numberOfSeats;
         this.name = name;
-        this.isReserved = isReserved;
-    }
-
-    public int getNumberOfSeats() {
-        return numberOfSeats;
     }
 
     public String getName() {
         return name;
     }
 
-    public void reserve() throws RoomIsAlreadyReserved {
-        if (isReserved) {
-            throw  new RoomIsAlreadyReserved();
+    public boolean isReserved() {
+        return associatedRequest != null;
+    }
+
+    public void reserve(Request request) throws RoomIsAlreadyReserved, RoomInsufficientSeats {
+        if (associatedRequest != null) {
+            throw new RoomIsAlreadyReserved();
         }
-        isReserved = true;
+        if (request.getNumberOfSeatsNeeded() > numberOfSeats) {
+            throw new RoomInsufficientSeats();
+        }
+        associatedRequest = request;
     }
 
     public void cancelReservation() {
-        isReserved = false;
+        associatedRequest = null;
     }
 
-    public boolean hasGreaterOrEqualCapacityThan(Room room) {
-        return numberOfSeats >= room.getNumberOfSeats();
-    }
-
-    public int compareReservableCapacity(Room room) {
-        return numberOfSeats - room.getNumberOfSeats();
+    public Room getBestFit(Room room, int capacityNeeded) throws RoomInsufficientSeats {
+        if (!hasEnoughCapacity(capacityNeeded) && !room.hasEnoughCapacity(capacityNeeded)) {
+            throw new RoomInsufficientSeats();
+        } else if (!hasEnoughCapacity(capacityNeeded)) {
+            return room;
+        } else if (!room.hasEnoughCapacity(capacityNeeded)) {
+            return this;
+        } else if (numberOfSeats > room.numberOfSeats)
+            return room;
+        return this;
     }
 
     public boolean hasEnoughCapacity(int capacityNeeded) {

@@ -45,7 +45,7 @@ public class EvaluationFirstInFirstOutStrategyTest {
 
     @Test
     public void givenAssignationIsRun_WhenNoReservableAvailable_ThenReturnEmptyEvaluationResult() {
-        ReservableEvaluationResult reservableEvaluationResult = assignerStrategy.evaluateOneRequest(roomRepositoryMock, reservationsRepositoryMock, requestMock);
+        ReservableEvaluationResult reservableEvaluationResult = assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
         assertFalse(reservableEvaluationResult.matchFound());
     }
 
@@ -54,7 +54,7 @@ public class EvaluationFirstInFirstOutStrategyTest {
         roomList.add(roomMock);
         when(reservationsRepositoryMock.findReservationByReservable(roomMock)).thenThrow(ReservationNotFoundException.class);
 
-        ReservableEvaluationResult reservableEvaluationResult = assignerStrategy.evaluateOneRequest(roomRepositoryMock, reservationsRepositoryMock, requestMock);
+        ReservableEvaluationResult reservableEvaluationResult = assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
 
         assertEquals(roomMock, reservableEvaluationResult.getBestReservableMatch());
     }
@@ -66,16 +66,17 @@ public class EvaluationFirstInFirstOutStrategyTest {
         when(reservationsRepositoryMock.findReservationByReservable(roomMock)).thenThrow(ReservationNotFoundException.class).thenReturn(mock(Reservation.class)).thenThrow(ReservationNotFoundException.class);
         when(reservationsRepositoryMock.findReservationByReservable(anotherRoomMock)).thenThrow(ReservationNotFoundException.class).thenReturn(mock(Reservation.class)).thenThrow(ReservationNotFoundException.class);
 
-        ReservableEvaluationResult reservableEvaluationResult = assignerStrategy.evaluateOneRequest(roomRepositoryMock, reservationsRepositoryMock, requestMock);
+        ReservableEvaluationResult reservableEvaluationResult = assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
 
         assertEquals(anotherRoomMock, reservableEvaluationResult.getBestReservableMatch());
     }
 
     @Test
-    public void givenAssignationIsRun_WhenOneReservableCanNotBeFound_ThenReturnEmptyEvaluationResult() throws Exception {
+    public void givenAssignationIsRun_WhenNoRoomAvailable_ThenReturnEmptyEvaluationResult() throws Exception {
+        when(roomMock.isReserved()).thenReturn(true);
         roomList.add(roomMock);
 
-        ReservableEvaluationResult reservableEvaluationResult = assignerStrategy.evaluateOneRequest(roomRepositoryMock, reservationsRepositoryMock, requestMock);
+        ReservableEvaluationResult reservableEvaluationResult = assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
 
         assertFalse(reservableEvaluationResult.matchFound());
     }

@@ -42,7 +42,7 @@ public class RequestTreatment extends RunnableRequestTreatment {
         Iterator<Request> requestIterator = sortedRequests.iterator();
         while (requestIterator.hasNext()) {
             Request pendingRequest = requestIterator.next();
-            ReservableEvaluationResult evaluationResult = assigner.evaluateOneRequest(reservables, reservations, pendingRequest);
+            ReservableEvaluationResult evaluationResult = assigner.evaluateOneRequest(reservables, pendingRequest);
             Optional<Reservation> reservation = reservationFactory.reserve(pendingRequest, evaluationResult);
             if (reservation.isPresent()) {
                 reservations.persist(reservation.get());

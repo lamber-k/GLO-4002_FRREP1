@@ -63,7 +63,7 @@ public class RequestTreatmentTest {
     }
 
     private void havingOnePendingRequest() {
-        when(assignerStrategyMock.evaluateOneRequest(reservablesRepositoryMock, reservationsRepositoryMock, requestMock)).thenReturn(evaluationResultMock);
+        when(assignerStrategyMock.evaluateOneRequest(reservablesRepositoryMock, requestMock)).thenReturn(evaluationResultMock);
         when(requestSortedStrategyMock.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
         pendingRequests.add(requestMock);
     }
@@ -76,7 +76,7 @@ public class RequestTreatmentTest {
 
         requestTreatment.run();
 
-        verify(assignerStrategyMock).evaluateOneRequest(reservablesRepositoryMock, reservationsRepositoryMock, requestMock);
+        verify(assignerStrategyMock).evaluateOneRequest(reservablesRepositoryMock, requestMock);
     }
 
     @Test

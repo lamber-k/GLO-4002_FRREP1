@@ -5,37 +5,26 @@ import org.Marv1n.core.reservation.ReservationNotFoundException;
 import org.Marv1n.core.persistence.ReservationRepository;
 import org.Marv1n.core.room.Room;
 import org.Marv1n.core.persistence.RoomRepository;
+import org.Marv1n.core.room.RoomInsufficientSeats;
 
 public class MaximizeSeatsEvaluationStrategy implements EvaluationStrategy {
 
     @Override
-    public ReservableEvaluationResult evaluateOneRequest(RoomRepository reservables, ReservationRepository reservations, Request evaluatedRequest) {
+    public ReservableEvaluationResult evaluateOneRequest(RoomRepository reservables, Request evaluatedRequest) {
         Room betterRoom = null;
         for (Room room : reservables.findAll()) {
-            if (doesTheReservableFitsTheRequest(evaluatedRequest, room, reservations)) {
-                betterRoom = getBetterReservableOf(betterRoom, room);
+            if (!room.isReserved()) {
+                if (betterRoom == null && room.hasEnoughCapacity(evaluatedRequest.getNumberOfSeatsNeeded())) {
+                    betterRoom = room;
+                } else {
+                    try {
+                        betterRoom = room.getBestFit(betterRoom, evaluatedRequest.getNumberOfSeatsNeeded());
+                    } catch (RoomInsufficientSeats roomInsufficientSeats) {
+                        continue;
+                    }
+                }
             }
         }
         return new ReservableEvaluationResult(betterRoom);
-    }
-
-    private Room getBetterReservableOf(Room bestRoom, Room room) {
-        if ((bestRoom == null) || bestRoom.hasGreaterOrEqualCapacityThan(room)) {
-            return room;
-        }
-        return bestRoom;
-    }
-
-    private boolean doesTheReservableFitsTheRequest(Request evaluatedRequest, Room room, ReservationRepository reservations) {
-        return reservableAvailable(reservations, room) && room.hasEnoughCapacity(evaluatedRequest.getNumberOfSeatsNeeded());
-    }
-
-    private boolean reservableAvailable(ReservationRepository reservations, Room room) {
-        try {
-            reservations.findReservationByReservable(room);
-        } catch (ReservationNotFoundException exception) {
-            return true;
-        }
-        return false;
     }
 }

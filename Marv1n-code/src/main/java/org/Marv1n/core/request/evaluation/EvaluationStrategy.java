@@ -7,5 +7,5 @@ import org.Marv1n.core.persistence.RoomRepository;
 @FunctionalInterface
 public interface EvaluationStrategy {
 
-    ReservableEvaluationResult evaluateOneRequest(RoomRepository reservables, ReservationRepository reservations, Request request);
+    ReservableEvaluationResult evaluateOneRequest(RoomRepository reservables, Request request);
 }
