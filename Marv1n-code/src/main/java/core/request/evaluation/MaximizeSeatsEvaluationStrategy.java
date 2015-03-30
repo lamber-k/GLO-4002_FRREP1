@@ -1,9 +1,9 @@
-package org.Marv1n.core.request.evaluation;
+package core.request.evaluation;
 
-import org.Marv1n.core.request.Request;
-import org.Marv1n.core.room.Room;
-import org.Marv1n.core.room.RoomRepository;
-import org.Marv1n.core.room.RoomInsufficientSeatsException;
+import core.request.Request;
+import core.room.Room;
+import core.room.RoomRepository;
+import core.room.RoomInsufficientSeatsException;
 
 public class MaximizeSeatsEvaluationStrategy implements EvaluationStrategy {
 

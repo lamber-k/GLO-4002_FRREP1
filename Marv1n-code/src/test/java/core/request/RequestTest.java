@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.UUID;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -33,12 +34,29 @@ public class RequestTest {
 
     @Test
     public void givenRequest_WhenComparedToDifferentObject_ThenReturnFalse() {
-        Integer aDifferentObject = 25;
+        Object aDifferentObject = 25;
         assertFalse(request.equals(aDifferentObject));
     }
 
     @Test
     public void givenRequest_WhenComparedToNull_ThenReturnFalse() {
         assertFalse(request.equals(null));
+    }
+
+    @Test
+    public void givenNewRequest_WhenGetStatus_ThenShouldReturnPending() {
+        assertEquals(RequestStatus.PENDING, request.getRequestStatus());
+    }
+
+    @Test
+    public void givenPendingRequest_WhenAcceptRequest_ThenShouldSetStatusToAccepted() {
+        request.accept();
+        assertEquals(RequestStatus.ACCEPTED, request.getRequestStatus());
+    }
+
+    @Test
+    public void givenPendingRequest_WhenRefuseRequest_ThenShouldSetStatusToRefused() {
+        request.refuse();
+        assertEquals(RequestStatus.REFUSED, request.getRequestStatus());
     }
 }

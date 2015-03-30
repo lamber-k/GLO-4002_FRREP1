@@ -18,20 +18,8 @@ public class Request {
         this.responsibleUUID = responsibleUUID;
     }
 
-    public Request(int numberOfSeatsNeeded, int priority, UUID responsibleUUID, RequestStatus state) {
-        this.priority = priority;
-        this.requestID = UUID.randomUUID();
-        this.numberOfSeatsNeeded = numberOfSeatsNeeded;
-        this.status = state;
-        this.responsibleUUID = responsibleUUID;
-    }
-
     public RequestStatus getRequestStatus() {
         return status;
-    }
-
-    public void setRequestStatus(RequestStatus status) {
-        this.status = status;
     }
 
     public int getNumberOfSeatsNeeded() {
@@ -64,5 +52,13 @@ public class Request {
 
     public UUID getResponsibleUUID() {
         return responsibleUUID;
+    }
+
+    public void accept() {
+        status = RequestStatus.ACCEPTED;
+    }
+
+    public void refuse() {
+        status = RequestStatus.REFUSED;
     }
 }

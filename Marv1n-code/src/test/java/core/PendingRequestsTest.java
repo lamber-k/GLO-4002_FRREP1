@@ -1,7 +1,7 @@
-package org.Marv1n.core;
+package core;
 
-import org.Marv1n.core.request.Request;
-import org.Marv1n.core.request.RequestRepository;
+import core.request.Request;
+import core.request.RequestRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

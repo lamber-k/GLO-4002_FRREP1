@@ -1,6 +1,7 @@
-package org.Marv1n.core.room;
+package core.room;
 
-import org.Marv1n.core.request.Request;
+import core.request.Request;
+import core.room.RoomInsufficientSeatsException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,34 +28,20 @@ public class RoomTest {
         room = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME);
     }
 
-    @Test
-    public void givenNotReservedRoom_WhenReserved_ThenTheRoomIsReserved() throws RoomIsAlreadyReserved {
-        room.reserve();
-    }
-
-    @Test (expected = RoomIsAlreadyReserved.class)
-    public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomIsAlreadyReserved() throws RoomIsAlreadyReserved {
-        when(requestMock.getNumberOfSeatsNeeded()).thenReturn(A_LOWER_NUMBER_OF_SEATS);
-
-        room.reserve(requestMock);
-
-        assertTrue(room.isReserved());
-    }
-
     @Test(expected = RoomInsufficientSeatsException.class)
-    public void givenNotReservedRoom_WhenReserveWithNotEnoughCapacity_ThenShouldThrowInsufficientSeats() throws RoomIsAlreadyReservedException, RoomInsufficientSeatsException {
+    public void givenNotReservedRoom_WhenReserveWithNotEnoughCapacity_ThenShouldThrowInsufficientSeats() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
         when(requestMock.getNumberOfSeatsNeeded()).thenReturn(A_HIGHER_NUMBER_OF_SEATS);
         room.reserve(requestMock);
     }
 
-    @Test (expected = RoomIsAlreadyReservedException.class)
-    public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomIsAlreadyReserved() throws RoomIsAlreadyReservedException, RoomInsufficientSeatsException {
+    @Test (expected = RoomAlreadyReservedException.class)
+    public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomAlreadyReserved() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
         room.reserve(requestMock);
         room.reserve(requestMock);
     }
 
     @Test
-    public void givenReservedRoom_WhenCancelReservation_ThenShouldNotBeReservedAnymore() throws RoomIsAlreadyReservedException, RoomInsufficientSeatsException {
+    public void givenReservedRoom_WhenCancelReservation_ThenShouldNotBeReservedAnymore() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
         when(requestMock.getNumberOfSeatsNeeded()).thenReturn(A_LOWER_NUMBER_OF_SEATS);
         room.reserve(requestMock);
 

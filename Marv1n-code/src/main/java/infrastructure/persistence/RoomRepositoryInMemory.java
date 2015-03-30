@@ -1,9 +1,9 @@
 package infrastructure.persistence;
 
-import org.Marv1n.core.request.Request;
-import org.Marv1n.core.room.Room;
-import org.Marv1n.core.room.RoomRepository;
-import org.Marv1n.core.room.RoomNotFoundException;
+import core.request.Request;
+import core.room.Room;
+import core.room.RoomRepository;
+import core.room.RoomNotFoundException;
 
 import java.util.List;
 import java.util.Optional;

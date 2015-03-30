@@ -1,6 +1,7 @@
-package org.Marv1n.core.room;
+package core.room;
 
-import org.Marv1n.core.request.Request;
+
+import core.request.Request;
 
 import java.util.UUID;
 
@@ -25,9 +26,9 @@ public class Room {
         return associatedRequest != null;
     }
 
-    public void reserve(Request request) throws RoomIsAlreadyReservedException, RoomInsufficientSeatsException {
+    public void reserve(Request request) throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
         if (associatedRequest != null) {
-            throw new RoomIsAlreadyReservedException();
+            throw new RoomAlreadyReservedException();
         }
         if (request.getNumberOfSeatsNeeded() > numberOfSeats) {
             throw new RoomInsufficientSeatsException();

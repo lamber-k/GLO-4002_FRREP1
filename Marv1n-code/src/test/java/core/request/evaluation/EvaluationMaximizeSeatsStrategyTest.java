@@ -1,9 +1,8 @@
 package core.request.evaluation;
 
-import core.request.evaluation.EvaluationNoRoomFoundException;
+import core.request.Request;
+import core.room.Room;
 import core.room.RoomRepository;
-import org.Marv1n.core.request.Request;
-import org.Marv1n.core.room.Room;
 import core.room.RoomInsufficientSeatsException;
 import org.junit.Before;
 import org.junit.Test;

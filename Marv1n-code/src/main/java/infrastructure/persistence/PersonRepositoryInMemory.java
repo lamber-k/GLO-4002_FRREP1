@@ -1,8 +1,8 @@
 package infrastructure.persistence;
 
-import org.Marv1n.core.person.Person;
-import org.Marv1n.core.person.PersonNotFoundException;
-import org.Marv1n.core.person.PersonRepository;
+import core.person.Person;
+import core.person.PersonNotFoundException;
+import core.person.PersonRepository;
 
 import java.util.List;
 import java.util.Optional;

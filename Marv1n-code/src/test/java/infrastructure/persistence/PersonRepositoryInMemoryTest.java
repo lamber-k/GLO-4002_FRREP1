@@ -1,6 +1,7 @@
 package infrastructure.persistence;
 
 import core.person.Person;
+import core.person.PersonNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,9 +38,8 @@ public class PersonRepositoryInMemoryTest {
         when(personMock.getID()).thenReturn(personUUID);
         personRepository.persist(personMock);
 
-        Optional<Person> result = personRepository.findByUUID(personUUID);
-        assertTrue(result.isPresent());
-        assertEquals(personMock, result.get());
+        Person personFound = personRepository.findByUUID(personUUID);
+        assertEquals(personMock, personFound);
     }
 
     @Test
@@ -56,31 +56,27 @@ public class PersonRepositoryInMemoryTest {
         assertTrue(results.stream().filter(r -> r.getID().equals(anotherPersonUUID)).findAny().isPresent());
     }
 
-    @Test
-    public void givenEmptyPersonRepositoryInMemory_WhenFindByEmail_ThenReturnEmptyResult() {
-        Optional<Person> result = personRepository.findByEmail(A_VALID_EMAIL);
-
-        assertFalse(result.isPresent());
+    @Test(expected = PersonNotFoundException.class)
+    public void givenEmptyPersonRepositoryInMemory_WhenFindByEmail_ThenThrowPersonNotFound() throws PersonNotFoundException {
+        personRepository.findByEmail(A_VALID_EMAIL);
     }
 
-    @Test
-    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithWrongEmail_ThenReturnEmptyResult() {
+    @Test(expected = PersonNotFoundException.class)
+    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithWrongEmail_ThenThrowPersonNotFound() throws PersonNotFoundException {
         when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
         personRepository.persist(personMock);
 
-        Optional<Person> result = personRepository.findByEmail(A_WRONG_EMAIL);
-
-        assertFalse(result.isPresent());
+        personRepository.findByEmail(A_WRONG_EMAIL);
     }
 
     @Test
-    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() {
+    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() throws PersonNotFoundException {
         when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
         personRepository.persist(personMock);
 
-        Optional<Person> result = personRepository.findByEmail(A_VALID_EMAIL);
+        Person personFound = personRepository.findByEmail(A_VALID_EMAIL);
 
-        assertTrue(result.isPresent());
+        assertEquals(personMock, personFound);
     }
 
     @Test

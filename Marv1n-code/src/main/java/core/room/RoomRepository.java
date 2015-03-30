@@ -1,8 +1,7 @@
 package core.room;
 
-import org.Marv1n.core.persistence.Repository;
-import org.Marv1n.core.request.Request;
-import org.Marv1n.core.room.Room;
+import core.persistence.Repository;
+import core.request.Request;
 
 import java.util.List;
 

@@ -1,14 +1,14 @@
-package org.Marv1n.core;
+package core;
 
-import org.Marv1n.core.request.evaluation.EvaluationNoRoomFoundException;
-import org.Marv1n.core.request.evaluation.EvaluationStrategy;
-import org.Marv1n.core.request.Request;
-import org.Marv1n.core.request.RequestRepository;
-import org.Marv1n.core.room.Room;
-import org.Marv1n.core.room.RoomInsufficientSeatsException;
-import org.Marv1n.core.room.RoomIsAlreadyReservedException;
-import org.Marv1n.core.room.RoomRepository;
-import org.Marv1n.core.request.sorting.SortingRequestStrategy;
+import core.request.Request;
+import core.request.evaluation.EvaluationNoRoomFoundException;
+import core.request.RequestRepository;
+import core.request.evaluation.EvaluationStrategy;
+import core.request.sorting.SortingRequestStrategy;
+import core.room.Room;
+import core.room.RoomAlreadyReservedException;
+import core.room.RoomInsufficientSeatsException;
+import core.room.RoomRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -71,7 +71,7 @@ public class RequestTreatmentTest {
     }
 
     @Test
-    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldConfirmReservation() throws EvaluationNoRoomFoundException, RoomIsAlreadyReservedException, RoomInsufficientSeatsException {
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldConfirmReservation() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException {
         havingOnePendingRequest();
 
         requestTreatment.run();

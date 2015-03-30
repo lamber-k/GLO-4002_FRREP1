@@ -1,14 +1,14 @@
-package org.Marv1n.core.notification.mail;
+package core.notification.mail;
 
-import org.Marv1n.core.notification.InvalidRequestException;
-import org.Marv1n.core.person.Person;
-import org.Marv1n.core.person.PersonNotFoundException;
-import org.Marv1n.core.person.PersonRepository;
-import org.Marv1n.core.request.Request;
-import org.Marv1n.core.request.RequestStatus;
-import org.Marv1n.core.room.Room;
-import org.Marv1n.core.room.RoomNotFoundException;
-import org.Marv1n.core.room.RoomRepository;
+import core.notification.InvalidRequestException;
+import core.person.Person;
+import core.person.PersonNotFoundException;
+import core.person.PersonRepository;
+import core.request.Request;
+import core.request.RequestStatus;
+import core.room.Room;
+import core.room.RoomNotFoundException;
+import core.room.RoomRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
