@@ -1,6 +1,6 @@
 package infrastructure.mail;
 
-import org.Marv1n.core.notification.mail.Mail;
+import core.notification.mail.Mail;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

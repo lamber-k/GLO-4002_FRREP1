@@ -1,7 +1,8 @@
 package infrastructure.mail;
 
-import org.Marv1n.core.notification.mail.Mail;
-import org.Marv1n.core.notification.mail.MailSender;
+import core.notification.mail.Mail;
+import core.notification.mail.MailSender;
+import core.notification.mail.MailSendingException;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -26,7 +27,6 @@ public class JavaxMailSender implements MailSender {
         Properties properties = retrieveProperties();
         String username = properties.getProperty("username");
         String password = properties.getProperty("password");
-
         if(username == null || password == null) {
             session = Session.getDefaultInstance(properties);
         } else {
@@ -42,22 +42,19 @@ public class JavaxMailSender implements MailSender {
     private Properties retrieveProperties() throws IOException {
         Properties properties = new Properties();
         InputStream configFile = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
-
         if (configFile != null) {
             properties.load(configFile);
         } else {
             throw new FileNotFoundException("Property file '" + CONFIG_FILE_NAME +"'.");
         }
-
         return properties;
     }
 
     @Override
-    public void send(Mail mail) {
+    public void send(Mail mail) throws MailSendingException {
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(mail.from));
-
             List<InternetAddress> tos = new ArrayList<>();
             for (String to : mail.to) {
                 tos.add(new InternetAddress(to));
@@ -68,7 +65,7 @@ public class JavaxMailSender implements MailSender {
             message.setText(mail.message);
             mailTransporter.send(message);
         } catch (MessagingException exception) {
-            throw new RuntimeException(exception);
+            throw new MailSendingException(exception.getMessage());
         }
     }
 }
