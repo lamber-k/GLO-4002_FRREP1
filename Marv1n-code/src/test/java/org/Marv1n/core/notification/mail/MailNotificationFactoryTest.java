@@ -1,14 +1,14 @@
 package org.Marv1n.core.notification.mail;
 
-import infrastructure.persistence.PersonRepositoryInMemory;
-import infrastructure.persistence.ReservationRepositoryInMemory;
 import org.Marv1n.core.notification.InvalidRequestException;
 import org.Marv1n.core.person.Person;
+import org.Marv1n.core.person.PersonNotFoundException;
+import org.Marv1n.core.person.PersonRepository;
 import org.Marv1n.core.request.Request;
 import org.Marv1n.core.request.RequestStatus;
-import org.Marv1n.core.reservation.Reservation;
-import org.Marv1n.core.reservation.ReservationNotFoundException;
 import org.Marv1n.core.room.Room;
+import org.Marv1n.core.room.RoomNotFoundException;
+import org.Marv1n.core.room.RoomRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,7 +17,6 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -45,15 +44,13 @@ public class MailNotificationFactoryTest {
     @Mock
     private MailSender mailSenderMock;
     @Mock
-    private ReservationRepositoryInMemory reservationRepositoryMock;
-    @Mock
-    private PersonRepositoryInMemory personRepositoryMock;
+    private PersonRepository personRepositoryMock;
     @Mock
     private Request requestMock;
     @Mock
-    private Reservation reservationMock;
-    @Mock
     private Room roomMock;
+    @Mock
+    private RoomRepository roomRepositoryMock;
 
     @Before
     public void initializeMailFactory() {
@@ -65,17 +62,16 @@ public class MailNotificationFactoryTest {
         when(adminMock.isAdmin()).thenReturn(true);
         admins = Arrays.asList(adminMock);
         when(requestMock.getRequestID()).thenReturn(REQUEST_UUID);
-        mailFactory = new MailNotificationFactory(mailSenderMock, reservationRepositoryMock, personRepositoryMock);
+        mailFactory = new MailNotificationFactory(mailSenderMock, roomRepositoryMock, personRepositoryMock);
     }
 
     @Test
-    public void givenMailFactory_WhenRequestSuccess_ThenShouldHaveCorrectMailNotificationCreated() {
+    public void givenMailFactory_WhenRequestSuccess_ThenShouldHaveCorrectMailNotificationCreated() throws RoomNotFoundException, PersonNotFoundException {
         when(requestMock.getResponsibleUUID()).thenReturn(RESPONSIBLE_UUID);
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
-        when(personRepositoryMock.findByUUID(RESPONSIBLE_UUID)).thenReturn(Optional.of(responsibleMock));
+        when(roomRepositoryMock.findRoomByAssociatedRequest(requestMock)).thenReturn(roomMock);
+        when(personRepositoryMock.findByUUID(RESPONSIBLE_UUID)).thenReturn(responsibleMock);
         when(personRepositoryMock.findAdmins()).thenReturn(admins);
-        when(reservationRepositoryMock.findReservationByRequest(requestMock)).thenReturn(reservationMock);
-        when(reservationMock.getReserved()).thenReturn(roomMock);
         when(roomMock.getName()).thenReturn(RESERVABLE_NAME);
 
         MailNotification returnedNotification = mailFactory.createNotification(requestMock);
@@ -84,22 +80,20 @@ public class MailNotificationFactoryTest {
     }
 
     @Test(expected = InvalidRequestException.class)
-    public void givenWrongRequestUUID_WhenCreate_ThenThrow() {
+    public void givenAcceptedRequestNotAssociatedWithRoom_WhenCreate_ThenThrowInvalidRequest() throws RoomNotFoundException, PersonNotFoundException {
         when(requestMock.getResponsibleUUID()).thenReturn(RESPONSIBLE_UUID);
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
-        when(personRepositoryMock.findByUUID(RESPONSIBLE_UUID)).thenReturn(Optional.of(responsibleMock));
-        doThrow(ReservationNotFoundException.class).when(reservationRepositoryMock).findReservationByRequest(requestMock);
+        doThrow(RoomNotFoundException.class).when(roomRepositoryMock).findRoomByAssociatedRequest(requestMock);
 
         mailFactory.createNotification(requestMock);
     }
 
     @Test
-    public void givenRefusedRequest_WhenCreate_ThenShouldCreateMailNotification() {
+    public void givenRefusedRequest_WhenCreate_ThenShouldCreateMailNotification() throws PersonNotFoundException {
         when(requestMock.getResponsibleUUID()).thenReturn(RESPONSIBLE_UUID);
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.REFUSED);
-        when(personRepositoryMock.findByUUID(RESPONSIBLE_UUID)).thenReturn(Optional.of(responsibleMock));
+        when(personRepositoryMock.findByUUID(RESPONSIBLE_UUID)).thenReturn(responsibleMock);
         when(personRepositoryMock.findAdmins()).thenReturn(admins);
-        doThrow(ReservationNotFoundException.class).when(reservationRepositoryMock).findReservationByRequest(requestMock);
 
         MailNotification returnedNotification = mailFactory.createNotification(requestMock);
 
@@ -107,13 +101,11 @@ public class MailNotificationFactoryTest {
     }
 
     @Test
-    public void givenCanceledRequest_WhenCreate_ThenShouldCreateMailNotification() {
+    public void givenCanceledRequest_WhenCreate_ThenShouldCreateMailNotification() throws PersonNotFoundException {
         when(requestMock.getResponsibleUUID()).thenReturn(RESPONSIBLE_UUID);
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.CANCELED);
-        when(personRepositoryMock.findByUUID(RESPONSIBLE_UUID)).thenReturn(Optional.of(responsibleMock));
+        when(personRepositoryMock.findByUUID(RESPONSIBLE_UUID)).thenReturn(responsibleMock);
         when(personRepositoryMock.findAdmins()).thenReturn(admins);
-        when(reservationRepositoryMock.findReservationByRequest(requestMock)).thenReturn(reservationMock);
-        when(reservationMock.getReserved()).thenReturn(roomMock);
 
         MailNotification returnedNotification = mailFactory.createNotification(requestMock);
 
@@ -121,22 +113,20 @@ public class MailNotificationFactoryTest {
     }
 
     @Test(expected = InvalidRequestException.class)
-    public void givenRequestWithoutResponsible_WhenCreate_ThenShouldThrowNoResponsible() {
+    public void givenRequestWithoutResponsible_WhenCreate_ThenShouldThrowNoResponsible() throws PersonNotFoundException {
         when(requestMock.getResponsibleUUID()).thenReturn(RESPONSIBLE_UUID);
         when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
-        when(personRepositoryMock.findByUUID(RESPONSIBLE_UUID)).thenReturn(Optional.empty());
+        doThrow(PersonNotFoundException.class).when(personRepositoryMock).findByUUID(RESPONSIBLE_UUID);
 
         mailFactory.createNotification(requestMock);
     }
 
     @Test(expected = InvalidRequestException.class)
-    public void givenRequestWithNoRequestStatus_WhenCreate_ThenShouldThrowNoRequestStatus() {
+    public void givenRequestWithNoRequestStatus_WhenCreate_ThenShouldThrowNoRequestStatus() throws PersonNotFoundException {
         when(requestMock.getResponsibleUUID()).thenReturn(RESPONSIBLE_UUID);
         when(requestMock.getRequestStatus()).thenReturn(null);
-        when(personRepositoryMock.findByUUID(RESPONSIBLE_UUID)).thenReturn(Optional.of(responsibleMock));
+        when(personRepositoryMock.findByUUID(RESPONSIBLE_UUID)).thenReturn(responsibleMock);
         when(personRepositoryMock.findAdmins()).thenReturn(admins);
-        when(reservationRepositoryMock.findReservationByRequest(requestMock)).thenReturn(reservationMock);
-        when(reservationMock.getReserved()).thenReturn(roomMock);
         when(roomMock.getName()).thenReturn(RESERVABLE_NAME);
 
         mailFactory.createNotification(requestMock);

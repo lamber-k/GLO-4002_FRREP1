@@ -1,7 +1,7 @@
 package org.Marv1n.core;
 
 import org.Marv1n.core.request.Request;
-import org.Marv1n.core.persistence.RequestRepository;
+import org.Marv1n.core.request.RequestRepository;
 
 import java.util.ArrayList;
 import java.util.List;

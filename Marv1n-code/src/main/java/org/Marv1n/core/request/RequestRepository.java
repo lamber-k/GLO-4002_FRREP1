@@ -1,7 +1,6 @@
-package org.Marv1n.core.persistence;
+package org.Marv1n.core.request;
 
 import org.Marv1n.core.persistence.Repository;
-import org.Marv1n.core.request.Request;
 
 import java.util.List;
 import java.util.Optional;

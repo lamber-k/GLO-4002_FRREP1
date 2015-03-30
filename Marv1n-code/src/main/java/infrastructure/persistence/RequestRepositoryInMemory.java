@@ -1,7 +1,7 @@
 package infrastructure.persistence;
 
 import org.Marv1n.core.request.Request;
-import org.Marv1n.core.persistence.RequestRepository;
+import org.Marv1n.core.request.RequestRepository;
 import org.Marv1n.core.request.RequestStatus;
 
 import java.util.List;

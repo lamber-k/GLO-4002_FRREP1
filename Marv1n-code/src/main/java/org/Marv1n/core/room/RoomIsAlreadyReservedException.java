@@ -1,10 +1,10 @@
 package org.Marv1n.core.room;
 
-public class RoomIsAlreadyReserved extends Throwable {
+public class RoomIsAlreadyReservedException extends Throwable {
 
     private static final long serialVersionUID = 42L;
 
-    public RoomIsAlreadyReserved() {
+    public RoomIsAlreadyReservedException() {
         super("The room is already reserved");
     }
 }

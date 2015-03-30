@@ -25,12 +25,12 @@ public class Room {
         return associatedRequest != null;
     }
 
-    public void reserve(Request request) throws RoomIsAlreadyReserved, RoomInsufficientSeats {
+    public void reserve(Request request) throws RoomIsAlreadyReservedException, RoomInsufficientSeatsException {
         if (associatedRequest != null) {
-            throw new RoomIsAlreadyReserved();
+            throw new RoomIsAlreadyReservedException();
         }
         if (request.getNumberOfSeatsNeeded() > numberOfSeats) {
-            throw new RoomInsufficientSeats();
+            throw new RoomInsufficientSeatsException();
         }
         associatedRequest = request;
     }
@@ -39,9 +39,9 @@ public class Room {
         associatedRequest = null;
     }
 
-    public Room getBestFit(Room room, int capacityNeeded) throws RoomInsufficientSeats {
+    public Room getBestFit(Room room, int capacityNeeded) throws RoomInsufficientSeatsException {
         if (!hasEnoughCapacity(capacityNeeded) && !room.hasEnoughCapacity(capacityNeeded)) {
-            throw new RoomInsufficientSeats();
+            throw new RoomInsufficientSeatsException();
         } else if (!hasEnoughCapacity(capacityNeeded)) {
             return room;
         } else if (!room.hasEnoughCapacity(capacityNeeded)) {
@@ -60,12 +60,10 @@ public class Room {
     }
 
     public boolean equals(Object rhs) {
-        if (rhs == null) {
-            return false;
-        } else if (rhs instanceof Room) {
-            return hashCode() == rhs.hashCode();
-        } else {
-            return false;
-        }
+        return rhs != null && rhs instanceof Room && hashCode() == rhs.hashCode();
+    }
+
+    public Request getRequest() {
+        return associatedRequest;
     }
 }

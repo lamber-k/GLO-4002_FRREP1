@@ -7,8 +7,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import javax.naming.InsufficientResourcesException;
-
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.when;
 
@@ -35,7 +33,7 @@ public class RoomTest {
     }
 
     @Test
-    public void givenNotReservedRoom_WhenReserveWithEnoughCapacity_ThenShouldReserveIt() throws RoomIsAlreadyReserved, RoomInsufficientSeats {
+    public void givenNotReservedRoom_WhenReserveWithEnoughCapacity_ThenShouldReserveIt() throws RoomIsAlreadyReservedException, RoomInsufficientSeatsException {
         when(requestMock.getNumberOfSeatsNeeded()).thenReturn(A_LOWER_NUMBER_OF_SEATS);
 
         room.reserve(requestMock);
@@ -43,20 +41,20 @@ public class RoomTest {
         assertTrue(room.isReserved());
     }
 
-    @Test(expected = RoomInsufficientSeats.class)
-    public void givenNotReservedRoom_WhenReserveWithNotEnoughCapacity_ThenShouldThrowInsufficientSeats() throws RoomIsAlreadyReserved, RoomInsufficientSeats {
+    @Test(expected = RoomInsufficientSeatsException.class)
+    public void givenNotReservedRoom_WhenReserveWithNotEnoughCapacity_ThenShouldThrowInsufficientSeats() throws RoomIsAlreadyReservedException, RoomInsufficientSeatsException {
         when(requestMock.getNumberOfSeatsNeeded()).thenReturn(A_HIGHER_NUMBER_OF_SEATS);
         room.reserve(requestMock);
     }
 
-    @Test (expected = RoomIsAlreadyReserved.class)
-    public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomIsAlreadyReserved() throws RoomIsAlreadyReserved, RoomInsufficientSeats {
+    @Test (expected = RoomIsAlreadyReservedException.class)
+    public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomIsAlreadyReserved() throws RoomIsAlreadyReservedException, RoomInsufficientSeatsException {
         room.reserve(requestMock);
         room.reserve(requestMock);
     }
 
     @Test
-    public void givenReservedRoom_WhenCancelReservation_ThenShouldNotBeReservedAnymore() throws RoomIsAlreadyReserved, RoomInsufficientSeats {
+    public void givenReservedRoom_WhenCancelReservation_ThenShouldNotBeReservedAnymore() throws RoomIsAlreadyReservedException, RoomInsufficientSeatsException {
         when(requestMock.getNumberOfSeatsNeeded()).thenReturn(A_LOWER_NUMBER_OF_SEATS);
         room.reserve(requestMock);
 
@@ -72,7 +70,7 @@ public class RoomTest {
     }
 
     @Test
-    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenTestBestFitWithGreaterSeatsCapacity_ThenShouldReturnExpectedRoom() throws RoomInsufficientSeats {
+    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenTestBestFitWithGreaterSeatsCapacity_ThenShouldReturnExpectedRoom() throws RoomInsufficientSeatsException {
         Room greaterMeetingRoom = new Room(A_HIGHER_NUMBER_OF_SEATS, A_ROOM_NAME);
 
         Room bestFitRoomResult = room.getBestFit(greaterMeetingRoom, A_LOWER_NUMBER_OF_SEATS);
@@ -81,7 +79,7 @@ public class RoomTest {
     }
 
     @Test
-    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenTestBestFitWithBetterSeatsCapacity_ThenShouldReturnExpectedRoom() throws RoomInsufficientSeats {
+    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenTestBestFitWithBetterSeatsCapacity_ThenShouldReturnExpectedRoom() throws RoomInsufficientSeatsException {
         Room lowerMeetingRoom = new Room(A_LOWER_NUMBER_OF_SEATS, A_ROOM_NAME);
 
         Room bestFitRoomResult = room.getBestFit(lowerMeetingRoom, A_LOWER_NUMBER_OF_SEATS);
@@ -90,7 +88,7 @@ public class RoomTest {
     }
 
     @Test
-    public void givenTwoRoomsWithEqualNumberOfSeats_WhenTestBestFit_ThenShouldReturnThis() throws RoomInsufficientSeats {
+    public void givenTwoRoomsWithEqualNumberOfSeats_WhenTestBestFit_ThenShouldReturnThis() throws RoomInsufficientSeatsException {
         Room sameMeetingRoom = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME);
 
         Room bestFitRoomResult = room.getBestFit(sameMeetingRoom, A_NUMBER_OF_SEATS);
@@ -99,7 +97,7 @@ public class RoomTest {
     }
 
     @Test
-    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenThisHasNotEnoughCapacity_ThenShouldReturnAnother() throws RoomInsufficientSeats {
+    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenThisHasNotEnoughCapacity_ThenShouldReturnAnother() throws RoomInsufficientSeatsException {
         Room roomWithEnoughSeats = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME);
         Room roomWithoutEnoughSeats = new Room(A_LOWER_NUMBER_OF_SEATS, A_ROOM_NAME);
 
@@ -109,7 +107,7 @@ public class RoomTest {
     }
 
     @Test
-    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenAnotherHasNotEnoughCapacity_ThenShouldReturnThis() throws RoomInsufficientSeats {
+    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenAnotherHasNotEnoughCapacity_ThenShouldReturnThis() throws RoomInsufficientSeatsException {
         Room roomWithEnoughSeats = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME);
         Room roomWithoutEnoughSeats = new Room(A_LOWER_NUMBER_OF_SEATS, A_ROOM_NAME);
 
@@ -118,8 +116,8 @@ public class RoomTest {
         assertEquals(roomWithEnoughSeats, bestFitRoomResult);
     }
 
-    @Test(expected = RoomInsufficientSeats.class)
-    public void givenTwoRooms_WhenTestBestFitWithLowerSeatsThanNeeded_ThenShouldThrowInsufficientSeats() throws RoomInsufficientSeats {
+    @Test(expected = RoomInsufficientSeatsException.class)
+    public void givenTwoRooms_WhenTestBestFitWithLowerSeatsThanNeeded_ThenShouldThrowInsufficientSeats() throws RoomInsufficientSeatsException {
         Room insufficientSeats = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME);
         room.getBestFit(insufficientSeats, A_HIGHER_NUMBER_OF_SEATS);
     }
@@ -152,7 +150,7 @@ public class RoomTest {
 
     @Test
     public void givenRoom_WhenComparedWithDifferentObject_ThenShouldReturnFalse() {
-        Integer aDifferentObject = 0;
+        Object aDifferentObject = 0;
         assertFalse(room.equals(aDifferentObject));
     }
 }

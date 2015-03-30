@@ -1,11 +1,11 @@
 package org.Marv1n.core.request.evaluation;
 
 import org.Marv1n.core.request.Request;
-import org.Marv1n.core.persistence.ReservationRepository;
-import org.Marv1n.core.persistence.RoomRepository;
+import org.Marv1n.core.room.RoomRepository;
+import org.Marv1n.core.room.Room;
 
 @FunctionalInterface
 public interface EvaluationStrategy {
 
-    ReservableEvaluationResult evaluateOneRequest(RoomRepository reservables, Request request);
+    Room evaluateOneRequest(RoomRepository reservables, Request request) throws EvaluationNoRoomFoundException;
 }

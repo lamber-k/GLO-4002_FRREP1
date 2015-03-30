@@ -1,7 +1,8 @@
 package infrastructure.persistence;
 
 import org.Marv1n.core.person.Person;
-import org.Marv1n.core.persistence.PersonRepository;
+import org.Marv1n.core.person.PersonNotFoundException;
+import org.Marv1n.core.person.PersonRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -11,8 +12,12 @@ import java.util.stream.Collectors;
 public class PersonRepositoryInMemory extends RepositoryInMemory<Person> implements PersonRepository {
 
     @Override
-    public Optional<Person> findByUUID(UUID id) {
-        return query().filter(p -> p.getID().equals(id)).findFirst();
+    public Person findByUUID(UUID id) throws PersonNotFoundException {
+        Optional<Person> personFound = query().filter(p -> p.getID().equals(id)).findFirst();
+        if (!personFound.isPresent()) {
+            throw new PersonNotFoundException();
+        }
+        return personFound.get();
     }
 
     @Override
@@ -21,8 +26,12 @@ public class PersonRepositoryInMemory extends RepositoryInMemory<Person> impleme
     }
 
     @Override
-    public Optional<Person> findByEmail(String email) {
-        return query().filter(p -> p.getMailAddress().equals(email)).findFirst();
+    public Person findByEmail(String email) throws PersonNotFoundException {
+        Optional<Person> personFound = query().filter(p -> p.getMailAddress().equals(email)).findFirst();
+        if (!personFound.isPresent()) {
+            throw new PersonNotFoundException();
+        }
+        return personFound.get();
     }
 
     @Override

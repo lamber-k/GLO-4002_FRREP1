@@ -1,19 +1,17 @@
-package org.Marv1n.core.persistence;
+package org.Marv1n.core.person;
 
 import org.Marv1n.core.persistence.Repository;
-import org.Marv1n.core.person.Person;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface PersonRepository extends Repository<Person> {
 
-    Optional<Person> findByUUID(UUID id);
+    Person findByUUID(UUID id) throws PersonNotFoundException;
 
     List<Person> findByListOfUUID(List<UUID> listOfUUID);
 
-    Optional<Person> findByEmail(String email);
+    Person findByEmail(String email) throws PersonNotFoundException;
 
     List<Person> findAdmins();
 }
