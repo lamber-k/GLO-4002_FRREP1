@@ -1,6 +1,7 @@
 package infrastructure.mail;
 
 import core.notification.mail.Mail;
+import core.notification.mail.MailAddress;
 import core.notification.mail.MailSender;
 import core.notification.mail.MailSendingException;
 
@@ -54,10 +55,10 @@ public class JavaxMailSender implements MailSender {
     public void send(Mail mail) throws MailSendingException {
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(mail.from));
+            message.setFrom(new InternetAddress(mail.from.toString()));
             List<InternetAddress> tos = new ArrayList<>();
-            for (String to : mail.to) {
-                tos.add(new InternetAddress(to));
+            for (MailAddress to : mail.to) {
+                tos.add(new InternetAddress(to.toString()));
             }
             InternetAddress[] toArray = tos.toArray(new InternetAddress[tos.size()]);
             message.addRecipients(Message.RecipientType.TO, toArray);
