@@ -39,8 +39,7 @@ public class RequestTreatment extends RunnableRequestTreatment {
                 Room roomFound = assigner.evaluateOneRequest(reservables, pendingRequest);
                 roomFound.reserve(pendingRequest);
             } catch (EvaluationNoRoomFoundException e) {
-            } catch (RoomInsufficientSeatsException e) {
-                e.printStackTrace();
+
             } catch (RoomAlreadyReservedException e) {
                 e.printStackTrace();
             }

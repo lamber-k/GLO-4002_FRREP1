@@ -28,12 +28,6 @@ public class RoomTest {
         room = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME);
     }
 
-    @Test(expected = RoomInsufficientSeatsException.class)
-    public void givenNotReservedRoom_WhenReserveWithNotEnoughCapacity_ThenShouldThrowInsufficientSeats() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
-        when(requestMock.getNumberOfSeatsNeeded()).thenReturn(A_HIGHER_NUMBER_OF_SEATS);
-        room.reserve(requestMock);
-    }
-
     @Test (expected = RoomAlreadyReservedException.class)
     public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomAlreadyReserved() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
         room.reserve(requestMock);
