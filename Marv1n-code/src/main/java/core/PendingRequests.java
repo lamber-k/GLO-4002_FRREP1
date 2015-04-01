@@ -18,6 +18,7 @@ public class PendingRequests {
         this.scheduler = shedulerFactory.getTaskSheduler(pendingRequest);
     }
 
+    // TODO ALL ne pas save dans repository -> stack
     public void addRequest(Request request) {
         pendingRequest.add(request);
         if (pendingRequest.size() >= maximumPendingRequests) {
@@ -31,6 +32,7 @@ public class PendingRequests {
 
     public void setMaximumPendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;
+        // TODO ALL si on set la limite en dessous du nombre actuel de request rerun ?
     }
 
     public void cancelPendingRequest(Request request) {

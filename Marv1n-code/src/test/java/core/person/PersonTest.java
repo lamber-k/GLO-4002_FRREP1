@@ -1,7 +1,9 @@
 package core.person;
 
+import core.notification.mail.MailAddress;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import javax.mail.internet.AddressException;
 
@@ -10,12 +12,13 @@ import static org.junit.Assert.assertTrue;
 
 public class PersonTest {
 
-    private static final String A_EMAIL_ADDRESS = "exemple@exemple.com";
+    @Mock
+    private MailAddress mailAddressMock;
     private Person person;
 
     @Before
     public void initializePerson() throws AddressException {
-        person = new Person(A_EMAIL_ADDRESS);
+        person = new Person(mailAddressMock);
     }
 
     @Test
@@ -25,13 +28,13 @@ public class PersonTest {
 
     @Test
     public void givenPerson_WhenComparedToDifferentPerson_ThenReturnFalse() throws AddressException {
-        Person aDifferentPerson = new Person(A_EMAIL_ADDRESS);
+        Person aDifferentPerson = new Person(mailAddressMock);
         assertFalse(person.equals(aDifferentPerson));
     }
 
     @Test
     public void givenPerson_WhenComparedToDifferentObject_ThenReturnFalse() {
-        Integer aDifferentObject = 25;
+        Object aDifferentObject = 25;
         assertFalse(person.equals(aDifferentObject));
     }
 

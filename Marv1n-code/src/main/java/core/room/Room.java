@@ -26,13 +26,12 @@ public class Room {
         return associatedRequest != null;
     }
 
-    public void reserve(Request request) throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
+    public void reserve(Request request) throws RoomAlreadyReservedException {
         if (associatedRequest != null) {
+            request.refuse();
             throw new RoomAlreadyReservedException();
         }
-        if (request.getNumberOfSeatsNeeded() > numberOfSeats) {
-            throw new RoomInsufficientSeatsException();
-        }
+        request.accept();
         associatedRequest = request;
     }
 

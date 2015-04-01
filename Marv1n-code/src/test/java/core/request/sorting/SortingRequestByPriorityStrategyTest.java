@@ -23,7 +23,7 @@ public class SortingRequestByPriorityStrategyTest {
     private static final int REQUEST_INDEX_SECOND = 1;
     private static final int REQUEST_INDEX_THIRD = 2;
     private static final int REQUEST_INDEX_FOURTH = 3;
-    private SortingRequestByPriorityStrategyStrategy requestSorter;
+    private SortingRequestByPriorityStrategy requestSorter;
     private List<Request> requestList;
     @Mock
     private Request requestWithHighPriorityMock;
@@ -36,7 +36,7 @@ public class SortingRequestByPriorityStrategyTest {
 
     @Before
     public void initializeSortingRequestByPriorityStrategy() {
-        requestSorter = new SortingRequestByPriorityStrategyStrategy();
+        requestSorter = new SortingRequestByPriorityStrategy();
         requestList = new ArrayList<>();
         when(requestWithHighPriorityMock.getPriority()).thenReturn(HIGH_PRIORITY);
         when(requestWithMediumPriorityMock.getPriority()).thenReturn(MEDIUM_PRIORITY);

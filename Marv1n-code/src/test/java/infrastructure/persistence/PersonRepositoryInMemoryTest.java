@@ -1,5 +1,6 @@
 package infrastructure.persistence;
 
+import core.notification.mail.MailAddress;
 import core.person.Person;
 import core.person.PersonNotFoundException;
 import org.junit.Before;
@@ -26,6 +27,10 @@ public class PersonRepositoryInMemoryTest {
     private UUID personUUID;
     private UUID anotherPersonUUID;
     @Mock
+    private MailAddress validEmailMock;
+    @Mock
+    private MailAddress invalidEmailMock;
+    @Mock
     private Person personMock;
     @Mock
     private Person anotherPersonMock;
@@ -34,6 +39,8 @@ public class PersonRepositoryInMemoryTest {
     public void initializePersonRepositoryInMemory() throws Exception {
         personRepository = new PersonRepositoryInMemory();
         personUUID = UUID.randomUUID();
+        when(validEmailMock.toString()).thenReturn(A_VALID_EMAIL);
+        when(invalidEmailMock.toString()).thenReturn(A_WRONG_EMAIL);
     }
 
     @Test
@@ -66,7 +73,7 @@ public class PersonRepositoryInMemoryTest {
 
     @Test(expected = PersonNotFoundException.class)
     public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithWrongEmail_ThenThrowPersonNotFound() throws PersonNotFoundException {
-        when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
+        when(personMock.getMailAddress()).thenReturn(validEmailMock);
         personRepository.persist(personMock);
 
         personRepository.findByEmail(A_WRONG_EMAIL);
@@ -74,7 +81,7 @@ public class PersonRepositoryInMemoryTest {
 
     @Test
     public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() throws PersonNotFoundException {
-        when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
+        when(personMock.getMailAddress()).thenReturn(validEmailMock);
         personRepository.persist(personMock);
 
         Person personFound = personRepository.findByEmail(A_VALID_EMAIL);

@@ -6,7 +6,6 @@ import core.request.evaluation.EvaluationStrategy;
 import core.request.sorting.SortingRequestStrategy;
 import core.room.Room;
 import core.room.RoomAlreadyReservedException;
-import core.room.RoomInsufficientSeatsException;
 import core.room.RoomRepository;
 
 import java.util.List;
@@ -42,8 +41,6 @@ public class RequestTreatmentTask extends Task {
                 roomFound.reserve(pendingRequest);
             } catch (EvaluationNoRoomFoundException e) {
                 log.log(Level.FINEST, "No Room Found Exception:", e);
-            } catch (RoomInsufficientSeatsException e) {
-                log.log(Level.FINEST, "Insufficient Seats Exception:", e);
             } catch (RoomAlreadyReservedException e) {
                 log.log(Level.FINEST, "Already Reserved Exception:", e);
             }
