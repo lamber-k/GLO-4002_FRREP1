@@ -33,4 +33,10 @@ public class PendingRequests {
         this.maximumPendingRequests = maximumPendingRequests;
     }
 
+    public void cancelPendingRequest(Request request) {
+        if (!(pendingRequest.remove(request))) {
+            throw new ObjectNotFoundException();
+        }
+    }
+
 }

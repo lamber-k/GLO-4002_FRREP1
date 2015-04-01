@@ -10,15 +10,19 @@ import core.room.RoomInsufficientSeatsException;
 import core.room.RoomRepository;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public class RequestTreatment extends RunnableRequestTreatment {
+public class RequestTreatmentTask extends Task {
+
+    private static final Logger log = Logger.getLogger( RequestTreatmentTask.class.getName() );
 
     private EvaluationStrategy evaluationStrategy;
     private SortingRequestStrategy sortingRequestStrategy;
     private RoomRepository roomRepository;
     private List<Request> requestsToTreat;
 
-    RequestTreatment(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat) {
+    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat) {
         this.roomRepository = roomRepository;
         this.evaluationStrategy = strategyAssignation;
         this.sortingRequestStrategy = strategySortRequest;
@@ -26,6 +30,10 @@ public class RequestTreatment extends RunnableRequestTreatment {
     }
 
     @Override
+    protected void runTask() {
+        treatPendingRequest();
+    }
+
     protected void treatPendingRequest() {
         List<Request> sortedRequests = sortingRequestStrategy.sortList(requestsToTreat);
         for (Request pendingRequest : sortedRequests) {
@@ -33,11 +41,11 @@ public class RequestTreatment extends RunnableRequestTreatment {
                 Room roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
                 roomFound.reserve(pendingRequest);
             } catch (EvaluationNoRoomFoundException e) {
-
+                log.log(Level.FINEST, "No Room Found Exception:", e);
             } catch (RoomInsufficientSeatsException e) {
-                e.printStackTrace();
+                log.log(Level.FINEST, "Insufficient Seats Exception:", e);
             } catch (RoomAlreadyReservedException e) {
-                e.printStackTrace();
+                log.log(Level.FINEST, "Already Reserved Exception:", e);
             }
         }
     }
