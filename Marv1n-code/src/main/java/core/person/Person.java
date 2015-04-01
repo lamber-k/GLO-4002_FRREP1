@@ -1,45 +1,29 @@
 package core.person;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
+import core.notification.mail.MailAddress;
+
 import java.util.UUID;
 
 public class Person {
 
     private final UUID personID;
-    private final String mailAddress;
+    private final MailAddress email;
     private final boolean admin;
 
-    public Person(String mailAddress) throws AddressException {
-        if (!validate(mailAddress)) {
-            throw new AddressException();
-        }
+    public Person(MailAddress email) {
         this.personID = UUID.randomUUID();
-        this.mailAddress = mailAddress;
+        this.email = email;
         this.admin = false;
     }
 
-    public Person(String mailAddress, boolean admin) throws AddressException {
-        if (!validate(mailAddress)) {
-            throw new AddressException();
-        }
+    public Person(MailAddress email, boolean admin) {
         this.personID = UUID.randomUUID();
-        this.mailAddress = mailAddress;
+        this.email = email;
         this.admin = admin;
     }
 
-    private static boolean validate(String email) {
-        try {
-            InternetAddress emailAddress = new InternetAddress(email);
-            emailAddress.validate();
-        } catch (AddressException | NullPointerException exception) {
-            return false;
-        }
-        return true;
-    }
-
-    public String getMailAddress() {
-        return mailAddress;
+    public MailAddress getMailAddress() {
+        return email;
     }
 
     public UUID getID() {
@@ -48,13 +32,7 @@ public class Person {
 
     @Override
     public boolean equals(Object rhs) {
-        if (rhs == null) {
-            return false;
-        } else if (rhs instanceof Person) {
-            return hashCode() == rhs.hashCode();
-        } else {
-            return false;
-        }
+        return rhs != null && rhs instanceof Person && hashCode() == rhs.hashCode();
     }
 
     @Override

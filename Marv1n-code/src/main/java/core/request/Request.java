@@ -54,6 +54,7 @@ public class Request {
         return responsibleUUID;
     }
 
+    // TODO ALL notifier
     public void accept() {
         status = RequestStatus.ACCEPTED;
     }

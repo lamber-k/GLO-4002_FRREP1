@@ -2,6 +2,9 @@ package core.notification.mail;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,24 +12,30 @@ import java.util.List;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(MockitoJUnitRunner.class)
 public class MailTest {
 
-    private static final String TO_MAIL = "TO@exemple.com";
-    private static final String FROM_MAIL = "from@exemple.com";
-    private static final String ANOTHER_FROM_MAIL = "FromDifferentSender@exemple.com";
-    private static final String ANOTHER_TO_MAIL = "TODifferentDestination@exemple.com";
     private static final String A_SUBJECT = "Subject";
     private static final String A_MESSAGE = "Message";
     private static final String DIFFERENT_SUBJECT = "DifferentSubject";
     private static final String DIFFERENT_MESSAGE = "DifferentMessage";
+    @Mock
+    private MailAddress toMailMock;
+    @Mock
+    private MailAddress fromMailMock;
+    @Mock
+    private MailAddress anotherToMailMock;
+    @Mock
+    private MailAddress anotherFromMailMock;
+
     private Mail mail;
     private Mail differentMail;
 
     @Before
     public void initializeMail() {
-        List<String> destinationMail = new ArrayList<>();
-        destinationMail.add(TO_MAIL);
-        mail = new Mail(FROM_MAIL, destinationMail, A_SUBJECT, A_MESSAGE);
+        List<MailAddress> destinationMail = new ArrayList<>();
+        destinationMail.add(toMailMock);
+        mail = new Mail(fromMailMock, destinationMail, A_SUBJECT, A_MESSAGE);
     }
 
     @Test
@@ -36,53 +45,53 @@ public class MailTest {
 
     @Test
     public void givenAMail_WhenComparedToMailContainingDifferentFrom_ThenReturnFalse() {
-        List<String> destinationMail = new ArrayList<>();
-        destinationMail.add(TO_MAIL);
-        differentMail = new Mail(ANOTHER_FROM_MAIL, destinationMail, A_SUBJECT, A_MESSAGE);
+        List<MailAddress> destinationMail = new ArrayList<>();
+        destinationMail.add(toMailMock);
+        differentMail = new Mail(anotherFromMailMock, destinationMail, A_SUBJECT, A_MESSAGE);
 
         assertFalse(mail.equals(differentMail));
     }
 
     @Test
     public void givenAMail_WhenComparedToMailContainingDifferentTo_ThenReturnFalse() {
-        List<String> destinationMail = new ArrayList<>();
-        destinationMail.add(ANOTHER_TO_MAIL);
-        differentMail = new Mail(FROM_MAIL, destinationMail, A_SUBJECT, A_MESSAGE);
+        List<MailAddress> destinationMail = new ArrayList<>();
+        destinationMail.add(anotherToMailMock);
+        differentMail = new Mail(fromMailMock, destinationMail, A_SUBJECT, A_MESSAGE);
 
         assertFalse(mail.equals(differentMail));
     }
 
     @Test
     public void givenAMail_WhenComparedToMailContainingDifferentAmountOfDestinations_ThenReturnFalse() {
-        List<String> destinationMail = new ArrayList<>();
-        destinationMail.add(TO_MAIL);
-        destinationMail.add(ANOTHER_TO_MAIL);
-        differentMail = new Mail(FROM_MAIL, destinationMail, A_SUBJECT, A_MESSAGE);
+        List<MailAddress> destinationMail = new ArrayList<>();
+        destinationMail.add(toMailMock);
+        destinationMail.add(anotherToMailMock);
+        differentMail = new Mail(fromMailMock, destinationMail, A_SUBJECT, A_MESSAGE);
 
         assertFalse(mail.equals(differentMail));
     }
 
     @Test
     public void givenAMail_WhenComparedToMailContainingDifferentSubject_ThenReturnFalse() {
-        List<String> destinationMail = new ArrayList<>();
-        destinationMail.add(TO_MAIL);
-        differentMail = new Mail(FROM_MAIL, destinationMail, DIFFERENT_SUBJECT, A_MESSAGE);
+        List<MailAddress> destinationMail = new ArrayList<>();
+        destinationMail.add(toMailMock);
+        differentMail = new Mail(fromMailMock, destinationMail, DIFFERENT_SUBJECT, A_MESSAGE);
 
         assertFalse(mail.equals(differentMail));
     }
 
     @Test
     public void givenAMail_WhenComparedToMailContainingDifferentSubjectMessage_ThenReturnFalse() {
-        List<String> destinationMail = new ArrayList<>();
-        destinationMail.add(TO_MAIL);
-        differentMail = new Mail(FROM_MAIL, destinationMail, A_SUBJECT, DIFFERENT_MESSAGE);
+        List<MailAddress> destinationMail = new ArrayList<>();
+        destinationMail.add(toMailMock);
+        differentMail = new Mail(fromMailMock, destinationMail, A_SUBJECT, DIFFERENT_MESSAGE);
 
         assertFalse(mail.equals(differentMail));
     }
 
     @Test
     public void givenAMail_WhenComparedToDifferentObjectType_ThenReturnFalse() {
-        Integer differentObject = 25;
+        Object differentObject = 25;
 
         assertFalse(mail.equals(differentObject));
     }

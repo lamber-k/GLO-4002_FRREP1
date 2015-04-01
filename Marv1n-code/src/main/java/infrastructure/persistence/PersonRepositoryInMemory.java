@@ -27,7 +27,7 @@ public class PersonRepositoryInMemory extends RepositoryInMemory<Person> impleme
 
     @Override
     public Person findByEmail(String email) throws PersonNotFoundException {
-        Optional<Person> personFound = query().filter(p -> p.getMailAddress().equals(email)).findFirst();
+        Optional<Person> personFound = query().filter(p -> p.getMailAddress().toString().equals(email)).findFirst();
         if (!personFound.isPresent()) {
             throw new PersonNotFoundException();
         }

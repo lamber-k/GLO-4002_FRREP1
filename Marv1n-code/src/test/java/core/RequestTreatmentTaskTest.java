@@ -102,18 +102,6 @@ public class RequestTreatmentTaskTest {
     }
 
     @Test
-    public void givenOnePendingRequest_WhenFailWithEvaluationNoRoomFoundException_ThenShouldLogException() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException, IOException {
-        havingOnePendingRequest();
-        attachLoggingSystem();
-        String EXPECTED_LOG_STREAM = "Insufficient Seats Exception:";
-        doThrow(RoomInsufficientSeatsException.class).when(roomMock).reserve(any(Request.class));
-
-        requestTreatmentTask.run();
-
-        assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
-    }
-
-    @Test
     public void givenOnePendingRequest_WhenFailWithRoomAlreadyReservedException_ThenShouldLogException() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException, IOException {
         havingOnePendingRequest();
         attachLoggingSystem();

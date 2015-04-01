@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class SortingRequestByPriorityStrategyStrategy implements SortingRequestStrategy {
+public class SortingRequestByPriorityStrategy implements SortingRequestStrategy {
 
     private static final Comparator<Request> REQUEST_COMPARATOR = (lhs, rhs) -> lhs.getPriority() - rhs.getPriority();
 

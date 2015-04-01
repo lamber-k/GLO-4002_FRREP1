@@ -1,38 +1,44 @@
 package core.notification.mail;
 
-import core.request.RequestStatus;
-
 import java.util.List;
 
 public class MailBuilder {
 
-    public static final String MAIL_OBJECT_STATUS_ACCEPTED = "acceptée";
-    public static final String MAIL_OBJECT_STATUS_REFUSED = "refusée";
-    public static final String MAIL_OBJECT_STATUS_CANCELED = "annulée";
-    private static final String MAIL_OBJECT_FORMAT = "[Reservation][requête n°%d] status %s";
-    private RequestStatus requestStatus = null;
-    private Integer requestID = null;
-    private String mailFrom;
-    private List<String> mailTo;
-    private String message;
+    private static final String MAIL_OBJECT_FORMAT = "[%s][#%s] status %s";
+    private static final String MAIL_MESSAGE_DEFAULT_FORMAT = "Bonjour,\n"
+            + "Le status de votre %s ayant pour identifiant %s a changé de status.\n"
+            + "Elle est désormais dans le status %s.\n\n"
+            + "Cordialement,";
 
-    public MailBuilder setFrom(String mailFrom) {
+    private String status = null;
+    private String identifier = null;
+    private MailAddress mailFrom;
+    private List<MailAddress> mailTo;
+    private String message = null;
+    private String category = null;
+
+    public MailBuilder setFrom(MailAddress mailFrom) {
         this.mailFrom = mailFrom;
         return this;
     }
 
-    public MailBuilder setTo(List<String> mailTo) {
+    public MailBuilder setCategory(String category) {
+        this.category = category;
+        return this;
+    }
+
+    public MailBuilder setTo(List<MailAddress> mailTo) {
         this.mailTo = mailTo;
         return this;
     }
 
-    public MailBuilder setStatus(RequestStatus requestStatus) {
-        this.requestStatus = requestStatus;
+    public MailBuilder setStatus(String status) {
+        this.status = status;
         return this;
     }
 
-    public MailBuilder setRequestID(int requestID) {
-        this.requestID = requestID;
+    public MailBuilder setIdentifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 
@@ -42,34 +48,25 @@ public class MailBuilder {
     }
 
     public Mail buildMail() throws MailBuilderException {
-        String from = mailFrom;
-        List<String> to = mailTo;
+        MailAddress from = mailFrom;
+        List<MailAddress> to = mailTo;
         String object = buildMailObject();
-        String aMessage = message;
-        return new Mail(from, to, object, aMessage);
+        if (message == null) {
+            message = String.format(MAIL_MESSAGE_DEFAULT_FORMAT, category, identifier, status);
+        }
+        return new Mail(from, to, object, message);
     }
 
     private String buildMailObject() throws MailBuilderException {
-        if (requestID == null) {
-            throw new MailBuilderException("Request ID not set");
+        if (category == null) {
+            throw new MailBuilderException("Category not set");
         }
-        if (requestStatus == null) {
-            throw new MailBuilderException("Request Status not set");
+        if (identifier == null) {
+            throw new MailBuilderException("ID not set");
         }
-        String mailObject;
-        switch (requestStatus) {
-            case ACCEPTED:
-                mailObject = String.format(MAIL_OBJECT_FORMAT, requestID, MAIL_OBJECT_STATUS_ACCEPTED);
-                break;
-            case REFUSED:
-                mailObject = String.format(MAIL_OBJECT_FORMAT, requestID, MAIL_OBJECT_STATUS_REFUSED);
-                break;
-            case CANCELED:
-                mailObject = String.format(MAIL_OBJECT_FORMAT, requestID, MAIL_OBJECT_STATUS_CANCELED);
-                break;
-            default:
-                throw new MailBuilderException("Invalid Request Status");
+        if (status == null) {
+            throw new MailBuilderException("Status not set");
         }
-        return mailObject;
+        return String.format(MAIL_OBJECT_FORMAT, category, identifier, status);
     }
 }
