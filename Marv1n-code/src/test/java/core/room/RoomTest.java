@@ -1,7 +1,6 @@
 package core.room;
 
 import core.request.Request;
-import core.room.RoomInsufficientSeatsException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +33,7 @@ public class RoomTest {
         room.reserve(requestMock);
     }
 
-    @Test (expected = RoomAlreadyReservedException.class)
+    @Test(expected = RoomAlreadyReservedException.class)
     public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomAlreadyReserved() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
         room.reserve(requestMock);
         room.reserve(requestMock);

@@ -2,8 +2,8 @@ package infrastructure.persistence;
 
 import core.request.Request;
 import core.room.Room;
-import core.room.RoomRepository;
 import core.room.RoomNotFoundException;
+import core.room.RoomRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,6 +22,6 @@ public class RoomRepositoryInMemory extends RepositoryInMemory<Room> implements 
 
         if (!roomFound.isPresent())
             throw new RoomNotFoundException();
-        return (roomFound.get());
+        return roomFound.get();
     }
 }

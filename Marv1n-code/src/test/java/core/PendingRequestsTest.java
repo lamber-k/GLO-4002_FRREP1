@@ -1,17 +1,16 @@
 package core;
 
 import core.request.Request;
-import core.request.RequestRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedList;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -24,17 +23,21 @@ public class PendingRequestsTest {
     @Mock
     private Request requestMock;
     @Mock
-    private RequestRepository requestRepositoryMock;
+    private TaskSchedulerFactory shedulerFactoryMock;
+    @Mock
+    private Scheduler schedulerMock;
 
     @Before
     public void initializePendingRequests() {
-        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, requestRepositoryMock);
+        when(shedulerFactoryMock.getTaskSheduler(any(LinkedList.class))).thenReturn(schedulerMock);
+        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, shedulerFactoryMock);
     }
 
     @Test
-    public void givenEmptyPendingRequest_WhenAddOneRequest_ThenItIsAddedToTheRepository() {
+    public void givenEmptyPendingRequest_WhenAddOneRequest_ThenItIsAddedToThePendingList() {
         pendingRequests.addRequest(requestMock);
-        verify(requestRepositoryMock).persist(requestMock);
+
+        fail();
     }
 
     @Test
@@ -50,28 +53,18 @@ public class PendingRequestsTest {
 
     @Test
     public void givenPendingRequestWithObserver_WhenPendingRequestFull_ThenShouldNotifyRegisteredObserver() {
-        MaximumPendingRequestReachedObserver observer = mock(MaximumPendingRequestReachedObserver.class);
-        pendingRequests.addObserverMaximumPendingRequestsReached(observer);
         pendingRequests.setMaximumPendingRequests(A_MAXIMUM_ONE_PENDING_REQUEST);
-        List<Request> requestList = new ArrayList<>();
-        requestList.add(requestMock);
-        when(requestRepositoryMock.findAllPendingRequest()).thenReturn(requestList);
-
         pendingRequests.addRequest(requestMock);
 
-        verify(observer).onMaximumPendingRequestReached();
+        verify(schedulerMock).runNow();
     }
 
     @Test
     public void givenPendingRequestWithObserver_WhenPendingRequestIsNotFull_ThenDoesNotNotifyRegisteredObserver() {
-        MaximumPendingRequestReachedObserver observer = mock(MaximumPendingRequestReachedObserver.class);
-        pendingRequests.addObserverMaximumPendingRequestsReached(observer);
-        List<Request> requestList = new ArrayList<>();
-        requestList.add(requestMock);
-        when(requestRepositoryMock.findAllPendingRequest()).thenReturn(requestList);
+        pendingRequests.setMaximumPendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS);
 
         pendingRequests.addRequest(requestMock);
 
-        verify(observer, never()).onMaximumPendingRequestReached();
+        verify(schedulerMock, never()).runNow();
     }
 }

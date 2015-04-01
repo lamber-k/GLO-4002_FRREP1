@@ -2,8 +2,8 @@ package core.request.evaluation;
 
 import core.request.Request;
 import core.room.Room;
-import core.room.RoomRepository;
 import core.room.RoomInsufficientSeatsException;
+import core.room.RoomRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.anyInt;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EvaluationMaximizeSeatsStrategyTest {

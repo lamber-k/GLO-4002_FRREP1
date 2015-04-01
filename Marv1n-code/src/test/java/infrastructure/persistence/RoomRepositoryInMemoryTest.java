@@ -1,15 +1,15 @@
 package infrastructure.persistence;
 
-        import core.room.Room;
-        import org.junit.Before;
-        import org.junit.Test;
-        import org.junit.runner.RunWith;
-        import org.mockito.Mock;
-        import org.mockito.runners.MockitoJUnitRunner;
+import core.room.Room;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-        import java.util.List;
+import java.util.List;
 
-        import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RoomRepositoryInMemoryTest {

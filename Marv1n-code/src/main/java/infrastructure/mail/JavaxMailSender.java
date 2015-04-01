@@ -27,7 +27,7 @@ public class JavaxMailSender implements MailSender {
         Properties properties = retrieveProperties();
         String username = properties.getProperty("username");
         String password = properties.getProperty("password");
-        if(username == null || password == null) {
+        if (username == null || password == null) {
             session = Session.getDefaultInstance(properties);
         } else {
             session = Session.getDefaultInstance(properties, new javax.mail.Authenticator() {
@@ -45,7 +45,7 @@ public class JavaxMailSender implements MailSender {
         if (configFile != null) {
             properties.load(configFile);
         } else {
-            throw new FileNotFoundException("Property file '" + CONFIG_FILE_NAME +"'.");
+            throw new FileNotFoundException("Property file '" + CONFIG_FILE_NAME + "'.");
         }
         return properties;
     }

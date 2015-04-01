@@ -2,8 +2,8 @@ package core.request.evaluation;
 
 import core.request.Request;
 import core.room.Room;
-import core.room.RoomRepository;
 import core.room.RoomInsufficientSeatsException;
+import core.room.RoomRepository;
 
 public class MaximizeSeatsEvaluationStrategy implements EvaluationStrategy {
 

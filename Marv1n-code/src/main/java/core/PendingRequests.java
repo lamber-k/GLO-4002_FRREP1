@@ -1,27 +1,27 @@
 package core;
 
 import core.request.Request;
-import core.request.RequestRepository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class PendingRequests {
 
     private int maximumPendingRequests;
-    private List<MaximumPendingRequestReachedObserver> maximumPendingRequestReachedObservers;
-    private RequestRepository requestRepository;
+    private List<Request> pendingRequest;
+    private Scheduler scheduler;
 
-    public PendingRequests(int maximumPendingRequests, RequestRepository requestRepository) {
+    public PendingRequests(int maximumPendingRequests, TaskSchedulerFactory shedulerFactory) {
         this.maximumPendingRequests = maximumPendingRequests;
-        this.maximumPendingRequestReachedObservers = new ArrayList<>();
-        this.requestRepository = requestRepository;
+        this.pendingRequest = Collections.synchronizedList(new ArrayList<>());
+        this.scheduler = shedulerFactory.getTaskSheduler(pendingRequest);
     }
 
     public void addRequest(Request request) {
-        requestRepository.persist(request);
-        if (requestRepository.findAllPendingRequest().size() >= maximumPendingRequests) {
-            notifyMaxPendingRequestReachedObserver();
+        pendingRequest.add(request);
+        if (pendingRequest.size() >= maximumPendingRequests) {
+            scheduler.runNow();
         }
     }
 
@@ -33,11 +33,4 @@ public class PendingRequests {
         this.maximumPendingRequests = maximumPendingRequests;
     }
 
-    public void addObserverMaximumPendingRequestsReached(MaximumPendingRequestReachedObserver observer) {
-        maximumPendingRequestReachedObservers.add(observer);
-    }
-
-    private void notifyMaxPendingRequestReachedObserver() {
-        maximumPendingRequestReachedObservers.forEach(MaximumPendingRequestReachedObserver::onMaximumPendingRequestReached);
-    }
 }

@@ -4,20 +4,20 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class TaskScheduler implements Scheduler {
+public class TaskScheduler extends Scheduler {
 
-    private final Runnable task;
     private final TimeUnit timeUnit;
     private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> nextRun = null;
     private boolean isSchedulerRunning = false;
     private int intervalTimer;
+    private TaskFactory taskFactory;
 
-    public TaskScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit, Runnable task) {
+    public TaskScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit, TaskFactory taskFactory) {
         this.scheduler = scheduler;
         this.timeUnit = timeUnit;
         this.intervalTimer = intervalTimer;
-        this.task = task;
+        this.taskFactory = taskFactory;
     }
 
     @Override
@@ -39,7 +39,7 @@ public class TaskScheduler implements Scheduler {
     }
 
     private void startAtFixedRate() {
-        nextRun = scheduler.scheduleAtFixedRate(task, intervalTimer, intervalTimer, timeUnit);
+        nextRun = scheduler.scheduleAtFixedRate(this, intervalTimer, intervalTimer, timeUnit);
         isSchedulerRunning = true;
     }
 
@@ -51,6 +51,8 @@ public class TaskScheduler implements Scheduler {
     @Override
     public void setIntervalTimer(int intervalTimer) {
         this.intervalTimer = intervalTimer;
+        cancelScheduler();
+        startAtFixedRate();
     }
 
     @Override
@@ -62,7 +64,8 @@ public class TaskScheduler implements Scheduler {
     @Override
     public void runNow() {
         cancelScheduler();
-        task.run();
+        Thread task = taskFactory.createTask();
+        task.start();
         startAtFixedRate();
     }
 }

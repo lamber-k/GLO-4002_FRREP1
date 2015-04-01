@@ -2,7 +2,6 @@ package core;
 
 import core.request.Request;
 import core.request.evaluation.EvaluationNoRoomFoundException;
-import core.request.RequestRepository;
 import core.request.evaluation.EvaluationStrategy;
 import core.request.sorting.SortingRequestStrategy;
 import core.room.Room;
@@ -18,7 +17,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RequestTreatmentTest {
@@ -35,8 +35,6 @@ public class RequestTreatmentTest {
     @Mock
     private Request requestMock;
     @Mock
-    private RequestRepository requestRepositoryMock;
-    @Mock
     private Room roomMock;
 
     @Before
@@ -44,8 +42,7 @@ public class RequestTreatmentTest {
         arrayWithOneRequest = new ArrayList<>();
         arrayWithOneRequest.add(requestMock);
         pendingRequests = new ArrayList<>();
-        when(requestRepositoryMock.findAllPendingRequest()).thenReturn(pendingRequests);
-        requestTreatment = new RequestTreatment(assignerStrategyMock, requestSortedStrategyMock, reservablesRepositoryMock, requestRepositoryMock);
+        requestTreatment = new RequestTreatment(assignerStrategyMock, requestSortedStrategyMock, reservablesRepositoryMock, pendingRequests);
     }
 
     @Test

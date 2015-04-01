@@ -1,18 +1,23 @@
 package core;
 
-public interface Scheduler {
+public abstract class Scheduler implements Runnable {
 
-    boolean isSchedulerRunning();
+    public abstract boolean isSchedulerRunning();
 
-    void startScheduler();
+    public abstract void startScheduler();
 
-    void cancelScheduler();
+    public abstract void cancelScheduler();
 
-    int getIntervalTimer();
+    public abstract int getIntervalTimer();
 
-    void setIntervalTimer(int intervalTimer);
+    public abstract void setIntervalTimer(int intervalTimer);
 
-    void restartSchedule();
+    public abstract void restartSchedule();
 
-    void runNow();
+    public abstract void runNow();
+
+    @Override
+    public void run() {
+        runNow();
+    }
 }
