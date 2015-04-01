@@ -1,5 +1,6 @@
 package core;
 
+import TestUtilitary.TestLogHandler;
 import core.request.Request;
 import core.request.evaluation.EvaluationNoRoomFoundException;
 import core.request.evaluation.EvaluationStrategy;
@@ -17,9 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.assertTrue;
@@ -29,7 +28,7 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class RequestTreatmentTaskTest {
 
-    private static Logger log = Logger.getLogger(RequestTreatmentTask.class.getName()); // Use the same logger as the class
+    private static Logger LOGGER = Logger.getLogger(RequestTreatmentTask.class.getName()); // Use the same logger as the class
     private static TestLogHandler logHandler = new TestLogHandler();
     private List<Request> arrayWithOneRequest;
     private List<Request> pendingRequests;
@@ -85,8 +84,8 @@ public class RequestTreatmentTaskTest {
     }
 
     public void attachLoggingSystem() {
-        log.addHandler(logHandler);
-        log.setLevel(Level.ALL);
+        LOGGER.addHandler(logHandler);
+        LOGGER.setLevel(Level.ALL);
     }
 
     @Test
@@ -111,31 +110,6 @@ public class RequestTreatmentTaskTest {
         requestTreatmentTask.run();
 
         assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
-    }
-
-    private static class TestLogHandler extends Handler {
-        private List<String> recordsLog;
-
-        public TestLogHandler() {
-            recordsLog = new ArrayList<>();
-        }
-
-        @Override
-        public void publish(LogRecord record) {
-            recordsLog.add(record.getMessage());
-        }
-
-        @Override
-        public void flush() {
-        }
-
-        @Override
-        public void close() throws SecurityException {
-        }
-
-        public String getLogs() {
-            return recordsLog.toString();
-        }
     }
 
 

@@ -24,7 +24,7 @@ public class MailNotificationFactory implements NotificationFactory {
     public MailNotification createNotification(NotificationInfo info) throws InvalidNotificationException {
         List<MailAddress> mailTo = new LinkedList<>();
         mailTo.addAll(personRepository.findAdmins().stream().map(Person::getMailAddress).collect(Collectors.toList()));
-        mailTo.addAll(info.destination.stream().map(Person::getMailAddress).collect(Collectors.toList()));
+        mailTo.addAll(info.getDestination().stream().map(Person::getMailAddress).collect(Collectors.toList()));
         Mail mail = buildMail(info, mailTo);
         return new MailNotification(mailSender, mail);
     }
@@ -34,18 +34,18 @@ public class MailNotificationFactory implements NotificationFactory {
         String message = buildMessage(info);
         try {
             return mailBuilder.setTo(mailTo)
-                    .setCategory(info.category)
+                    .setCategory(info.getCategory())
                     .setMessage(message)
-                    .setStatus(info.status)
-                    .setIdentifier(info.identifier)
+                    .setStatus(info.getStatus())
+                    .setIdentifier(info.getIdentifier())
                     .buildMail();
         } catch (MailBuilderException exception) {
-            throw new InvalidNotificationException(exception.getMessage());
+            throw new InvalidNotificationException(exception);
         }
     }
 
     private String buildMessage(NotificationInfo info) {
 
-        return "Bonjour,\n" + "Ceci est un message automatique.\n" + "Ce mail vous a été envoyé pour la raison suivante:\n" + info.detail + "\n\nCordialement,\n";
+        return "Bonjour,\n" + "Ceci est un message automatique.\n" + "Ce mail vous a été envoyé pour la raison suivante:\n" + info.getDetail() + "\n\nCordialement,\n";
     }
 }

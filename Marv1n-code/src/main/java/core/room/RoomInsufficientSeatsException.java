@@ -1,4 +1,4 @@
 package core.room;
 
-public class RoomInsufficientSeatsException extends Exception {
+public class RoomInsufficientSeatsException extends RuntimeException {
 }

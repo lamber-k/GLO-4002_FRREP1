@@ -34,9 +34,9 @@ public class MailBuilderTest {
                 .setCategory(A_CATEGORY)
                 .buildMail();
 
-        assertThat(returnedMail.object, containsString(A_STATUS));
-        assertThat(returnedMail.object, containsString(A_CATEGORY));
-        assertThat(returnedMail.object, containsString(AN_IDENTIFIER));
+        assertThat(returnedMail.getObject(), containsString(A_STATUS));
+        assertThat(returnedMail.getObject(), containsString(A_CATEGORY));
+        assertThat(returnedMail.getObject(), containsString(AN_IDENTIFIER));
     }
 
     @Test(expected = MailBuilderException.class)
@@ -62,7 +62,7 @@ public class MailBuilderTest {
                 .setStatus(A_STATUS)
                 .buildMail();
 
-        assertEquals(fromMailMock, returnedMail.from);
+        assertEquals(fromMailMock, returnedMail.getFrom());
     }
 
     @Test
@@ -73,6 +73,6 @@ public class MailBuilderTest {
                 .setStatus(A_STATUS)
                 .buildMail();
 
-        assertEquals(TO_MAILS, returnedMail.to);
+        assertEquals(TO_MAILS, returnedMail.getTo());
     }
 }

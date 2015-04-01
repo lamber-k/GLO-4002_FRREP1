@@ -4,10 +4,10 @@ import java.util.List;
 
 public class Mail {
 
-    public final MailAddress from;
-    public final List<MailAddress> to;
-    public final String object;
-    public final String message;
+    private final MailAddress from;
+    private final List<MailAddress> to;
+    private final String object;
+    private final String message;
 
     public Mail(MailAddress from, List<MailAddress> to, String object, String message) {
         this.from = from;
@@ -24,5 +24,21 @@ public class Mail {
     @Override
     public boolean equals(Object rhs) {
         return rhs != null && rhs instanceof Mail && hashCode() == rhs.hashCode();
+    }
+
+    public MailAddress getFrom() {
+        return from;
+    }
+
+    public List<MailAddress> getTo() {
+        return to;
+    }
+
+    public String getObject() {
+        return object;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

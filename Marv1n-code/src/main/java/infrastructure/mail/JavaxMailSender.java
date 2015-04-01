@@ -55,18 +55,18 @@ public class JavaxMailSender implements MailSender {
     public void send(Mail mail) throws MailSendingException {
         try {
             Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(mail.from.toString()));
+            message.setFrom(new InternetAddress(mail.getFrom().toString()));
             List<InternetAddress> tos = new ArrayList<>();
-            for (MailAddress to : mail.to) {
+            for (MailAddress to : mail.getTo()) {
                 tos.add(new InternetAddress(to.toString()));
             }
             InternetAddress[] toArray = tos.toArray(new InternetAddress[tos.size()]);
             message.addRecipients(Message.RecipientType.TO, toArray);
-            message.setSubject(mail.object);
-            message.setText(mail.message);
+            message.setSubject(mail.getObject());
+            message.setText(mail.getMessage());
             mailTransporter.send(message);
         } catch (MessagingException exception) {
-            throw new MailSendingException(exception.getMessage());
+            throw new MailSendingException(exception);
         }
     }
 }
