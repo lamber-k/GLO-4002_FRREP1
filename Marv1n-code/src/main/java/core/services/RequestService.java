@@ -2,6 +2,7 @@ package core.services;
 
 import core.request.Request;
 import core.request.RequestRepository;
+import infrastructure.locator.LocatorService;
 
 import java.util.UUID;
 
@@ -10,6 +11,10 @@ public class RequestService {
 
     public RequestService(RequestRepository requestRepository) {
         this.requestRepository = requestRepository;
+    }
+
+    public RequestService() {
+        this.requestRepository = LocatorService.getInstance().resolve(RequestRepository.class);
     }
 
     public void AddRequest() {

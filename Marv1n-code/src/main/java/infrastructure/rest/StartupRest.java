@@ -1,7 +1,8 @@
 package infrastructure.rest;
 
-import infrastructure.rest.configuration.ApplicationBinder;
+import infrastructure.locator.LocatorService;
 import infrastructure.rest.configuration.EntityManagerContextFilter;
+import infrastructure.rest.configuration.LocatorServicesModule;
 import infrastructure.rest.configuration.StartupApplication;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -37,11 +38,12 @@ public class StartupRest {
     private void configureApplication() {
         this.startupApplication = new StartupApplication();
         this.startupApplication.init();
+        LocatorService.getInstance().RegisterModule(new LocatorServicesModule());
     }
 
     private void configureJersey(ServletContextHandler servletContextHandler) {
         ServletContainer container = new ServletContainer(new ResourceConfig().packages(
-                "ca.ulaval.glo4002.Marv1n.infrastructure.rest").register(JacksonFeature.class).register(ApplicationBinder.class));
+                "infrastructure.rest.resources").register(JacksonFeature.class));
         ServletHolder jerseyServletHolder = new ServletHolder(container);
         servletContextHandler.addServlet(jerseyServletHolder, "/*");
         servletContextHandler.addFilter(EntityManagerContextFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));
