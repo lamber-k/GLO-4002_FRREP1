@@ -13,6 +13,7 @@
         <module>Marv1n-applicationServices</module>
         <module>Marv1n-persistence</module>
         <module>Marv1n-web</module>
+        <module>Marv1n-uac</module>
     </modules>
 
     <properties>
