@@ -28,6 +28,18 @@ public class TaskSchedulerFactory {
         this.roomRepository = roomRepository;
     }
 
+    public TaskSchedulerFactory(EvaluationStrategy strategyAssignation,
+                                SortingRequestStrategy strategySortRequest,
+                                RoomRepository roomRepository,
+                                int intervalTimer,
+                                TimeUnit timeUnit) {
+        this.strategyAssignation = strategyAssignation;
+        this.strategySortRequest = strategySortRequest;
+        this.roomRepository = roomRepository;
+        this.DEFAULT_INTERVAL_TIMER = intervalTimer;
+        this.DEFAULT_TIME_UNIT = timeUnit;
+    }
+
     public Scheduler getTaskSheduler(List<Request> pendingRequests) {
         RequestTreatmentTaskFactory requestTreatementFactory = new RequestTreatmentTaskFactory(strategyAssignation, strategySortRequest, roomRepository, pendingRequests);
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
