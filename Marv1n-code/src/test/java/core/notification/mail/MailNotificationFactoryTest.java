@@ -29,8 +29,6 @@ public class MailNotificationFactoryTest {
     @Mock
     private PersonRepository personRepositoryMock;
     @Mock
-    private NotificationInfo notificationInfo;
-    @Mock
     private Person personMock;
     @Mock
     private Person anotherPersonMock;
@@ -48,13 +46,22 @@ public class MailNotificationFactoryTest {
         when(adminMock.isAdmin()).thenReturn(true);
         when(adminMock.getMailAddress()).thenReturn(ADMIN_ADDRESS);
         when(personRepositoryMock.findAdmins()).thenReturn(Arrays.asList(adminMock));
-        notificationInfo = new NotificationInfo("category", "status", "identifier", "detail", Arrays.asList(personMock, anotherPersonMock));
     }
 
     @Test
     public void givenMailFactory_WhenCreateNotification_ThenCreatedNotificationShouldHaveToMails() throws InvalidNotificationException {
+        NotificationInfo notificationInfo = new NotificationInfo("category", "status", "identifier", "detail", Arrays.asList(personMock, anotherPersonMock));
+
         MailNotification returnedNotification = mailFactory.createNotification(notificationInfo);
 
         assertThat(returnedNotification.getMailToSend().getTo(), CoreMatchers.hasItems(PERSON_ADDRESS, ANOTHER_PERSON_ADDRESS));
     }
+
+    @Test(expected = InvalidNotificationException.class)
+    public void givenMailFactory_WhenCreateNotificationWithInvalidNotificationInfo_ThenShouldThrowInvalidNotification() throws InvalidNotificationException {
+        NotificationInfo notificationInfo = new NotificationInfo(null, null, null, null, Arrays.asList(personMock, anotherPersonMock));
+
+        mailFactory.createNotification(notificationInfo);
+    }
+
 }

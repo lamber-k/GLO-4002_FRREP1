@@ -11,14 +11,6 @@ public class NotificationInfo {
     private final String detail;
     private final List<Person> destination;
 
-    public NotificationInfo(String category, String status, String identifier, String detail) {
-        this.category = category;
-        this.status = status;
-        this.detail = detail;
-        this.identifier = identifier;
-        this.destination = null;
-    }
-
     public NotificationInfo(String category, String status, String identifier, String detail, List<Person> destination) {
         this.category = category;
         this.status = status;

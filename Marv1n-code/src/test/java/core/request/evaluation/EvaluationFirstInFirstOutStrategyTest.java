@@ -60,4 +60,16 @@ public class EvaluationFirstInFirstOutStrategyTest {
         assertEquals(anotherRoomMock, roomFound);
     }
 
+    @Test
+    public void givenAssignationIsRun_WhenSecondRoomAvailable_ThenReturnTheSecondRoom() throws EvaluationNoRoomFoundException {
+        roomList.add(anotherRoomMock);
+        roomList.add(roomMock);
+        when(anotherRoomMock.isReserved()).thenReturn(true);
+
+        Room roomFound = assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
+
+        assertEquals(roomMock, roomFound);
+    }
+
+
 }

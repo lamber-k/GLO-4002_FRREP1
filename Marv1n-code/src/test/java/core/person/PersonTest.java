@@ -6,6 +6,7 @@ import org.mockito.Mock;
 
 import javax.mail.internet.AddressException;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -18,6 +19,18 @@ public class PersonTest {
     @Before
     public void initializePerson() throws AddressException {
         person = new Person(MAIL_ADDRESS);
+    }
+
+    @Test
+    public void givenAdminPerson_WhenTestIfAdmin_ThenReturnTrue() {
+        Person  adminPerson = new Person(MAIL_ADDRESS, true);
+
+        assertTrue(adminPerson.isAdmin());
+    }
+
+    @Test
+    public void givenPerson_WhenGetMailAddress_ThenShouldReturnConstructorMail() {
+        assertEquals(MAIL_ADDRESS, person.getMailAddress());
     }
 
     @Test
