@@ -17,8 +17,8 @@ public class TaskSchedulerFactory {
     private RoomRepository roomRepository;
 
     //TODO read these from a config file
-    private int DEFAULT_INTERVAL_TIMER;
-    private TimeUnit DEFAULT_TIME_UNIT;
+    private int defaultIntervalTimer;
+    private TimeUnit defaultTimeUnit;
 
     //TODO could also read EvaluationStrategy and SortingStrategy from config within task factory
 
@@ -36,13 +36,13 @@ public class TaskSchedulerFactory {
         this.strategyAssignation = strategyAssignation;
         this.strategySortRequest = strategySortRequest;
         this.roomRepository = roomRepository;
-        this.DEFAULT_INTERVAL_TIMER = intervalTimer;
-        this.DEFAULT_TIME_UNIT = timeUnit;
+        this.defaultIntervalTimer = intervalTimer;
+        this.defaultTimeUnit = timeUnit;
     }
 
     public Scheduler getTaskSheduler(List<Request> pendingRequests) {
         RequestTreatmentTaskFactory requestTreatementFactory = new RequestTreatmentTaskFactory(strategyAssignation, strategySortRequest, roomRepository, pendingRequests);
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        return new TaskScheduler(scheduledExecutorService, DEFAULT_INTERVAL_TIMER, DEFAULT_TIME_UNIT, requestTreatementFactory);
+        return new TaskScheduler(scheduledExecutorService, defaultIntervalTimer, defaultTimeUnit, requestTreatementFactory);
     }
 }

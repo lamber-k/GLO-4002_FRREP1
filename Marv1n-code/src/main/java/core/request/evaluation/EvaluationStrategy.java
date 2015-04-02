@@ -7,5 +7,5 @@ import core.room.RoomRepository;
 @FunctionalInterface
 public interface EvaluationStrategy {
 
-    Room evaluateOneRequest(RoomRepository reservables, Request request) throws EvaluationNoRoomFoundException;
+    Room evaluateOneRequest(RoomRepository reservables, Request request);
 }

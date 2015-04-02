@@ -26,7 +26,7 @@ public class Room {
         return associatedRequest != null;
     }
 
-    public void reserve(Request request) throws RoomAlreadyReservedException {
+    public void reserve(Request request) {
         if (associatedRequest != null) {
             request.refuse();
             throw new RoomAlreadyReservedException();
@@ -39,7 +39,7 @@ public class Room {
         associatedRequest = null;
     }
 
-    public Room getBestFit(Room room, int capacityNeeded) throws RoomInsufficientSeatsException {
+    public Room getBestFit(Room room, int capacityNeeded) {
         if (!hasEnoughCapacity(capacityNeeded) && !room.hasEnoughCapacity(capacityNeeded)) {
             throw new RoomInsufficientSeatsException();
         } else if (!hasEnoughCapacity(capacityNeeded)) {

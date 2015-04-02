@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class RequestTreatmentTask extends Task {
 
-    private static final Logger log = Logger.getLogger( RequestTreatmentTask.class.getName() );
+    private static final Logger LOGGER = Logger.getLogger(RequestTreatmentTask.class.getName());
 
     private EvaluationStrategy evaluationStrategy;
     private SortingRequestStrategy sortingRequestStrategy;
@@ -40,9 +40,9 @@ public class RequestTreatmentTask extends Task {
                 Room roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
                 roomFound.reserve(pendingRequest);
             } catch (EvaluationNoRoomFoundException e) {
-                log.log(Level.FINEST, "No Room Found Exception:", e);
+                LOGGER.log(Level.FINEST, "No Room Found Exception:", e);
             } catch (RoomAlreadyReservedException e) {
-                log.log(Level.FINEST, "Already Reserved Exception:", e);
+                LOGGER.log(Level.FINEST, "Already Reserved Exception:", e);
             }
         }
     }

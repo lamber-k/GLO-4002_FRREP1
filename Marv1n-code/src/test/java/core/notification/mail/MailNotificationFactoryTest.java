@@ -58,6 +58,6 @@ public class MailNotificationFactoryTest {
     public void givenMailFactory_WhenCreateNotification_ThenCreatedNotificationShouldHaveToMails() throws InvalidNotificationException {
         MailNotification returnedNotification = mailFactory.createNotification(notificationInfo);
 
-        assertThat(returnedNotification.mailToSend.to, CoreMatchers.hasItems(personAddressMock, anotherPersonAddressMock));
+        assertThat(returnedNotification.getMailToSend().getTo(), CoreMatchers.hasItems(personAddressMock, anotherPersonAddressMock));
     }
 }
