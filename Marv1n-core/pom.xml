@@ -7,10 +7,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>Marv1n-code</artifactId>
+    <artifactId>Marv1n-core</artifactId>
     <packaging>jar</packaging>
 
-    <name>Marv1n-code</name>
+    <name>Marv1n-core</name>
     <url>http://maven.apache.org</url>
 
     <properties>
