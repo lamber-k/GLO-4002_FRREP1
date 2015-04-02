@@ -1,6 +1,5 @@
 package core;
 
-import TestUtilitary.TestLogHandler;
 import core.request.Request;
 import core.request.evaluation.EvaluationNoRoomFoundException;
 import core.request.evaluation.EvaluationStrategy;
@@ -21,7 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
@@ -29,7 +28,7 @@ import static org.mockito.Mockito.*;
 public class RequestTreatmentTaskTest {
 
     private static Logger LOGGER = Logger.getLogger(RequestTreatmentTask.class.getName()); // Use the same logger as the class
-    private static TestLogHandler logHandler = new TestLogHandler();
+    //private static TestLogHandler logHandler = new TestLogHandler();
     private List<Request> arrayWithOneRequest;
     private List<Request> pendingRequests;
     private RequestTreatmentTask requestTreatmentTask;
@@ -84,7 +83,7 @@ public class RequestTreatmentTaskTest {
     }
 
     public void attachLoggingSystem() {
-        LOGGER.addHandler(logHandler);
+        //LOGGER.addHandler(logHandler);
         LOGGER.setLevel(Level.ALL);
     }
 
@@ -97,7 +96,8 @@ public class RequestTreatmentTaskTest {
 
         requestTreatmentTask.run();
 
-        assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
+        //assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
+        fail();
     }
 
     @Test
@@ -109,7 +109,8 @@ public class RequestTreatmentTaskTest {
 
         requestTreatmentTask.run();
 
-        assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
+        //assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
+        fail();
     }
 
 

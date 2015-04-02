@@ -22,14 +22,21 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="Marv1n-applicationServices" />
         <module name="Marv1n-code" />
+        <module name="Marv1n-persistence" />
         <module name="Marv1n-test" />
+        <module name="Marv1n-web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="GLO-4002_FRREP1" target="1.8" />
+      <module name="Marv1n-applicationServices" target="1.8" />
       <module name="Marv1n-code" target="1.8" />
+      <module name="Marv1n-persistence" target="1.8" />
       <module name="Marv1n-test" target="1.8" />
+      <module name="Marv1n-uat" target="1.8" />
+      <module name="Marv1n-web" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

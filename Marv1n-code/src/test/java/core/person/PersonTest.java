@@ -4,11 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 
-import javax.mail.internet.AddressException;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class PersonTest {
 
@@ -17,13 +13,13 @@ public class PersonTest {
     private Person person;
 
     @Before
-    public void initializePerson() throws AddressException {
+    public void initializePerson() {
         person = new Person(MAIL_ADDRESS);
     }
 
     @Test
     public void givenAdminPerson_WhenTestIfAdmin_ThenReturnTrue() {
-        Person  adminPerson = new Person(MAIL_ADDRESS, true);
+        Person adminPerson = new Person(MAIL_ADDRESS, true);
 
         assertTrue(adminPerson.isAdmin());
     }
@@ -39,7 +35,7 @@ public class PersonTest {
     }
 
     @Test
-    public void givenPerson_WhenComparedToDifferentPerson_ThenReturnFalse() throws AddressException {
+    public void givenPerson_WhenComparedToDifferentPerson_ThenReturnFalse() {
         Person aDifferentPerson = new Person(MAIL_ADDRESS);
         assertFalse(person.equals(aDifferentPerson));
     }

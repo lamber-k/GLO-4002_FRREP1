@@ -11,6 +11,9 @@
     <modules>
         <module>Marv1n-code</module>
         <module>Marv1n-test</module>
+        <module>Marv1n-applicationServices</module>
+        <module>Marv1n-persistence</module>
+        <module>Marv1n-web</module>
     </modules>
 
     <properties>

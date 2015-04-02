@@ -3,8 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GLO-4002_FRREP1.iml" filepath="$PROJECT_DIR$/GLO-4002_FRREP1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Marv1n-applicationServices/Marv1n-applicationServices.iml" filepath="$PROJECT_DIR$/Marv1n-applicationServices/Marv1n-applicationServices.iml" />
       <module fileurl="file://$PROJECT_DIR$/Marv1n-code/Marv1n-code.iml" filepath="$PROJECT_DIR$/Marv1n-code/Marv1n-code.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Marv1n-test/Marv1n-test.iml" filepath="$PROJECT_DIR$/Marv1n-test/Marv1n-test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Marv1n-persistence/Marv1n-persistence.iml" filepath="$PROJECT_DIR$/Marv1n-persistence/Marv1n-persistence.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Marv1n-web/Marv1n-web.iml" filepath="$PROJECT_DIR$/Marv1n-web/Marv1n-web.iml" />
     </modules>
   </component>
 </project>

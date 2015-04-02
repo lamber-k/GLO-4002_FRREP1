@@ -13,7 +13,7 @@ import static org.junit.Assert.assertThat;
 
 public class MailBuilderTest {
 
-    private static final List <String> TO_MAILS = Arrays.asList("to@mail.com", "another.to@mail.com");
+    private static final List<String> TO_MAILS = Arrays.asList("to@mail.com", "another.to@mail.com");
     private static final String A_STATUS = "aStatus";
     private static final String AN_IDENTIFIER = "anIdentifier";
     private static final String A_CATEGORY = "aCategory";
