@@ -1,5 +1,6 @@
 package infrastructure.persistence;
 
+import core.person.Person;
 import core.person.PersonNotFoundException;
 import core.person.PersonRepository;
 import infrastructure.hibernate.EntityManagerProvider;
@@ -18,17 +19,17 @@ public class PersonRepositoryHibernate extends RepositoryHibernate<core.person.P
     }
 
     @Override
-    public List<core.person.Person> findByListOfUUID(List<UUID> listOfUUID) {
+    public List<Person> findByListOfUUID(List<UUID> listOfUUID) {
         return null;
     }
 
     @Override
-    public core.person.Person findByEmail(String email) throws PersonNotFoundException {
+    public Person findByEmail(String email) throws PersonNotFoundException {
         return null;
     }
 
     @Override
-    public List<core.person.Person> findAdmins() {
+    public List<Person> findAdmins() {
         return null;
     }
 }

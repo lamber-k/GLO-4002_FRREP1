@@ -20,7 +20,7 @@ public class DemandesResource {
     @GET
     @Path("{email}/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Request GetRequestByEmail(@PathParam("id") String id, @PathParam("email") String email) {
-        return requestService.GetRequestByEmailAndId(email, UUID.fromString(id));
+    public Request getRequestByEmail(@PathParam("id") String id, @PathParam("email") String email) {
+        return requestService.getRequestByEmailAndId(email, UUID.fromString(id));
     }
 }

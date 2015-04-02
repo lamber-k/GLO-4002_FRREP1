@@ -21,7 +21,7 @@ public class StartupApplication {
     private EvaluationStrategy strategyAssignation;
     private SortingRequestStrategy sortingRequestStrategy;
 
-    public PendingRequests pendingRequests;
+    private PendingRequests pendingRequests;
 
     public void init() {
         this.startOrganizer();
@@ -32,6 +32,14 @@ public class StartupApplication {
         strategyAssignation = new MaximizeSeatsEvaluationStrategy();
         sortingRequestStrategy = new SortingRequestByPriorityStrategy();
         schedulerFactory = new TaskSchedulerFactory(strategyAssignation, sortingRequestStrategy, roomRepository, intervalTimer, timeUnit);
-        pendingRequests = new PendingRequests(maximumPendingRequests, schedulerFactory);
+        setPendingRequests(new PendingRequests(maximumPendingRequests, schedulerFactory));
+    }
+
+    public PendingRequests getPendingRequests() {
+        return pendingRequests;
+    }
+
+    public void setPendingRequests(PendingRequests pendingRequests) {
+        this.pendingRequests = pendingRequests;
     }
 }

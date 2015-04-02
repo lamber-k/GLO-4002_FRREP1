@@ -1,17 +1,12 @@
 package infrastructure.rest;
 
-import core.notification.mail.EmailValidator;
-import core.notification.mail.InvalidMailAddressException;
-import core.notification.mail.MailAddress;
-import core.person.Person;
-import core.person.PersonRepository;
-import infrastructure.mail.JavaxMailValidator;
-import infrastructure.persistence.PersonRepositoryHibernate;
-
 public class StartupMain {
     private static final int DEFAULT_PORT = 8080;
 
-    public static void main(String []args) throws Exception {
+    private StartupMain() {
+    }
+
+    public static void main(String[] args) throws Exception {
         /*PersonRepository personRepository = new PersonRepositoryHibernate();
         try {
             EmailValidator validator = new JavaxMailValidator();
