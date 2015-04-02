@@ -1,10 +1,14 @@
 package core.notification.mail;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class MailAddress {
 
-    private final String mailAddress;
+    @Id private final String mailAddress;
 
-    MailAddress(String mailAddress, EmailValidator validator) throws InvalidMailAddressException {
+    public MailAddress(String mailAddress, EmailValidator validator) throws InvalidMailAddressException {
         if (!validator.validateMailAddress(mailAddress)) {
             throw new InvalidMailAddressException();
         }

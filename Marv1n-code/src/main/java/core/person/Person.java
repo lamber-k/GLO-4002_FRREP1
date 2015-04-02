@@ -2,11 +2,14 @@ package core.person;
 
 import core.notification.mail.MailAddress;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.UUID;
 
+@Entity
 public class Person {
 
-    private final UUID personID;
+    @Id private final UUID personID;
     private final MailAddress email;
     private final boolean admin;
 
