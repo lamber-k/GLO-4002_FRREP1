@@ -4,7 +4,7 @@ import core.persistence.Repository;
 
 import javax.persistence.EntityManager;
 
-public class RepositoryHibernate<Type> implements Repository<Type> {
+public abstract class RepositoryHibernate<Type> implements Repository<Type> {
     protected EntityManager entityManager;
 
     public RepositoryHibernate(EntityManager entityManager) {

@@ -1,14 +1,17 @@
 package core.notification.mail;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class MailAddress {
 
     private final String emailAddress;
 
-    MailAddress(String emailAddress, EmailValidator validator) throws InvalidMailAddressException {
-        if (!validator.validateMailAddress(emailAddress)) {
+    public MailAddress(String mailAddress, EmailValidator validator) throws InvalidMailAddressException {
+        if (!validator.validateMailAddress(mailAddress)) {
             throw new InvalidMailAddressException();
         }
-        this.emailAddress = emailAddress;
+        this.emailAddress = mailAddress;
     }
 
     @Override
