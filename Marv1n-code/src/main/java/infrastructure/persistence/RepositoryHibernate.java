@@ -4,7 +4,7 @@ import core.persistence.Repository;
 
 import javax.persistence.EntityManager;
 
-public abstract class RepositoryHibernate<Type> implements Repository<Type> {
+public abstract class RepositoryHibernate<T> implements Repository<T> {
     protected EntityManager entityManager;
 
     public RepositoryHibernate(EntityManager entityManager) {
@@ -12,12 +12,12 @@ public abstract class RepositoryHibernate<Type> implements Repository<Type> {
     }
 
     @Override
-    public void persist(Type object) {
+    public void persist(T object) {
         this.entityManager.persist(object);
     }
 
     @Override
-    public void remove(Type object) {
+    public void remove(T object) {
         this.entityManager.remove(object);
     }
 }

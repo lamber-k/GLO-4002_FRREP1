@@ -22,23 +22,28 @@ public class StartupRest {
         this.httpPort = httpPort;
     }
 
-    public void start() throws Exception {
+    public void start() {
         configureApplication();
         startRest();
     }
 
-    private void startRest() throws Exception {
-        Server server = new Server(this.httpPort);
-        ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/");
-        configureJersey(servletContextHandler);
-        server.start();
-        server.join();
+    private void startRest() {
+        try {
+            Server server = new Server(this.httpPort);
+            ServletContextHandler servletContextHandler = new ServletContextHandler(server, "/");
+            configureJersey(servletContextHandler);
+            server.start();
+            server.join();
+        }
+        catch (Exception e){
+            throw new RestServerLanchFailException(e);
+        }
     }
 
     private void configureApplication() {
         this.startupApplication = new StartupApplication();
         this.startupApplication.init();
-        LocatorService.getInstance().RegisterModule(new LocatorServicesModule());
+        LocatorService.getInstance().registerModule(new LocatorServicesModule());
     }
 
     private void configureJersey(ServletContextHandler servletContextHandler) {
