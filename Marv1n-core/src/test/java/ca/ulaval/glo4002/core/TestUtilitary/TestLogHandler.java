@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.Marv1n.applicationServices.TestUtilitary;
+package ca.ulaval.glo4002.core.TestUtilitary;
 
 import java.util.ArrayList;
 import java.util.List;

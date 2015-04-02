@@ -1,13 +1,13 @@
 package ca.ulaval.glo4002.core;
 
-import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
-import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
-import ca.ulaval.glo4002.core.room.RoomRepository;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationNoRoomFoundException;
+import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
+import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomAlreadyReservedException;
 import ca.ulaval.glo4002.core.room.RoomInsufficientSeatsException;
+import ca.ulaval.glo4002.core.room.RoomRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

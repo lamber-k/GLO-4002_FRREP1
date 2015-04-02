@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.Marv1n.applicationServices.mail;
+package ca.ulaval.glo4002.applicationServices.mail;
 
 import ca.ulaval.glo4002.core.notification.mail.Mail;
 import ca.ulaval.glo4002.mail.JavaxMailSender;

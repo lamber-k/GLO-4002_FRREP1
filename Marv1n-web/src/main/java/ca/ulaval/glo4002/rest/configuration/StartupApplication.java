@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.rest.configuration;
 
-import ca.ulaval.glo4002.persistence.RoomRepositoryHibernate;
 import ca.ulaval.glo4002.core.PendingRequests;
 import ca.ulaval.glo4002.core.TaskSchedulerFactory;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
@@ -8,6 +7,7 @@ import ca.ulaval.glo4002.core.request.evaluation.MaximizeSeatsEvaluationStrategy
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestByPriorityStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.RoomRepository;
+import ca.ulaval.glo4002.persistence.RoomRepositoryHibernate;
 
 import java.util.concurrent.TimeUnit;
 

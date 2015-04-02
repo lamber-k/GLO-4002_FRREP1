@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>Marv1n</artifactId>
@@ -27,6 +27,28 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>4.3.8.Final</version>
         </dependency>
+
+
+        <!-- Domain dependencies-->
+
+        <dependency>
+            <groupId>ca.ulaval.glo4002</groupId>
+            <artifactId>Marv1n-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ca.ulaval.glo4002</groupId>
+            <artifactId>Marv1n-persistence</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ca.ulaval.glo4002</groupId>
+            <artifactId>Marv1n-applicationServices</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 </project>
