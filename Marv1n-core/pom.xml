@@ -1,4 +1,6 @@
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>Marv1n</artifactId>
@@ -8,22 +10,6 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>Marv1n-core</artifactId>
-    <packaging>jar</packaging>
-
-    <name>Marv1n-core</name>
-    <url>http://maven.apache.org</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
-    <repositories>
-        <repository>
-            <id>Java.Net</id>
-            <url>http://download.java.net/maven/2/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
         <!-- Librairies for Test -->
         <dependency>
@@ -45,4 +31,5 @@
             <version>1.0.0.Final</version>
         </dependency>
     </dependencies>
+
 </project>
