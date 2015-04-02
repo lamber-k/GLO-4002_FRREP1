@@ -1,12 +1,11 @@
 package core.notification.mail;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.Embeddable;
 
-@Entity
+@Embeddable
 public class MailAddress {
 
-    @Id private final String mailAddress;
+    private final String mailAddress;
 
     public MailAddress(String mailAddress, EmailValidator validator) throws InvalidMailAddressException {
         if (!validator.validateMailAddress(mailAddress)) {
