@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.persistence;
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestStatus;
+import ca.ulaval.glo4002.persistence.in_memory.RequestRepositoryInMemory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

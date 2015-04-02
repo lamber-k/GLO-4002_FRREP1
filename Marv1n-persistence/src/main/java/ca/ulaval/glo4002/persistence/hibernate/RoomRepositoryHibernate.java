@@ -1,6 +1,5 @@
-package ca.ulaval.glo4002.persistence;
+package ca.ulaval.glo4002.persistence.hibernate;
 
-import ca.ulaval.glo4002.persistence.hibernate.EntityManagerProvider;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomNotFoundException;

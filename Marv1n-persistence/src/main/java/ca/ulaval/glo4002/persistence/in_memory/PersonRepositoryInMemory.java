@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.persistence;
+package ca.ulaval.glo4002.persistence.in_memory;
 
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.person.PersonNotFoundException;

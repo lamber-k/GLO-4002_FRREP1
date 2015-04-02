@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.persistence;
+package ca.ulaval.glo4002.persistence.hibernate;
 
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.persistence.Repository;

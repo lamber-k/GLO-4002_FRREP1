@@ -47,7 +47,7 @@ public class StartupRest {
 
     private void configureJersey(ServletContextHandler servletContextHandler) {
         ServletContainer container = new ServletContainer(new ResourceConfig().packages(
-                "ca.ulaval.glo4002.Marv1n.web.rest.resources").register(JacksonFeature.class));
+                "ca.ulaval.glo4002.web.rest.resources").register(JacksonFeature.class));
         ServletHolder jerseyServletHolder = new ServletHolder(container);
         servletContextHandler.addServlet(jerseyServletHolder, "/*");
         servletContextHandler.addFilter(EntityManagerContextFilter.class, "/*", EnumSet.of(DispatcherType.REQUEST));

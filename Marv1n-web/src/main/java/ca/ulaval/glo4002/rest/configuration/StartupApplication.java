@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.rest.configuration;
 
-import ca.ulaval.glo4002.persistence.RoomRepositoryHibernate;
+import ca.ulaval.glo4002.persistence.hibernate.RoomRepositoryHibernate;
 import ca.ulaval.glo4002.core.PendingRequests;
 import ca.ulaval.glo4002.core.TaskSchedulerFactory;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;

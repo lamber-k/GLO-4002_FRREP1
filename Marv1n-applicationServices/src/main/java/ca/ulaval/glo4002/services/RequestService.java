@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.services;
 
-import ca.ulaval.glo4002.locator.LocatorService;
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
 import ca.ulaval.glo4002.core.request.InvalidRequestFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
+import ca.ulaval.glo4002.locator.LocatorService;
 
 import java.util.Optional;
 import java.util.UUID;

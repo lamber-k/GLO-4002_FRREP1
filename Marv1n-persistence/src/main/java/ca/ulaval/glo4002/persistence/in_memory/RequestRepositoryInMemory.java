@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.persistence;
+package ca.ulaval.glo4002.persistence.in_memory;
 
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;

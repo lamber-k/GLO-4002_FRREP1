@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.persistence;
 
 import ca.ulaval.glo4002.core.room.Room;
+import ca.ulaval.glo4002.persistence.in_memory.RoomRepositoryInMemory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
