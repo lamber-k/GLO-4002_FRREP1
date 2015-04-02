@@ -18,7 +18,7 @@ public class RoomRepositoryInMemory extends RepositoryInMemory<Room> implements 
 
     @Override
     public Room findRoomByAssociatedRequest(Request request) throws RoomNotFoundException {
-        Optional<Room> roomFound = query().filter((Room r) -> r.getRequest() == request).findFirst();
+        Optional<Room> roomFound = query().filter(r -> r.getRequest() == request).findFirst();
 
         if (!roomFound.isPresent())
             throw new RoomNotFoundException();

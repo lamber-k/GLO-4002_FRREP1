@@ -52,7 +52,7 @@ public class JavaxMailSender implements MailSender {
     }
 
     @Override
-    public void send(Mail mail) throws MailSendingException {
+    public void send(Mail mail) {
         try {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(mail.getFrom().toString()));

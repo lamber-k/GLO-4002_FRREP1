@@ -21,7 +21,7 @@ public class MailNotificationFactory implements NotificationFactory {
     }
 
     @Override
-    public MailNotification createNotification(NotificationInfo info) throws InvalidNotificationException {
+    public MailNotification createNotification(NotificationInfo info) {
         List<MailAddress> mailTo = new LinkedList<>();
         mailTo.addAll(personRepository.findAdmins().stream().map(Person::getMailAddress).collect(Collectors.toList()));
         mailTo.addAll(info.getDestination().stream().map(Person::getMailAddress).collect(Collectors.toList()));
