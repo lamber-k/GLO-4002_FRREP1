@@ -12,12 +12,12 @@ public class MailBuilder {
 
     private String status = null;
     private String identifier = null;
-    private MailAddress mailFrom;
-    private List<MailAddress> mailTo;
+    private String mailFrom;
+    private List<String> mailTo;
     private String message = null;
     private String category = null;
 
-    public MailBuilder setFrom(MailAddress mailFrom) {
+    public MailBuilder setFrom(String mailFrom) {
         this.mailFrom = mailFrom;
         return this;
     }
@@ -27,7 +27,7 @@ public class MailBuilder {
         return this;
     }
 
-    public MailBuilder setTo(List<MailAddress> mailTo) {
+    public MailBuilder setTo(List<String> mailTo) {
         this.mailTo = mailTo;
         return this;
     }
@@ -48,8 +48,8 @@ public class MailBuilder {
     }
 
     public Mail buildMail() throws MailBuilderException {
-        MailAddress from = mailFrom;
-        List<MailAddress> to = mailTo;
+        String from = mailFrom;
+        List<String> to = mailTo;
         String object = buildMailObject();
         if (message == null) {
             message = String.format(MAIL_MESSAGE_DEFAULT_FORMAT, category, identifier, status);

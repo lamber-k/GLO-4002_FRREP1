@@ -1,6 +1,5 @@
 package infrastructure.persistence;
 
-import core.notification.mail.MailAddress;
 import core.person.Person;
 import core.person.PersonNotFoundException;
 import org.junit.Before;
@@ -21,15 +20,11 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class PersonRepositoryInMemoryTest {
 
-    private static String A_VALID_EMAIL = "exemple@exemple.com";
-    private static String A_WRONG_EMAIL = "exemple2@exemple.com";
+    private static final String A_VALID_EMAIL = "valid@mail.com";
+    private static final String A_INVALID_EMAIL = "invalidmail";
     private PersonRepositoryInMemory personRepository;
     private UUID personUUID;
     private UUID anotherPersonUUID;
-    @Mock
-    private MailAddress validEmailMock;
-    @Mock
-    private MailAddress invalidEmailMock;
     @Mock
     private Person personMock;
     @Mock
@@ -39,8 +34,6 @@ public class PersonRepositoryInMemoryTest {
     public void initializePersonRepositoryInMemory() throws Exception {
         personRepository = new PersonRepositoryInMemory();
         personUUID = UUID.randomUUID();
-        when(validEmailMock.toString()).thenReturn(A_VALID_EMAIL);
-        when(invalidEmailMock.toString()).thenReturn(A_WRONG_EMAIL);
     }
 
     @Test
@@ -73,15 +66,15 @@ public class PersonRepositoryInMemoryTest {
 
     @Test(expected = PersonNotFoundException.class)
     public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithWrongEmail_ThenThrowPersonNotFound() throws PersonNotFoundException {
-        when(personMock.getMailAddress()).thenReturn(validEmailMock);
+        when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
         personRepository.persist(personMock);
 
-        personRepository.findByEmail(A_WRONG_EMAIL);
+        personRepository.findByEmail(A_INVALID_EMAIL);
     }
 
     @Test
     public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() throws PersonNotFoundException {
-        when(personMock.getMailAddress()).thenReturn(validEmailMock);
+        when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
         personRepository.persist(personMock);
 
         Person personFound = personRepository.findByEmail(A_VALID_EMAIL);

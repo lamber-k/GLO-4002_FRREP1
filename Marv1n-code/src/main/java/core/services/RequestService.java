@@ -1,6 +1,7 @@
 package core.services;
 
 import core.ObjectNotFoundException;
+import core.request.InvalidRequestFormatException;
 import core.request.Request;
 import core.request.RequestRepository;
 import infrastructure.locator.LocatorService;
@@ -19,7 +20,7 @@ public class RequestService {
         this.requestRepository = LocatorService.getInstance().resolve(RequestRepository.class);
     }
 
-    public void addRequest(Request request) {
+    public void addRequest(Request request) throws InvalidRequestFormatException {
         requestRepository.persist(request);
     }
 

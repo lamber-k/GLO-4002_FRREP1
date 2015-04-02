@@ -1,5 +1,6 @@
 package infrastructure.persistence;
 
+import core.persistence.InvalidFormatException;
 import core.persistence.Repository;
 
 import javax.persistence.EntityManager;
@@ -12,7 +13,7 @@ public abstract class RepositoryHibernate<T> implements Repository<T> {
     }
 
     @Override
-    public void persist(T object) {
+    public void persist(T object) throws InvalidFormatException {
         this.entityManager.persist(object);
     }
 

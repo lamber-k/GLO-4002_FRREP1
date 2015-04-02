@@ -22,14 +22,14 @@ public class MailNotificationFactory implements NotificationFactory {
 
     @Override
     public MailNotification createNotification(NotificationInfo info) {
-        List<MailAddress> mailTo = new LinkedList<>();
+        List<String> mailTo = new LinkedList<>();
         mailTo.addAll(personRepository.findAdmins().stream().map(Person::getMailAddress).collect(Collectors.toList()));
         mailTo.addAll(info.getDestination().stream().map(Person::getMailAddress).collect(Collectors.toList()));
         Mail mail = buildMail(info, mailTo);
         return new MailNotification(mailSender, mail);
     }
 
-    private Mail buildMail(NotificationInfo info, List<MailAddress> mailTo) {
+    private Mail buildMail(NotificationInfo info, List<String> mailTo) {
         MailBuilder mailBuilder = new MailBuilder();
         String message = buildMessage(info);
         try {

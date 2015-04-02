@@ -19,7 +19,9 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class MailNotificationFactoryTest {
 
-    private MailNotificationFactory mailFactory;
+    private static final String PERSON_ADDRESS = "person@address.com";
+    private static final String ANOTHER_PERSON_ADDRESS = "another.person@address.com";
+    private static final String ADMIN_ADDRESS = "admin@address.com";
     @Mock
     private Mail mailMock;
     @Mock
@@ -34,22 +36,17 @@ public class MailNotificationFactoryTest {
     private Person anotherPersonMock;
     @Mock
     private Person adminMock;
-    @Mock
-    private MailAddress personAddressMock;
-    @Mock
-    private MailAddress anotherPersonAddressMock;
-    @Mock
-    private MailAddress adminAddressMock;
+    private MailNotificationFactory mailFactory;
 
     @Before
     public void initializeMailFactory() {
         mailFactory = new MailNotificationFactory(mailSenderMock, personRepositoryMock);
         when(personMock.isAdmin()).thenReturn(false);
-        when(personMock.getMailAddress()).thenReturn(personAddressMock);
+        when(personMock.getMailAddress()).thenReturn(PERSON_ADDRESS);
         when(anotherPersonMock.isAdmin()).thenReturn(false);
-        when(anotherPersonMock.getMailAddress()).thenReturn(anotherPersonAddressMock);
+        when(anotherPersonMock.getMailAddress()).thenReturn(ANOTHER_PERSON_ADDRESS);
         when(adminMock.isAdmin()).thenReturn(true);
-        when(adminMock.getMailAddress()).thenReturn(adminAddressMock);
+        when(adminMock.getMailAddress()).thenReturn(ADMIN_ADDRESS);
         when(personRepositoryMock.findAdmins()).thenReturn(Arrays.asList(adminMock));
         notificationInfo = new NotificationInfo("category", "status", "identifier", "detail", Arrays.asList(personMock, anotherPersonMock));
     }
@@ -58,6 +55,6 @@ public class MailNotificationFactoryTest {
     public void givenMailFactory_WhenCreateNotification_ThenCreatedNotificationShouldHaveToMails() throws InvalidNotificationException {
         MailNotification returnedNotification = mailFactory.createNotification(notificationInfo);
 
-        assertThat(returnedNotification.getMailToSend().getTo(), CoreMatchers.hasItems(personAddressMock, anotherPersonAddressMock));
+        assertThat(returnedNotification.getMailToSend().getTo(), CoreMatchers.hasItems(PERSON_ADDRESS, ANOTHER_PERSON_ADDRESS));
     }
 }

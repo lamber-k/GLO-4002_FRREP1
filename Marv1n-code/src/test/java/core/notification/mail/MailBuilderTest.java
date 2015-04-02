@@ -10,16 +10,15 @@ import java.util.List;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 
 public class MailBuilderTest {
 
-    private static final List<MailAddress> TO_MAILS = Arrays.asList(mock(MailAddress.class), mock(MailAddress.class));
+    private static final List <String> TO_MAILS = Arrays.asList("to@mail.com", "another.to@mail.com");
     private static final String A_STATUS = "aStatus";
     private static final String AN_IDENTIFIER = "anIdentifier";
     private static final String A_CATEGORY = "aCategory";
     @Mock
-    private MailAddress fromMailMock;
+    private static final String FROM_MAIL = "from@mail.com";
     private MailBuilder mailBuilder;
 
     @Before
@@ -56,13 +55,13 @@ public class MailBuilderTest {
 
     @Test
     public void givenMailBuilder_WhenSpecifyFrom_ThenShouldSetMailProperly() throws MailBuilderException {
-        Mail returnedMail = mailBuilder.setFrom(fromMailMock)
+        Mail returnedMail = mailBuilder.setFrom(FROM_MAIL)
                 .setIdentifier(AN_IDENTIFIER)
                 .setCategory(A_CATEGORY)
                 .setStatus(A_STATUS)
                 .buildMail();
 
-        assertEquals(fromMailMock, returnedMail.getFrom());
+        assertEquals(FROM_MAIL, returnedMail.getFrom());
     }
 
     @Test

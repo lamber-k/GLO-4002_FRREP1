@@ -1,6 +1,9 @@
 package infrastructure.persistence;
 
+import core.notification.mail.EmailValidator;
+import core.persistence.InvalidFormatException;
 import core.person.Person;
+import core.person.PersonInvalidFormatException;
 import core.person.PersonNotFoundException;
 import core.person.PersonRepository;
 import infrastructure.hibernate.EntityManagerProvider;
@@ -8,13 +11,24 @@ import infrastructure.hibernate.EntityManagerProvider;
 import java.util.List;
 import java.util.UUID;
 
-public class PersonRepositoryHibernate extends RepositoryHibernate<core.person.Person> implements PersonRepository {
-    public PersonRepositoryHibernate() {
+public class PersonRepositoryHibernate extends RepositoryHibernate<Person> implements PersonRepository {
+    private final EmailValidator emailValidator;
+
+    public PersonRepositoryHibernate(EmailValidator emailValidator) {
         super(new EntityManagerProvider().getEntityManager());
+        this.emailValidator = emailValidator;
     }
 
     @Override
-    public core.person.Person findByUUID(UUID id) throws PersonNotFoundException {
+    public void persist(Person person) throws InvalidFormatException{
+        if (!emailValidator.validateMailAddress(person.getMailAddress())) {
+            throw new PersonInvalidFormatException("Invalid mail Address");
+        }
+        super.persist(person);
+    }
+
+    @Override
+    public Person findByUUID(UUID id) throws PersonNotFoundException {
         return null;
     }
 

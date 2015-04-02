@@ -1,7 +1,5 @@
 package core.person;
 
-import core.notification.mail.MailAddress;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
@@ -11,22 +9,22 @@ public class Person {
 
     @Id
     private final UUID personID;
-    private final MailAddress email;
+    private final String email;
     private final boolean admin;
 
-    public Person(MailAddress email) {
+    public Person(String email) {
         this.personID = UUID.randomUUID();
         this.email = email;
         this.admin = false;
     }
 
-    public Person(MailAddress email, boolean admin) {
+    public Person(String email, boolean admin) {
         this.personID = UUID.randomUUID();
         this.email = email;
         this.admin = admin;
     }
 
-    public MailAddress getMailAddress() {
+    public String getMailAddress() {
         return email;
     }
 

@@ -8,6 +8,8 @@ import java.util.UUID;
 
 public interface RequestRepository extends Repository<Request> {
 
+    void persist(Request request) throws InvalidRequestFormatException;
+
     Optional<Request> findByUUID(UUID id);
 
     List<Request> findAllPendingRequest();
