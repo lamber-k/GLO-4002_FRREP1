@@ -1,6 +1,6 @@
 package persistence;
 
-import ca.ulaval.glo4002.Marv1n.persistence.hibernate.EntityManagerProvider;
+import persistence.hibernate.EntityManagerProvider;
 import core.notification.mail.EmailValidator;
 import core.persistence.InvalidFormatException;
 import core.person.Person;

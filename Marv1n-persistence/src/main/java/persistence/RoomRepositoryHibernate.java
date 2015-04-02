@@ -1,6 +1,6 @@
 package persistence;
 
-import ca.ulaval.glo4002.Marv1n.persistence.hibernate.EntityManagerProvider;
+import persistence.hibernate.EntityManagerProvider;
 import core.request.Request;
 import core.room.Room;
 import core.room.RoomNotFoundException;

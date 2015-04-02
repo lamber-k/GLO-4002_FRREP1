@@ -17,10 +17,12 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 import java.util.logging.Level;
+import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
@@ -28,7 +30,7 @@ import static org.mockito.Mockito.*;
 public class RequestTreatmentTaskTest {
 
     private static Logger LOGGER = Logger.getLogger(RequestTreatmentTask.class.getName()); // Use the same logger as the class
-    //private static TestLogHandler logHandler = new TestLogHandler();
+    private static TestLogHandler logHandler = new TestLogHandler();
     private List<Request> arrayWithOneRequest;
     private List<Request> pendingRequests;
     private RequestTreatmentTask requestTreatmentTask;
@@ -83,7 +85,7 @@ public class RequestTreatmentTaskTest {
     }
 
     public void attachLoggingSystem() {
-        //LOGGER.addHandler(logHandler);
+        LOGGER.addHandler(logHandler);
         LOGGER.setLevel(Level.ALL);
     }
 
@@ -96,8 +98,7 @@ public class RequestTreatmentTaskTest {
 
         requestTreatmentTask.run();
 
-        //assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
-        fail();
+        assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
     }
 
     @Test
@@ -109,9 +110,33 @@ public class RequestTreatmentTaskTest {
 
         requestTreatmentTask.run();
 
-        //assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
-        fail();
+        assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
     }
 
+
+    private static class TestLogHandler extends Handler {
+        private List<String> recordsLog;
+
+        public TestLogHandler() {
+            recordsLog = new ArrayList<>();
+        }
+
+        @Override
+        public void publish(LogRecord record) {
+            recordsLog.add(record.getMessage());
+        }
+
+        @Override
+        public void flush() {
+        }
+
+        @Override
+        public void close() throws SecurityException {
+        }
+
+        public String getLogs() {
+            return recordsLog.toString();
+        }
+    }
 
 }

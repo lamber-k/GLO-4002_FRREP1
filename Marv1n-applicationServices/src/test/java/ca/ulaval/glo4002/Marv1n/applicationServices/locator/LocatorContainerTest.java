@@ -1,5 +1,8 @@
 package ca.ulaval.glo4002.Marv1n.applicationServices.locator;
 
+import locator.LocatorContainer;
+import locator.MultipleRegistrationException;
+import locator.UnregisteredServiceException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

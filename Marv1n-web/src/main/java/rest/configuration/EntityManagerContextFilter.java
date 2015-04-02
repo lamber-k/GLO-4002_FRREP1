@@ -1,7 +1,7 @@
 package rest.configuration;
 
-import ca.ulaval.glo4002.Marv1n.persistence.hibernate.EntityManagerFactoryProvider;
-import ca.ulaval.glo4002.Marv1n.persistence.hibernate.EntityManagerProvider;
+import persistence.hibernate.EntityManagerFactoryProvider;
+import persistence.hibernate.EntityManagerProvider;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

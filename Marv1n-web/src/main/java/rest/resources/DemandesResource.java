@@ -1,6 +1,6 @@
 package rest.resources;
 
-import ca.ulaval.glo4002.Marv1n.applicationServices.services.RequestService;
+import services.RequestService;
 import core.request.Request;
 
 import javax.ws.rs.*;

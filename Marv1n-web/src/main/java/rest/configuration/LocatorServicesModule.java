@@ -1,11 +1,11 @@
 package rest.configuration;
 
-import ca.ulaval.glo4002.Marv1n.applicationServices.locator.LocatorContainer;
-import ca.ulaval.glo4002.Marv1n.applicationServices.locator.LocatorModule;
-import ca.ulaval.glo4002.Marv1n.applicationServices.mail.JavaxMailValidator;
-import ca.ulaval.glo4002.Marv1n.persistence.PersonRepositoryHibernate;
-import ca.ulaval.glo4002.Marv1n.persistence.RequestRepositoryInMemory;
-import ca.ulaval.glo4002.Marv1n.persistence.RoomRepositoryHibernate;
+import locator.LocatorContainer;
+import locator.LocatorModule;
+import mail.JavaxMailValidator;
+import persistence.PersonRepositoryHibernate;
+import persistence.RequestRepositoryInMemory;
+import persistence.RoomRepositoryHibernate;
 import core.person.PersonRepository;
 import core.request.RequestRepository;
 import core.room.RoomRepository;

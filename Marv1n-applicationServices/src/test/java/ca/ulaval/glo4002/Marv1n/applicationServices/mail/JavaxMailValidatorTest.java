@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.Marv1n.applicationServices.mail;
 
 import ca.ulaval.glo4002.Marv1n.applicationServices.TestUtilitary.TestLogHandler;
+import mail.JavaxMailValidator;
 import org.junit.Before;
 import org.junit.Test;
 

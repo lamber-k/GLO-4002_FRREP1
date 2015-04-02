@@ -1,16 +1,16 @@
 package rest;
 
-import ca.ulaval.glo4002.Marv1n.applicationServices.locator.LocatorService;
+import locator.LocatorService;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
-import web.rest.RestServerLanchFailException;
-import web.rest.configuration.EntityManagerContextFilter;
-import web.rest.configuration.LocatorServicesModule;
-import web.rest.configuration.StartupApplication;
+import rest.RestServerLanchFailException;
+import rest.configuration.EntityManagerContextFilter;
+import rest.configuration.LocatorServicesModule;
+import rest.configuration.StartupApplication;
 
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;

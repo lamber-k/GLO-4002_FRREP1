@@ -1,6 +1,6 @@
 package rest.configuration;
 
-import ca.ulaval.glo4002.Marv1n.persistence.RoomRepositoryHibernate;
+import persistence.RoomRepositoryHibernate;
 import core.PendingRequests;
 import core.TaskSchedulerFactory;
 import core.request.evaluation.EvaluationStrategy;
