@@ -8,7 +8,6 @@ import ca.ulaval.glo4002.core.request.evaluation.MaximizeSeatsEvaluationStrategy
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestByPriorityStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.RoomRepository;
-import ca.ulaval.glo4002.persistence.RoomRepositoryHibernate;
 
 import java.util.concurrent.TimeUnit;
 
