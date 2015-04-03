@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomNotFoundException;
 import ca.ulaval.glo4002.core.room.RoomRepository;
+import ca.ulaval.glo4002.persistence.hibernate.EntityManagerProvider;
 
 import java.util.List;
 

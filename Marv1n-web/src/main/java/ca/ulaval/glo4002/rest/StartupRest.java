@@ -1,15 +1,15 @@
 package ca.ulaval.glo4002.rest;
 
 import ca.ulaval.glo4002.locator.LocatorService;
+import ca.ulaval.glo4002.rest.configuration.EntityManagerContextFilter;
+import ca.ulaval.glo4002.rest.configuration.LocatorServicesModule;
+import ca.ulaval.glo4002.rest.configuration.StartupApplication;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
-import ca.ulaval.glo4002.rest.configuration.EntityManagerContextFilter;
-import ca.ulaval.glo4002.rest.configuration.LocatorServicesModule;
-import ca.ulaval.glo4002.rest.configuration.StartupApplication;
 
 import javax.servlet.DispatcherType;
 import java.util.EnumSet;

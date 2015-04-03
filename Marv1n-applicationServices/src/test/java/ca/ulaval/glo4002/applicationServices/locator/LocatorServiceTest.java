@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.Marv1n.applicationServices.locator;
+package ca.ulaval.glo4002.applicationServices.locator;
 
 import org.junit.Before;
 

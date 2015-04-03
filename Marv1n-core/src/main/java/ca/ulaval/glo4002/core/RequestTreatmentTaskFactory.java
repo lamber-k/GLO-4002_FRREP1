@@ -1,9 +1,9 @@
 package ca.ulaval.glo4002.core;
 
+import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.RoomRepository;
-import ca.ulaval.glo4002.core.request.Request;
 
 import java.util.ArrayList;
 import java.util.List;

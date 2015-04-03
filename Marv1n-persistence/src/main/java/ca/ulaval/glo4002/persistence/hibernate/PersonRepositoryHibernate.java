@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.person.PersonInvalidFormatException;
 import ca.ulaval.glo4002.core.person.PersonNotFoundException;
 import ca.ulaval.glo4002.core.person.PersonRepository;
+import ca.ulaval.glo4002.persistence.hibernate.EntityManagerProvider;
 
 import javax.persistence.Query;
 import java.util.List;

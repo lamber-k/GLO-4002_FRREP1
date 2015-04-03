@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.Marv1n.applicationServices.locator;
+package ca.ulaval.glo4002.applicationServices.locator;
 
 import ca.ulaval.glo4002.locator.LocatorContainer;
 import ca.ulaval.glo4002.locator.MultipleRegistrationException;
@@ -58,11 +58,11 @@ public class LocatorContainerTest {
 
     }
 
-    private class ImplementationTestSampleService implements TestSampleService {
+    private interface OtherTestSampleService {
 
     }
 
-    private interface OtherTestSampleService {
+    private class ImplementationTestSampleService implements TestSampleService {
 
     }
 
