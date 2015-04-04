@@ -12,6 +12,12 @@ public class Person {
     private final String email;
     private final boolean admin;
 
+    public Person() {
+        this.personID = UUID.randomUUID();
+        this.email = null;
+        this.admin = false;
+    }
+
     public Person(String email) {
         this.personID = UUID.randomUUID();
         this.email = email;

@@ -6,10 +6,7 @@
     <persistence-unit name="Marv1nRepository" transaction-type="RESOURCE_LOCAL">
         <description>H2 In Memory DB</description>
         <provider>org.hibernate.ejb.HibernatePersistence</provider>
-
-        <exclude-unlisted-classes>false</exclude-unlisted-classes>
-
-
+        <class>ca.ulaval.glo4002.core.person.Person</class>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
@@ -24,7 +21,6 @@
             <property name="javax.persistence.jdbc.user" value="sa"/>
             <property name="javax.persistence.jdbc.password" value=""/>
 
-            <property name="hibernate.archive.autodetection" value="class, hbm"/>
             <property name="hibernate.id.new_generator_mappings" value="true"/>
 
         </properties>

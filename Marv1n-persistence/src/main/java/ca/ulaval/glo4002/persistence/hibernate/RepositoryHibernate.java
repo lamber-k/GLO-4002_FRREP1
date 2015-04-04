@@ -14,11 +14,15 @@ public abstract class RepositoryHibernate<T> implements Repository<T> {
 
     @Override
     public void persist(T object) throws InvalidFormatException {
-        this.entityManager.persist(object);
+        entityManager.getTransaction().begin();
+        entityManager.persist(object);
+        entityManager.getTransaction().commit();
     }
 
     @Override
     public void remove(T object) {
-        this.entityManager.remove(object);
+        entityManager.getTransaction().begin();
+        entityManager.remove(object);
+        entityManager.getTransaction().commit();
     }
 }
