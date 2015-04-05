@@ -1,13 +1,20 @@
 package ca.ulaval.glo4002.core.request;
 
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.Id;
 import java.util.UUID;
 
+@Entity
 public class Request {
 
+    @Id
     private final UUID requestID;
     private final int numberOfSeatsNeeded;
     private final int priority;
     private final UUID responsibleUUID;
+    @Enumerated(EnumType.ORDINAL)
     private RequestStatus status;
 
     public Request(int numberOfSeatsNeeded, int priority, UUID responsibleUUID) {
@@ -16,6 +23,13 @@ public class Request {
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
         this.status = RequestStatus.PENDING;
         this.responsibleUUID = responsibleUUID;
+    }
+
+    public Request() {
+        this.requestID = UUID.randomUUID();
+        this.numberOfSeatsNeeded = 0;
+        this.priority = 0;
+        this.responsibleUUID = null;
     }
 
     public RequestStatus getRequestStatus() {
@@ -32,13 +46,7 @@ public class Request {
 
     @Override
     public boolean equals(Object rhs) {
-        if (rhs == null) {
-            return false;
-        } else if (rhs instanceof Request) {
-            return hashCode() == rhs.hashCode();
-        } else {
-            return false;
-        }
+        return rhs != null && rhs instanceof Request && hashCode() == rhs.hashCode();
     }
 
     @Override

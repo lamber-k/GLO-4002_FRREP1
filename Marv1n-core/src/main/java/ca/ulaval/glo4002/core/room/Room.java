@@ -3,19 +3,31 @@ package ca.ulaval.glo4002.core.room;
 
 import ca.ulaval.glo4002.core.request.Request;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.util.UUID;
 
+@Entity
 public class Room {
 
+    @Id
     private final UUID roomID;
     private int numberOfSeats;
     private String name;
+    @OneToOne
     private Request associatedRequest = null;
 
     public Room(int numberOfSeats, String name) {
         this.roomID = UUID.randomUUID();
         this.numberOfSeats = numberOfSeats;
         this.name = name;
+    }
+
+    public Room() {
+        this.roomID = UUID.randomUUID();
+        this.numberOfSeats = 0;
+        this.name = null;
     }
 
     public String getName() {

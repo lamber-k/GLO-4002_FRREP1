@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.persistence;
 
+import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.person.PersonNotFoundException;
 import ca.ulaval.glo4002.persistence.in_memory.PersonRepositoryInMemory;
@@ -64,7 +65,7 @@ public class PersonRepositoryInMemoryTest {
     }
 
     @Test(expected = PersonNotFoundException.class)
-    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithWrongEmail_ThenThrowPersonNotFound() throws PersonNotFoundException {
+    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithWrongEmail_ThenThrowPersonNotFound() throws PersonNotFoundException, InvalidFormatException {
         Mockito.when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
         personRepository.persist(personMock);
 
@@ -72,7 +73,7 @@ public class PersonRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() throws PersonNotFoundException {
+    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() throws PersonNotFoundException, InvalidFormatException {
         Mockito.when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
         personRepository.persist(personMock);
 
@@ -82,7 +83,7 @@ public class PersonRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenNotEmptyPersonRepositoryInMemoryWithAdmin_WhenFindAdmins_ThenShouldReturnAllAdmins() {
+    public void givenNotEmptyPersonRepositoryInMemoryWithAdmin_WhenFindAdmins_ThenShouldReturnAllAdmins() throws InvalidFormatException {
         putSomeItemsInRepository();
         Person personAdmin1Mock = Mockito.mock(Person.class);
         Person personAdmin2Mock = Mockito.mock(Person.class);
@@ -97,7 +98,7 @@ public class PersonRepositoryInMemoryTest {
         Assert.assertEquals(expectedAdminList, adminsReturned);
     }
 
-    private void putSomeItemsInRepository() {
+    private void putSomeItemsInRepository() throws InvalidFormatException {
         Mockito.when(personMock.getID()).thenReturn(personUUID);
         anotherPersonUUID = UUID.randomUUID();
         Mockito.when(anotherPersonMock.getID()).thenReturn(anotherPersonUUID);

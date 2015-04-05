@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.persistence.in_memory;
 
 import ca.ulaval.glo4002.core.request.Request;
+import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.request.RequestStatus;
 
@@ -12,8 +13,12 @@ import java.util.stream.Collectors;
 public class RequestRepositoryInMemory extends RepositoryInMemory<Request> implements RequestRepository {
 
     @Override
-    public Optional<Request> findByUUID(UUID id) {
-        return query().filter(r -> r.getRequestID().equals(id)).findFirst();
+    public Request findByUUID(UUID id) throws RequestNotFoundException {
+        Optional<Request> requestFound = query().filter(r -> r.getRequestID().equals(id)).findFirst();
+        if (!requestFound.isPresent()) {
+            throw new RequestNotFoundException();
+        }
+        return requestFound.get();
     }
 
     @Override

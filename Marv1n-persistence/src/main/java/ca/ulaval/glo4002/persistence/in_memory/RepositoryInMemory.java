@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.persistence.in_memory;
 
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
+import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.persistence.Repository;
 
 import java.util.Collection;
@@ -16,7 +17,7 @@ public abstract class RepositoryInMemory<T> implements Repository<T> {
     }
 
     @Override
-    public void persist(T object) {
+    public void persist(T object) throws InvalidFormatException {
         objectContainer.add(object);
     }
 

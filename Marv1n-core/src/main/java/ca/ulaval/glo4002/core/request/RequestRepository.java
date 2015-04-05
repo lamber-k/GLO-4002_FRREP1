@@ -1,16 +1,16 @@
 package ca.ulaval.glo4002.core.request;
 
+import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.persistence.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 public interface RequestRepository extends Repository<Request> {
 
-    void persist(Request request) throws InvalidRequestFormatException;
+    void persist(Request request) throws InvalidFormatException;
 
-    Optional<Request> findByUUID(UUID id);
+    Request findByUUID(UUID id) throws RequestNotFoundException;
 
     List<Request> findAllPendingRequest();
 }

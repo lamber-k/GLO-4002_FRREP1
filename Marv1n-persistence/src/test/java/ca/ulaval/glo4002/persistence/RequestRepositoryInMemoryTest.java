@@ -1,7 +1,9 @@
 package ca.ulaval.glo4002.persistence;
 
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
+import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
+import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestStatus;
 import ca.ulaval.glo4002.persistence.in_memory.RequestRepositoryInMemory;
 import org.junit.Assert;
@@ -31,29 +33,26 @@ public class RequestRepositoryInMemoryTest {
         Mockito.when(requestMock.getRequestID()).thenReturn(requestID);
     }
 
-    @Test
-    public void givenEmptyRequestRepositoryInMemory_WhenReservableNotFound_ThenRepositoryReturnEmptyOptional() throws Exception {
-        Optional<Request> result = requestRepository.findByUUID(requestID);
-        Assert.assertFalse(result.isPresent());
+    @Test(expected = RequestNotFoundException.class)
+    public void givenEmptyRequestRepositoryInMemory_WhenReservableNotFound_ThenThrowNotFoundRequestException() throws RequestNotFoundException {
+        requestRepository.findByUUID(requestID);
     }
 
     @Test
     public void givenEmptyRequestRepositoryInMemory_WhenCreateReservable_ThenSameObjectCanBeFound() throws Exception {
         requestRepository.persist(requestMock);
 
-        Optional<Request> result = requestRepository.findByUUID(requestID);
-        Assert.assertTrue(result.isPresent());
-        Assert.assertEquals(requestMock, result.get());
+        Request result = requestRepository.findByUUID(requestID);
+        Assert.assertEquals(requestMock, result);
     }
 
-    @Test
-    public void givenNotEmptyRequestRepositoryInMemory_WhenRemoveReservable_ThenNotFound() throws Exception {
+    @Test(expected = RequestNotFoundException.class)
+    public void givenNotEmptyRequestRepositoryInMemory_WhenRemoveReservable_ThenNotFound() throws InvalidFormatException, RequestNotFoundException {
         requestRepository.persist(requestMock);
 
         requestRepository.remove(requestMock);
 
-        Optional<Request> result = requestRepository.findByUUID(requestID);
-        Assert.assertFalse(result.isPresent());
+        requestRepository.findByUUID(requestID);
     }
 
     @Test(expected = ObjectNotFoundException.class)
@@ -69,7 +68,7 @@ public class RequestRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenRequestRepositoryContainingNoPendingRequest_WhenGetAllPendingRequest_ThenReturnEmptyArray() {
+    public void givenRequestRepositoryContainingNoPendingRequest_WhenGetAllPendingRequest_ThenReturnEmptyArray() throws InvalidFormatException {
         requestRepository.persist(requestMock);
         Mockito.when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
 
@@ -79,7 +78,7 @@ public class RequestRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenRequestRepositoryInMemoryContainingAPendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequest() {
+    public void givenRequestRepositoryInMemoryContainingAPendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequest() throws InvalidFormatException {
         Request anotherRequestMock = Mockito.mock(Request.class);
         requestRepository.persist(requestMock);
         requestRepository.persist(anotherRequestMock);
@@ -93,7 +92,7 @@ public class RequestRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenRequestRepositoryInMemoryContainingMultiplePendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequestsInOrderOfInsertion() {
+    public void givenRequestRepositoryInMemoryContainingMultiplePendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequestsInOrderOfInsertion() throws InvalidFormatException {
         Request anotherRequestMock = Mockito.mock(Request.class);
         requestRepository.persist(requestMock);
         requestRepository.persist(anotherRequestMock);
