@@ -3,12 +3,8 @@ package ca.ulaval.glo4002.mail;
 import ca.ulaval.glo4002.core.notification.mail.EmailValidator;
 
 import javax.mail.internet.InternetAddress;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class JavaxMailValidator implements EmailValidator {
-
-    private static final Logger LOGGER = Logger.getLogger(JavaxMailValidator.class.getName());
 
     @Override
     public boolean validateMailAddress(String address) {
@@ -16,10 +12,8 @@ public class JavaxMailValidator implements EmailValidator {
             InternetAddress emailAddress = new InternetAddress(address);
             emailAddress.validate();
         } catch (Exception exception) {
-            LOGGER.log(Level.FINEST, "Invalid Email Address", exception);
             return false;
         }
         return true;
     }
-
 }

@@ -9,12 +9,8 @@ import ca.ulaval.glo4002.core.room.RoomAlreadyReservedException;
 import ca.ulaval.glo4002.core.room.RoomRepository;
 
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class RequestTreatmentTask extends Task {
-
-    private static final Logger LOGGER = Logger.getLogger(RequestTreatmentTask.class.getName());
 
     private EvaluationStrategy evaluationStrategy;
     private SortingRequestStrategy sortingRequestStrategy;
@@ -39,10 +35,12 @@ public class RequestTreatmentTask extends Task {
             try {
                 Room roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
                 roomFound.reserve(pendingRequest);
+                //TODO updating room in repository
+                //TODO adding request to repository
             } catch (EvaluationNoRoomFoundException e) {
-                LOGGER.log(Level.FINEST, "No Room Found Exception:", e);
+                //TODO handle this, setting request statut to refused and adding it to the repository
             } catch (RoomAlreadyReservedException e) {
-                LOGGER.log(Level.FINEST, "Already Reserved Exception:", e);
+                //TODO handle this.
             }
         }
     }

@@ -14,23 +14,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Handler;
-import java.util.logging.Level;
-import java.util.logging.LogRecord;
-import java.util.logging.Logger;
 
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RequestTreatmentTaskTest {
 
-    private static Logger LOGGER = Logger.getLogger(RequestTreatmentTask.class.getName()); // Use the same logger as the class
-    private static TestLogHandler logHandler = new TestLogHandler();
     private List<Request> arrayWithOneRequest;
     private List<Request> pendingRequests;
     private RequestTreatmentTask requestTreatmentTask;
@@ -83,60 +75,4 @@ public class RequestTreatmentTaskTest {
 
         verify(roomMock).reserve(requestMock);
     }
-
-    public void attachLoggingSystem() {
-        LOGGER.addHandler(logHandler);
-        LOGGER.setLevel(Level.ALL);
-    }
-
-    @Test
-    public void givenOnePendingRequest_WhenFailWithRoomInsufficientSeatsException_ThenShouldLogException() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException, IOException {
-        havingOnePendingRequest();
-        doThrow(EvaluationNoRoomFoundException.class).when(assignerStrategyMock).evaluateOneRequest(any(RoomRepository.class), any(Request.class));
-        attachLoggingSystem();
-        String EXPECTED_LOG_STREAM = "No Room Found Exception:";
-
-        requestTreatmentTask.run();
-
-        assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
-    }
-
-    @Test
-    public void givenOnePendingRequest_WhenFailWithRoomAlreadyReservedException_ThenShouldLogException() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException, IOException {
-        havingOnePendingRequest();
-        attachLoggingSystem();
-        String EXPECTED_LOG_STREAM = "Already Reserved Exception:";
-        doThrow(RoomAlreadyReservedException.class).when(roomMock).reserve(any(Request.class));
-
-        requestTreatmentTask.run();
-
-        assertTrue(logHandler.getLogs().contains(EXPECTED_LOG_STREAM));
-    }
-
-
-    private static class TestLogHandler extends Handler {
-        private List<String> recordsLog;
-
-        public TestLogHandler() {
-            recordsLog = new ArrayList<>();
-        }
-
-        @Override
-        public void publish(LogRecord record) {
-            recordsLog.add(record.getMessage());
-        }
-
-        @Override
-        public void flush() {
-        }
-
-        @Override
-        public void close() throws SecurityException {
-        }
-
-        public String getLogs() {
-            return recordsLog.toString();
-        }
-    }
-
 }
