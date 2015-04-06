@@ -5,7 +5,7 @@ import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestStatus;
-import ca.ulaval.glo4002.persistence.in_memory.RequestRepositoryInMemory;
+import ca.ulaval.glo4002.persistence.inMemory.RequestRepositoryInMemory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,7 +15,6 @@ import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RunWith(MockitoJUnitRunner.class)

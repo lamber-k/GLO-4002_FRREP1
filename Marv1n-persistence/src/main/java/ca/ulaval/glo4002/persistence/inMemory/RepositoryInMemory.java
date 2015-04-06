@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.persistence.in_memory;
+package ca.ulaval.glo4002.persistence.inMemory;
 
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
