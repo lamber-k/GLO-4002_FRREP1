@@ -12,12 +12,14 @@ public class TaskScheduler extends Scheduler {
     private boolean isSchedulerRunning = false;
     private int intervalTimer;
     private TaskFactory taskFactory;
+    private Task task;
 
     public TaskScheduler(ScheduledExecutorService scheduler, int intervalTimer, TimeUnit timeUnit, TaskFactory taskFactory) {
         this.scheduler = scheduler;
         this.timeUnit = timeUnit;
         this.intervalTimer = intervalTimer;
         this.taskFactory = taskFactory;
+        this.task = null;
     }
 
     @Override
@@ -64,7 +66,8 @@ public class TaskScheduler extends Scheduler {
     @Override
     public void runNow() {
         cancelScheduler();
-        Thread task = taskFactory.createTask();
+        Task previousTask = task;
+        task = taskFactory.createTask(previousTask);
         task.start();
         startAtFixedRate();
     }

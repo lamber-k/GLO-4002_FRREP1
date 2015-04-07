@@ -23,11 +23,10 @@ public class RequestTreatmentTaskFactory implements TaskFactory {
     }
 
     @Override
-    public Thread createTask() {
+    public Task createTask(Task previousTask) {
         List<Request> requestToTreat = new ArrayList<>();
         requestToTreat.addAll(pendingRequest);
         pendingRequest.removeAll(requestToTreat);
-        Runnable requestTreatmentTask = new RequestTreatmentTask(strategyAssignation, strategySortRequest, roomRepository, requestToTreat);
-        return new Thread(requestTreatmentTask);
+        return new RequestTreatmentTask(strategyAssignation, strategySortRequest, roomRepository, requestToTreat, previousTask);
     }
 }

@@ -1,12 +1,15 @@
 package ca.ulaval.glo4002.core;
 
-public abstract class Task implements Runnable {
+public abstract class Task extends Thread {
 
-
-    protected abstract void runTask();
+    protected abstract void runTask() throws InterruptedException;
 
     @Override
     public void run() {
-        runTask();
+        try {
+            runTask();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

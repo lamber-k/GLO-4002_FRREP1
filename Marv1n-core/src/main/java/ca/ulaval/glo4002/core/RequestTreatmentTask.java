@@ -16,16 +16,21 @@ public class RequestTreatmentTask extends Task {
     private SortingRequestStrategy sortingRequestStrategy;
     private RoomRepository roomRepository;
     private List<Request> requestsToTreat;
+    private Thread previousTask;
 
-    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat) {
+    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat, Task previousTask) {
         this.roomRepository = roomRepository;
         this.evaluationStrategy = strategyAssignation;
         this.sortingRequestStrategy = strategySortRequest;
         this.requestsToTreat = requestsToTreat;
+        this.previousTask = previousTask;
     }
 
     @Override
-    protected void runTask() {
+    protected void runTask() throws InterruptedException {
+        if(previousTask != null) {
+            previousTask.join();
+        }
         treatPendingRequest();
     }
 

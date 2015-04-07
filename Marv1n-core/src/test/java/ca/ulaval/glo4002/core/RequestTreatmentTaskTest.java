@@ -31,30 +31,32 @@ public class RequestTreatmentTaskTest {
     @Mock
     private RoomRepository reservablesRepositoryMock;
     @Mock
-    private SortingRequestStrategy requestSortedStrategyMock;
+    private SortingRequestStrategy requestSortingStrategyMock;
     @Mock
     private Request requestMock;
     @Mock
     private Room roomMock;
+    @Mock
+    private Task previousTaskMock;
 
     @Before
-    public void initializeRequestTreatment() {
+    public void initializeRequestTreatment() throws InterruptedException {
         arrayWithOneRequest = new ArrayList<>();
         arrayWithOneRequest.add(requestMock);
         pendingRequests = new ArrayList<>();
-        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortedStrategyMock, reservablesRepositoryMock, pendingRequests);
+        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, previousTaskMock);
     }
 
     @Test
     public void givenPendingRequest_WhenRun_ThenShouldSortIt() {
         requestTreatmentTask.run();
 
-        verify(requestSortedStrategyMock).sortList(pendingRequests);
+        verify(requestSortingStrategyMock).sortList(pendingRequests);
     }
 
     private void havingOnePendingRequest() throws EvaluationNoRoomFoundException {
         when(assignerStrategyMock.evaluateOneRequest(reservablesRepositoryMock, requestMock)).thenReturn(roomMock);
-        when(requestSortedStrategyMock.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
+        when(requestSortingStrategyMock.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
         pendingRequests.add(requestMock);
     }
 

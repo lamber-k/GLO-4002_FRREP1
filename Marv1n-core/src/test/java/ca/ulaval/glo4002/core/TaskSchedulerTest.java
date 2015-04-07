@@ -24,13 +24,13 @@ public class TaskSchedulerTest {
     @Mock
     private TaskFactory taskFactoryMock;
     @Mock
-    private Thread threadMock;
+    private Task taskMock;
     @Mock
     private ScheduledExecutorService scheduledExecutorServiceMock;
 
     @Before
     public void initializeTaskScheduler() {
-        when(taskFactoryMock.createTask()).thenReturn(threadMock);
+        when(taskFactoryMock.createTask(any(Task.class))).thenReturn(taskMock);
         taskScheduler = new TaskScheduler(scheduledExecutorServiceMock, DEFAULT_TIMER, TIME_UNIT_SECOND, taskFactoryMock);
     }
 
@@ -100,10 +100,25 @@ public class TaskSchedulerTest {
     }
 
     @Test
-    public void givenTaskScheduler_WhenRunNow_ThenRunTaskAndRestartScheduler() {
+    public void givenTaskScheduler_WhenRunNow_ThenCreateNewTask() {
         taskScheduler.runNow();
 
-        verify(threadMock).start();
+        verify(taskFactoryMock).createTask(any(Task.class));
+    }
+
+    @Test
+    public void givenTaskScheduler_WhenRunNow_ThenStartTask() {
+        taskScheduler.runNow();
+
+        verify(taskMock).start();
+    }
+
+    @Test
+    public void givenTaskScheduler_WhenRunNow_ThenRestartScheduler() {
+        taskScheduler.runNow();
+
         verify(scheduledExecutorServiceMock).scheduleAtFixedRate(taskScheduler, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
     }
+
+
 }
