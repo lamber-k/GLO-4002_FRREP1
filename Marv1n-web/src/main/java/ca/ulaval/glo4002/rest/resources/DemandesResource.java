@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.rest.resources;
 
-import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.models.RequestInformationModel;
 import ca.ulaval.glo4002.services.RequestService;
 
