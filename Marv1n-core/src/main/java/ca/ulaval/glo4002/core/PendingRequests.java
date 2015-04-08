@@ -18,12 +18,9 @@ public class PendingRequests {
         this.scheduler = shedulerFactory.getTaskSheduler(pendingRequest);
     }
 
-    // TODO ALL ne pas save dans repository -> stack
     public void addRequest(Request request) {
         pendingRequest.add(request);
-        if (pendingRequest.size() >= maximumPendingRequests) {
-            scheduler.runNow();
-        }
+        this.checkLimitIsReached();
     }
 
     public int getMaximumPendingRequests() {
@@ -32,12 +29,18 @@ public class PendingRequests {
 
     public void setMaximumPendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;
-        // TODO ALL si on set la limite en dessous du nombre actuel de request rerun ?
+        this.checkLimitIsReached();
     }
 
     public void cancelPendingRequest(Request request) {
         if (!(pendingRequest.remove(request))) {
             throw new ObjectNotFoundException();
+        }
+    }
+
+    private void checkLimitIsReached() {
+        if (pendingRequest.size() >= maximumPendingRequests) {
+            scheduler.runNow();
         }
     }
 }
