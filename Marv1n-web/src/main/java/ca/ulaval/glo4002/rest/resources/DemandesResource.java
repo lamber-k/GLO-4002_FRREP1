@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.rest.resources;
 
 import ca.ulaval.glo4002.core.request.Request;
+import ca.ulaval.glo4002.models.RequestInformationModel;
 import ca.ulaval.glo4002.services.RequestService;
 
 import javax.ws.rs.*;
@@ -20,7 +21,7 @@ public class DemandesResource {
     @GET
     @Path("{email}/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Request getRequestByEmail(@PathParam("id") String id, @PathParam("email") String email) {
+    public RequestInformationModel getRequestByEmail(@PathParam("id") String id, @PathParam("email") String email) {
         return requestService.getRequestByEmailAndId(email, UUID.fromString(id));
     }
 }
