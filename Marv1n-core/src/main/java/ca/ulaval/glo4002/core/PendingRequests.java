@@ -1,10 +1,10 @@
 package ca.ulaval.glo4002.core;
 
+import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
+import ca.ulaval.glo4002.core.request.RequestRepository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class PendingRequests {
 
@@ -35,8 +35,15 @@ public class PendingRequests {
         // TODO ALL si on set la limite en dessous du nombre actuel de request rerun ?
     }
 
-    public void cancelPendingRequest(Request request) {
-        if (!(pendingRequest.remove(request))) {
+    public void cancelPendingRequest(UUID requestId, RequestRepository requestRepository) throws ObjectNotFoundException, InvalidFormatException {
+        Optional<Request> requestOptional = this.pendingRequest.stream().filter(r -> r.getRequestID().equals(requestId)).findFirst();
+        if (requestOptional.isPresent()) {
+            Request request = requestOptional.get();
+            // TODO Cancel request
+            requestRepository.persist(request);
+            this.pendingRequest.remove(request);
+        }
+        else {
             throw new ObjectNotFoundException();
         }
     }
