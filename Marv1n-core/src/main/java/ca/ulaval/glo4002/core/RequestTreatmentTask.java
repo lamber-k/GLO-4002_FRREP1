@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.core;
 
+import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationNoRoomFoundException;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
@@ -40,11 +41,13 @@ public class RequestTreatmentTask extends Task {
             try {
                 Room roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
                 roomFound.reserve(pendingRequest);
-                //TODO updating room in repository
+                roomRepository.persist(roomFound);
                 //TODO adding request to repository
             } catch (EvaluationNoRoomFoundException e) {
-                //TODO handle this, setting request statut to refused and adding it to the repository
+                //TODO handle this, setting request status to refused and adding it to the repository
             } catch (RoomAlreadyReservedException e) {
+                //TODO handle this.
+            } catch (InvalidFormatException e) {
                 //TODO handle this.
             }
         }

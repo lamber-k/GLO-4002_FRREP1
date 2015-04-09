@@ -12,9 +12,16 @@
         <module>Marv1n-applicationServices</module>
         <module>Marv1n-persistence</module>
         <module>Marv1n-web</module>
-        <module>Marv1n-uac</module>
         <module>Marv1n-core</module>
+        <module>Marv1n-uat</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+    </dependencies>
 
     <properties>
         <java.version>1.8</java.version>

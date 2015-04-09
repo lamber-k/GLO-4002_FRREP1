@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <option name="DEFAULT_COMPILER" value="Javac" />
+    <option name="DEFAULT_COMPILER" value="Eclipse" />
     <resourceExtensions />
     <wildcardResourcePatterns>
       <entry name="!?*.java" />
@@ -27,6 +27,7 @@
         <module name="Marv1n-persistence" />
         <module name="Marv1n-test" />
         <module name="Marv1n-uac" />
+        <module name="Marv1n-uat" />
         <module name="Marv1n-web" />
       </profile>
     </annotationProcessing>
@@ -35,8 +36,6 @@
       <module name="Marv1n-applicationServices" target="1.8" />
       <module name="Marv1n-core" target="1.8" />
       <module name="Marv1n-persistence" target="1.8" />
-      <module name="Marv1n-test" target="1.8" />
-      <module name="Marv1n-uac" target="1.8" />
       <module name="Marv1n-uat" target="1.8" />
       <module name="Marv1n-web" target="1.8" />
     </bytecodeTargetLevel>
