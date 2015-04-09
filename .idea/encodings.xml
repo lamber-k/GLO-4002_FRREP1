@@ -5,7 +5,7 @@
     <file url="file://$PROJECT_DIR$/Marv1n-applicationServices" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Marv1n-core" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Marv1n-persistence" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/Marv1n-uac" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Marv1n-uat" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Marv1n-web" charset="UTF-8" />
   </component>
 </project>

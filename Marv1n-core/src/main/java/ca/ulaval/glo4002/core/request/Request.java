@@ -99,4 +99,8 @@ public class Request {
     public String getReason() {
         return reason;
     }
+
+    public void cancel() {
+        status = RequestStatus.CANCELED;
+    }
 }

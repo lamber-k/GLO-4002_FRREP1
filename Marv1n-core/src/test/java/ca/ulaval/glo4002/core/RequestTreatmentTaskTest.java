@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.core;
 
+import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationNoRoomFoundException;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
@@ -76,5 +77,14 @@ public class RequestTreatmentTaskTest {
         requestTreatmentTask.run();
 
         verify(roomMock).reserve(requestMock);
+    }
+
+    @Test
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRepository() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException, InvalidFormatException {
+        havingOnePendingRequest();
+
+        requestTreatmentTask.run();
+
+        verify(reservablesRepositoryMock).persist(roomMock);
     }
 }
