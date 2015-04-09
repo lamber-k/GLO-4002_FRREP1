@@ -1,6 +1,8 @@
 package ca.ulaval.glo4002.core.request;
 
 import ca.ulaval.glo4002.core.person.Person;
+import ca.ulaval.glo4002.core.room.Room;
+import ca.ulaval.glo4002.core.room.RoomAlreadyReservedException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ public class Request {
     // TODO Kevin faire que ca fonction u r welcome
     @Transient
     private List<Person> participants;
+    @Transient
+    private Room reservedRoom;
     private String reason;
 
     public Request(int numberOfSeatsNeeded, int priority, Person person, List<Person> participant) {
@@ -31,6 +35,7 @@ public class Request {
         this.status = RequestStatus.PENDING;
         this.responsible = person;
         this.participants = participant;
+        this.reservedRoom = null;
     }
 
     public Request(int numberOfSeatsNeeded, int priority, Person person) {
@@ -40,6 +45,7 @@ public class Request {
         this.status = RequestStatus.PENDING;
         this.responsible = person;
         this.participants = null;
+        this.reservedRoom = null;
     }
 
     public Request() {
@@ -48,6 +54,7 @@ public class Request {
         this.priority = 0;
         this.responsible = null;
         this.participants = new ArrayList<>();
+        this.reservedRoom = null;
     }
 
     public RequestStatus getRequestStatus() {
@@ -84,7 +91,7 @@ public class Request {
         return participants;
     }
 
-    public void accept() {
+    private void accept() {
         status = RequestStatus.ACCEPTED;
     }
 
@@ -98,6 +105,20 @@ public class Request {
     }
 
     public void cancel() {
+        if (reservedRoom != null) {
+            reservedRoom.unbook();
+            reservedRoom = null;
+        }
         status = RequestStatus.CANCELED;
+    }
+
+    public void reserve(Room room) {
+        try {
+            room.book(this);
+            reservedRoom = room;
+            accept();
+        } catch (RoomAlreadyReservedException e) {
+            refuse(e.getMessage());
+        }
     }
 }

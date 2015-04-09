@@ -11,7 +11,6 @@ import java.util.UUID;
 @Entity
 public class Room {
 
-    public static final String ALREADY_BOOK = "Cette salle est déjà reservé";
     @Id
     private final UUID roomID;
     private int numberOfSeats;
@@ -39,16 +38,14 @@ public class Room {
         return associatedRequest != null;
     }
 
-    public void reserve(Request request) {
+    public void book(Request request) throws RoomAlreadyReservedException {
         if (associatedRequest != null) {
-            request.refuse(ALREADY_BOOK);
             throw new RoomAlreadyReservedException();
         }
-        request.accept();
         associatedRequest = request;
     }
 
-    public void cancelReservation() {
+    public void unbook() {
         associatedRequest = null;
     }
 

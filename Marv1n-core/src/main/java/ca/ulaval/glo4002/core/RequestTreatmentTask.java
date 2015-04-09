@@ -40,7 +40,7 @@ public class RequestTreatmentTask extends Task {
         for (Request pendingRequest : sortedRequests) {
             try {
                 Room roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
-                roomFound.reserve(pendingRequest);
+                pendingRequest.reserve(roomFound);
                 roomRepository.persist(roomFound);
                 //TODO adding request to repository
             } catch (EvaluationNoRoomFoundException e) {

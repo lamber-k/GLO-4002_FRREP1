@@ -23,8 +23,8 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
 
     @Given("An existing reserved reservation")
     public void givenAnExistingReservedReservation() throws RoomAlreadyReservedException {
-        state().room = new Room(5, "Une salle");
-        state().room.reserve(new Request(5, 5, new Person(), null));
+        state().request = new Request(5, 5, new Person(), null);
+        state().request.reserve(new Room(5, "Une salle"));
     }
 
     @Given("An existing pending reservation")
@@ -39,7 +39,7 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
 
     @When("I cancel a reserved reservation")
     public void whenICancelAReservedReservation() {
-        state().room.cancelReservation();
+        state().request.cancel();
     }
 
     @When("I cancel a pending reservation")
