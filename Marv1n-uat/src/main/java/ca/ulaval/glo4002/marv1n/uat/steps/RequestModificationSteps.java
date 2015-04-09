@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.marv1n.uat.steps;
 
+import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestStatus;
 import ca.ulaval.glo4002.core.room.Room;
@@ -23,12 +24,12 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
     @Given("An existing reserved reservation")
     public void givenAnExistingReservedReservation() throws RoomAlreadyReservedException {
         state().room = new Room(5, "Une salle");
-        state().room.reserve(new Request(5, 5, UUID.randomUUID()));
+        state().room.reserve(new Request(5, 5, new Person(), null));
     }
 
     @Given("An existing pending reservation")
     public void givenAnExistingPendingReservation() {
-        state().request = new Request(5, 5, UUID.randomUUID());
+        state().request = new Request(5, 5, new Person(), null);
     }
 
     @Given("An existing reservation")

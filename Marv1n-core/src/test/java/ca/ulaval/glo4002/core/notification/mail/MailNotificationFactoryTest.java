@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.core.notification.mail;
 
 import ca.ulaval.glo4002.core.notification.InvalidNotificationException;
-import ca.ulaval.glo4002.core.notification.NotificationInfo;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.person.PersonRepository;
 import ca.ulaval.glo4002.core.request.Request;

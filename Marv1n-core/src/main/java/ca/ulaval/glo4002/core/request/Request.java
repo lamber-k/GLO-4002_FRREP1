@@ -1,8 +1,5 @@
 package ca.ulaval.glo4002.core.request;
 
-import ca.ulaval.glo4002.core.notification.Notification;
-import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.notification.NotificationInfo;
 import ca.ulaval.glo4002.core.person.Person;
 
 import javax.persistence.*;
