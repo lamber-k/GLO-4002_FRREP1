@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.core.notification.NotificationInfo;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.person.PersonRepository;
+import ca.ulaval.glo4002.core.request.Request;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -21,30 +22,24 @@ public class MailNotificationFactory implements NotificationFactory {
     }
 
     @Override
-    public MailNotification createNotification(NotificationInfo info) {
+    public MailNotification createNotification(Request request) {
         List<String> mailTo = new LinkedList<>();
         mailTo.addAll(personRepository.findAdmins().stream().map(Person::getMailAddress).collect(Collectors.toList()));
-        mailTo.addAll(info.getDestination().stream().map(Person::getMailAddress).collect(Collectors.toList()));
-        Mail mail = buildMail(info, mailTo);
+        mailTo.addAll(request.getParticipants().stream().map(Person::getMailAddress).collect(Collectors.toList()));
+        Mail mail = buildMail(request, mailTo);
         return new MailNotification(mailSender, mail);
     }
 
-    private Mail buildMail(NotificationInfo info, List<String> mailTo) {
+    private Mail buildMail(Request info, List<String> mailTo) {
         MailBuilder mailBuilder = new MailBuilder();
-        String message = buildMessage(info);
         try {
             return mailBuilder.setTo(mailTo)
-                    .setCategory(info.getCategory())
-                    .setMessage(message)
-                    .setStatus(info.getStatus())
-                    .setIdentifier(info.getIdentifier())
+                    .setReason(info.getReason())
+                    .setStatus(info.getRequestStatus())
+                    .setIdentifier(info.getRequestID())
                     .buildMail();
         } catch (MailBuilderException exception) {
             throw new InvalidNotificationException(exception);
         }
-    }
-
-    private String buildMessage(NotificationInfo info) {
-        return "Bonjour,\n" + "Ceci est un message automatique.\n" + "Ce mail vous a été envoyé pour la raison suivante:\n" + info.getDetail() + "\n\nCordialement,\n";
     }
 }

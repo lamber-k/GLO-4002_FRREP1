@@ -4,6 +4,8 @@ import ca.ulaval.glo4002.core.notification.InvalidNotificationException;
 import ca.ulaval.glo4002.core.notification.NotificationInfo;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.person.PersonRepository;
+import ca.ulaval.glo4002.core.request.Request;
+import ca.ulaval.glo4002.core.request.RequestStatus;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
@@ -22,6 +25,11 @@ public class MailNotificationFactoryTest {
     private static final String PERSON_ADDRESS = "person@address.com";
     private static final String ANOTHER_PERSON_ADDRESS = "another.person@address.com";
     private static final String ADMIN_ADDRESS = "admin@address.com";
+    private static final RequestStatus REQUEST_STATUS = RequestStatus.ACCEPTED;
+    private static final UUID RANDOM_UUID = UUID.randomUUID();
+    private static final String SOME_REASON = "some reason";
+    private static final int NUMBER_OF_SEAT = 42;
+    private static final int PRIORITY = 1;
     @Mock
     private Mail mailMock;
     @Mock
@@ -35,6 +43,8 @@ public class MailNotificationFactoryTest {
     @Mock
     private Person adminMock;
     private MailNotificationFactory mailFactory;
+    @Mock
+    private ca.ulaval.glo4002.core.person.Person person;
 
     @Before
     public void initializeMailFactory() {
@@ -50,18 +60,18 @@ public class MailNotificationFactoryTest {
 
     @Test
     public void givenMailFactory_WhenCreateNotification_ThenCreatedNotificationShouldHaveToMails() throws InvalidNotificationException {
-        NotificationInfo notificationInfo = new NotificationInfo("category", "status", "identifier", "detail", Arrays.asList(personMock, anotherPersonMock));
+        Request request = new Request(NUMBER_OF_SEAT, PRIORITY, person, Arrays.asList(personMock, anotherPersonMock));
 
-        MailNotification returnedNotification = mailFactory.createNotification(notificationInfo);
+        MailNotification returnedNotification = mailFactory.createNotification(request);
 
         assertThat(returnedNotification.getMailToSend().getTo(), CoreMatchers.hasItems(PERSON_ADDRESS, ANOTHER_PERSON_ADDRESS));
     }
 
     @Test(expected = InvalidNotificationException.class)
     public void givenMailFactory_WhenCreateNotificationWithInvalidNotificationInfo_ThenShouldThrowInvalidNotification() throws InvalidNotificationException {
-        NotificationInfo notificationInfo = new NotificationInfo(null, null, null, null, Arrays.asList(personMock, anotherPersonMock));
+        Request request = new Request();
 
-        mailFactory.createNotification(notificationInfo);
+        mailFactory.createNotification(request);
     }
 
 }

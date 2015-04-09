@@ -1,8 +1,13 @@
 package ca.ulaval.glo4002.core.request;
 
+import ca.ulaval.glo4002.core.notification.Notification;
+import ca.ulaval.glo4002.core.notification.NotificationFactory;
+import ca.ulaval.glo4002.core.notification.NotificationInfo;
 import ca.ulaval.glo4002.core.person.Person;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -17,6 +22,19 @@ public class Request {
     private final Person responsible;
     @Enumerated(EnumType.ORDINAL)
     private RequestStatus status;
+    // TODO Kevin faire que ca fonction u r welcome
+    @Transient
+    private List<Person> participants;
+    private String reason;
+
+    public Request(int numberOfSeatsNeeded, int priority, Person person, List<Person> participant) {
+        this.priority = priority;
+        this.requestID = UUID.randomUUID();
+        this.numberOfSeatsNeeded = numberOfSeatsNeeded;
+        this.status = RequestStatus.PENDING;
+        this.responsible = person;
+        this.participants = participant;
+    }
 
     public Request(int numberOfSeatsNeeded, int priority, Person person) {
         this.priority = priority;
@@ -24,6 +42,7 @@ public class Request {
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
         this.status = RequestStatus.PENDING;
         this.responsible = person;
+        this.participants = null;
     }
 
     public Request() {
@@ -31,6 +50,7 @@ public class Request {
         this.numberOfSeatsNeeded = 0;
         this.priority = 0;
         this.responsible = null;
+        this.participants = new ArrayList<>();
     }
 
     public RequestStatus getRequestStatus() {
@@ -63,14 +83,20 @@ public class Request {
         return responsible;
     }
 
+    public List<Person> getParticipants() {
+        return participants;
+    }
+
     public void accept() {
         status = RequestStatus.ACCEPTED;
     }
 
-    public void refuse() {
+    public void refuse(String reason) {
         status = RequestStatus.REFUSED;
+        this.reason = reason;
     }
 
-    private void annonce() {
+    public String getReason() {
+        return reason;
     }
 }

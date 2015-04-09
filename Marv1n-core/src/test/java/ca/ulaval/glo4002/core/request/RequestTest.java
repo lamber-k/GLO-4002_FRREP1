@@ -13,6 +13,7 @@ public class RequestTest {
 
     private static final int A_NUMBER_OF_SEATS_NEEDED = 5;
     private static final int A_PRIORITY = 2;
+    public static final String REASON_OF_REFUSE = "ReasonOfRefuse";
     @Mock
     private Person A_PERSON;
     private Request request;
@@ -57,7 +58,7 @@ public class RequestTest {
 
     @Test
     public void givenPendingRequest_WhenRefuseRequest_ThenShouldSetStatusToRefused() {
-        request.refuse();
+        request.refuse(REASON_OF_REFUSE);
         assertEquals(RequestStatus.REFUSED, request.getRequestStatus());
     }
 }
