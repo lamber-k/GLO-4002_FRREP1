@@ -49,7 +49,7 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
 
     @Then("The reserved reservation is cancel")
     public void thenTheReservedReservationIsCancel() {
-        assertEquals(RequestStatus.CANCELED, state().room.getRequest().getRequestStatus());
+        assertEquals(RequestStatus.CANCELED, state().request.getRequestStatus());
     }
 
     @Then("The pending reservation is cancel")
