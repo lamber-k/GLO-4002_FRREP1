@@ -45,15 +45,12 @@ public class RequestService {
         Request currentRequest;
         try {
             currentRequest = requestRepository.findByUUID(id);
-            UUID responsibleUUID = currentRequest.getResponsibleUUID();
-            Person responsible = personRepository.findByUUID(responsibleUUID);
+            Person responsible = currentRequest.getResponsible();
             Room currentRoom = roomRepository.findRoomByAssociatedRequest(currentRequest);
             if (responsible.getMailAddress().equals(email)) {
                 return new RequestInformationModel(currentRequest.getNumberOfSeatsNeeded(), responsible.getMailAddress(), currentRequest.getRequestStatus(), currentRoom.getName());
             }
         } catch (RequestNotFoundException e) {
-            throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email));
-        } catch (PersonNotFoundException e) {
             throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email));
         } catch (RoomNotFoundException e) {
             throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email));

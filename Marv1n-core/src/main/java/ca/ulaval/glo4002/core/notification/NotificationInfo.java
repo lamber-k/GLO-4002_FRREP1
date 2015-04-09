@@ -1,41 +1,37 @@
 package ca.ulaval.glo4002.core.notification;
 
 import ca.ulaval.glo4002.core.person.Person;
+import ca.ulaval.glo4002.core.request.RequestStatus;
 
 import java.util.List;
+import java.util.UUID;
 
 public class NotificationInfo {
-    private final String category;
-    private final String status;
-    private final String identifier;
-    private final String detail;
+    private final RequestStatus status;
+    private final UUID identifier;
     private final List<Person> destination;
+    private final String reason;
 
-    public NotificationInfo(String category, String status, String identifier, String detail, List<Person> destination) {
-        this.category = category;
+    public NotificationInfo(RequestStatus status, UUID identifier, String reason, List<Person> destination) {
         this.status = status;
-        this.detail = detail;
+        this.reason = reason;
         this.identifier = identifier;
         this.destination = destination;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public String getStatus() {
+    public RequestStatus getStatus() {
         return status;
     }
 
-    public String getIdentifier() {
+    public UUID getIdentifier() {
         return identifier;
-    }
-
-    public String getDetail() {
-        return detail;
     }
 
     public List<Person> getDestination() {
         return destination;
+    }
+
+    public String getReason() {
+        return this.reason;
     }
 }
