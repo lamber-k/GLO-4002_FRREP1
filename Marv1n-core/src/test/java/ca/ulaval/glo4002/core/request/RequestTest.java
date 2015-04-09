@@ -1,7 +1,9 @@
 package ca.ulaval.glo4002.core.request;
 
+import ca.ulaval.glo4002.core.person.Person;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import java.util.UUID;
 
@@ -11,12 +13,13 @@ public class RequestTest {
 
     private static final int A_NUMBER_OF_SEATS_NEEDED = 5;
     private static final int A_PRIORITY = 2;
-    private static final UUID A_UUID_REQUEST = UUID.randomUUID();
+    @Mock
+    private Person A_PERSON;
     private Request request;
 
     @Before
     public void initializeRequest() {
-        request = new Request(A_NUMBER_OF_SEATS_NEEDED, A_PRIORITY, A_UUID_REQUEST);
+        request = new Request(A_NUMBER_OF_SEATS_NEEDED, A_PRIORITY, A_PERSON);
     }
 
     @Test
@@ -26,7 +29,7 @@ public class RequestTest {
 
     @Test
     public void givenRequest_WhenComparedToDifferentRequest_ThenReturnFalse() {
-        Request aDifferentRequest = new Request(A_NUMBER_OF_SEATS_NEEDED, A_PRIORITY, UUID.randomUUID());
+        Request aDifferentRequest = new Request(A_NUMBER_OF_SEATS_NEEDED, A_PRIORITY, A_PERSON);
         assertFalse(request.equals(aDifferentRequest));
     }
 

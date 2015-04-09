@@ -45,7 +45,6 @@ public class MailNotificationFactory implements NotificationFactory {
     }
 
     private String buildMessage(NotificationInfo info) {
-
         return "Bonjour,\n" + "Ceci est un message automatique.\n" + "Ce mail vous a été envoyé pour la raison suivante:\n" + info.getDetail() + "\n\nCordialement,\n";
     }
 }
