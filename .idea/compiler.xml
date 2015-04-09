@@ -26,7 +26,6 @@
         <module name="Marv1n-core" />
         <module name="Marv1n-persistence" />
         <module name="Marv1n-test" />
-        <module name="Marv1n-uac" />
         <module name="Marv1n-uat" />
         <module name="Marv1n-web" />
       </profile>

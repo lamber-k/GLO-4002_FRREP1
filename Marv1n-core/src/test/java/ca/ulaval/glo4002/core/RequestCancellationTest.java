@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.core;
 
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
+import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import org.junit.Before;
@@ -23,6 +24,8 @@ public class RequestCancellationTest {
     @Mock
     RequestRepository requestRepositoryMock;
     private RequestCancellation requestCancellation;
+    @Mock
+    private Request requestMock;
 
     @Before
     public void initializeRequestCancellation() {
@@ -37,12 +40,14 @@ public class RequestCancellationTest {
     }
 
     @Test
-    public void givenRequestCancellation_WhenCancellingRequestTreated_ShouldCallRequestRepository() throws InvalidFormatException, RequestNotFoundException {
+    public void givenRequestCancellation_WhenCancellingRequestTreated_ShouldCancelRequestAndPersistIt() throws InvalidFormatException, RequestNotFoundException {
         Mockito.doThrow(ObjectNotFoundException.class).when(pendingRequestsMock).cancelPendingRequest(AN_UUID, requestRepositoryMock);
+        when(requestRepositoryMock.findByUUID(AN_UUID)).thenReturn(requestMock);
 
         requestCancellation.cancelRequestByUUID(AN_UUID);
 
-        verify(requestRepositoryMock).findByUUID(AN_UUID);
+        verify(requestMock).cancel();
+        verify(requestRepositoryMock).persist(requestMock);
     }
 
     @Test (expected = ObjectNotFoundException.class)

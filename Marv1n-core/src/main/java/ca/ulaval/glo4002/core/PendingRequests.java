@@ -36,7 +36,7 @@ public class PendingRequests {
         Optional<Request> requestOptional = this.pendingRequest.stream().filter(r -> r.getRequestID().equals(requestId)).findFirst();
         if (requestOptional.isPresent()) {
             Request request = requestOptional.get();
-            // TODO Cancel request
+            request.cancel();
             requestRepository.persist(request);
             this.pendingRequest.remove(request);
         }

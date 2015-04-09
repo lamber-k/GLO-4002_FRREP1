@@ -5,7 +5,6 @@ import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public class RequestCancellation {
@@ -28,7 +27,7 @@ public class RequestCancellation {
     private void tryCancelStoredRequest(UUID id) throws ObjectNotFoundException, InvalidFormatException {
         try {
             Request request = requestRepository.findByUUID(id);
-            // TODO cancel request
+            request.cancel();
             requestRepository.persist(request);
         } catch (RequestNotFoundException e) {
             throw new ObjectNotFoundException();

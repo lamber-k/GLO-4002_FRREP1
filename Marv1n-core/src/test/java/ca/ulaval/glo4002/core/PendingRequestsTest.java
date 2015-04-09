@@ -92,11 +92,12 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenRequestCanceledShouldBePersist() throws InvalidFormatException {
+    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenRequestCancelledShouldBePersist() throws InvalidFormatException {
         givenRequest();
 
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock);
 
+        verify(requestMock).cancel();
         verify(requestRepositoryMock).persist(requestMock);
     }
 
