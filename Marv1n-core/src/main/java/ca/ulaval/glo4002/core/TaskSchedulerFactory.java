@@ -40,9 +40,9 @@ public class TaskSchedulerFactory {
         this.defaultTimeUnit = timeUnit;
     }
 
-    public Scheduler getTaskSheduler(List<Request> pendingRequests) {
-        RequestTreatmentTaskFactory requestTreatementFactory = new RequestTreatmentTaskFactory(strategyAssignation, strategySortRequest, roomRepository, pendingRequests);
+    public Scheduler getTaskScheduler(List<Request> pendingRequests) {
+        RequestTreatmentTaskFactory requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(strategyAssignation, strategySortRequest, roomRepository, pendingRequests);
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        return new TaskScheduler(scheduledExecutorService, defaultIntervalTimer, defaultTimeUnit, requestTreatementFactory);
+        return new TaskScheduler(scheduledExecutorService, defaultIntervalTimer, defaultTimeUnit, requestTreatmentTaskFactory);
     }
 }

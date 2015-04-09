@@ -21,7 +21,7 @@ public class RequestRepositoryHibernate extends RepositoryHibernate<Request> imp
         try {
             return entityManager.getReference(Request.class, requestID);
         }
-        catch (EntityNotFoundException e) {
+        catch (EntityNotFoundException exception) {
             throw new RequestNotFoundException();
         }
     }

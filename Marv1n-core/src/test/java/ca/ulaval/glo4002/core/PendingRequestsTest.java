@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -30,10 +30,9 @@ public class PendingRequestsTest {
 
     @Before
     public void initializePendingRequests() {
-        when(taskSchedulerFactoryMock.getTaskSheduler(any(LinkedList.class))).thenReturn(schedulerMock);
+        when(taskSchedulerFactoryMock.getTaskScheduler(any(List.class))).thenReturn(schedulerMock);
         pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, taskSchedulerFactoryMock);
     }
-
 
     @Test
     public void givenPendingRequest_WhenSetMaximumPendingAtConstructor_ThenReflectValue() {
@@ -47,7 +46,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenPendingRequestFullAfterAddingARequest_ThenShouldCallShedulerToRunNow() {
+    public void givenPendingRequest_WhenPendingRequestFullAfterAddingARequest_ThenShouldCallSchedulerToRunNow() {
         pendingRequests.setMaximumPendingRequests(A_MAXIMUM_ONE_PENDING_REQUEST);
         pendingRequests.addRequest(requestMock);
 
@@ -55,7 +54,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenPendingRequestIsNotFullAfterAddingARequest_ThenDoesNotCallShedulerToRunNow() {
+    public void givenPendingRequest_WhenPendingRequestIsNotFullAfterAddingARequest_ThenDoesNotCallSchedulerToRunNow() {
         pendingRequests.setMaximumPendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS);
 
         pendingRequests.addRequest(requestMock);
@@ -64,7 +63,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenAddingRequest_ThenAmountOfRequestInPendingShouldIncreaseAndCallShedulerRunNowAtMaximumPendingRequestHitting() {
+    public void givenPendingRequest_WhenAddingRequest_ThenAmountOfRequestInPendingShouldIncreaseAndCallSchedulerRunNowAtMaximumPendingRequestHitting() {
         pendingRequests.setMaximumPendingRequests(A_MAXIMUM_TWO_PENDING_REQUEST);
 
         pendingRequests.addRequest(requestMock);
@@ -100,10 +99,9 @@ public class PendingRequestsTest {
 
             pendingRequests.addRequest(requestMock);
             verify(schedulerMock).runNow();
-        } catch (Exception e) {
+        } catch (Exception exception) {
             return false;
         }
         return true;
     }
-
 }

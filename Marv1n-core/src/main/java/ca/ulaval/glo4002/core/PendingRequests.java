@@ -12,10 +12,10 @@ public class PendingRequests {
     private List<Request> pendingRequest;
     private Scheduler scheduler;
 
-    public PendingRequests(int maximumPendingRequests, TaskSchedulerFactory shedulerFactory) {
+    public PendingRequests(int maximumPendingRequests, TaskSchedulerFactory taskSchedulerFactory) {
         this.maximumPendingRequests = maximumPendingRequests;
         this.pendingRequest = Collections.synchronizedList(new ArrayList<>());
-        this.scheduler = shedulerFactory.getTaskSheduler(pendingRequest);
+        this.scheduler = taskSchedulerFactory.getTaskScheduler(pendingRequest);
     }
 
     public void addRequest(Request request) {
