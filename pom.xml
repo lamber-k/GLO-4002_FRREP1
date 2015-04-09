@@ -12,8 +12,8 @@
         <module>Marv1n-applicationServices</module>
         <module>Marv1n-persistence</module>
         <module>Marv1n-web</module>
-        <module>Marv1n-uat</module>
         <module>Marv1n-core</module>
+        <module>Marv1n-uat</module>
     </modules>
     <dependencies>
         <dependency>

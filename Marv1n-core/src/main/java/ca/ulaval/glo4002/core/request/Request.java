@@ -70,4 +70,8 @@ public class Request {
     public void refuse() {
         status = RequestStatus.REFUSED;
     }
+
+    public void cancel() {
+        status = RequestStatus.CANCELED;
+    }
 }
