@@ -41,9 +41,9 @@ public class PersonRepositoryHibernate extends RepositoryHibernate<Person> imple
 
     @Override
     public List<Person> findByListOfUUID(List<UUID> listOfUUID) {
-        Query q = entityManager.createQuery("select p from Person p where p.personID in :listOfUUID");
-        q.setParameter("listOfUUID", listOfUUID);
-        return q.getResultList();
+        Query query = entityManager.createQuery("select p from Person p where p.personID in :listOfUUID");
+        query.setParameter("listOfUUID", listOfUUID);
+        return query.getResultList();
     }
 
     @Override
@@ -60,7 +60,7 @@ public class PersonRepositoryHibernate extends RepositoryHibernate<Person> imple
 
     @Override
     public List<Person> findAdmins() {
-        Query q = entityManager.createQuery("select p from Person p where p.admin = true");
-        return q.getResultList();
+        Query query = entityManager.createQuery("select p from Person p where p.admin = true");
+        return query.getResultList();
     }
 }

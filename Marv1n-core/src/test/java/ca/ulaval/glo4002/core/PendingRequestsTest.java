@@ -24,14 +24,14 @@ public class PendingRequestsTest {
     @Mock
     private Request requestMock;
     @Mock
-    private TaskSchedulerFactory shedulerFactoryMock;
+    private TaskSchedulerFactory taskSchedulerFactoryMock;
     @Mock
     private Scheduler schedulerMock;
 
     @Before
     public void initializePendingRequests() {
-        when(shedulerFactoryMock.getTaskSheduler(any(LinkedList.class))).thenReturn(schedulerMock);
-        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, shedulerFactoryMock);
+        when(taskSchedulerFactoryMock.getTaskSheduler(any(LinkedList.class))).thenReturn(schedulerMock);
+        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, taskSchedulerFactoryMock);
     }
 
 

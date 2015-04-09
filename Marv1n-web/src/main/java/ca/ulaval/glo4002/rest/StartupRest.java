@@ -35,7 +35,7 @@ public class StartupRest {
             server.start();
             server.join();
         } catch (Exception e) {
-            throw new RestServerLanchFailException(e);
+            throw new RestServerLaunchFailException(e);
         }
     }
 
