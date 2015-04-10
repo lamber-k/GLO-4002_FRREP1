@@ -11,8 +11,6 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
-import java.util.UUID;
-
 import static org.junit.Assert.assertEquals;
 
 public class RequestModificationSteps extends StatefulStep<RequestModificationSteps.RequestStepsState> {
@@ -30,11 +28,6 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
     @Given("An existing pending reservation")
     public void givenAnExistingPendingReservation() {
         state().request = new Request(5, 5, new Person(), null);
-    }
-
-    @Given("An existing reservation")
-    public void givenAnExistingReservation() {
-
     }
 
     @When("I cancel a reserved reservation")

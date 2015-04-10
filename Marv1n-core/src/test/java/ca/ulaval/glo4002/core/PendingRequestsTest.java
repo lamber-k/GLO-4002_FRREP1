@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -36,7 +36,7 @@ public class PendingRequestsTest {
 
     @Before
     public void initializePendingRequests() {
-        when(taskSchedulerFactoryMock.getTaskScheduler(any(List.class))).thenReturn(schedulerMock);
+        when(taskSchedulerFactoryMock.getTaskScheduler(any(ArrayList.class))).thenReturn(schedulerMock);
         pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, taskSchedulerFactoryMock);
     }
 

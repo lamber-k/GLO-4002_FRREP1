@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class NotificationInfo {
+
     private final RequestStatus status;
     private final UUID identifier;
     private final List<Person> destination;

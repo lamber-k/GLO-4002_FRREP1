@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.services;
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.person.Person;
-import ca.ulaval.glo4002.core.person.PersonNotFoundException;
 import ca.ulaval.glo4002.core.person.PersonRepository;
 import ca.ulaval.glo4002.core.request.InvalidRequestFormatException;
 import ca.ulaval.glo4002.core.request.Request;
@@ -18,6 +17,7 @@ import ca.ulaval.glo4002.models.RequestInformationModel;
 import java.util.UUID;
 
 public class RequestService {
+
     public static final String ErrorRequestByEmailAndId = "Il n'existe pas de demande \"%s\" pour l'organisateur \"%s\"";
     private RequestRepository requestRepository;
     private PersonRepository personRepository;
@@ -36,8 +36,8 @@ public class RequestService {
     public void addRequest(Request request) throws InvalidRequestFormatException {
         try {
             requestRepository.persist(request);
-        } catch (InvalidFormatException e) {
-            throw new InvalidRequestFormatException(e.getMessage());
+        } catch (InvalidFormatException exception) {
+            throw new InvalidRequestFormatException(exception.getMessage());
         }
     }
 
@@ -50,9 +50,9 @@ public class RequestService {
             if (responsible.getMailAddress().equals(email)) {
                 return new RequestInformationModel(currentRequest.getNumberOfSeatsNeeded(), responsible.getMailAddress(), currentRequest.getRequestStatus(), currentRoom.getName());
             }
-        } catch (RequestNotFoundException e) {
+        } catch (RequestNotFoundException exception) {
             throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email));
-        } catch (RoomNotFoundException e) {
+        } catch (RoomNotFoundException exception) {
             throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email));
         }
         throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email));

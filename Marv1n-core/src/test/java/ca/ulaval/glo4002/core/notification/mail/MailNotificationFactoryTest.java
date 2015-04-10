@@ -24,9 +24,6 @@ public class MailNotificationFactoryTest {
     private static final String PERSON_ADDRESS = "person@address.com";
     private static final String ANOTHER_PERSON_ADDRESS = "another.person@address.com";
     private static final String ADMIN_ADDRESS = "admin@address.com";
-    private static final RequestStatus REQUEST_STATUS = RequestStatus.ACCEPTED;
-    private static final UUID RANDOM_UUID = UUID.randomUUID();
-    private static final String SOME_REASON = "some reason";
     private static final int NUMBER_OF_SEAT = 42;
     private static final int PRIORITY = 1;
     @Mock
