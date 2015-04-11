@@ -29,23 +29,23 @@ public class RoomTest {
 
     @Test
     public void givenReservedRoom_WhenReserve_ThenRequestIsAssociatedToRoom() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
-        room.reserve(requestMock);
+        room.book(requestMock);
         assertEquals(requestMock, room.getRequest());
     }
 
 
     @Test(expected = RoomAlreadyReservedException.class)
     public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomAlreadyReserved() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
-        room.reserve(requestMock);
-        room.reserve(requestMock);
+        room.book(requestMock);
+        room.book(requestMock);
     }
 
     @Test
     public void givenReservedRoom_WhenCancelReservation_ThenShouldNotBeReservedAnymore() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
         when(requestMock.getNumberOfSeatsNeeded()).thenReturn(A_LOWER_NUMBER_OF_SEATS);
-        room.reserve(requestMock);
+        room.book(requestMock);
 
-        room.cancelReservation();
+        room.unbook();
 
         assertFalse(room.isReserved());
     }

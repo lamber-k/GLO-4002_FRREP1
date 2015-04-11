@@ -5,6 +5,6 @@ public class RoomAlreadyReservedException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     public RoomAlreadyReservedException() {
-        super("The room is already reserved");
+        super("Cette salle est déjà reservé");
     }
 }

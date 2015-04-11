@@ -76,7 +76,7 @@ public class RequestTreatmentTaskTest {
 
         requestTreatmentTask.run();
 
-        verify(roomMock).reserve(requestMock);
+        verify(requestMock).reserve(roomMock);
     }
 
     @Test

@@ -1,17 +1,26 @@
 package ca.ulaval.glo4002.core.request;
 
 import ca.ulaval.glo4002.core.person.Person;
+import ca.ulaval.glo4002.core.room.Room;
+import ca.ulaval.glo4002.core.room.RoomAlreadyReservedException;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 
+@RunWith(MockitoJUnitRunner.class)
 public class RequestTest {
 
     private static final int A_NUMBER_OF_SEATS_NEEDED = 5;
     private static final int A_PRIORITY = 2;
     public static final String REASON_OF_REFUSE = "ReasonOfRefuse";
+    @Mock
+    private Room roomMock;
     @Mock
     private Person A_PERSON;
     private Request request;
@@ -49,14 +58,41 @@ public class RequestTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenAcceptRequest_ThenShouldSetStatusToAccepted() {
-        request.accept();
+    public void givenPendingRequest_WhenReserveValidRoom_ShouldBookRoomThenShouldSetStatusToAccepted() {
+        request.reserve(roomMock);
+
+        verify(roomMock).book(request);
         assertEquals(RequestStatus.ACCEPTED, request.getRequestStatus());
+    }
+
+    @Test
+    public void givenPendingRequest_WhenReserveUnvalidRoom_ShouldSetStatusToRefused() {
+        Mockito.doThrow(RoomAlreadyReservedException.class).when(roomMock).book(request);
+        request.reserve(roomMock);
+
+        verify(roomMock).book(request);
+        assertEquals(RequestStatus.REFUSED, request.getRequestStatus());
     }
 
     @Test
     public void givenPendingRequest_WhenRefuseRequest_ThenShouldSetStatusToRefused() {
         request.refuse(REASON_OF_REFUSE);
         assertEquals(RequestStatus.REFUSED, request.getRequestStatus());
+    }
+
+    @Test
+    public void givenPendingRequest_WhenCancelRequest_ShouldSetStatusToCancel() {
+        request.cancel();
+
+        assertEquals(RequestStatus.CANCELED, request.getRequestStatus());
+    }
+
+    @Test
+    public void givenAcceptedRequest_WhenCancelRequest_ShouldUnbookRoom() {
+        request.reserve(roomMock);
+
+        request.cancel();
+
+        verify(roomMock).unbook();
     }
 }
