@@ -37,7 +37,7 @@ public class RequestService {
         try {
             requestRepository.persist(request);
         } catch (InvalidFormatException exception) {
-            throw new InvalidRequestFormatException(exception.getMessage());
+            throw new InvalidRequestFormatException(exception);
         }
     }
 

@@ -35,7 +35,7 @@ public class PersonRepositoryHibernate extends RepositoryHibernate<Person> imple
             return entityManager.getReference(Person.class, idSearched);
         }
         catch (EntityNotFoundException exception) {
-            throw new PersonNotFoundException();
+            throw new PersonNotFoundException(exception);
         }
     }
 
@@ -54,7 +54,7 @@ public class PersonRepositoryHibernate extends RepositoryHibernate<Person> imple
             return (Person)query.getSingleResult();
         }
         catch (EntityNotFoundException | NoResultException exception) {
-            throw new PersonNotFoundException();
+            throw new PersonNotFoundException(exception);
         }
     }
 
