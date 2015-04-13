@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -110,6 +111,35 @@ public class PendingRequestsTest {
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
     }
 
+    @Test
+    public void givenPendingRequest_WhenCancelling_ThenShouldAnnounce() throws InvalidFormatException {
+        givenRequest();
+
+        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
+
+        verify(notificationMock).announce();
+    }
+
+    @Test
+    public void givenRequest_WhenRetrieveCurrentPendingRequest_TheShouldReturnTheRequest() {
+        pendingRequests.addRequest(requestMock);
+
+        List<Request> retreive = pendingRequests.retrieveCurrentPendingRequest();
+
+        assertEquals(1, retreive.size());
+        assertEquals(requestMock, retreive.get(0));
+    }
+
+    @Test
+    public void givenRequest_WhenRetrieveTwice_ShouldReturnEmptyList() {
+        pendingRequests.addRequest(requestMock);
+
+        List<Request> retrieve = pendingRequests.retrieveCurrentPendingRequest();
+        retrieve = pendingRequests.retrieveCurrentPendingRequest();
+
+        assertEquals(0, retrieve.size());
+    }
+
     private void givenRequest() {
         when(requestMock.getRequestID()).thenReturn(AN_UUID);
         pendingRequests.addRequest(requestMock);
@@ -129,14 +159,5 @@ public class PendingRequestsTest {
             return false;
         }
         return true;
-    }
-
-    @Test
-    public void givenPendingRequest_WhenCancelling_ThenShouldAnnounce() throws InvalidFormatException {
-        givenRequest();
-
-        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
-
-        verify(notificationMock).announce();
     }
 }
