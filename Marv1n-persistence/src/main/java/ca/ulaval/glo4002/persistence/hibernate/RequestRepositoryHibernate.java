@@ -22,7 +22,7 @@ public class RequestRepositoryHibernate extends RepositoryHibernate<Request> imp
             return entityManager.getReference(Request.class, requestID);
         }
         catch (EntityNotFoundException exception) {
-            throw new RequestNotFoundException();
+            throw new RequestNotFoundException(exception);
         }
     }
 

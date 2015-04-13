@@ -28,7 +28,7 @@ public class RoomRepositoryHibernate extends RepositoryHibernate<Room> implement
             return (Room) query.getSingleResult();
         }
         catch (EntityNotFoundException | NoResultException exception) {
-            throw new RoomNotFoundException();
+            throw new RoomNotFoundException(exception);
         }
     }
 }
