@@ -34,7 +34,7 @@ public class RequestCancellation {
             requestRepository.persist(request);
             notificationFactory.createNotification(request).announce();
         } catch (RequestNotFoundException e) {
-            throw new ObjectNotFoundException();
+            throw new ObjectNotFoundException(e);
         }
     }
 }

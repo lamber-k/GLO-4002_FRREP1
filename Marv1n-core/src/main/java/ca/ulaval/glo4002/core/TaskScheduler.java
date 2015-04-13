@@ -4,7 +4,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
-public class TaskScheduler extends Scheduler {
+public class TaskScheduler implements Scheduler {
 
     private final TimeUnit timeUnit;
     private ScheduledExecutorService scheduler;
