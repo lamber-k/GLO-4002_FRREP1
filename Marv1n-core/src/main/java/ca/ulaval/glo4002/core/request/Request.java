@@ -117,8 +117,8 @@ public class Request {
             room.book(this);
             reservedRoom = room;
             accept();
-        } catch (RoomAlreadyReservedException e) {
-            refuse(e.getMessage());
+        } catch (RoomAlreadyReservedException exception) {
+            refuse(exception.getMessage());
         }
     }
 }
