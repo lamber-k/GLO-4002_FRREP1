@@ -40,11 +40,6 @@ public class TaskScheduler implements Scheduler {
         }
     }
 
-    private void startAtFixedRate() {
-        nextRun = scheduler.scheduleAtFixedRate(this, intervalTimer, intervalTimer, timeUnit);
-        isSchedulerRunning = true;
-    }
-
     @Override
     public int getIntervalTimer() {
         return intervalTimer;
@@ -65,10 +60,27 @@ public class TaskScheduler implements Scheduler {
 
     @Override
     public void runNow() {
+        starNowtAtFixedRate();
+    }
+
+    @Override
+    public void run() {
+        startTask();
+    }
+
+    private void startAtFixedRate() {
+        nextRun = scheduler.scheduleAtFixedRate(this, intervalTimer, intervalTimer, timeUnit);
+        isSchedulerRunning = true;
+    }
+
+    private void starNowtAtFixedRate() {
         cancelScheduler();
-        Task previousTask = task;
-        task = taskFactory.createTask(previousTask);
-        task.start();
-        startAtFixedRate();
+        nextRun = scheduler.scheduleAtFixedRate(this, 0, intervalTimer, timeUnit);
+        isSchedulerRunning = true;
+    }
+
+    private void startTask() {
+        task = taskFactory.createTask();
+        task.run();
     }
 }

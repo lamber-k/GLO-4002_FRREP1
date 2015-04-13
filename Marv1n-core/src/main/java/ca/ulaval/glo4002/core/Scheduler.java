@@ -15,9 +15,4 @@ public interface Scheduler extends Runnable {
     void restartSchedule();
 
     void runNow();
-
-    @Override
-    default void run() {
-        runNow();
-    }
 }
