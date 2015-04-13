@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestStatus;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomAlreadyReservedException;
+import ca.ulaval.glo4002.marv1n.uat.fakes.RequestRepositoryInMemoryFake;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StatefulStep;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StepState;
 import org.jbehave.core.annotations.Given;
@@ -20,39 +21,42 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
         return new RequestStepsState();
     }
 
-    @Given("An existing reserved reservation")
-    public void givenAnExistingReservedReservation() throws RoomAlreadyReservedException {
+    @Given("an existing assigned reservation")
+    public void givenAnExistingAssignedReservation() throws RoomAlreadyReservedException {
+        state().room = new Room(5, "Une salle");
         state().request = new Request(5, 5, new Person(), null);
-        state().request.reserve(new Room(5, "Une salle"));
+        state().request.reserve(state().room);
     }
 
-    @Given("An existing pending reservation")
+    @Given("an existing pending reservation")
     public void givenAnExistingPendingReservation() {
         state().request = new Request(5, 5, new Person(), null);
     }
 
-    @When("I cancel a reserved reservation")
-    public void whenICancelAReservedReservation() {
+    @When("I cancel this reservation")
+    public void whenICancelThisReservation() {
         state().request.cancel();
     }
 
-    @When("I cancel a pending reservation")
-    public void whenICancelAPendingReservation() {
-        state().request.cancel();
-    }
-
-    @Then("The reserved reservation is cancel")
-    public void thenTheReservedReservationIsCancel() {
+    @Then("the reservation should have been cancelled")
+    public void thenTheReservationShouldHaveBeenCancelled() {
         assertEquals(RequestStatus.CANCELED, state().request.getRequestStatus());
     }
 
-    @Then("The pending reservation is cancel")
-    public void thenThePendingReservationIsCancel() {
+    @Then("the room should have been unassigned")
+    public void thenTheRoomShouldHaveBeenUnassigned() {
+        assertEquals(null, state().room.getRequest());
+    }
+
+    @Then("the status of the reservation should have changed")
+    public void thenTheStatusOfTheReservationShouldHaveChanged() {
         assertEquals(RequestStatus.CANCELED, state().request.getRequestStatus());
     }
 
     public class RequestStepsState extends StepState {
         public Room room;
         public Request request;
+        // TODO : Une request n'est pas persist pour le moment
+        public RequestRepositoryInMemoryFake requestRepositoryInMemoryFake;
     }
 }

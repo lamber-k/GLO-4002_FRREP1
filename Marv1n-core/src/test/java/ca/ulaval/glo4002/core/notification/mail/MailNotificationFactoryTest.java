@@ -4,7 +4,6 @@ import ca.ulaval.glo4002.core.notification.InvalidNotificationException;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.person.PersonRepository;
 import ca.ulaval.glo4002.core.request.Request;
-import ca.ulaval.glo4002.core.request.RequestStatus;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
