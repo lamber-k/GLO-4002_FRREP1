@@ -11,4 +11,12 @@ public class ObjectNotFoundException extends RuntimeException {
     public ObjectNotFoundException(String message) {
         super(message);
     }
+
+    public ObjectNotFoundException(Exception exception) {
+        super(exception);
+    }
+
+    public ObjectNotFoundException(String what, Exception exception) {
+        super(what, exception);
+    }
 }

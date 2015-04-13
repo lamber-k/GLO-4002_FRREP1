@@ -51,13 +51,13 @@ public class PendingRequests {
             requestRepository.persist(request);
             this.pendingRequest.remove(request);
             notificationFactory.createNotification(request).announce();
-        }
-        else {
+        } else {
             throw new ObjectNotFoundException();
         }
     }
 
     private void checkLimitIsReached() {
+        //TODO ALL Test me properly
         if (pendingRequest.size() >= maximumPendingRequests) {
             scheduler.runNow();
         }
