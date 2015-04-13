@@ -51,6 +51,7 @@ public class TaskSchedulerFactory {
     }
 
     public Scheduler getTaskScheduler(List<Request> pendingRequests) {
+        //TODO ALL Test me properly
         ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         RequestTreatmentTaskFactory requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(strategyAssignation, strategySortRequest, roomRepository, pendingRequests, notificationFactory, requestRepository);
         return new TaskScheduler(scheduledExecutorService, defaultIntervalTimer, defaultTimeUnit, requestTreatmentTaskFactory);

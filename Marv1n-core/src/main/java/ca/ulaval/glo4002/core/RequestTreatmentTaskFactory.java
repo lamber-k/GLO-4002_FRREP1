@@ -30,6 +30,7 @@ public class RequestTreatmentTaskFactory implements TaskFactory {
 
     @Override
     public Task createTask() {
+        //TODO ALL Test me properly
         List<Request> requestToTreat = new ArrayList<>();
         requestToTreat.addAll(pendingRequest);
         pendingRequest.removeAll(requestToTreat);
