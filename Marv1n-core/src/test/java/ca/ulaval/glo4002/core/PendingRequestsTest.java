@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.core;
 
+import ca.ulaval.glo4002.core.notification.Notification;
+import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
@@ -33,11 +35,16 @@ public class PendingRequestsTest {
     private Scheduler schedulerMock;
     @Mock
     private RequestRepository requestRepositoryMock;
+    @Mock
+    private NotificationFactory notificationFactoryMock;
+    @Mock
+    private Notification notificationMock;
 
     @Before
     public void initializePendingRequests() {
         when(taskSchedulerFactoryMock.getTaskScheduler(any(ArrayList.class))).thenReturn(schedulerMock);
         pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, taskSchedulerFactoryMock);
+        when(notificationFactoryMock.createNotification(requestMock)).thenReturn(notificationMock);
     }
 
     @Test
@@ -85,7 +92,7 @@ public class PendingRequestsTest {
     public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenPendingListShouldBeEmpty() throws InvalidFormatException {
         givenRequest();
 
-        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock);
+        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
 
         assertTrue(isEmptyPendingRequest(pendingRequests));
     }
@@ -94,7 +101,7 @@ public class PendingRequestsTest {
     public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenRequestCancelledShouldBePersist() throws InvalidFormatException {
         givenRequest();
 
-        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock);
+        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
 
         verify(requestMock).cancel();
         verify(requestRepositoryMock).persist(requestMock);
@@ -102,7 +109,7 @@ public class PendingRequestsTest {
 
     @Test(expected = ObjectNotFoundException.class)
     public void givenPendingRequest_WhenCancellingANonExistingPendingRequest_ThenThrowObjectNotFoundException() throws InvalidFormatException {
-        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock);
+        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
     }
 
     private void givenRequest() {
@@ -124,5 +131,14 @@ public class PendingRequestsTest {
             return false;
         }
         return true;
+    }
+
+    @Test
+    public void givenPendingRequest_WhenCancelling_ThenShouldAnnounce() throws InvalidFormatException {
+        givenRequest();
+
+        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
+
+        verify(notificationMock).announce();
     }
 }
