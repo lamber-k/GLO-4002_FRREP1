@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.core;
 
+import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.core.notification.mail.MailSender;
 import ca.ulaval.glo4002.core.person.PersonRepository;
 import ca.ulaval.glo4002.core.request.Request;
@@ -16,16 +17,14 @@ public class RequestTreatmentTaskFactory implements TaskFactory {
     private EvaluationStrategy strategyAssignation;
     private SortingRequestStrategy strategySortRequest;
     private List<Request> pendingRequest;
-    private MailSender mailSender;
-    private PersonRepository personRepository;
+    private NotificationFactory notificationFactory;
 
-    public RequestTreatmentTaskFactory(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> pendingRequest, MailSender mailSender, PersonRepository personRepository) {
+    public RequestTreatmentTaskFactory(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> pendingRequest, NotificationFactory notificationFactory) {
         this.roomRepository = roomRepository;
         this.strategyAssignation = strategyAssignation;
         this.strategySortRequest = strategySortRequest;
         this.pendingRequest = pendingRequest;
-        this.mailSender = mailSender;
-        this.personRepository = personRepository;
+        this.notificationFactory = notificationFactory;
     }
 
     @Override
@@ -33,6 +32,6 @@ public class RequestTreatmentTaskFactory implements TaskFactory {
         List<Request> requestToTreat = new ArrayList<>();
         requestToTreat.addAll(pendingRequest);
         pendingRequest.removeAll(requestToTreat);
-        return new RequestTreatmentTask(strategyAssignation, strategySortRequest, roomRepository, requestToTreat, previousTask, mailSender, personRepository);
+        return new RequestTreatmentTask(strategyAssignation, strategySortRequest, roomRepository, requestToTreat, previousTask, notificationFactory);
     }
 }
