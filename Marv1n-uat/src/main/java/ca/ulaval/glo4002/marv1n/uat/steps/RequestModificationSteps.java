@@ -56,7 +56,6 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
     public class RequestStepsState extends StepState {
         public Room room;
         public Request request;
-        // TODO : Une request n'est pas persist pour le moment
         public RequestRepositoryInMemoryFake requestRepositoryInMemoryFake;
     }
 }

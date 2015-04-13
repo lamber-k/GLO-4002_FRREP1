@@ -15,6 +15,7 @@ import javax.servlet.DispatcherType;
 import java.util.EnumSet;
 
 public class StartupRest {
+
     private int httpPort;
     private StartupApplication startupApplication;
 
@@ -34,15 +35,14 @@ public class StartupRest {
             configureJersey(servletContextHandler);
             server.start();
             server.join();
-        } catch (Exception e) {
-            throw new RestServerLaunchFailException(e);
+        } catch (Exception exception) {
+            throw new RestServerLaunchFailException(exception);
         }
     }
 
     private void configureApplication() {
         LocatorService.getInstance().registerModule(new LocatorServicesModule());
-        this.startupApplication = new StartupApplication();
-        this.startupApplication.init();
+        startupApplication = new StartupApplication();
     }
 
     private void configureJersey(ServletContextHandler servletContextHandler) {

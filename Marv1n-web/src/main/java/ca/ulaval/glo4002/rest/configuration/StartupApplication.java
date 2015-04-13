@@ -2,9 +2,7 @@ package ca.ulaval.glo4002.rest.configuration;
 
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.core.request.RequestRepository;
-import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.locator.LocatorService;
-import ca.ulaval.glo4002.persistence.hibernate.RoomRepositoryHibernate;
 import ca.ulaval.glo4002.core.PendingRequests;
 import ca.ulaval.glo4002.core.TaskSchedulerFactory;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
@@ -29,11 +27,7 @@ public class StartupApplication {
     private NotificationFactory notificationFactory;
     private RequestRepository requestRepository;
 
-    public void init() {
-        this.startOrganizer();
-    }
-
-    private void startOrganizer() {
+    public StartupApplication() {
         roomRepository = LocatorService.getInstance().resolve(RoomRepository.class);
         notificationFactory = LocatorService.getInstance().resolve(NotificationFactory.class);
         requestRepository = LocatorService.getInstance().resolve(RequestRepository.class);

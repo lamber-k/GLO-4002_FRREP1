@@ -40,23 +40,26 @@ public class RequestTreatmentTask implements Task {
     protected void treatPendingRequest() {
         List<Request> sortedRequests = sortingRequestStrategy.sortList(requestsToTreat);
         for (Request pendingRequest : sortedRequests) {
-            Room roomFound = null;
-            try {
-                roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
-                pendingRequest.reserve(roomFound);
-            } catch (EvaluationNoRoomFoundException e) {
-                pendingRequest.refuse(e.getMessage());
-            } catch (RoomAlreadyReservedException e) {
-                pendingRequest.refuse(e.getMessage());
-            }
+            Room roomFound = evaluateRequest(pendingRequest);
             try {
                 roomRepository.persist(roomFound);
                 requestRepository.persist(pendingRequest);
-            } catch (InvalidFormatException e) {
+            } catch (InvalidFormatException exception) {
                 // TODO LOG
             }
             Notification notification = notificationFactory.createNotification(pendingRequest);
             notification.announce();
         }
+    }
+
+    private Room evaluateRequest(Request pendingRequest) {
+        try {
+            Room roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
+            pendingRequest.reserve(roomFound);
+            return roomFound;
+        } catch (EvaluationNoRoomFoundException | RoomAlreadyReservedException exception) {
+            pendingRequest.refuse(exception.getMessage());
+        }
+        return null;
     }
 }
