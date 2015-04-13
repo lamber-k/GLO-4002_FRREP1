@@ -25,7 +25,7 @@ public class ObjectNotFoundHandler implements ExceptionMapper<ObjectNotFoundExce
 
     private String getAcceptType() {
         List<MediaType> accepts = httpHeaders.getAcceptableMediaTypes();
-        if (accepts.size() > 0) {
+        if (accepts.isEmpty()) {
             return accepts.get(0).getType();
         }
         return MediaType.MEDIA_TYPE_WILDCARD;
