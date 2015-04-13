@@ -7,4 +7,8 @@ public class InvalidFormatException extends Exception {
     public InvalidFormatException(String what) {
         super(what);
     }
+
+    public InvalidFormatException(Exception exception) {
+        super(exception);
+    }
 }
