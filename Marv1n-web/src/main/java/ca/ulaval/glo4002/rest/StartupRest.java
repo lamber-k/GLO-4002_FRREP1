@@ -40,9 +40,9 @@ public class StartupRest {
     }
 
     private void configureApplication() {
+        LocatorService.getInstance().registerModule(new LocatorServicesModule());
         this.startupApplication = new StartupApplication();
         this.startupApplication.init();
-        LocatorService.getInstance().registerModule(new LocatorServicesModule());
     }
 
     private void configureJersey(ServletContextHandler servletContextHandler) {
