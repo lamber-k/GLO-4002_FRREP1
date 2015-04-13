@@ -1,8 +1,6 @@
 package ca.ulaval.glo4002.core;
 
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.notification.mail.MailSender;
-import ca.ulaval.glo4002.core.person.PersonRepository;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
@@ -31,10 +29,10 @@ public class RequestTreatmentTaskFactory implements TaskFactory {
     }
 
     @Override
-    public Task createTask(Task previousTask) {
+    public Task createTask() {
         List<Request> requestToTreat = new ArrayList<>();
         requestToTreat.addAll(pendingRequest);
         pendingRequest.removeAll(requestToTreat);
-        return new RequestTreatmentTask(strategyAssignation, strategySortRequest, roomRepository, requestToTreat, previousTask, notificationFactory, requestRepository);
+        return new RequestTreatmentTask(strategyAssignation, strategySortRequest, roomRepository, requestToTreat, notificationFactory, requestRepository);
     }
 }

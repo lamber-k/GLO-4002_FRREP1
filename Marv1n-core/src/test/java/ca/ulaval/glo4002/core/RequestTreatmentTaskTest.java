@@ -43,8 +43,6 @@ public class RequestTreatmentTaskTest {
     @Mock
     private Room roomMock;
     @Mock
-    private Task previousTaskMock;
-    @Mock
     private NotificationFactory notificationFactoryMock;
     @Mock
     private Notification notificationMock;
@@ -56,7 +54,7 @@ public class RequestTreatmentTaskTest {
         arrayWithOneRequest = new ArrayList<>();
         arrayWithOneRequest.add(requestMock);
         pendingRequests = new ArrayList<>();
-        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, previousTaskMock, notificationFactoryMock, requestRepositoryMock);
+        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, notificationFactoryMock, requestRepositoryMock);
         when(notificationFactoryMock.createNotification(requestMock)).thenReturn(notificationMock);
     }
 

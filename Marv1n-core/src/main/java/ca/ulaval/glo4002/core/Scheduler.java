@@ -15,9 +15,4 @@ public abstract class Scheduler implements Runnable {
     public abstract void restartSchedule();
 
     public abstract void runNow();
-
-    @Override
-    public void run() {
-        runNow();
-    }
 }
