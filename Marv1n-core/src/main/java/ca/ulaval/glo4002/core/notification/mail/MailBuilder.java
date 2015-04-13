@@ -46,7 +46,7 @@ public class MailBuilder {
         List<String> to = mailTo;
         String object = buildMailObject();
         message = String.format(MAIL_MESSAGE_HEADER, identifier, status);
-        if (reason != null) {
+        if (reason != null) { //TODO ALL Test me properly
             message += String.format(MAIL_MESSAGE_REASON, reason);
         }
         message += MAIL_MESSAGE_FOOTER;

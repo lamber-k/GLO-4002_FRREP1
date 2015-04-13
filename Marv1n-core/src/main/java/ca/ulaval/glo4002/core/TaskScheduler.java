@@ -34,6 +34,7 @@ public class TaskScheduler implements Scheduler {
 
     @Override
     public void cancelScheduler() {
+        //TODO ALL Test me properly
         if (isSchedulerRunning) {
             nextRun.cancel(true);
             isSchedulerRunning = false;
@@ -69,6 +70,7 @@ public class TaskScheduler implements Scheduler {
     }
 
     private void startAtFixedRate() {
+        //TODO ALL Test me properly
         nextRun = scheduler.scheduleAtFixedRate(this, intervalTimer, intervalTimer, timeUnit);
         isSchedulerRunning = true;
     }

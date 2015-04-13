@@ -48,6 +48,7 @@ public class PendingRequests {
     }
 
     private void checkLimitIsReached() {
+        //TODO ALL Test me properly
         if (pendingRequest.size() >= maximumPendingRequests) {
             scheduler.runNow();
         }
