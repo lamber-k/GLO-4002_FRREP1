@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 public class RequestModificationSteps extends StatefulStep<RequestModificationSteps.RequestStepsState> {
 
+    @Override
     protected RequestStepsState getInitialState() {
         return new RequestStepsState();
     }

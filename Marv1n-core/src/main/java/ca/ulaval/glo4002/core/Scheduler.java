@@ -1,23 +1,23 @@
 package ca.ulaval.glo4002.core;
 
-public abstract class Scheduler implements Runnable {
+public interface Scheduler extends Runnable {
 
-    public abstract boolean isSchedulerRunning();
+    boolean isSchedulerRunning();
 
-    public abstract void startScheduler();
+    void startScheduler();
 
-    public abstract void cancelScheduler();
+    void cancelScheduler();
 
-    public abstract int getIntervalTimer();
+    int getIntervalTimer();
 
-    public abstract void setIntervalTimer(int intervalTimer);
+    void setIntervalTimer(int intervalTimer);
 
-    public abstract void restartSchedule();
+    void restartSchedule();
 
-    public abstract void runNow();
+    void runNow();
 
     @Override
-    public void run() {
+    default void run() {
         runNow();
     }
 }

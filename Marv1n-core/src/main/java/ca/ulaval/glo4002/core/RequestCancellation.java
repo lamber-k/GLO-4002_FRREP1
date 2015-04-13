@@ -30,7 +30,7 @@ public class RequestCancellation {
             request.cancel();
             requestRepository.persist(request);
         } catch (RequestNotFoundException e) {
-            throw new ObjectNotFoundException();
+            throw new ObjectNotFoundException(e);
         }
     }
 }
