@@ -46,7 +46,7 @@ public class RequestRepositoryInMemoryTest {
     }
 
     @Test(expected = RequestNotFoundException.class)
-    public void givenNotEmptyRequestRepositoryInMemory_WhenRemoveReservable_ThenNotFound() throws InvalidFormatException, RequestNotFoundException {
+    public void givenNotEmptyRequestRepositoryInMemory_WhenRemoveReservable_ThenNotFound() throws InvalidFormatException, RequestNotFoundException, ObjectNotFoundException {
         requestRepository.persist(requestMock);
 
         requestRepository.remove(requestMock);

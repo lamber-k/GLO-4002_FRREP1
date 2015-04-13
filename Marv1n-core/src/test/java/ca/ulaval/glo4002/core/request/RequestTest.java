@@ -16,9 +16,9 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class RequestTest {
 
+    public static final String REASON_OF_REFUSE = "ReasonOfRefuse";
     private static final int A_NUMBER_OF_SEATS_NEEDED = 5;
     private static final int A_PRIORITY = 2;
-    public static final String REASON_OF_REFUSE = "ReasonOfRefuse";
     @Mock
     private Room roomMock;
     @Mock

@@ -40,14 +40,14 @@ public class RequestCancellationTest {
     }
 
     @Test
-    public void givenRequestCancellation_WhenCancellingRequest_ShouldCallPendingRequest() throws InvalidFormatException {
+    public void givenRequestCancellation_WhenCancellingRequest_ShouldCallPendingRequest() throws InvalidFormatException, ObjectNotFoundException {
         requestCancellation.cancelRequestByUUID(AN_UUID);
 
         verify(pendingRequestsMock).cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
     }
 
     @Test
-    public void givenRequestCancellation_WhenCancellingRequestTreated_ShouldCancelRequestAndPersistIt() throws InvalidFormatException, RequestNotFoundException {
+    public void givenRequestCancellation_WhenCancellingRequestTreated_ShouldCancelRequestAndPersistIt() throws InvalidFormatException, RequestNotFoundException, ObjectNotFoundException {
         Mockito.doThrow(ObjectNotFoundException.class).when(pendingRequestsMock).cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
         when(requestRepositoryMock.findByUUID(AN_UUID)).thenReturn(requestMock);
 
@@ -57,8 +57,8 @@ public class RequestCancellationTest {
         verify(requestRepositoryMock).persist(requestMock);
     }
 
-    @Test (expected = ObjectNotFoundException.class)
-    public void givenRequestCancellation_WhenCancellingInvalidRequest_ShouldThrowObjectNotFoundException() throws InvalidFormatException, RequestNotFoundException {
+    @Test(expected = ObjectNotFoundException.class)
+    public void givenRequestCancellation_WhenCancellingInvalidRequest_ShouldThrowObjectNotFoundException() throws InvalidFormatException, RequestNotFoundException, ObjectNotFoundException {
         Mockito.doThrow(ObjectNotFoundException.class).when(pendingRequestsMock).cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
         Mockito.doThrow(ObjectNotFoundException.class).when(requestRepositoryMock).findByUUID(AN_UUID);
 
@@ -66,7 +66,7 @@ public class RequestCancellationTest {
     }
 
     @Test
-    public void givenRequestCancellation_WhenCancelling_ThenShouldAnnounce() throws InvalidFormatException, RequestNotFoundException {
+    public void givenRequestCancellation_WhenCancelling_ThenShouldAnnounce() throws InvalidFormatException, RequestNotFoundException, ObjectNotFoundException {
         Mockito.doThrow(ObjectNotFoundException.class).when(pendingRequestsMock).cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
         when(requestRepositoryMock.findByUUID(AN_UUID)).thenReturn(requestMock);
 

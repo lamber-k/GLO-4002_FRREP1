@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.core;
 
-public class ObjectNotFoundException extends RuntimeException {
+public class ObjectNotFoundException extends Exception {
 
     private static final long serialVersionUID = 1L;
 
