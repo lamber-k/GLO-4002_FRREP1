@@ -107,5 +107,12 @@ public class TaskSchedulerTest {
         verify(scheduledExecutorServiceMock, times(1)).scheduleAtFixedRate(taskScheduler, NOW, DEFAULT_TIMER, TIME_UNIT_SECOND);
     }
 
+    @Test
+    public void givenTaskScheduler_WhenRun_ShouldRunTask() {
+        when(taskFactoryMock.createTask()).thenReturn(taskMock);
 
+        taskScheduler.run();
+
+        verify(taskMock).run();
+    }
 }
