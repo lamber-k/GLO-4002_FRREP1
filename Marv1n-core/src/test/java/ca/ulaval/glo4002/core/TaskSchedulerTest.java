@@ -119,6 +119,4 @@ public class TaskSchedulerTest {
 
         verify(scheduledExecutorServiceMock).scheduleAtFixedRate(taskScheduler, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
     }
-
-
 }
