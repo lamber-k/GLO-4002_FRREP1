@@ -7,6 +7,7 @@ import ca.ulaval.glo4002.core.notification.mail.MailSender;
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.person.PersonRepository;
 import ca.ulaval.glo4002.core.request.Request;
+import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationNoRoomFoundException;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
@@ -23,13 +24,15 @@ public class RequestTreatmentTask implements Task {
     private RoomRepository roomRepository;
     private List<Request> requestsToTreat;
     private NotificationFactory notificationFactory;
+    private RequestRepository requestRepository;
 
-    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat, NotificationFactory notificationFactory) {
+    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat, NotificationFactory notificationFactory, RequestRepository requestRepository) {
         this.roomRepository = roomRepository;
         this.evaluationStrategy = strategyAssignation;
         this.sortingRequestStrategy = strategySortRequest;
         this.requestsToTreat = requestsToTreat;
         this.notificationFactory = notificationFactory;
+        this.requestRepository = requestRepository;
     }
 
     @Override
@@ -51,8 +54,9 @@ public class RequestTreatmentTask implements Task {
             }
             try {
                 roomRepository.persist(roomFound);
+                requestRepository.persist(pendingRequest);
             } catch (InvalidFormatException e) {
-
+                // TODO LOG
             }
             Notification notification = notificationFactory.createNotification(pendingRequest);
             notification.announce();

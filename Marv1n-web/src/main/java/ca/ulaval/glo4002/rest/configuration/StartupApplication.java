@@ -1,6 +1,9 @@
 package ca.ulaval.glo4002.rest.configuration;
 
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
+import ca.ulaval.glo4002.core.request.RequestRepository;
+import ca.ulaval.glo4002.core.room.Room;
+import ca.ulaval.glo4002.locator.LocatorService;
 import ca.ulaval.glo4002.persistence.hibernate.RoomRepositoryHibernate;
 import ca.ulaval.glo4002.core.PendingRequests;
 import ca.ulaval.glo4002.core.TaskSchedulerFactory;
@@ -24,16 +27,19 @@ public class StartupApplication {
 
     private PendingRequests pendingRequests;
     private NotificationFactory notificationFactory;
+    private RequestRepository requestRepository;
 
     public void init() {
         this.startOrganizer();
     }
 
     private void startOrganizer() {
-        roomRepository = new RoomRepositoryHibernate();
+        roomRepository = LocatorService.getInstance().resolve(RoomRepository.class);
+        notificationFactory = LocatorService.getInstance().resolve(NotificationFactory.class);
+        requestRepository = LocatorService.getInstance().resolve(RequestRepository.class);
         strategyAssignation = new MaximizeSeatsEvaluationStrategy();
         sortingRequestStrategy = new SortingRequestByPriorityStrategy();
-        schedulerFactory = new TaskSchedulerFactory(strategyAssignation, sortingRequestStrategy, roomRepository, notificationFactory, intervalTimer, timeUnit);
+        schedulerFactory = new TaskSchedulerFactory(strategyAssignation, sortingRequestStrategy, roomRepository, notificationFactory, requestRepository, intervalTimer, timeUnit);
         setPendingRequests(new PendingRequests(maximumPendingRequests, schedulerFactory));
     }
 

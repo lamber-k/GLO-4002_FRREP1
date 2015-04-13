@@ -6,6 +6,7 @@ import ca.ulaval.glo4002.core.notification.mail.MailSender;
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.person.PersonRepository;
 import ca.ulaval.glo4002.core.request.Request;
+import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationNoRoomFoundException;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
@@ -45,13 +46,15 @@ public class RequestTreatmentTaskTest {
     private NotificationFactory notificationFactoryMock;
     @Mock
     private Notification notificationMock;
+    @Mock
+    private RequestRepository requestRepositoryMock;
 
     @Before
     public void initializeRequestTreatment() throws InterruptedException {
         arrayWithOneRequest = new ArrayList<>();
         arrayWithOneRequest.add(requestMock);
         pendingRequests = new ArrayList<>();
-        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, notificationFactoryMock);
+        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, notificationFactoryMock, requestRepositoryMock);
         when(notificationFactoryMock.createNotification(requestMock)).thenReturn(notificationMock);
     }
 
@@ -87,7 +90,7 @@ public class RequestTreatmentTaskTest {
     }
 
     @Test
-    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRepository() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException, InvalidFormatException {
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRoomRepository() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException, InvalidFormatException {
         havingOnePendingRequest();
 
         requestTreatmentTask.run();
@@ -111,5 +114,14 @@ public class RequestTreatmentTaskTest {
         requestTreatmentTask.run();
 
         verify(notificationMock).announce();
+    }
+
+    @Test
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRequestRepository() throws InvalidFormatException {
+        havingOnePendingRequest();
+
+        requestTreatmentTask.run();
+
+        verify(requestRepositoryMock).persist(requestMock);
     }
 }
