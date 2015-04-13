@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.core;
 
+import ca.ulaval.glo4002.core.notification.Notification;
+import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.core.notification.mail.MailSender;
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.person.PersonRepository;
@@ -40,16 +42,17 @@ public class RequestTreatmentTaskTest {
     @Mock
     private Room roomMock;
     @Mock
-    private MailSender mailSenderMock;
+    private NotificationFactory notificationFactoryMock;
     @Mock
-    private PersonRepository personRepositoryMock;
+    private Notification notificationMock;
 
     @Before
     public void initializeRequestTreatment() throws InterruptedException {
         arrayWithOneRequest = new ArrayList<>();
         arrayWithOneRequest.add(requestMock);
         pendingRequests = new ArrayList<>();
-        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, mailSenderMock, personRepositoryMock);
+        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, notificationFactoryMock);
+        when(notificationFactoryMock.createNotification(requestMock)).thenReturn(notificationMock);
     }
 
     @Test
@@ -90,5 +93,23 @@ public class RequestTreatmentTaskTest {
         requestTreatmentTask.run();
 
         verify(reservablesRepositoryMock).persist(roomMock);
+    }
+
+    @Test
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldCreateNotification() {
+        havingOnePendingRequest();
+
+        requestTreatmentTask.run();
+
+        verify(notificationFactoryMock).createNotification(requestMock);
+    }
+
+    @Test
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldAnnounceWithNotificationCreateByFactory() {
+        havingOnePendingRequest();
+
+        requestTreatmentTask.run();
+
+        verify(notificationMock).announce();
     }
 }

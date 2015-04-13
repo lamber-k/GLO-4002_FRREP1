@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.rest.configuration;
 
+import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.persistence.hibernate.RoomRepositoryHibernate;
 import ca.ulaval.glo4002.core.PendingRequests;
 import ca.ulaval.glo4002.core.TaskSchedulerFactory;
@@ -22,6 +23,7 @@ public class StartupApplication {
     private SortingRequestStrategy sortingRequestStrategy;
 
     private PendingRequests pendingRequests;
+    private NotificationFactory notificationFactory;
 
     public void init() {
         this.startOrganizer();
@@ -31,7 +33,7 @@ public class StartupApplication {
         roomRepository = new RoomRepositoryHibernate();
         strategyAssignation = new MaximizeSeatsEvaluationStrategy();
         sortingRequestStrategy = new SortingRequestByPriorityStrategy();
-        schedulerFactory = new TaskSchedulerFactory(strategyAssignation, sortingRequestStrategy, roomRepository, intervalTimer, timeUnit);
+        schedulerFactory = new TaskSchedulerFactory(strategyAssignation, sortingRequestStrategy, roomRepository, notificationFactory, intervalTimer, timeUnit);
         setPendingRequests(new PendingRequests(maximumPendingRequests, schedulerFactory));
     }
 

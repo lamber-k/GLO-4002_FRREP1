@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.core;
 
+import ca.ulaval.glo4002.core.notification.Notification;
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.core.notification.mail.MailNotificationFactory;
 import ca.ulaval.glo4002.core.notification.mail.MailSender;
@@ -21,16 +22,14 @@ public class RequestTreatmentTask implements Task {
     private SortingRequestStrategy sortingRequestStrategy;
     private RoomRepository roomRepository;
     private List<Request> requestsToTreat;
-    private MailSender mailSender;
-    private PersonRepository personRepository;
+    private NotificationFactory notificationFactory;
 
-    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat, MailSender mailSender, PersonRepository personRepository) {
+    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat, NotificationFactory notificationFactory) {
         this.roomRepository = roomRepository;
         this.evaluationStrategy = strategyAssignation;
         this.sortingRequestStrategy = strategySortRequest;
         this.requestsToTreat = requestsToTreat;
-        this.mailSender = mailSender;
-        this.personRepository = personRepository;
+        this.notificationFactory = notificationFactory;
     }
 
     @Override
@@ -39,7 +38,6 @@ public class RequestTreatmentTask implements Task {
     }
 
     protected void treatPendingRequest() {
-        MailNotificationFactory mailNotificationFactory = new MailNotificationFactory(mailSender, personRepository);
         List<Request> sortedRequests = sortingRequestStrategy.sortList(requestsToTreat);
         for (Request pendingRequest : sortedRequests) {
             Room roomFound = null;
@@ -56,7 +54,8 @@ public class RequestTreatmentTask implements Task {
             } catch (InvalidFormatException e) {
 
             }
-            mailNotificationFactory.createNotification(pendingRequest).announce();
+            Notification notification = notificationFactory.createNotification(pendingRequest);
+            notification.announce();
         }
     }
 }
