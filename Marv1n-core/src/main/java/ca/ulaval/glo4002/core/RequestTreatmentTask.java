@@ -1,6 +1,10 @@
 package ca.ulaval.glo4002.core;
 
+import ca.ulaval.glo4002.core.notification.NotificationFactory;
+import ca.ulaval.glo4002.core.notification.mail.MailNotificationFactory;
+import ca.ulaval.glo4002.core.notification.mail.MailSender;
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
+import ca.ulaval.glo4002.core.person.PersonRepository;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationNoRoomFoundException;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
@@ -18,13 +22,17 @@ public class RequestTreatmentTask extends Task {
     private RoomRepository roomRepository;
     private List<Request> requestsToTreat;
     private Thread previousTask;
+    private MailSender mailSender;
+    private PersonRepository personRepository;
 
-    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat, Task previousTask) {
+    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat, Task previousTask, MailSender mailSender, PersonRepository personRepository) {
         this.roomRepository = roomRepository;
         this.evaluationStrategy = strategyAssignation;
         this.sortingRequestStrategy = strategySortRequest;
         this.requestsToTreat = requestsToTreat;
         this.previousTask = previousTask;
+        this.mailSender = mailSender;
+        this.personRepository = personRepository;
     }
 
     @Override
@@ -36,20 +44,24 @@ public class RequestTreatmentTask extends Task {
     }
 
     protected void treatPendingRequest() {
+        MailNotificationFactory mailNotificationFactory = new MailNotificationFactory(mailSender, personRepository);
         List<Request> sortedRequests = sortingRequestStrategy.sortList(requestsToTreat);
         for (Request pendingRequest : sortedRequests) {
+            Room roomFound = null;
             try {
-                Room roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
+                roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
                 pendingRequest.reserve(roomFound);
-                roomRepository.persist(roomFound);
-                //TODO adding request to repository
             } catch (EvaluationNoRoomFoundException e) {
-                //TODO handle this, setting request status to refused and adding it to the repository
+                pendingRequest.refuse(e.getMessage());
             } catch (RoomAlreadyReservedException e) {
-                //TODO handle this.
-            } catch (InvalidFormatException e) {
-                //TODO handle this.
+                pendingRequest.refuse(e.getMessage());
             }
+            try {
+                roomRepository.persist(roomFound);
+            } catch (InvalidFormatException e) {
+
+            }
+            mailNotificationFactory.createNotification(pendingRequest).announce();
         }
     }
 }

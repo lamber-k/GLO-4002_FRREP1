@@ -1,6 +1,8 @@
 package ca.ulaval.glo4002.core;
 
+import ca.ulaval.glo4002.core.notification.mail.MailSender;
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
+import ca.ulaval.glo4002.core.person.PersonRepository;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationNoRoomFoundException;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
@@ -39,13 +41,17 @@ public class RequestTreatmentTaskTest {
     private Room roomMock;
     @Mock
     private Task previousTaskMock;
+    @Mock
+    private MailSender mailSenderMock;
+    @Mock
+    private PersonRepository personRepositoryMock;
 
     @Before
     public void initializeRequestTreatment() throws InterruptedException {
         arrayWithOneRequest = new ArrayList<>();
         arrayWithOneRequest.add(requestMock);
         pendingRequests = new ArrayList<>();
-        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, previousTaskMock);
+        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, previousTaskMock, mailSenderMock, personRepositoryMock);
     }
 
     @Test
