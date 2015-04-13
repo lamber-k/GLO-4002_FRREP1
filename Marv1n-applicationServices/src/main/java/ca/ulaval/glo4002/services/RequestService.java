@@ -38,7 +38,7 @@ public class RequestService {
         }
     }
 
-    public RequestInformationModel getRequestByEmailAndId(String email, UUID id) {
+    public RequestInformationModel getRequestByEmailAndId(String email, UUID id) throws ObjectNotFoundException {
         Request currentRequest;
         try {
             currentRequest = requestRepository.findByUUID(id);

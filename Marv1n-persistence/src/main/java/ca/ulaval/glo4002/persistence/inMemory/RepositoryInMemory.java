@@ -22,7 +22,7 @@ public abstract class RepositoryInMemory<T> implements Repository<T> {
     }
 
     @Override
-    public void remove(T object) {
+    public void remove(T object) throws ObjectNotFoundException {
         if (!objectContainer.remove(object)) {
             throw new ObjectNotFoundException();
         }

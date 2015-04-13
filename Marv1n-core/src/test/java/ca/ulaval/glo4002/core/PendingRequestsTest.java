@@ -89,7 +89,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenPendingListShouldBeEmpty() throws InvalidFormatException {
+    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenPendingListShouldBeEmpty() throws InvalidFormatException, ObjectNotFoundException {
         givenRequest();
 
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
@@ -98,7 +98,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenRequestCancelledShouldBePersist() throws InvalidFormatException {
+    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenRequestCancelledShouldBePersist() throws InvalidFormatException, ObjectNotFoundException {
         givenRequest();
 
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
@@ -108,7 +108,7 @@ public class PendingRequestsTest {
     }
 
     @Test(expected = ObjectNotFoundException.class)
-    public void givenPendingRequest_WhenCancellingANonExistingPendingRequest_ThenThrowObjectNotFoundException() throws InvalidFormatException {
+    public void givenPendingRequest_WhenCancellingANonExistingPendingRequest_ThenThrowObjectNotFoundException() throws InvalidFormatException, ObjectNotFoundException {
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
     }
 
@@ -134,7 +134,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenCancelling_ThenShouldAnnounce() throws InvalidFormatException {
+    public void givenPendingRequest_WhenCancelling_ThenShouldAnnounce() throws InvalidFormatException, ObjectNotFoundException {
         givenRequest();
 
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);

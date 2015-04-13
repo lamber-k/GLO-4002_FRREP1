@@ -16,7 +16,7 @@ public class RequestRepositoryInMemoryFake<Request> implements Repository<Reques
     }
 
     @Override
-    public void remove(Request request) {
+    public void remove(Request request) throws ObjectNotFoundException {
         if (!requestList.remove(request)) {
             throw new ObjectNotFoundException();
         }
