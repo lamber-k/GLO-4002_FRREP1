@@ -44,6 +44,7 @@ public class StartupApplication {
         requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(strategyAssignation, sortingRequestStrategy, roomRepository, pendingRequests, notificationFactory, requestRepository);
         taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), intervalTimer, timeUnit, requestTreatmentTaskFactory);
         pendingRequests.setScheduler(taskScheduler);
+        taskScheduler.startScheduler();
     }
 
     public PendingRequests getPendingRequests() {
