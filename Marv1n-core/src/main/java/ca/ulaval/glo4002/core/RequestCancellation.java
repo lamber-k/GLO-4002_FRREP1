@@ -20,11 +20,11 @@ public class RequestCancellation {
     }
 
     public void cancelRequestByUUID(UUID id) throws ObjectNotFoundException, InvalidFormatException {
-            try {
-                pendingRequests.cancelPendingRequest(id, requestRepository, notificationFactory);
-            } catch (ObjectNotFoundException e) {
-                tryCancelStoredRequest(id);
-            }
+        try {
+            pendingRequests.cancelPendingRequest(id, requestRepository, notificationFactory);
+        } catch (ObjectNotFoundException e) {
+            tryCancelStoredRequest(id);
+        }
     }
 
     private void tryCancelStoredRequest(UUID id) throws ObjectNotFoundException, InvalidFormatException {

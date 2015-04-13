@@ -41,8 +41,7 @@ public class PendingRequests {
             requestRepository.persist(request);
             this.pendingRequest.remove(request);
             notificationFactory.createNotification(request).announce();
-        }
-        else {
+        } else {
             throw new ObjectNotFoundException();
         }
     }

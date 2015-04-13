@@ -51,9 +51,9 @@ public class RequestService {
                 return new RequestInformationModel(currentRequest.getNumberOfSeatsNeeded(), responsible.getMailAddress(), currentRequest.getRequestStatus(), currentRoom.getName());
             }
         } catch (RequestNotFoundException exception) {
-            throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email));
+            throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email),exception);
         } catch (RoomNotFoundException exception) {
-            throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email));
+            throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email),exception);
         }
         throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email));
     }
