@@ -15,31 +15,26 @@ import ca.ulaval.glo4002.core.room.RoomRepository;
 
 import java.util.List;
 
-public class RequestTreatmentTask extends Task {
+public class RequestTreatmentTask implements Task {
 
     private EvaluationStrategy evaluationStrategy;
     private SortingRequestStrategy sortingRequestStrategy;
     private RoomRepository roomRepository;
     private List<Request> requestsToTreat;
-    private Thread previousTask;
     private MailSender mailSender;
     private PersonRepository personRepository;
 
-    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat, Task previousTask, MailSender mailSender, PersonRepository personRepository) {
+    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat, MailSender mailSender, PersonRepository personRepository) {
         this.roomRepository = roomRepository;
         this.evaluationStrategy = strategyAssignation;
         this.sortingRequestStrategy = strategySortRequest;
         this.requestsToTreat = requestsToTreat;
-        this.previousTask = previousTask;
         this.mailSender = mailSender;
         this.personRepository = personRepository;
     }
 
     @Override
-    protected void runTask() throws InterruptedException {
-        if(previousTask != null) {
-            previousTask.join();
-        }
+    public void run() {
         treatPendingRequest();
     }
 

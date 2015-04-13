@@ -40,8 +40,6 @@ public class RequestTreatmentTaskTest {
     @Mock
     private Room roomMock;
     @Mock
-    private Task previousTaskMock;
-    @Mock
     private MailSender mailSenderMock;
     @Mock
     private PersonRepository personRepositoryMock;
@@ -51,7 +49,7 @@ public class RequestTreatmentTaskTest {
         arrayWithOneRequest = new ArrayList<>();
         arrayWithOneRequest.add(requestMock);
         pendingRequests = new ArrayList<>();
-        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, previousTaskMock, mailSenderMock, personRepositoryMock);
+        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, mailSenderMock, personRepositoryMock);
     }
 
     @Test
