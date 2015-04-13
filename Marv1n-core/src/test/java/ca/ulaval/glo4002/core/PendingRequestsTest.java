@@ -30,8 +30,6 @@ public class PendingRequestsTest {
     @Mock
     private Request requestMock;
     @Mock
-    private TaskSchedulerFactory taskSchedulerFactoryMock;
-    @Mock
     private Scheduler schedulerMock;
     @Mock
     private RequestRepository requestRepositoryMock;
@@ -42,8 +40,8 @@ public class PendingRequestsTest {
 
     @Before
     public void initializePendingRequests() {
-        when(taskSchedulerFactoryMock.getTaskScheduler(any(ArrayList.class))).thenReturn(schedulerMock);
-        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, taskSchedulerFactoryMock);
+        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS);
+        pendingRequests.setScheduler(schedulerMock);
         when(notificationFactoryMock.createNotification(requestMock)).thenReturn(notificationMock);
     }
 

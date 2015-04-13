@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.rest.configuration;
 
+import ca.ulaval.glo4002.core.RequestTreatmentTaskFactory;
+import ca.ulaval.glo4002.core.TaskScheduler;
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.room.Room;
@@ -13,6 +15,7 @@ import ca.ulaval.glo4002.core.request.sorting.SortingRequestByPriorityStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.RoomRepository;
 
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class StartupApplication {
@@ -28,6 +31,8 @@ public class StartupApplication {
     private PendingRequests pendingRequests;
     private NotificationFactory notificationFactory;
     private RequestRepository requestRepository;
+    private RequestTreatmentTaskFactory requestTreatmentTaskFactory;
+    private TaskScheduler taskScheduler;
 
     public void init() {
         this.startOrganizer();
@@ -39,15 +44,14 @@ public class StartupApplication {
         requestRepository = LocatorService.getInstance().resolve(RequestRepository.class);
         strategyAssignation = new MaximizeSeatsEvaluationStrategy();
         sortingRequestStrategy = new SortingRequestByPriorityStrategy();
+        pendingRequests = new PendingRequests(maximumPendingRequests);
+        requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(strategyAssignation, sortingRequestStrategy, roomRepository, pendingRequests, notificationFactory, requestRepository);
         schedulerFactory = new TaskSchedulerFactory(strategyAssignation, sortingRequestStrategy, roomRepository, notificationFactory, requestRepository, intervalTimer, timeUnit);
-        setPendingRequests(new PendingRequests(maximumPendingRequests, schedulerFactory));
+        taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), intervalTimer, timeUnit, requestTreatmentTaskFactory);
+        pendingRequests.setScheduler(taskScheduler);
     }
 
     public PendingRequests getPendingRequests() {
         return pendingRequests;
-    }
-
-    public void setPendingRequests(PendingRequests pendingRequests) {
-        this.pendingRequests = pendingRequests;
     }
 }

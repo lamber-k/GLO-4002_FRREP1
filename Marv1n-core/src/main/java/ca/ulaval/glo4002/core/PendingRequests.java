@@ -13,10 +13,20 @@ public class PendingRequests {
     private List<Request> pendingRequest;
     private Scheduler scheduler;
 
-    public PendingRequests(int maximumPendingRequests, TaskSchedulerFactory taskSchedulerFactory) {
+    public PendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;
         this.pendingRequest = Collections.synchronizedList(new ArrayList<>());
-        this.scheduler = taskSchedulerFactory.getTaskScheduler(pendingRequest);
+    }
+
+    public void setScheduler(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
+
+    public List<Request> retrieveCurrentPendingRequest() {
+        List<Request> requestToGive = new ArrayList<>();
+        requestToGive.addAll(pendingRequest);
+        pendingRequest.removeAll(requestToGive);
+        return requestToGive;
     }
 
     public void addRequest(Request request) {
