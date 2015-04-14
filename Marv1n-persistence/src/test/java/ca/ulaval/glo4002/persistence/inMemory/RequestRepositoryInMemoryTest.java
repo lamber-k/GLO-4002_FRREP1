@@ -1,11 +1,10 @@
-package ca.ulaval.glo4002.persistence;
+package ca.ulaval.glo4002.persistence.inMemory;
 
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestStatus;
-import ca.ulaval.glo4002.persistence.inMemory.RequestRepositoryInMemory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

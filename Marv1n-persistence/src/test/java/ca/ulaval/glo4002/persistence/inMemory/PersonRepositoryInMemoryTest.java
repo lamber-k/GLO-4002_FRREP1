@@ -1,9 +1,8 @@
-package ca.ulaval.glo4002.persistence;
+package ca.ulaval.glo4002.persistence.inMemory;
 
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.person.PersonNotFoundException;
-import ca.ulaval.glo4002.persistence.inMemory.PersonRepositoryInMemory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
