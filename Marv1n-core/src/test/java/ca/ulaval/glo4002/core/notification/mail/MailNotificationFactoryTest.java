@@ -4,7 +4,6 @@ import ca.ulaval.glo4002.core.notification.InvalidNotificationException;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.person.PersonRepository;
 import ca.ulaval.glo4002.core.request.Request;
-import ca.ulaval.glo4002.core.request.RequestStatus;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
@@ -24,9 +22,6 @@ public class MailNotificationFactoryTest {
     private static final String PERSON_ADDRESS = "person@address.com";
     private static final String ANOTHER_PERSON_ADDRESS = "another.person@address.com";
     private static final String ADMIN_ADDRESS = "admin@address.com";
-    private static final RequestStatus REQUEST_STATUS = RequestStatus.ACCEPTED;
-    private static final UUID RANDOM_UUID = UUID.randomUUID();
-    private static final String SOME_REASON = "some reason";
     private static final int NUMBER_OF_SEAT = 42;
     private static final int PRIORITY = 1;
     @Mock

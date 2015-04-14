@@ -51,12 +51,12 @@ public class PersonRepositoryHibernate extends RepositoryHibernate<Person> imple
     @Override
     public Person findByEmail(String email) throws PersonNotFoundException {
         try {
-            Query q = entityManager.createQuery("select p from Person p where p.email = :searchedEmail");
-            q.setParameter("searchedEmail", email);
-            return (Person)q.getSingleResult();
+            Query query = entityManager.createQuery("select p from Person p where p.email = :searchedEmail");
+            query.setParameter("searchedEmail", email);
+            return (Person)query.getSingleResult();
         }
-        catch (EntityNotFoundException | NoResultException e) {
-            throw new PersonNotFoundException();
+        catch (EntityNotFoundException | NoResultException exception) {
+            throw new PersonNotFoundException(exception);
         }
     }
 

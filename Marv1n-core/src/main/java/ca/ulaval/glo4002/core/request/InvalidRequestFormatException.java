@@ -6,7 +6,7 @@ public class InvalidRequestFormatException extends InvalidFormatException {
 
     private static final long serialVersionUID = 1L;
 
-    public InvalidRequestFormatException(String what) {
-        super(what);
+    public InvalidRequestFormatException(Exception exception) {
+        super(exception);
     }
 }

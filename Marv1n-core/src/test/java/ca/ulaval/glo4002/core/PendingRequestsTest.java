@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.core;
 
+import ca.ulaval.glo4002.core.notification.Notification;
+import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
@@ -9,7 +11,8 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -28,18 +31,20 @@ public class PendingRequestsTest {
     @Mock
     private Request requestMock;
     @Mock
-    private TaskSchedulerFactory taskSchedulerFactoryMock;
-    @Mock
     private Scheduler schedulerMock;
     @Mock
     private RequestRepository requestRepositoryMock;
+    @Mock
+    private NotificationFactory notificationFactoryMock;
+    @Mock
+    private Notification notificationMock;
 
     @Before
     public void initializePendingRequests() {
-        when(taskSchedulerFactoryMock.getTaskSheduler(any(LinkedList.class))).thenReturn(schedulerMock);
-        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, taskSchedulerFactoryMock);
+        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS);
+        pendingRequests.setScheduler(schedulerMock);
+        when(notificationFactoryMock.createNotification(requestMock)).thenReturn(notificationMock);
     }
-
 
     @Test
     public void givenPendingRequest_WhenSetMaximumPendingAtConstructor_ThenReflectValue() {
@@ -53,7 +58,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenPendingRequestFullAfterAddingARequest_ThenShouldCallShedulerToRunNow() {
+    public void givenPendingRequest_WhenPendingRequestFullAfterAddingARequest_ThenShouldCallSchedulerToRunNow() {
         pendingRequests.setMaximumPendingRequests(A_MAXIMUM_ONE_PENDING_REQUEST);
         pendingRequests.addRequest(requestMock);
 
@@ -61,7 +66,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenPendingRequestIsNotFullAfterAddingARequest_ThenDoesNotCallShedulerToRunNow() {
+    public void givenPendingRequest_WhenPendingRequestIsNotFullAfterAddingARequest_ThenDoesNotCallSchedulerToRunNow() {
         pendingRequests.setMaximumPendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS);
 
         pendingRequests.addRequest(requestMock);
@@ -70,7 +75,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenAddingRequest_ThenAmountOfRequestInPendingShouldIncreaseAndCallShedulerRunNowAtMaximumPendingRequestHitting() {
+    public void givenPendingRequest_WhenAddingRequest_ThenAmountOfRequestInPendingShouldIncreaseAndCallSchedulerRunNowAtMaximumPendingRequestHitting() {
         pendingRequests.setMaximumPendingRequests(A_MAXIMUM_TWO_PENDING_REQUEST);
 
         pendingRequests.addRequest(requestMock);
@@ -83,27 +88,56 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenPendingListShouldBeEmpty() throws InvalidFormatException {
+    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenPendingListShouldBeEmpty() throws InvalidFormatException, ObjectNotFoundException {
         givenRequest();
 
-        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock);
+        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
 
         assertTrue(isEmptyPendingRequest(pendingRequests));
     }
 
     @Test
-    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenRequestCancelledShouldBePersist() throws InvalidFormatException {
+    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenRequestCancelledShouldBePersist() throws InvalidFormatException, ObjectNotFoundException {
         givenRequest();
 
-        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock);
+        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
 
         verify(requestMock).cancel();
         verify(requestRepositoryMock).persist(requestMock);
     }
 
     @Test(expected = ObjectNotFoundException.class)
-    public void givenPendingRequest_WhenCancellingANonExistingPendingRequest_ThenThrowObjectNotFoundException() throws InvalidFormatException {
-        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock);
+    public void givenPendingRequest_WhenCancellingANonExistingPendingRequest_ThenThrowObjectNotFoundException() throws InvalidFormatException, ObjectNotFoundException {
+        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
+    }
+
+    @Test
+    public void givenPendingRequest_WhenCancelling_ThenShouldAnnounce() throws InvalidFormatException, ObjectNotFoundException {
+        givenRequest();
+
+        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
+
+        verify(notificationMock).announce();
+    }
+
+    @Test
+    public void givenRequest_WhenRetrieveCurrentPendingRequest_TheShouldReturnTheRequest() {
+        pendingRequests.addRequest(requestMock);
+
+        List<Request> retreive = pendingRequests.retrieveCurrentPendingRequest();
+
+        assertEquals(1, retreive.size());
+        assertEquals(requestMock, retreive.get(0));
+    }
+
+    @Test
+    public void givenRequest_WhenRetrieveTwice_ShouldReturnEmptyList() {
+        pendingRequests.addRequest(requestMock);
+
+        List<Request> retrieve = pendingRequests.retrieveCurrentPendingRequest();
+        retrieve = pendingRequests.retrieveCurrentPendingRequest();
+
+        assertEquals(0, retrieve.size());
     }
 
     private void givenRequest() {
@@ -121,10 +155,9 @@ public class PendingRequestsTest {
 
             pendingRequests.addRequest(requestMock);
             verify(schedulerMock).runNow();
-        } catch (Exception e) {
+        } catch (Exception exception) {
             return false;
         }
         return true;
     }
-
 }

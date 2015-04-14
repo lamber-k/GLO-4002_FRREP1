@@ -22,13 +22,13 @@ public class RoomRepositoryHibernate extends RepositoryHibernate<Room> implement
 
     @Override
     public Room findRoomByAssociatedRequest(Request request) throws RoomNotFoundException {
-        Query q = entityManager.createQuery("select r from Room r where r.associatedRequest = :requestSearched");
-        q.setParameter("requestSearched", request);
+        Query query = entityManager.createQuery("select r from Room r where r.associatedRequest = :requestSearched");
+        query.setParameter("requestSearched", request);
         try {
-            return (Room) q.getSingleResult();
+            return (Room) query.getSingleResult();
         }
-        catch (EntityNotFoundException | NoResultException e) {
-            throw new RoomNotFoundException();
+        catch (EntityNotFoundException | NoResultException exception) {
+            throw new RoomNotFoundException(exception);
         }
     }
 }
