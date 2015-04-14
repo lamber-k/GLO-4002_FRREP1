@@ -79,6 +79,8 @@ public class RequestRepositoryHibernateTest {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.createQuery("delete from Request r").executeUpdate();
+        entityManager.createQuery("delete from Person p").executeUpdate();
+        entityManager.createQuery("delete from Room r").executeUpdate();
         entityManager.getTransaction().commit();
         entityManager.close();
     }

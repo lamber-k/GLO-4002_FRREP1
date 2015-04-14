@@ -16,15 +16,13 @@ public class Request {
     private final UUID requestID;
     private final int numberOfSeatsNeeded;
     private final int priority;
-    // TODO Kevin faire que ca fonction u r welcome
-    @Transient
+    @OneToOne(cascade = {CascadeType.ALL})
     private final Person responsible;
     @Enumerated(EnumType.ORDINAL)
     private RequestStatus status;
-    // TODO Kevin faire que ca fonction u r welcome
-    @Transient
+    @OneToMany(cascade = {CascadeType.ALL})
     private List<Person> participants;
-    @Transient
+    @OneToOne
     private Room reservedRoom;
     private String reason;
 

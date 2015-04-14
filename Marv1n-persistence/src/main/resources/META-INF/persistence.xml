@@ -10,6 +10,7 @@
         <class>ca.ulaval.glo4002.core.room.Room</class>
         <class>ca.ulaval.glo4002.core.request.Request</class>
         <class>ca.ulaval.glo4002.core.request.RequestStatus</class>
+
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
