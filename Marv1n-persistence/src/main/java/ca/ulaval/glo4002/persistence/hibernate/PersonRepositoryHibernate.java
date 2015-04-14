@@ -36,8 +36,8 @@ public class PersonRepositoryHibernate extends RepositoryHibernate<Person> imple
             query.setParameter("idSearched", idSearched);
             return (Person)query.getSingleResult();
         }
-        catch (NoResultException e) {
-            throw new PersonNotFoundException();
+        catch (NoResultException exception) {
+            throw new PersonNotFoundException(exception);
         }
     }
 

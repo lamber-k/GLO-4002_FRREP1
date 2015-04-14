@@ -23,8 +23,8 @@ public class RequestRepositoryHibernate extends RepositoryHibernate<Request> imp
             query.setParameter("requestUUID", requestID);
             return (Request)query.getSingleResult();
         }
-        catch (NoResultException e) {
-            throw new RequestNotFoundException();
+        catch (NoResultException exception) {
+            throw new RequestNotFoundException(exception);
         }
     }
 
