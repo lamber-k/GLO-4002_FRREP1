@@ -32,9 +32,11 @@ public class PersonRepositoryHibernate extends RepositoryHibernate<Person> imple
     @Override
     public Person findByUUID(UUID idSearched) throws PersonNotFoundException {
         try {
-            return entityManager.getReference(Person.class, idSearched);
+            Query query = entityManager.createQuery("select p from Person p where p.personID = :idSearched");
+            query.setParameter("idSearched", idSearched);
+            return (Person)query.getSingleResult();
         }
-        catch (EntityNotFoundException e) {
+        catch (NoResultException e) {
             throw new PersonNotFoundException();
         }
     }
