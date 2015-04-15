@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.persistence.inMemory;
 
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestStatus;
@@ -45,7 +44,7 @@ public class RequestRepositoryInMemoryTest {
     }
 
     @Test(expected = RequestNotFoundException.class)
-    public void givenNotEmptyRequestRepositoryInMemory_WhenRemoveReservable_ThenNotFound() throws InvalidFormatException, RequestNotFoundException, ObjectNotFoundException {
+    public void givenNotEmptyRequestRepositoryInMemory_WhenRemoveReservable_ThenNotFound() throws RequestNotFoundException, ObjectNotFoundException {
         requestRepository.persist(requestMock);
 
         requestRepository.remove(requestMock);
@@ -66,7 +65,7 @@ public class RequestRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenRequestRepositoryContainingNoPendingRequest_WhenGetAllPendingRequest_ThenReturnEmptyArray() throws InvalidFormatException {
+    public void givenRequestRepositoryContainingNoPendingRequest_WhenGetAllPendingRequest_ThenReturnEmptyArray() {
         requestRepository.persist(requestMock);
         Mockito.when(requestMock.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
 
@@ -76,7 +75,7 @@ public class RequestRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenRequestRepositoryInMemoryContainingAPendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequest() throws InvalidFormatException {
+    public void givenRequestRepositoryInMemoryContainingAPendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequest() {
         Request anotherRequestMock = Mockito.mock(Request.class);
         requestRepository.persist(requestMock);
         requestRepository.persist(anotherRequestMock);
@@ -90,7 +89,7 @@ public class RequestRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenRequestRepositoryInMemoryContainingMultiplePendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequestsInOrderOfInsertion() throws InvalidFormatException {
+    public void givenRequestRepositoryInMemoryContainingMultiplePendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequestsInOrderOfInsertion() {
         Request anotherRequestMock = Mockito.mock(Request.class);
         requestRepository.persist(requestMock);
         requestRepository.persist(anotherRequestMock);

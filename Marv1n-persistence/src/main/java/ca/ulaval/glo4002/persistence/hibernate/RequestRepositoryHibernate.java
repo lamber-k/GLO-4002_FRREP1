@@ -21,9 +21,8 @@ public class RequestRepositoryHibernate extends RepositoryHibernate<Request> imp
         try {
             Query query = entityManager.createQuery("select r from Request r where r.requestID = :requestUUID");
             query.setParameter("requestUUID", requestID);
-            return (Request)query.getSingleResult();
-        }
-        catch (NoResultException exception) {
+            return (Request) query.getSingleResult();
+        } catch (NoResultException exception) {
             throw new RequestNotFoundException(exception);
         }
     }

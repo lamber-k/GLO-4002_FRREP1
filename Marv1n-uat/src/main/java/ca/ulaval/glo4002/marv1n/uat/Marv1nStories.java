@@ -28,15 +28,14 @@ public class Marv1nStories extends JUnitStories {
     private StoryReporterBuilder reporterBuilder = new StoryReporterBuilder()
             .withCodeLocation(codeLocationFromClass(Marv1nStories.class)).withFailureTrace(true).withFailureTraceCompression(true)
             .withDefaultFormats().withFormats(formats);
-
-    public static void main(String[] args) {
-        new Marv1nStories().embedder.runAsEmbeddables(Arrays.asList(Marv1nStories.class.getCanonicalName()));
-    }
-
     private Embedder embedder = new Embedder();
 
     public Marv1nStories() {
         useEmbedder(embedder);
+    }
+
+    public static void main(String[] args) {
+        new Marv1nStories().embedder.runAsEmbeddables(Arrays.asList(Marv1nStories.class.getCanonicalName()));
     }
 
     @Override

@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.core;
 
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestRepository;
@@ -19,7 +18,7 @@ public class RequestCancellation {
         this.notificationFactory = notificationFactory;
     }
 
-    public void cancelRequestByUUID(UUID id) throws ObjectNotFoundException, InvalidFormatException {
+    public void cancelRequestByUUID(UUID id) throws ObjectNotFoundException {
         try {
             pendingRequests.cancelPendingRequest(id, requestRepository, notificationFactory);
         } catch (ObjectNotFoundException e) {
@@ -27,7 +26,7 @@ public class RequestCancellation {
         }
     }
 
-    private void tryCancelStoredRequest(UUID id) throws ObjectNotFoundException, InvalidFormatException {
+    private void tryCancelStoredRequest(UUID id) throws ObjectNotFoundException {
         try {
             Request request = requestRepository.findByUUID(id);
             request.cancel();

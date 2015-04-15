@@ -1,17 +1,12 @@
 package ca.ulaval.glo4002.persistence.hibernate;
 
-import ca.ulaval.glo4002.core.notification.mail.EmailValidator;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.person.PersonNotFoundException;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
-import static org.junit.Assert.assertThat;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -20,9 +15,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertThat;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PersonRepositoryHibernateTest {
@@ -39,23 +34,16 @@ public class PersonRepositoryHibernateTest {
     private Person anotherPerson;
     private Person personAdmin;
     private Person anotherPersonAdmin;
-    private EmailValidator emailValidatorMock;
 
     @Before
-    public void initializePersonRepository() throws InvalidFormatException {
+    public void initializePersonRepository() {
         entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         EntityManagerProvider.setEntityManager(entityManagerFactory.createEntityManager());
-        emailValidatorMock = mock(EmailValidator.class);
-        when(emailValidatorMock.validateMailAddress(A_VALID_EMAIL)).thenReturn(true);
-        when(emailValidatorMock.validateMailAddress(ANOTHER_VALID_EMAIL)).thenReturn(true);
-        when(emailValidatorMock.validateMailAddress(AN_INVALID_EMAIL)).thenReturn(false);
-        when(emailValidatorMock.validateMailAddress(AN_ADMIN_VALID_EMAIL)).thenReturn(true);
-        when(emailValidatorMock.validateMailAddress(ANOTHER_ADMIN_VALID_EMAIL)).thenReturn(true);
-        personRepository = new PersonRepositoryHibernate(emailValidatorMock);
+        personRepository = new PersonRepositoryHibernate();
         populateDB();
     }
 
-    private void populateDB() throws InvalidFormatException {
+    private void populateDB() {
         person = new Person(A_VALID_EMAIL);
         anotherPerson = new Person(ANOTHER_VALID_EMAIL);
         personAdmin = new Person(AN_ADMIN_VALID_EMAIL, true);
@@ -88,19 +76,19 @@ public class PersonRepositoryHibernateTest {
     }
 
     @Test(expected = PersonNotFoundException.class)
-    public void givenNotEmptyPersonRepositoryHibernate_WhenFindByEmailWithWrongEmail_ThenThrowPersonNotFound() throws PersonNotFoundException, InvalidFormatException {
+    public void givenNotEmptyPersonRepositoryHibernate_WhenFindByEmailWithWrongEmail_ThenThrowPersonNotFound() throws PersonNotFoundException {
         personRepository.findByEmail(AN_INVALID_EMAIL);
     }
 
     @Test
-    public void givenNotEmptyPersonRepositoryHibernate_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() throws PersonNotFoundException, InvalidFormatException {
+    public void givenNotEmptyPersonRepositoryHibernate_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() throws PersonNotFoundException {
         Person personFound = personRepository.findByEmail(A_VALID_EMAIL);
 
         assertEquals(person, personFound);
     }
 
     @Test
-    public void givenNotEmptyPersonRepositoryHibernateWithAdmin_WhenFindAdmins_ThenShouldReturnAllAdmins() throws InvalidFormatException {
+    public void givenNotEmptyPersonRepositoryHibernateWithAdmin_WhenFindAdmins_ThenShouldReturnAllAdmins() {
         List<Person> adminsReturned = personRepository.findAdmins();
 
         List<Person> expectedAdminList = Arrays.asList(personAdmin, anotherPersonAdmin);

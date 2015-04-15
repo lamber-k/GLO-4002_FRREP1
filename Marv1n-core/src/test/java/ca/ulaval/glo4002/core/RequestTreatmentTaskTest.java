@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.core;
 
 import ca.ulaval.glo4002.core.notification.Notification;
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationNoRoomFoundException;
@@ -88,7 +87,7 @@ public class RequestTreatmentTaskTest {
     }
 
     @Test
-    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRoomRepository() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException, InvalidFormatException {
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRoomRepository() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException {
         havingOnePendingRequest();
 
         requestTreatmentTask.run();
@@ -115,7 +114,7 @@ public class RequestTreatmentTaskTest {
     }
 
     @Test
-    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRequestRepository() throws InvalidFormatException {
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRequestRepository() {
         havingOnePendingRequest();
 
         requestTreatmentTask.run();

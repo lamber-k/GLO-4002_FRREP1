@@ -1,9 +1,7 @@
 package ca.ulaval.glo4002.services;
 
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.person.Person;
-import ca.ulaval.glo4002.core.request.InvalidRequestFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestRepository;
@@ -30,12 +28,8 @@ public class RequestService {
         this.roomRepository = LocatorService.getInstance().resolve(RoomRepository.class);
     }
 
-    public void addRequest(Request request) throws InvalidRequestFormatException {
-        try {
-            requestRepository.persist(request);
-        } catch (InvalidFormatException exception) {
-            throw new InvalidRequestFormatException(exception);
-        }
+    public void addRequest(Request request) {
+        requestRepository.persist(request);
     }
 
     public RequestInformationModel getRequestByEmailAndId(String email, UUID id) throws ObjectNotFoundException {

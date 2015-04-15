@@ -6,12 +6,12 @@ import ca.ulaval.glo4002.core.persistence.Repository;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RequestRepositoryInMemoryFake<Request> implements Repository<Request>{
+public class RequestRepositoryInMemoryFake<Request> implements Repository<Request> {
 
     private List<Request> requestList = new LinkedList<Request>();
 
     @Override
-    public void persist(Request request){
+    public void persist(Request request) {
         requestList.add(request);
     }
 

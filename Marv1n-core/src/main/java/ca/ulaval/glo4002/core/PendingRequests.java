@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.core;
 
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 
@@ -43,7 +42,7 @@ public class PendingRequests {
         this.checkLimitIsReached();
     }
 
-    public void cancelPendingRequest(UUID requestId, RequestRepository requestRepository, NotificationFactory notificationFactory) throws ObjectNotFoundException, InvalidFormatException {
+    public void cancelPendingRequest(UUID requestId, RequestRepository requestRepository, NotificationFactory notificationFactory) throws ObjectNotFoundException {
         Optional<Request> requestOptional = this.pendingRequest.stream().filter(r -> r.getRequestID().equals(requestId)).findFirst();
         if (requestOptional.isPresent()) {
             Request request = requestOptional.get();

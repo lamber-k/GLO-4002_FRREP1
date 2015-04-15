@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.core;
 
 import ca.ulaval.glo4002.core.notification.Notification;
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationNoRoomFoundException;
@@ -43,18 +42,15 @@ public class RequestTreatmentTask implements Task {
             Room roomFound = null;
             try {
                 roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
+                roomFound.book(pendingRequest);
                 pendingRequest.reserve(roomFound);
             } catch (EvaluationNoRoomFoundException e) {
                 pendingRequest.refuse(e.getMessage());
             } catch (RoomAlreadyReservedException e) {
                 pendingRequest.refuse(e.getMessage());
             }
-            try {
-                roomRepository.persist(roomFound);
-                requestRepository.persist(pendingRequest);
-            } catch (InvalidFormatException e) {
-                // TODO LOG
-            }
+            roomRepository.persist(roomFound);
+            requestRepository.persist(pendingRequest);
             Notification notification = notificationFactory.createNotification(pendingRequest);
             notification.announce();
         }

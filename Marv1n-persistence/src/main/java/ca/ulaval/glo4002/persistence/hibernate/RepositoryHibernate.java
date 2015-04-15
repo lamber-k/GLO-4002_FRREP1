@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.persistence.hibernate;
 
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.persistence.Repository;
 
 import javax.persistence.EntityManager;
@@ -13,7 +12,7 @@ public abstract class RepositoryHibernate<T> implements Repository<T> {
     }
 
     @Override
-    public void persist(T object) throws InvalidFormatException {
+    public void persist(T object) {
         entityManager.getTransaction().begin();
         entityManager.persist(object);
         entityManager.getTransaction().commit();

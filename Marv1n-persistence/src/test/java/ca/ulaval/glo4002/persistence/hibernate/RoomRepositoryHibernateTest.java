@@ -1,17 +1,16 @@
 package ca.ulaval.glo4002.persistence.hibernate;
 
 import ca.ulaval.glo4002.core.room.Room;
-import org.hibernate.cfg.Configuration;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RoomRepositoryHibernateTest {

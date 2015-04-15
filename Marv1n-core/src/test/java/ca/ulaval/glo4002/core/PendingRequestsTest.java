@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.core;
 
 import ca.ulaval.glo4002.core.notification.Notification;
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import org.junit.Before;
@@ -87,7 +86,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenPendingListShouldBeEmpty() throws InvalidFormatException, ObjectNotFoundException {
+    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenPendingListShouldBeEmpty() throws ObjectNotFoundException {
         givenRequest();
 
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
@@ -96,7 +95,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenRequestCancelledShouldBePersist() throws InvalidFormatException, ObjectNotFoundException {
+    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenRequestCancelledShouldBePersist() throws ObjectNotFoundException {
         givenRequest();
 
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
@@ -106,12 +105,12 @@ public class PendingRequestsTest {
     }
 
     @Test(expected = ObjectNotFoundException.class)
-    public void givenPendingRequest_WhenCancellingANonExistingPendingRequest_ThenThrowObjectNotFoundException() throws InvalidFormatException, ObjectNotFoundException {
+    public void givenPendingRequest_WhenCancellingANonExistingPendingRequest_ThenThrowObjectNotFoundException() throws ObjectNotFoundException {
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
     }
 
     @Test
-    public void givenPendingRequest_WhenCancelling_ThenShouldAnnounce() throws InvalidFormatException, ObjectNotFoundException {
+    public void givenPendingRequest_WhenCancelling_ThenShouldAnnounce() throws ObjectNotFoundException {
         givenRequest();
 
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);

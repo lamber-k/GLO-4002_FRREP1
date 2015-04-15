@@ -5,7 +5,7 @@ import org.jbehave.core.annotations.BeforeScenario;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StatefulStep <T extends StepState> {
+public class StatefulStep<T extends StepState> {
 
     private static ThreadLocal<Map<Class<?>, Object>> perThreadState = new ThreadLocal<>();
 
@@ -15,7 +15,9 @@ public class StatefulStep <T extends StepState> {
 
     protected T getInitialState() {
         return null;
-    };
+    }
+
+    ;
 
     @BeforeScenario
     public void createState() {

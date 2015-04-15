@@ -3,7 +3,9 @@ package ca.ulaval.glo4002.core.room;
 
 import ca.ulaval.glo4002.core.request.Request;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import java.util.UUID;
 
 @Entity

@@ -58,7 +58,7 @@ public class RequestTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenReserveValidRoom_ShouldBookRoomThenShouldSetStatusToAccepted() {
+    public void givenPendingRequest_WhenReserveValidRoom_ShouldBookRoomThenShouldSetStatusToAccepted() throws RoomAlreadyReservedException {
         request.reserve(roomMock);
 
         verify(roomMock).book(request);
@@ -66,7 +66,7 @@ public class RequestTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenReserveUnvalidRoom_ShouldSetStatusToRefused() {
+    public void givenPendingRequest_WhenReserveUnvalidRoom_ShouldSetStatusToRefused() throws RoomAlreadyReservedException {
         Mockito.doThrow(RoomAlreadyReservedException.class).when(roomMock).book(request);
         request.reserve(roomMock);
 

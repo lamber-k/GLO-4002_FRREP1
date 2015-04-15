@@ -1,10 +1,12 @@
 package ca.ulaval.glo4002.persistence.hibernate;
 
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -48,7 +50,7 @@ public class RequestRepositoryHibernateTest {
     }
 
     @Test(expected = RequestNotFoundException.class)
-    public void givenNotEmptyRequestRepositoryHibernate_WhenRemoveReservable_ThenFindDoNotFoundRequest() throws InvalidFormatException, RequestNotFoundException {
+    public void givenNotEmptyRequestRepositoryHibernate_WhenRemoveReservable_ThenFindDoNotFoundRequest() throws RequestNotFoundException {
         Request toRemoveRequest = new Request(NUMBER_OF_SEATS, REQUEST_PRIORITY, RESPONSIBLE_PERSON);
         requestRepository.persist(toRemoveRequest);
 
@@ -58,14 +60,14 @@ public class RequestRepositoryHibernateTest {
     }
 
     @Test
-    public void givenRequestRepositoryContainingOnePendingRequest_WhenGetAllPendingRequest_ThenReturnThisRequest() throws InvalidFormatException {
+    public void givenRequestRepositoryContainingOnePendingRequest_WhenGetAllPendingRequest_ThenReturnThisRequest() {
         List<Request> pendingRequestList = requestRepository.findAllPendingRequest();
 
         Assert.assertEquals(Arrays.asList(request), pendingRequestList);
     }
 
     @Test
-    public void givenRequestRepositoryHibernateContainingMultiplePendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequests() throws InvalidFormatException {
+    public void givenRequestRepositoryHibernateContainingMultiplePendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequests() {
         Request anotherRequest = new Request(NUMBER_OF_SEATS, REQUEST_PRIORITY, RESPONSIBLE_PERSON);
         requestRepository.persist(anotherRequest);
 
