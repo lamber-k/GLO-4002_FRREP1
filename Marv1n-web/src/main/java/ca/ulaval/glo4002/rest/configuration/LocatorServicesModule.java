@@ -11,7 +11,7 @@ import ca.ulaval.glo4002.mail.JavaxMailSender;
 import ca.ulaval.glo4002.mail.JavaxMailTransporter;
 import ca.ulaval.glo4002.persistence.hibernate.PersonRepositoryHibernate;
 import ca.ulaval.glo4002.persistence.hibernate.RoomRepositoryHibernate;
-import ca.ulaval.glo4002.persistence.inMemory.RequestRepositoryInMemory;
+import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
 
 import java.io.IOException;
 

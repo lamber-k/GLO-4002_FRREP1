@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.persistence.inMemory;
+package ca.ulaval.glo4002.persistence.inmemory;
 
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.room.Room;

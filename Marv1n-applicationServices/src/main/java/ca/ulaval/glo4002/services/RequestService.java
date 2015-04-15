@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class RequestService {
 
-    public static final String ErrorRequestByEmailAndId = "Il n'existe pas de demande \"%s\" pour l'organisateur \"%s\"";
+    public static final String ERROR_REQUEST_BY_EMAIL_AND_ID = "Il n'existe pas de demande \"%s\" pour l'organisateur \"%s\"";
     private RequestRepository requestRepository;
     private RoomRepository roomRepository;
 
@@ -42,10 +42,10 @@ public class RequestService {
                 return new RequestInformationModel(currentRequest.getNumberOfSeatsNeeded(), responsible.getMailAddress(), currentRequest.getRequestStatus(), currentRoom.getName());
             }
         } catch (RequestNotFoundException exception) {
-            throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email), exception);
+            throw new ObjectNotFoundException(String.format(ERROR_REQUEST_BY_EMAIL_AND_ID, id.toString(), email), exception);
         } catch (RoomNotFoundException exception) {
-            throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email), exception);
+            throw new ObjectNotFoundException(String.format(ERROR_REQUEST_BY_EMAIL_AND_ID, id.toString(), email), exception);
         }
-        throw new ObjectNotFoundException(String.format(ErrorRequestByEmailAndId, id.toString(), email));
+        throw new ObjectNotFoundException(String.format(ERROR_REQUEST_BY_EMAIL_AND_ID, id.toString(), email));
     }
 }
