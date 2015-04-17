@@ -9,7 +9,6 @@ import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomAlreadyReservedException;
-import ca.ulaval.glo4002.core.room.RoomInsufficientSeatsException;
 import ca.ulaval.glo4002.core.room.RoomRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,8 +19,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RequestTreatmentTaskTest {
@@ -78,7 +77,7 @@ public class RequestTreatmentTaskTest {
     }
 
     @Test
-    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldConfirmReservation() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException {
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldConfirmReservation() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException {
         havingOnePendingRequest();
 
         requestTreatmentTask.run();
@@ -87,7 +86,7 @@ public class RequestTreatmentTaskTest {
     }
 
     @Test
-    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRoomRepository() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException {
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRoomRepository() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException {
         havingOnePendingRequest();
 
         requestTreatmentTask.run();
@@ -121,4 +120,27 @@ public class RequestTreatmentTaskTest {
 
         verify(requestRepositoryMock).persist(requestMock);
     }
+
+    @Test
+    public void givenOnePendingRequest_WhenNoRoomFound_ThenShouldRefuseReservation() {
+        pendingRequests.add(requestMock);
+        when(requestSortingStrategyMock.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
+        doThrow(EvaluationNoRoomFoundException.class).when(assignerStrategyMock).evaluateOneRequest(roomRepositoryMock, requestMock);
+
+        requestTreatmentTask.run();
+
+        verify(requestMock).refuse(any(String.class));
+    }
+
+    @Test
+    public void givenOnePendingRequest_WhenNoRoomThrowAlreadyReservedAtReservation_ThenShouldRefuseReservation() throws RoomAlreadyReservedException {
+        havingOnePendingRequest();
+        doThrow(RoomAlreadyReservedException.class).when(roomMock).book(any(Request.class));
+
+        requestTreatmentTask.run();
+
+        verify(requestMock).refuse(any(String.class));
+    }
+
+
 }

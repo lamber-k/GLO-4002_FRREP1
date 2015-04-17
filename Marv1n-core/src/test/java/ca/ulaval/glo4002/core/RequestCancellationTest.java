@@ -59,7 +59,7 @@ public class RequestCancellationTest {
     @Test(expected = ObjectNotFoundException.class)
     public void givenRequestCancellation_WhenCancellingInvalidRequest_ShouldThrowObjectNotFoundException() throws RequestNotFoundException, ObjectNotFoundException {
         Mockito.doThrow(ObjectNotFoundException.class).when(pendingRequestsMock).cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
-        Mockito.doThrow(ObjectNotFoundException.class).when(requestRepositoryMock).findByUUID(AN_UUID);
+        Mockito.doThrow(RequestNotFoundException.class).when(requestRepositoryMock).findByUUID(AN_UUID);
 
         this.requestCancellation.cancelRequestByUUID(AN_UUID);
     }
