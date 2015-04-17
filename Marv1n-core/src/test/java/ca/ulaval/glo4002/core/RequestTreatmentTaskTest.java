@@ -32,7 +32,7 @@ public class RequestTreatmentTaskTest {
     @Mock
     private EvaluationStrategy assignerStrategyMock;
     @Mock
-    private RoomRepository reservablesRepositoryMock;
+    private RoomRepository roomRepositoryMock;
     @Mock
     private SortingRequestStrategy requestSortingStrategyMock;
     @Mock
@@ -51,7 +51,7 @@ public class RequestTreatmentTaskTest {
         arrayWithOneRequest = new ArrayList<>();
         arrayWithOneRequest.add(requestMock);
         pendingRequests = new ArrayList<>();
-        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, notificationFactoryMock, requestRepositoryMock);
+        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, roomRepositoryMock, pendingRequests, notificationFactoryMock, requestRepositoryMock);
         when(notificationFactoryMock.createNotification(requestMock)).thenReturn(notificationMock);
     }
 
@@ -63,7 +63,7 @@ public class RequestTreatmentTaskTest {
     }
 
     private void havingOnePendingRequest() throws EvaluationNoRoomFoundException {
-        when(assignerStrategyMock.evaluateOneRequest(reservablesRepositoryMock, requestMock)).thenReturn(roomMock);
+        when(assignerStrategyMock.evaluateOneRequest(roomRepositoryMock, requestMock)).thenReturn(roomMock);
         when(requestSortingStrategyMock.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
         pendingRequests.add(requestMock);
     }
@@ -74,7 +74,7 @@ public class RequestTreatmentTaskTest {
 
         requestTreatmentTask.run();
 
-        verify(assignerStrategyMock).evaluateOneRequest(reservablesRepositoryMock, requestMock);
+        verify(assignerStrategyMock).evaluateOneRequest(roomRepositoryMock, requestMock);
     }
 
     @Test
@@ -92,7 +92,7 @@ public class RequestTreatmentTaskTest {
 
         requestTreatmentTask.run();
 
-        verify(reservablesRepositoryMock).persist(roomMock);
+        verify(roomRepositoryMock).persist(roomMock);
     }
 
     @Test

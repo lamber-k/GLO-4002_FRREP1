@@ -24,67 +24,67 @@ public class EvaluationMaximizeSeatsStrategyTest {
     private List<Room> reservableList;
     private EvaluationStrategy assignerStrategy;
     @Mock
-    private Room reservableMock;
+    private Room roomMock;
     @Mock
-    private Room anotherReservableMock;
+    private Room anotherRoomMock;
     @Mock
     private Request requestMock;
     @Mock
     private Request anotherRequestMock;
     @Mock
-    private RoomRepository reservableRepositoryMock;
+    private RoomRepository roomRepositoryMock;
 
     @Before
     public void initializeEvaluationMaximizeSeatsStrategy() {
         reservableList = new ArrayList<>();
         assignerStrategy = new MaximizeSeatsEvaluationStrategy();
-        reservableList.add(reservableMock);
+        reservableList.add(roomMock);
         loadDefaultBehaviours();
     }
 
     private void loadDefaultBehaviours() {
-        when(reservableRepositoryMock.findAll()).thenReturn(reservableList);
-        when(reservableMock.hasEnoughCapacity(anyInt())).thenReturn(true);
-        when(anotherReservableMock.hasEnoughCapacity(anyInt())).thenReturn(true);
-        when(reservableMock.isReserved()).thenReturn(false);
-        when(anotherReservableMock.isReserved()).thenReturn(false);
+        when(roomRepositoryMock.findAll()).thenReturn(reservableList);
+        when(roomMock.hasEnoughCapacity(anyInt())).thenReturn(true);
+        when(anotherRoomMock.hasEnoughCapacity(anyInt())).thenReturn(true);
+        when(roomMock.isReserved()).thenReturn(false);
+        when(anotherRoomMock.isReserved()).thenReturn(false);
     }
 
     @Test
     public void givenAssignationIsRun_WhenTheSecondBestRoomIsNotBestThanFirst_ThenReturnTheFirst() throws RoomInsufficientSeatsException, EvaluationNoRoomFoundException {
         when(requestMock.getNumberOfSeatsNeeded()).thenReturn(REQUESTED_CAPACITY);
-        when(anotherReservableMock.getBestFit(reservableMock, REQUESTED_CAPACITY)).thenReturn(reservableMock);
-        reservableList.add(anotherReservableMock);
+        when(anotherRoomMock.getBestFit(roomMock, REQUESTED_CAPACITY)).thenReturn(roomMock);
+        reservableList.add(anotherRoomMock);
 
-        Room result = assignerStrategy.evaluateOneRequest(reservableRepositoryMock, requestMock);
+        Room result = assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
 
-        assertEquals(reservableMock, result);
+        assertEquals(roomMock, result);
     }
 
     @Test
     public void givenAssignationIsRun_WhenTheSecondBestRoomIsBestThanFirst_ThenReturnTheSecond() throws RoomInsufficientSeatsException, EvaluationNoRoomFoundException {
         when(requestMock.getNumberOfSeatsNeeded()).thenReturn(REQUESTED_CAPACITY);
-        when(anotherReservableMock.getBestFit(reservableMock, REQUESTED_CAPACITY)).thenReturn(anotherReservableMock);
-        reservableList.add(anotherReservableMock);
+        when(anotherRoomMock.getBestFit(roomMock, REQUESTED_CAPACITY)).thenReturn(anotherRoomMock);
+        reservableList.add(anotherRoomMock);
 
-        Room result = assignerStrategy.evaluateOneRequest(reservableRepositoryMock, requestMock);
+        Room result = assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
 
-        assertEquals(anotherReservableMock, result);
+        assertEquals(anotherRoomMock, result);
     }
 
     @Test(expected = EvaluationNoRoomFoundException.class)
     public void givenAssignationIsRun_WhenNoRoomAvailable_ThenShouldThrowNoRoomFound() throws EvaluationNoRoomFoundException {
-        when(reservableMock.isReserved()).thenReturn(true);
-        assignerStrategy.evaluateOneRequest(reservableRepositoryMock, requestMock);
+        when(roomMock.isReserved()).thenReturn(true);
+        assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
     }
 
     @Test(expected = EvaluationNoRoomFoundException.class)
     public void givenAssignationIsRun_WhenNoRoomHasEnoughSeats_ThenShouldThrowNoRoomFound() throws EvaluationNoRoomFoundException {
-        when(reservableMock.hasEnoughCapacity(REQUESTED_CAPACITY)).thenReturn(false);
-        when(anotherReservableMock.hasEnoughCapacity(REQUESTED_CAPACITY)).thenReturn(false);
+        when(roomMock.hasEnoughCapacity(REQUESTED_CAPACITY)).thenReturn(false);
+        when(anotherRoomMock.hasEnoughCapacity(REQUESTED_CAPACITY)).thenReturn(false);
         when(requestMock.getNumberOfSeatsNeeded()).thenReturn(REQUESTED_CAPACITY);
 
-        assignerStrategy.evaluateOneRequest(reservableRepositoryMock, requestMock);
+        assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
     }
 
 }

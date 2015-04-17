@@ -17,8 +17,6 @@ public class StatefulStep<T extends StepState> {
         return null;
     }
 
-    ;
-
     @BeforeScenario
     public void createState() {
         T initialState = getInitialState();
