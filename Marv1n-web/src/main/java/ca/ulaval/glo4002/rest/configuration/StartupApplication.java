@@ -41,6 +41,7 @@ public class StartupApplication {
         taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), intervalTimer, timeUnit, requestTreatmentTaskFactory);
         pendingRequests.setScheduler(taskScheduler);
         taskScheduler.startScheduler();
+        LocatorService.getInstance().register(PendingRequests.class, pendingRequests);
     }
 
     public PendingRequests getPendingRequests() {
