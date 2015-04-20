@@ -22,7 +22,7 @@ public class RequestTreatmentTask implements Task {
     private NotificationFactory notificationFactory;
     private RequestRepository requestRepository;
 
-    RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat, NotificationFactory notificationFactory, RequestRepository requestRepository) {
+    public RequestTreatmentTask(EvaluationStrategy strategyAssignation, SortingRequestStrategy strategySortRequest, RoomRepository roomRepository, List<Request> requestsToTreat, NotificationFactory notificationFactory, RequestRepository requestRepository) {
         this.roomRepository = roomRepository;
         this.evaluationStrategy = strategyAssignation;
         this.sortingRequestStrategy = strategySortRequest;

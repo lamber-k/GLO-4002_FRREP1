@@ -16,6 +16,7 @@ import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
 import java.io.IOException;
 
 public class LocatorServicesModule implements LocatorModule {
+
     @Override
     public void load(LocatorContainer container) {
         PersonRepository personRepository = new PersonRepositoryHibernate();
@@ -24,7 +25,7 @@ public class LocatorServicesModule implements LocatorModule {
         container.register(RoomRepository.class, new RoomRepositoryHibernate());
         try {
             container.register(NotificationFactory.class, new MailNotificationFactory(new JavaxMailSender(new JavaxMailTransporter()), personRepository));
-        } catch (IOException e) {
+        } catch (IOException exception) {
             // TODO LOG
         }
     }

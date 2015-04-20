@@ -8,11 +8,12 @@ import ca.ulaval.glo4002.core.request.RequestRepository;
 import java.util.UUID;
 
 public class RequestCancellation {
+
     private final PendingRequests pendingRequests;
     private final RequestRepository requestRepository;
     private NotificationFactory notificationFactory;
 
-    RequestCancellation(PendingRequests pendingRequests, RequestRepository requestRepository, NotificationFactory notificationFactory) {
+    public RequestCancellation(PendingRequests pendingRequests, RequestRepository requestRepository, NotificationFactory notificationFactory) {
         this.pendingRequests = pendingRequests;
         this.requestRepository = requestRepository;
         this.notificationFactory = notificationFactory;
@@ -32,8 +33,8 @@ public class RequestCancellation {
             request.cancel();
             requestRepository.persist(request);
             notificationFactory.createNotification(request).announce();
-        } catch (RequestNotFoundException e) {
-            throw new ObjectNotFoundException(e);
+        } catch (RequestNotFoundException exception) {
+            throw new ObjectNotFoundException(exception);
         }
     }
 }
