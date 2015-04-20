@@ -21,9 +21,13 @@ public class PendingRequests {
         this.scheduler = scheduler;
     }
 
+    public List<Request> getCurrentPendingRequest() {
+        List<Request> requestToGive = cloneCurrentPendingRequests();
+        return requestToGive;
+    }
+
     public List<Request> retrieveCurrentPendingRequest() {
-        List<Request> requestToGive = new ArrayList<>();
-        requestToGive.addAll(pendingRequest);
+        List<Request> requestToGive = cloneCurrentPendingRequests();
         pendingRequest.removeAll(requestToGive);
         return requestToGive;
     }
@@ -60,5 +64,11 @@ public class PendingRequests {
         if (pendingRequest.size() >= maximumPendingRequests) {
             scheduler.runNow();
         }
+    }
+
+    private List<Request> cloneCurrentPendingRequests() {
+        List<Request> clone  = new ArrayList<>();
+        clone.addAll(pendingRequest);
+        return clone;
     }
 }
