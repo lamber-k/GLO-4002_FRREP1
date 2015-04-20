@@ -1,7 +1,9 @@
 package ca.ulaval.glo4002.rest.resources;
 
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
+import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.models.RequestInformationModel;
+import ca.ulaval.glo4002.models.RequestModel;
 import ca.ulaval.glo4002.services.RequestService;
 
 import javax.ws.rs.*;
@@ -32,5 +34,12 @@ public class DemandesResource {
                     .build();
         }
         return Response.ok().entity(requestInformationModel).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addRequest(RequestModel model) {
+        Request request = requestService.addRequest(model);
+        return Response.status(201).header("Location", String.format("/demandes/%s/%s", request.getResponsible().getMailAddress(), request.getRequestID())).build();
     }
 }
