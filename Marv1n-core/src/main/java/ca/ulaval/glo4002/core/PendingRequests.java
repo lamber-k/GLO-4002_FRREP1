@@ -21,16 +21,20 @@ public class PendingRequests {
         this.scheduler = scheduler;
     }
 
+    public List<Request> getCurrentPendingRequest() {
+        List<Request> requestToGive = cloneCurrentPendingRequests();
+        return requestToGive;
+    }
+
     public List<Request> retrieveCurrentPendingRequest() {
-        List<Request> requestToGive = new ArrayList<>();
-        requestToGive.addAll(pendingRequest);
+        List<Request> requestToGive = cloneCurrentPendingRequests();
         pendingRequest.removeAll(requestToGive);
         return requestToGive;
     }
 
     public void addRequest(Request request) {
         pendingRequest.add(request);
-        this.checkLimitIsReached();
+        checkLimitIsReached();
     }
 
     public int getMaximumPendingRequests() {
@@ -39,7 +43,7 @@ public class PendingRequests {
 
     public void setMaximumPendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;
-        this.checkLimitIsReached();
+        checkLimitIsReached();
     }
 
     public void cancelPendingRequest(UUID requestId, RequestRepository requestRepository, NotificationFactory notificationFactory) throws ObjectNotFoundException {
@@ -60,5 +64,11 @@ public class PendingRequests {
         if (pendingRequest.size() >= maximumPendingRequests) {
             scheduler.runNow();
         }
+    }
+
+    private List<Request> cloneCurrentPendingRequests() {
+        List<Request> clone  = new ArrayList<>();
+        clone.addAll(pendingRequest);
+        return clone;
     }
 }

@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.models;
 import ca.ulaval.glo4002.core.request.RequestStatus;
 
 public class RequestInformationModel {
+
     public int nombrePersonne;
     public String courrielOrginsateur;
     public RequestStatus statutDemande;
