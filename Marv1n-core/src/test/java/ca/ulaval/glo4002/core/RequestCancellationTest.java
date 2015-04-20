@@ -19,11 +19,13 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RequestCancellationTest {
+
     private static final UUID AN_UUID = UUID.randomUUID();
     @Mock
-    PendingRequests pendingRequestsMock;
+    private PendingRequests pendingRequestsMock;
     @Mock
-    RequestRepository requestRepositoryMock;
+    private RequestRepository requestRepositoryMock;
+    @Mock
     private RequestCancellation requestCancellation;
     @Mock
     private Request requestMock;

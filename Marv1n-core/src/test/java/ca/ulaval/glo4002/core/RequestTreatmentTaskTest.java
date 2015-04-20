@@ -133,13 +133,12 @@ public class RequestTreatmentTaskTest {
     }
 
     @Test
-    public void givenOnePendingRequest_WhenNoRoomThrowAlreadyReservedAtReservation_ThenShouldRefuseReservation() throws RoomAlreadyReservedException {
+    public void givenOnePendingRequest_WhenRoomAlreadyReservedAtReservation_ThenCallReserve() throws RoomAlreadyReservedException {
         havingOnePendingRequest();
-        doThrow(RoomAlreadyReservedException.class).when(roomMock).book(any(Request.class));
 
         requestTreatmentTask.run();
 
-        verify(requestMock).refuse(any(String.class));
+        verify(requestMock).reserve(roomMock);
     }
 
 

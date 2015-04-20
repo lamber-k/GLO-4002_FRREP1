@@ -1,14 +1,15 @@
 package ca.ulaval.glo4002.marv1n.uat.steps;
 
 import ca.ulaval.glo4002.core.*;
+import ca.ulaval.glo4002.core.notification.Notification;
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestStatus;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
 import ca.ulaval.glo4002.core.request.evaluation.FirstInFirstOutEvaluationStrategy;
+import ca.ulaval.glo4002.core.request.sorting.SortingRequestByPriorityStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomAlreadyReservedException;
@@ -20,11 +21,13 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class RequestModificationSteps extends StatefulStep<RequestModificationSteps.RequestStepsState> {
 
@@ -35,24 +38,27 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
 
     @Given("an existing assigned reservation")
     public void givenAnExistingAssignedReservation() throws RoomAlreadyReservedException {
-        state().room = new Room(5, "Une salle");
+        when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
+        state().room = new Room(10, "Une salle");
+        state().roomRepositoryInMemoryFake.persist(state().room);
         state().request = new Request(5, 5, new Person());
-        state().requestsToTreat.add(state().request);
-        state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemoryFake, state().requestsToTreat, state().notificationFactory, state().requestRepositoryInMemoryFake);
-        state().taskSchedulerFactory = new TaskSchedulerFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemoryFake, state().notificationFactory, state().requestRepositoryInMemoryFake);
-        state().scheduler = state().taskSchedulerFactory.getTaskScheduler(state().requestsToTreat);
-        state().scheduler.runNow();
+        state().pendingRequests = new PendingRequests(2);
+        state().pendingRequests.addRequest(state().request);
+        state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemoryFake, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemoryFake);
+        state().taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), 10, TimeUnit.SECONDS, state().requestTreatmentTaskFactory);
+        state().taskScheduler.run();
     }
 
     @Given("an existing pending reservation")
     public void givenAnExistingPendingReservation() {
+        when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
         state().request = new Request(5, 5, new Person(), null);
-        state().requestsToTreat.add(state().request);
+        state().pendingRequests = new PendingRequests(2);
+        state().pendingRequests.addRequest(state().request);
     }
 
     @When("I cancel this reservation")
-    public void whenICancelThisReservation() throws InvalidFormatException {
-        state().pendingRequests = new PendingRequests(2, state().taskSchedulerFactory);
+    public void whenICancelThisReservation() throws ObjectNotFoundException {
         state().requestCancellation = new RequestCancellation(state().pendingRequests, state().requestRepositoryInMemoryFake, state().notificationFactory);
         state().requestCancellation.cancelRequestByUUID(state().request.getRequestID());
     }
@@ -90,13 +96,12 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
         public Request request;
         public RequestTreatmentTaskFactory requestTreatmentTaskFactory;
         public EvaluationStrategy evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
-        public SortingRequestStrategy sortingRequestStrategy = mock(SortingRequestStrategy.class);
+        public SortingRequestStrategy sortingRequestStrategy = new SortingRequestByPriorityStrategy();
         public RoomRepositoryInMemoryFake roomRepositoryInMemoryFake = new RoomRepositoryInMemoryFake();
-        public List<Request> requestsToTreat = new ArrayList<Request>();
         public NotificationFactory notificationFactory = mock(NotificationFactory.class);
         public RequestRepositoryInMemoryFake requestRepositoryInMemoryFake = new RequestRepositoryInMemoryFake();
         public RequestCancellation requestCancellation;
-        public TaskSchedulerFactory taskSchedulerFactory;
+        public TaskScheduler taskScheduler;
         public Scheduler scheduler;
         public PendingRequests pendingRequests;
     }
