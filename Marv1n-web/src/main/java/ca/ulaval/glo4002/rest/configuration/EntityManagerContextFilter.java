@@ -39,5 +39,4 @@ public class EntityManagerContextFilter implements Filter {
     public void destroy() {
         entityManagerFactory.close();
     }
-
 }

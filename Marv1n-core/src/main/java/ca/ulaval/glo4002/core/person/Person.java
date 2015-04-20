@@ -40,6 +40,7 @@ public class Person {
 
     @Override
     public boolean equals(Object rhs) {
+        //TODO ALL Test me properly
         return rhs != null && rhs instanceof Person && hashCode() == rhs.hashCode();
     }
 

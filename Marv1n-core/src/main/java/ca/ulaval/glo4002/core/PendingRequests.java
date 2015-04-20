@@ -34,7 +34,7 @@ public class PendingRequests {
 
     public void addRequest(Request request) {
         pendingRequest.add(request);
-        this.checkLimitIsReached();
+        checkLimitIsReached();
     }
 
     public int getMaximumPendingRequests() {
@@ -43,7 +43,7 @@ public class PendingRequests {
 
     public void setMaximumPendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;
-        this.checkLimitIsReached();
+        checkLimitIsReached();
     }
 
     public void cancelPendingRequest(UUID requestId, RequestRepository requestRepository, NotificationFactory notificationFactory) throws ObjectNotFoundException {
