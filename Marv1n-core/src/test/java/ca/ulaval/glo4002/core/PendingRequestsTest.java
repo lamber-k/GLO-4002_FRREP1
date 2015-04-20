@@ -138,6 +138,30 @@ public class PendingRequestsTest {
         assertEquals(0, retrieve.size());
     }
 
+    @Test
+    public void givenTwoRequest_WhenGetCurrentPendingRequest_ShouldReturnAllRequest() {
+        Request secondRequest = mock(Request.class);
+        pendingRequests.addRequest(requestMock);
+        pendingRequests.addRequest(secondRequest);
+
+        List<Request> requests = pendingRequests.getCurrentPendingRequest();
+
+        assertEquals(requestMock, requests.get(0));
+        assertEquals(secondRequest, requests.get(1));
+    }
+
+    @Test
+    public void givenRequests_WhenModifyListReturnByGet_ShouldNotModifyInternalList() {
+        Request secondRequest = mock(Request.class);
+        pendingRequests.addRequest(requestMock);
+        List<Request> requests = pendingRequests.getCurrentPendingRequest();
+        requests.add(secondRequest);
+
+        requests = pendingRequests.getCurrentPendingRequest();
+
+        assertEquals(1, requests.size());
+    }
+
     private void givenRequest() {
         when(requestMock.getRequestID()).thenReturn(AN_UUID);
         pendingRequests.addRequest(requestMock);
