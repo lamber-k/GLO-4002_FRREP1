@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.core;
 
 import ca.ulaval.glo4002.core.notification.Notification;
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationNoRoomFoundException;
@@ -40,26 +39,20 @@ public class RequestTreatmentTask implements Task {
     protected void treatPendingRequest() {
         List<Request> sortedRequests = sortingRequestStrategy.sortList(requestsToTreat);
         for (Request pendingRequest : sortedRequests) {
-            Room roomFound = evaluateRequest(pendingRequest);
+            Room roomFound = null;
             try {
-                roomRepository.persist(roomFound);
-                requestRepository.persist(pendingRequest);
-            } catch (InvalidFormatException exception) {
-                // TODO LOG
+                roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
+                roomFound.book(pendingRequest);
+                pendingRequest.reserve(roomFound);
+            } catch (EvaluationNoRoomFoundException e) {
+                pendingRequest.refuse(e.getMessage());
+            } catch (RoomAlreadyReservedException e) {
+                pendingRequest.refuse(e.getMessage());
             }
+            roomRepository.persist(roomFound);
+            requestRepository.persist(pendingRequest);
             Notification notification = notificationFactory.createNotification(pendingRequest);
             notification.announce();
         }
-    }
-
-    private Room evaluateRequest(Request pendingRequest) {
-        try {
-            Room roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
-            pendingRequest.reserve(roomFound);
-            return roomFound;
-        } catch (EvaluationNoRoomFoundException | RoomAlreadyReservedException exception) {
-            pendingRequest.refuse(exception.getMessage());
-        }
-        return null;
     }
 }

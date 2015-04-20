@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.core;
 
 import ca.ulaval.glo4002.core.notification.Notification;
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import org.junit.Before;
@@ -11,7 +10,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -30,8 +29,6 @@ public class PendingRequestsTest {
     @Mock
     private Request requestMock;
     @Mock
-    private TaskSchedulerFactory taskSchedulerFactoryMock;
-    @Mock
     private Scheduler schedulerMock;
     @Mock
     private RequestRepository requestRepositoryMock;
@@ -42,8 +39,8 @@ public class PendingRequestsTest {
 
     @Before
     public void initializePendingRequests() {
-        when(taskSchedulerFactoryMock.getTaskScheduler(any(ArrayList.class))).thenReturn(schedulerMock);
-        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS, taskSchedulerFactoryMock);
+        pendingRequests = new PendingRequests(DEFAULT_MAXIMUM_PENDING_REQUESTS);
+        pendingRequests.setScheduler(schedulerMock);
         when(notificationFactoryMock.createNotification(requestMock)).thenReturn(notificationMock);
     }
 
@@ -89,7 +86,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenPendingListShouldBeEmpty() throws InvalidFormatException {
+    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenPendingListShouldBeEmpty() throws ObjectNotFoundException {
         givenRequest();
 
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
@@ -98,7 +95,7 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenRequestCancelledShouldBePersist() throws InvalidFormatException {
+    public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenRequestCancelledShouldBePersist() throws ObjectNotFoundException {
         givenRequest();
 
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
@@ -108,8 +105,37 @@ public class PendingRequestsTest {
     }
 
     @Test(expected = ObjectNotFoundException.class)
-    public void givenPendingRequest_WhenCancellingANonExistingPendingRequest_ThenThrowObjectNotFoundException() throws InvalidFormatException {
+    public void givenPendingRequest_WhenCancellingANonExistingPendingRequest_ThenThrowObjectNotFoundException() throws ObjectNotFoundException {
         pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
+    }
+
+    @Test
+    public void givenPendingRequest_WhenCancelling_ThenShouldAnnounce() throws ObjectNotFoundException {
+        givenRequest();
+
+        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
+
+        verify(notificationMock).announce();
+    }
+
+    @Test
+    public void givenRequest_WhenRetrieveCurrentPendingRequest_TheShouldReturnTheRequest() {
+        pendingRequests.addRequest(requestMock);
+
+        List<Request> retreive = pendingRequests.retrieveCurrentPendingRequest();
+
+        assertEquals(1, retreive.size());
+        assertEquals(requestMock, retreive.get(0));
+    }
+
+    @Test
+    public void givenRequest_WhenRetrieveTwice_ShouldReturnEmptyList() {
+        pendingRequests.addRequest(requestMock);
+
+        List<Request> retrieve = pendingRequests.retrieveCurrentPendingRequest();
+        retrieve = pendingRequests.retrieveCurrentPendingRequest();
+
+        assertEquals(0, retrieve.size());
     }
 
     private void givenRequest() {
@@ -131,14 +157,5 @@ public class PendingRequestsTest {
             return false;
         }
         return true;
-    }
-
-    @Test
-    public void givenPendingRequest_WhenCancelling_ThenShouldAnnounce() throws InvalidFormatException {
-        givenRequest();
-
-        pendingRequests.cancelPendingRequest(AN_UUID, requestRepositoryMock, notificationFactoryMock);
-
-        verify(notificationMock).announce();
     }
 }

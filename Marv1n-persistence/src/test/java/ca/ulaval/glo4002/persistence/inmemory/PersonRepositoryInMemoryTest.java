@@ -1,9 +1,7 @@
-package ca.ulaval.glo4002.persistence;
+package ca.ulaval.glo4002.persistence.inmemory;
 
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.person.PersonNotFoundException;
-import ca.ulaval.glo4002.persistence.inMemory.PersonRepositoryInMemory;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,7 +63,7 @@ public class PersonRepositoryInMemoryTest {
     }
 
     @Test(expected = PersonNotFoundException.class)
-    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithWrongEmail_ThenThrowPersonNotFound() throws PersonNotFoundException, InvalidFormatException {
+    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithWrongEmail_ThenThrowPersonNotFound() throws PersonNotFoundException {
         Mockito.when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
         personRepository.persist(personMock);
 
@@ -73,7 +71,7 @@ public class PersonRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() throws PersonNotFoundException, InvalidFormatException {
+    public void givenNotEmptyPersonRepositoryInMemory_WhenFindByEmailWithCorrectEmail_ThenReturnResultWithCorrespondingElement() throws PersonNotFoundException {
         Mockito.when(personMock.getMailAddress()).thenReturn(A_VALID_EMAIL);
         personRepository.persist(personMock);
 
@@ -83,7 +81,7 @@ public class PersonRepositoryInMemoryTest {
     }
 
     @Test
-    public void givenNotEmptyPersonRepositoryInMemoryWithAdmin_WhenFindAdmins_ThenShouldReturnAllAdmins() throws InvalidFormatException {
+    public void givenNotEmptyPersonRepositoryInMemoryWithAdmin_WhenFindAdmins_ThenShouldReturnAllAdmins() {
         putSomeItemsInRepository();
         Person personAdmin1Mock = Mockito.mock(Person.class);
         Person personAdmin2Mock = Mockito.mock(Person.class);
@@ -98,7 +96,7 @@ public class PersonRepositoryInMemoryTest {
         Assert.assertEquals(expectedAdminList, adminsReturned);
     }
 
-    private void putSomeItemsInRepository() throws InvalidFormatException {
+    private void putSomeItemsInRepository() {
         Mockito.when(personMock.getID()).thenReturn(personUUID);
         anotherPersonUUID = UUID.randomUUID();
         Mockito.when(anotherPersonMock.getID()).thenReturn(anotherPersonUUID);

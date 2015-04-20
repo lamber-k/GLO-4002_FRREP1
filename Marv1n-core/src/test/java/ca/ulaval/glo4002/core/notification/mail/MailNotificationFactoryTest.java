@@ -38,7 +38,7 @@ public class MailNotificationFactoryTest {
     private Person adminMock;
     private MailNotificationFactory mailFactory;
     @Mock
-    private ca.ulaval.glo4002.core.person.Person person;
+    private Person person;
 
     @Before
     public void initializeMailFactory() {

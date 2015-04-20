@@ -16,9 +16,9 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class RequestTest {
 
+    public static final String REASON_OF_REFUSE = "ReasonOfRefuse";
     private static final int A_NUMBER_OF_SEATS_NEEDED = 5;
     private static final int A_PRIORITY = 2;
-    public static final String REASON_OF_REFUSE = "ReasonOfRefuse";
     @Mock
     private Room roomMock;
     @Mock
@@ -58,7 +58,7 @@ public class RequestTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenReserveValidRoom_ShouldBookRoomThenShouldSetStatusToAccepted() {
+    public void givenPendingRequest_WhenReserveValidRoom_ShouldBookRoomThenShouldSetStatusToAccepted() throws RoomAlreadyReservedException {
         request.reserve(roomMock);
 
         verify(roomMock).book(request);
@@ -66,7 +66,7 @@ public class RequestTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenReserveUnvalidRoom_ShouldSetStatusToRefused() {
+    public void givenPendingRequest_WhenReserveUnvalidRoom_ShouldSetStatusToRefused() throws RoomAlreadyReservedException {
         Mockito.doThrow(RoomAlreadyReservedException.class).when(roomMock).book(request);
         request.reserve(roomMock);
 

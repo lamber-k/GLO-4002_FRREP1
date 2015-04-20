@@ -4,5 +4,7 @@ public class EvaluationNoRoomFoundException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
-    public EvaluationNoRoomFoundException(){}
+    public EvaluationNoRoomFoundException() {
+
+    }
 }

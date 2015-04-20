@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.persistence.inMemory;
+package ca.ulaval.glo4002.persistence.inmemory;
 
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.room.Room;
@@ -18,6 +18,7 @@ public class RoomRepositoryInMemory extends RepositoryInMemory<Room> implements 
 
     @Override
     public Room findRoomByAssociatedRequest(Request request) throws RoomNotFoundException {
+        //TODO ALL test me properly
         Optional<Room> roomFound = query().filter(r -> r.getRequest() == request).findFirst();
 
         if (!roomFound.isPresent())

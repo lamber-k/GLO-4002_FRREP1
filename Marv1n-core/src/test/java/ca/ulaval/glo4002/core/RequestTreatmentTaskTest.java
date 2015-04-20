@@ -2,7 +2,6 @@ package ca.ulaval.glo4002.core;
 
 import ca.ulaval.glo4002.core.notification.Notification;
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationNoRoomFoundException;
@@ -10,7 +9,6 @@ import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomAlreadyReservedException;
-import ca.ulaval.glo4002.core.room.RoomInsufficientSeatsException;
 import ca.ulaval.glo4002.core.room.RoomRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,8 +19,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RequestTreatmentTaskTest {
@@ -33,7 +31,7 @@ public class RequestTreatmentTaskTest {
     @Mock
     private EvaluationStrategy assignerStrategyMock;
     @Mock
-    private RoomRepository reservablesRepositoryMock;
+    private RoomRepository roomRepositoryMock;
     @Mock
     private SortingRequestStrategy requestSortingStrategyMock;
     @Mock
@@ -52,7 +50,7 @@ public class RequestTreatmentTaskTest {
         arrayWithOneRequest = new ArrayList<>();
         arrayWithOneRequest.add(requestMock);
         pendingRequests = new ArrayList<>();
-        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, reservablesRepositoryMock, pendingRequests, notificationFactoryMock, requestRepositoryMock);
+        requestTreatmentTask = new RequestTreatmentTask(assignerStrategyMock, requestSortingStrategyMock, roomRepositoryMock, pendingRequests, notificationFactoryMock, requestRepositoryMock);
         when(notificationFactoryMock.createNotification(requestMock)).thenReturn(notificationMock);
     }
 
@@ -64,7 +62,7 @@ public class RequestTreatmentTaskTest {
     }
 
     private void havingOnePendingRequest() throws EvaluationNoRoomFoundException {
-        when(assignerStrategyMock.evaluateOneRequest(reservablesRepositoryMock, requestMock)).thenReturn(roomMock);
+        when(assignerStrategyMock.evaluateOneRequest(roomRepositoryMock, requestMock)).thenReturn(roomMock);
         when(requestSortingStrategyMock.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
         pendingRequests.add(requestMock);
     }
@@ -75,11 +73,11 @@ public class RequestTreatmentTaskTest {
 
         requestTreatmentTask.run();
 
-        verify(assignerStrategyMock).evaluateOneRequest(reservablesRepositoryMock, requestMock);
+        verify(assignerStrategyMock).evaluateOneRequest(roomRepositoryMock, requestMock);
     }
 
     @Test
-    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldConfirmReservation() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException {
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldConfirmReservation() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException {
         havingOnePendingRequest();
 
         requestTreatmentTask.run();
@@ -88,12 +86,12 @@ public class RequestTreatmentTaskTest {
     }
 
     @Test
-    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRoomRepository() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException, RoomInsufficientSeatsException, InvalidFormatException {
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRoomRepository() throws EvaluationNoRoomFoundException, RoomAlreadyReservedException {
         havingOnePendingRequest();
 
         requestTreatmentTask.run();
 
-        verify(reservablesRepositoryMock).persist(roomMock);
+        verify(roomRepositoryMock).persist(roomMock);
     }
 
     @Test
@@ -115,11 +113,34 @@ public class RequestTreatmentTaskTest {
     }
 
     @Test
-    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRequestRepository() throws InvalidFormatException {
+    public void givenOnePendingRequest_WhenReserveSuccess_ThenShouldUpdateRequestRepository() {
         havingOnePendingRequest();
 
         requestTreatmentTask.run();
 
         verify(requestRepositoryMock).persist(requestMock);
     }
+
+    @Test
+    public void givenOnePendingRequest_WhenNoRoomFound_ThenShouldRefuseReservation() {
+        pendingRequests.add(requestMock);
+        when(requestSortingStrategyMock.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
+        doThrow(EvaluationNoRoomFoundException.class).when(assignerStrategyMock).evaluateOneRequest(roomRepositoryMock, requestMock);
+
+        requestTreatmentTask.run();
+
+        verify(requestMock).refuse(any(String.class));
+    }
+
+    @Test
+    public void givenOnePendingRequest_WhenNoRoomThrowAlreadyReservedAtReservation_ThenShouldRefuseReservation() throws RoomAlreadyReservedException {
+        havingOnePendingRequest();
+        doThrow(RoomAlreadyReservedException.class).when(roomMock).book(any(Request.class));
+
+        requestTreatmentTask.run();
+
+        verify(requestMock).refuse(any(String.class));
+    }
+
+
 }

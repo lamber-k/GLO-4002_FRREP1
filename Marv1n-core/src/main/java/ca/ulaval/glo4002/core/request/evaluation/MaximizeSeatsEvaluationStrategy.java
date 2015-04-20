@@ -8,19 +8,15 @@ public class MaximizeSeatsEvaluationStrategy implements EvaluationStrategy {
 
     @Override
     public Room evaluateOneRequest(RoomRepository reservables, Request evaluatedRequest) {
-        Room betterRoom = null;
+        Room bestRoom = null;
         for (Room room : reservables.findAll()) {
             if (!room.isReserved()) {
-                if (betterRoom == null && room.hasEnoughCapacity(evaluatedRequest.getNumberOfSeatsNeeded())) {
-                    betterRoom = room;
-                } else {
-                    betterRoom = room.getBestFit(betterRoom, evaluatedRequest.getNumberOfSeatsNeeded());
-                }
+                bestRoom = room.getBestFit(bestRoom, evaluatedRequest.getNumberOfSeatsNeeded());
             }
         }
-        if (betterRoom == null) {
+        if (bestRoom == null) {
             throw new EvaluationNoRoomFoundException();
         }
-        return betterRoom;
+        return bestRoom;
     }
 }

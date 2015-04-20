@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.core;
 
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 
@@ -13,10 +12,20 @@ public class PendingRequests {
     private List<Request> pendingRequest;
     private Scheduler scheduler;
 
-    public PendingRequests(int maximumPendingRequests, TaskSchedulerFactory taskSchedulerFactory) {
+    public PendingRequests(int maximumPendingRequests) {
         this.maximumPendingRequests = maximumPendingRequests;
         this.pendingRequest = Collections.synchronizedList(new ArrayList<>());
-        this.scheduler = taskSchedulerFactory.getTaskScheduler(pendingRequest);
+    }
+
+    public void setScheduler(Scheduler scheduler) {
+        this.scheduler = scheduler;
+    }
+
+    public List<Request> retrieveCurrentPendingRequest() {
+        List<Request> requestToGive = new ArrayList<>();
+        requestToGive.addAll(pendingRequest);
+        pendingRequest.removeAll(requestToGive);
+        return requestToGive;
     }
 
     public void addRequest(Request request) {
@@ -33,7 +42,7 @@ public class PendingRequests {
         this.checkLimitIsReached();
     }
 
-    public void cancelPendingRequest(UUID requestId, RequestRepository requestRepository, NotificationFactory notificationFactory) throws ObjectNotFoundException, InvalidFormatException {
+    public void cancelPendingRequest(UUID requestId, RequestRepository requestRepository, NotificationFactory notificationFactory) throws ObjectNotFoundException {
         Optional<Request> requestOptional = this.pendingRequest.stream().filter(r -> r.getRequestID().equals(requestId)).findFirst();
         if (requestOptional.isPresent()) {
             Request request = requestOptional.get();
@@ -41,13 +50,13 @@ public class PendingRequests {
             requestRepository.persist(request);
             this.pendingRequest.remove(request);
             notificationFactory.createNotification(request).announce();
-        }
-        else {
+        } else {
             throw new ObjectNotFoundException();
         }
     }
 
     private void checkLimitIsReached() {
+        //TODO ALL Test me properly
         if (pendingRequest.size() >= maximumPendingRequests) {
             scheduler.runNow();
         }

@@ -28,20 +28,20 @@ public class RoomTest {
     }
 
     @Test
-    public void givenReservedRoom_WhenReserve_ThenRequestIsAssociatedToRoom() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
+    public void givenReservedRoom_WhenReserve_ThenRequestIsAssociatedToRoom() throws RoomAlreadyReservedException {
         room.book(requestMock);
         assertEquals(requestMock, room.getRequest());
     }
 
 
     @Test(expected = RoomAlreadyReservedException.class)
-    public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomAlreadyReserved() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
+    public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomAlreadyReserved() throws RoomAlreadyReservedException {
         room.book(requestMock);
         room.book(requestMock);
     }
 
     @Test
-    public void givenReservedRoom_WhenCancelReservation_ThenShouldNotBeReservedAnymore() throws RoomAlreadyReservedException, RoomInsufficientSeatsException {
+    public void givenReservedRoom_WhenCancelReservation_ThenShouldNotBeReservedAnymore() throws RoomAlreadyReservedException {
         when(requestMock.getNumberOfSeatsNeeded()).thenReturn(A_LOWER_NUMBER_OF_SEATS);
         room.book(requestMock);
 
@@ -57,7 +57,7 @@ public class RoomTest {
     }
 
     @Test
-    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenTestBestFitWithGreaterSeatsCapacity_ThenShouldReturnExpectedRoom() throws RoomInsufficientSeatsException {
+    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenTestBestFitWithGreaterSeatsCapacity_ThenShouldReturnExpectedRoom() {
         Room greaterMeetingRoom = new Room(A_HIGHER_NUMBER_OF_SEATS, A_ROOM_NAME);
 
         Room bestFitRoomResult = room.getBestFit(greaterMeetingRoom, A_LOWER_NUMBER_OF_SEATS);
@@ -66,7 +66,7 @@ public class RoomTest {
     }
 
     @Test
-    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenTestBestFitWithBetterSeatsCapacity_ThenShouldReturnExpectedRoom() throws RoomInsufficientSeatsException {
+    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenTestBestFitWithBetterSeatsCapacity_ThenShouldReturnExpectedRoom() {
         Room lowerMeetingRoom = new Room(A_LOWER_NUMBER_OF_SEATS, A_ROOM_NAME);
 
         Room bestFitRoomResult = room.getBestFit(lowerMeetingRoom, A_LOWER_NUMBER_OF_SEATS);
@@ -75,7 +75,7 @@ public class RoomTest {
     }
 
     @Test
-    public void givenTwoRoomsWithEqualNumberOfSeats_WhenTestBestFit_ThenShouldReturnThis() throws RoomInsufficientSeatsException {
+    public void givenTwoRoomsWithEqualNumberOfSeats_WhenTestBestFit_ThenShouldReturnThis() {
         Room sameMeetingRoom = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME);
 
         Room bestFitRoomResult = room.getBestFit(sameMeetingRoom, A_NUMBER_OF_SEATS);
@@ -84,7 +84,7 @@ public class RoomTest {
     }
 
     @Test
-    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenThisHasNotEnoughCapacity_ThenShouldReturnAnother() throws RoomInsufficientSeatsException {
+    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenThisHasNotEnoughCapacity_ThenShouldReturnAnother() {
         Room roomWithEnoughSeats = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME);
         Room roomWithoutEnoughSeats = new Room(A_LOWER_NUMBER_OF_SEATS, A_ROOM_NAME);
 
@@ -94,7 +94,7 @@ public class RoomTest {
     }
 
     @Test
-    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenAnotherHasNotEnoughCapacity_ThenShouldReturnThis() throws RoomInsufficientSeatsException {
+    public void givenTwoRoomsWithDifferentNumberOfSeats_WhenAnotherHasNotEnoughCapacity_ThenShouldReturnThis() {
         Room roomWithEnoughSeats = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME);
         Room roomWithoutEnoughSeats = new Room(A_LOWER_NUMBER_OF_SEATS, A_ROOM_NAME);
 
@@ -103,10 +103,21 @@ public class RoomTest {
         assertEquals(roomWithEnoughSeats, bestFitRoomResult);
     }
 
-    @Test(expected = RoomInsufficientSeatsException.class)
-    public void givenTwoRooms_WhenTestBestFitWithLowerSeatsThanNeeded_ThenShouldThrowInsufficientSeats() throws RoomInsufficientSeatsException {
+    @Test
+    public void givenTwoRooms_WhenTestBestFitWithLowerSeatsThanNeeded_ThenShouldReturnNull() {
         Room insufficientSeats = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME);
-        room.getBestFit(insufficientSeats, A_HIGHER_NUMBER_OF_SEATS);
+        assertNull(room.getBestFit(insufficientSeats, A_HIGHER_NUMBER_OF_SEATS));
+    }
+
+    @Test
+    public void givenOneRoomsWithNotEnoughSeats_WhenTestBestFitWithNull_ThenShouldReturnNull() {
+        assertNull(room.getBestFit(null, A_HIGHER_NUMBER_OF_SEATS));
+    }
+
+    @Test
+    public void givenOneRoomsWithEnoughSeats_WhenTestBestFitWithNull_ThenShouldThis() {
+        Room roomWithEnoughSeats = new Room(A_NUMBER_OF_SEATS, A_ROOM_NAME);
+        assertEquals(roomWithEnoughSeats, roomWithEnoughSeats.getBestFit(null, A_NUMBER_OF_SEATS));
     }
 
     @Test

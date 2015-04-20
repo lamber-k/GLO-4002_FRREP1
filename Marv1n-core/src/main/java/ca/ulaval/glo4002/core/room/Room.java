@@ -50,15 +50,17 @@ public class Room {
     }
 
     public Room getBestFit(Room room, int capacityNeeded) {
-        if (!hasEnoughCapacity(capacityNeeded) && !room.hasEnoughCapacity(capacityNeeded)) {
-            throw new RoomInsufficientSeatsException();
-        } else if (!hasEnoughCapacity(capacityNeeded)) {
-            return room;
-        } else if (!room.hasEnoughCapacity(capacityNeeded)) {
+        if (room == null || !room.hasEnoughCapacity(capacityNeeded)) {
+            if (!hasEnoughCapacity(capacityNeeded)) {
+                return null;
+            }
             return this;
-        } else if (numberOfSeats > room.numberOfSeats)
-            return room;
-        return this;
+        } else {
+            if (numberOfSeats > room.numberOfSeats || !hasEnoughCapacity(capacityNeeded)) {
+                return room;
+            }
+            return this;
+        }
     }
 
     public boolean hasEnoughCapacity(int capacityNeeded) {
