@@ -37,7 +37,6 @@ public class StartupApplication {
     private TaskScheduler taskScheduler;
 
     public StartupApplication() throws IOException {
-        EntityManagerProvider.setEntityManager(LocatorService.getInstance().resolve(EntityManagerFactory.class).createEntityManager());
         roomRepository = LocatorService.getInstance().resolve(RoomRepository.class);
         notificationFactory = LocatorService.getInstance().resolve(NotificationFactory.class);
         requestRepository = LocatorService.getInstance().resolve(RequestRepository.class);
