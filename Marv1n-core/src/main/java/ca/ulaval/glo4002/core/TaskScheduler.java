@@ -47,12 +47,12 @@ public class TaskScheduler implements Scheduler {
     @Override
     public void setIntervalTimer(int intervalTimer) {
         this.intervalTimer = intervalTimer;
-        cancelScheduler();  //TODO ALL Test me properly
-        startAtFixedRate();  //TODO ALL Strange behaviour
+        cancelScheduler();
+        startAtFixedRate();
     }
 
     @Override
-    public void restartSchedule() {
+    public void restartScheduler() {
         cancelScheduler();
         startAtFixedRate();
     }

@@ -12,7 +12,7 @@ public interface Scheduler extends Runnable {
 
     void setIntervalTimer(int intervalTimer);
 
-    void restartSchedule();
+    void restartScheduler();
 
     void runNow();
 }
