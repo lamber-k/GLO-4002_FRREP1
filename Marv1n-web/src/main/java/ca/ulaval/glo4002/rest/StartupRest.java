@@ -1,6 +1,7 @@
 package ca.ulaval.glo4002.rest;
 
 import ca.ulaval.glo4002.locator.LocatorService;
+import ca.ulaval.glo4002.persistence.hibernate.EntityManagerProvider;
 import ca.ulaval.glo4002.rest.configuration.EntityManagerContextFilter;
 import ca.ulaval.glo4002.rest.configuration.LocatorServicesModule;
 import ca.ulaval.glo4002.rest.configuration.StartupApplication;
@@ -11,6 +12,7 @@ import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
+import javax.persistence.EntityManagerFactory;
 import javax.servlet.DispatcherType;
 import java.io.IOException;
 import java.util.EnumSet;

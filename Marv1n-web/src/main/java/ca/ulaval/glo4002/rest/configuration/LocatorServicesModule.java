@@ -8,12 +8,11 @@ import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.room.RoomRepository;
 import ca.ulaval.glo4002.locator.LocatorContainer;
 import ca.ulaval.glo4002.locator.LocatorModule;
+import ca.ulaval.glo4002.locator.LocatorService;
 import ca.ulaval.glo4002.mail.JavaxMailSender;
 import ca.ulaval.glo4002.mail.JavaxMailTransporter;
 import ca.ulaval.glo4002.mail.JavaxMailValidator;
-import ca.ulaval.glo4002.persistence.hibernate.EntityManagerFactoryProvider;
-import ca.ulaval.glo4002.persistence.hibernate.PersonRepositoryHibernate;
-import ca.ulaval.glo4002.persistence.hibernate.RoomRepositoryHibernate;
+import ca.ulaval.glo4002.persistence.hibernate.*;
 import ca.ulaval.glo4002.persistence.inmemory.PersonRepositoryInMemory;
 import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
 import ca.ulaval.glo4002.persistence.inmemory.RoomRepositoryInMemory;
@@ -25,11 +24,13 @@ public class LocatorServicesModule implements LocatorModule {
 
     @Override
     public void load(LocatorContainer container) {
-        container.register(EntityManagerFactory.class, EntityManagerFactoryProvider.getFactory());
-        PersonRepository personRepository = new PersonRepositoryInMemory();
-        container.register(RequestRepository.class, new RequestRepositoryInMemory());
+        EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
+        EntityManagerProvider.setEntityManager(entityManagerFactory.createEntityManager());
+        container.register(EntityManagerFactory.class, entityManagerFactory);
+        PersonRepository personRepository = new PersonRepositoryHibernate();
+        container.register(RequestRepository.class, new RequestRepositoryHibernate());
         container.register(PersonRepository.class, personRepository);
-        container.register(RoomRepository.class, new RoomRepositoryInMemory());
+        container.register(RoomRepository.class, new RoomRepositoryHibernate());
         container.register(EmailValidator.class, new JavaxMailValidator());
         try {
             container.register(NotificationFactory.class, new MailNotificationFactory(new JavaxMailSender(new JavaxMailTransporter()), personRepository));
