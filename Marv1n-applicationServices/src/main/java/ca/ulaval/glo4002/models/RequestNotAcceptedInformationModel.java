@@ -1,10 +1,8 @@
 package ca.ulaval.glo4002.models;
 
+import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestStatus;
 
-/**
- * Created by Rafaël on 20/04/2015.
- */
 public class RequestNotAcceptedInformationModel {
     public RequestStatus statutDemande;
     public int nombrePersonne;
@@ -15,5 +13,11 @@ public class RequestNotAcceptedInformationModel {
         this.nombrePersonne = nombrePersonne;
         this.courrielOrginsateur = courrielOrginsateur;
         this.statutDemande = statutDemande;
+    }
+
+    public RequestNotAcceptedInformationModel(Request request) {
+        this.nombrePersonne = request.getNumberOfSeatsNeeded();
+        this.courrielOrginsateur = request.getResponsible().getMailAddress();
+        this.statutDemande = request.getRequestStatus();
     }
 }

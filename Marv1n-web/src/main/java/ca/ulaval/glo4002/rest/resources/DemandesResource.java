@@ -1,10 +1,13 @@
 package ca.ulaval.glo4002.rest.resources;
 
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
+import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
+import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.models.RequestInformationModel;
+import ca.ulaval.glo4002.models.RequestModel;
 import ca.ulaval.glo4002.models.RequestsInformationModel;
 import ca.ulaval.glo4002.services.RequestService;
-import org.glassfish.jersey.internal.inject.Custom;
+
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -31,9 +34,12 @@ public class DemandesResource {
         } catch (ObjectNotFoundException e) {
             return Response.status(404)
                     .entity(e.getMessage())
+                    .header("Content-Type", "text/plain")
                     .build();
         }
-        return Response.ok().entity(requestInformationModel).build();
+        return Response.ok()
+                .entity(requestInformationModel)
+                .build();
     }
 
     @GET
@@ -49,5 +55,22 @@ public class DemandesResource {
                     .build();
         }
         return Response.ok().entity(requestsInformationModel).build();
+    }
+
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response addRequest(RequestModel model) {
+        Request request;
+        try {
+            request = requestService.addRequest(model);
+        } catch (InvalidFormatException e) {
+            return Response.status(400)
+                    .entity(e.getMessage())
+                    .header("Content-Type", "text/plain")
+                    .build();
+        }
+        return Response.status(201)
+                .header("Location", String.format("/demandes/%s/%s", request.getResponsible().getMailAddress(), request.getRequestID()))
+                .build();
     }
 }

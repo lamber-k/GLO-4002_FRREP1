@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.core.person;
 
+import ca.ulaval.glo4002.core.notification.mail.EmailValidator;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.UUID;
@@ -40,6 +42,7 @@ public class Person {
 
     @Override
     public boolean equals(Object rhs) {
+        //TODO ALL Test me properly
         return rhs != null && rhs instanceof Person && hashCode() == rhs.hashCode();
     }
 
@@ -50,5 +53,9 @@ public class Person {
 
     public boolean isAdmin() {
         return admin;
+    }
+
+    public boolean isValid(EmailValidator emailValidator) {
+        return emailValidator.validateMailAddress(this.email);
     }
 }
