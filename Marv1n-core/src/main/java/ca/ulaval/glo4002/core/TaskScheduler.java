@@ -8,8 +8,8 @@ public class TaskScheduler implements Scheduler {
 
     private final TimeUnit timeUnit;
     private ScheduledExecutorService scheduler;
-    private ScheduledFuture<?> nextRun = null;
-    private boolean isSchedulerRunning = false;
+    private ScheduledFuture<?> nextRun;
+    private boolean isSchedulerRunning;
     private int intervalTimer;
     private TaskFactory taskFactory;
     private Task task;
@@ -19,7 +19,6 @@ public class TaskScheduler implements Scheduler {
         this.timeUnit = timeUnit;
         this.intervalTimer = intervalTimer;
         this.taskFactory = taskFactory;
-        this.task = null;
     }
 
     @Override
@@ -34,9 +33,8 @@ public class TaskScheduler implements Scheduler {
 
     @Override
     public void cancelScheduler() {
-        //TODO ALL Test me properly
         if (isSchedulerRunning) {
-            nextRun.cancel(true);
+            nextRun.cancel(false);
             isSchedulerRunning = false;
         }
     }
@@ -54,7 +52,7 @@ public class TaskScheduler implements Scheduler {
     }
 
     @Override
-    public void restartSchedule() {
+    public void restartScheduler() {
         cancelScheduler();
         startAtFixedRate();
     }
@@ -70,7 +68,6 @@ public class TaskScheduler implements Scheduler {
     }
 
     private void startAtFixedRate() {
-        //TODO ALL Test me properly
         nextRun = scheduler.scheduleAtFixedRate(this, intervalTimer, intervalTimer, timeUnit);
         isSchedulerRunning = true;
     }

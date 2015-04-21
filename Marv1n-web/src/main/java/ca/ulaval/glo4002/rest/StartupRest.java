@@ -12,6 +12,7 @@ import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 
 import javax.servlet.DispatcherType;
+import java.io.IOException;
 import java.util.EnumSet;
 
 public class StartupRest {
@@ -24,7 +25,12 @@ public class StartupRest {
     }
 
     public void start() {
-        configureApplication();
+        try {
+            configureApplication();
+        } catch (IOException e) {
+            System.err.print(e.getMessage());
+            return;
+        }
         startRest();
     }
 
@@ -40,7 +46,7 @@ public class StartupRest {
         }
     }
 
-    private void configureApplication() {
+    private void configureApplication() throws IOException {
         LocatorService.getInstance().registerModule(new LocatorServicesModule());
         startupApplication = new StartupApplication();
     }

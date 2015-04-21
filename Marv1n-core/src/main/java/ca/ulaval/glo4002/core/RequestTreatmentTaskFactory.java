@@ -27,8 +27,9 @@ public class RequestTreatmentTaskFactory implements TaskFactory {
         this.requestRepository = requestRepository;
     }
 
-        @Override
-        public Task createTask() {
+    @Override
+    public Task createTask() {
+        //TODO ALL Test me properly
         List<Request> requestToTreat = pendingRequests.retrieveCurrentPendingRequest();
         return new RequestTreatmentTask(strategyAssignation, strategySortRequest, roomRepository, requestToTreat, notificationFactory, requestRepository);
     }

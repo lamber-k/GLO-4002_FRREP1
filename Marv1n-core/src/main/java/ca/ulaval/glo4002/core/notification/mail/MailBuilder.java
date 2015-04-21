@@ -14,8 +14,8 @@ public class MailBuilder {
     private static final String MAIL_MESSAGE_REASON = "Pour la raison suivante :\n%s\n";
     private static final String MAIL_MESSAGE_FOOTER = "\nCordialement,";
 
-    private RequestStatus status = null;
-    private UUID identifier = null;
+    private RequestStatus status;
+    private UUID identifier;
     private String mailFrom;
     private List<String> mailTo;
     private String reason;
@@ -46,7 +46,8 @@ public class MailBuilder {
         List<String> to = mailTo;
         String object = buildMailObject();
         message = String.format(MAIL_MESSAGE_HEADER, identifier, status);
-        if (reason != null) { //TODO ALL Test me properly
+        if (reason != null) {
+            //TODO ALL Test me properly
             message += String.format(MAIL_MESSAGE_REASON, reason);
         }
         message += MAIL_MESSAGE_FOOTER;
@@ -55,6 +56,7 @@ public class MailBuilder {
 
     private String buildMailObject() throws MailBuilderException {
         if (identifier == null) {
+            //TODO ALL Test me properly
             throw new MailBuilderException("ID not set");
         }
         if (status == null) {
@@ -64,6 +66,7 @@ public class MailBuilder {
     }
 
     public MailBuilder setReason(String reason) {
+        //TODO ALL Test me properly
         this.reason = reason;
         return this;
     }

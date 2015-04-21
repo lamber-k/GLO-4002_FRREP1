@@ -22,7 +22,11 @@ public class RequestRepositoryInMemory extends RepositoryInMemory<Request> imple
     }
 
     @Override
-    public List<Request> findAllPendingRequest() {
-        return query().filter(p -> p.getRequestStatus() == RequestStatus.PENDING).collect(Collectors.toList());
+    public List<Request> findByResponsibleMail(String email) throws RequestNotFoundException {
+        List<Request> requestsFound = query().filter(r -> r.getResponsible().getMailAddress().equals(email)).collect(Collectors.toList());
+        if (requestsFound.isEmpty()) {
+            throw  new RequestNotFoundException();
+        }
+        return requestsFound;
     }
 }

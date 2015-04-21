@@ -21,6 +21,8 @@ public class TaskSchedulerTest {
     private static final TimeUnit TIME_UNIT_SECOND = TimeUnit.SECONDS;
     private static final int DEFAULT_TIMER = 42;
     private static final int NOW = 0;
+    private static final boolean THREAD_SHOULD_NOT_BE_KILLED = false;
+    public static final int OTHER_INTERVAL_TIMER = 42;
     private TaskScheduler taskScheduler;
     @Mock
     private TaskFactory taskFactoryMock;
@@ -90,12 +92,12 @@ public class TaskSchedulerTest {
 
         taskScheduler.cancelScheduler();
 
-        verify(aScheduledFutureMock).cancel(anyBoolean());
+        verify(aScheduledFutureMock).cancel(THREAD_SHOULD_NOT_BE_KILLED);
     }
 
     @Test
     public void givenTaskScheduler_WhenRestartSchedule_ThenRestartSchedulerAtBeginning() {
-        taskScheduler.restartSchedule();
+        taskScheduler.restartScheduler();
 
         verify(scheduledExecutorServiceMock, times(1)).scheduleAtFixedRate(taskScheduler, DEFAULT_TIMER, DEFAULT_TIMER, TIME_UNIT_SECOND);
     }
@@ -114,5 +116,15 @@ public class TaskSchedulerTest {
         taskScheduler.run();
 
         verify(taskMock).run();
+    }
+
+    @Test
+    public void givenTaskScheduler_WhenSetIntervalTimer_ThenShouldRestartTask() {
+        taskScheduler = spy(this.taskScheduler);
+
+        taskScheduler.setIntervalTimer(OTHER_INTERVAL_TIMER);
+
+        verify(scheduledExecutorServiceMock).scheduleAtFixedRate(taskScheduler, OTHER_INTERVAL_TIMER, OTHER_INTERVAL_TIMER, TIME_UNIT_SECOND);
+        verify(taskScheduler).cancelScheduler();
     }
 }
