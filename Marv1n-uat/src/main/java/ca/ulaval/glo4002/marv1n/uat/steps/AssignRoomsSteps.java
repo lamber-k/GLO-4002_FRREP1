@@ -6,6 +6,8 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
+import static org.junit.Assert.fail;
+
 public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsState> {
 
     @Override
@@ -13,7 +15,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
 
     @Given("a pending request")
     public void givenAPendingRequest() {
-
+        fail();
     }
 
     @When("I treat pending requests to the first available room")
