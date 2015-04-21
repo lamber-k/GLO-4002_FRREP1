@@ -11,5 +11,5 @@ public interface RequestRepository extends Repository<Request> {
 
     Request findByUUID(UUID id) throws RequestNotFoundException;
 
-    List<Request> findAllPendingRequest();
+    List<Request> findByResponsibleMail(String mail) throws  RequestNotFoundException;
 }

@@ -18,6 +18,7 @@ public class Request {
     private final int priority;
     @OneToOne(cascade = {CascadeType.ALL})
     private final Person responsible;
+    private final long creationDate;
     @Enumerated(EnumType.ORDINAL)
     private RequestStatus status;
     @OneToMany(cascade = {CascadeType.ALL})
@@ -34,6 +35,7 @@ public class Request {
         this.status = RequestStatus.PENDING;
         this.responsible = person;
         this.participants = participant;
+        this.creationDate = System.currentTimeMillis();
     }
 
     public Request(int numberOfSeatsNeeded, int priority, Person person) {
@@ -43,6 +45,7 @@ public class Request {
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
         this.status = RequestStatus.PENDING;
         this.responsible = person;
+        this.creationDate = System.currentTimeMillis();
     }
 
     public Request() {
@@ -52,6 +55,7 @@ public class Request {
         this.responsible = null;
         this.participants = new ArrayList<>();
         this.reservedRoom = null;
+        this.creationDate = System.currentTimeMillis();
     }
 
     public RequestStatus getRequestStatus() {
@@ -81,6 +85,8 @@ public class Request {
         return requestID;
     }
 
+    public long getCreationDate() {return creationDate; }
+
     public Person getResponsible() {
         return responsible;
     }
@@ -89,13 +95,15 @@ public class Request {
         return participants;
     }
 
+    public Room getReservedRoom() {return reservedRoom; }
+
     private void accept() {
         status = RequestStatus.ACCEPTED;
     }
 
     public void refuse(String reason) {
         status = RequestStatus.REFUSED;
-        this.reason = reason;  //TODO ALL Test me properly
+        this.reason = reason;
     }
 
     public String getReason() {

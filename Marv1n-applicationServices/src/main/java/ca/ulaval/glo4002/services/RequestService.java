@@ -8,13 +8,15 @@ import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestRepository;
+import ca.ulaval.glo4002.core.request.RequestStatus;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomNotFoundException;
 import ca.ulaval.glo4002.core.room.RoomRepository;
 import ca.ulaval.glo4002.locator.LocatorService;
 import ca.ulaval.glo4002.models.RequestInformationModel;
 import ca.ulaval.glo4002.models.RequestModel;
-import org.mockito.cglib.core.Local;
+import ca.ulaval.glo4002.models.RequestNotAcceptedInformationModel;
+import ca.ulaval.glo4002.models.RequestsInformationModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,5 +74,35 @@ public class RequestService {
             throw new ObjectNotFoundException(String.format(ERROR_REQUEST_BY_EMAIL_AND_ID, id.toString(), email), exception);
         }
         throw new ObjectNotFoundException(String.format(ERROR_REQUEST_BY_EMAIL_AND_ID, id.toString(), email));
+    }
+
+    public RequestsInformationModel getRequestByEmail(String email) throws ObjectNotFoundException {
+        List<Request> requests = new ArrayList<>();
+        List<RequestInformationModel> accepted = new ArrayList<>();
+        List<RequestNotAcceptedInformationModel> others = new ArrayList<>();
+
+        try {
+            requests.addAll(requestRepository.findByResponsibleMail(email));
+        } catch (RequestNotFoundException e) {}
+        requests.addAll(getPendingRequestByResponsibleMail(email));
+        if (requests.isEmpty()) {
+            throw new ObjectNotFoundException();
+        }
+
+        requests.stream()
+                .sorted((x, y) -> Long.compare(x.getCreationDate(), y.getCreationDate()))
+                .forEach(r -> {
+                    if (r.getRequestStatus().equals(RequestStatus.ACCEPTED)) {
+                        accepted.add(new RequestInformationModel(r));
+                    } else {
+                        others.add(new RequestNotAcceptedInformationModel(r));
+                    }
+                });
+        return new RequestsInformationModel(accepted, others);
+    }
+
+    private List<Request> getPendingRequestByResponsibleMail(String mail) {
+        List<Request> requests = pendingRequests.getCurrentPendingRequest().stream().filter(r -> r.getResponsible().getMailAddress().equals(mail)).collect(Collectors.toList());
+        return requests;
     }
 }
