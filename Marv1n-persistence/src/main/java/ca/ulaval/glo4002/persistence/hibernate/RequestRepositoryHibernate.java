@@ -28,7 +28,13 @@ public class RequestRepositoryHibernate extends RepositoryHibernate<Request> imp
     }
 
     @Override
-    public List<Request> findAllPendingRequest() {
-        return entityManager.createQuery("select r from Request r where r.status = :pending").setParameter("pending", RequestStatus.PENDING).getResultList();
+    public List<Request> findByResponsibleMail(String mail) throws RequestNotFoundException {
+       try {
+           Query query = entityManager.createQuery("select r from Request r where r.responsible.email = :mail");
+           query.setParameter("mail", mail);
+           return (List<Request>) query.getResultList();
+       } catch (NoResultException e) {
+           throw new RequestNotFoundException(e);
+       }
     }
 }

@@ -10,7 +10,10 @@ import ca.ulaval.glo4002.core.room.RoomNotFoundException;
 import ca.ulaval.glo4002.core.room.RoomRepository;
 import ca.ulaval.glo4002.locator.LocatorService;
 import ca.ulaval.glo4002.models.RequestInformationModel;
+import ca.ulaval.glo4002.models.RequestsInformationModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class RequestService {
@@ -47,5 +50,16 @@ public class RequestService {
             throw new ObjectNotFoundException(String.format(ERROR_REQUEST_BY_EMAIL_AND_ID, id.toString(), email), exception);
         }
         throw new ObjectNotFoundException(String.format(ERROR_REQUEST_BY_EMAIL_AND_ID, id.toString(), email));
+    }
+
+    public RequestsInformationModel getRequestByEmail(String email) throws ObjectNotFoundException {
+        List<Request> requests = new ArrayList<>();
+        try {
+            requests.addAll(requestRepository.findByResponsibleMail(email));
+
+        } catch (RequestNotFoundException e) {
+            throw new ObjectNotFoundException("");
+        }
+        return null;
     }
 }
