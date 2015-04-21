@@ -59,23 +59,6 @@ public class RequestRepositoryHibernateTest {
         requestRepository.findByUUID(toRemoveRequest.getRequestID());
     }
 
-    @Test
-    public void givenRequestRepositoryContainingOnePendingRequest_WhenGetAllPendingRequest_ThenReturnThisRequest() {
-        List<Request> pendingRequestList = requestRepository.findAllPendingRequest();
-
-        Assert.assertEquals(Arrays.asList(request), pendingRequestList);
-    }
-
-    @Test
-    public void givenRequestRepositoryHibernateContainingMultiplePendingRequest_WhenGetAllPendingRequest_ThenReturnArrayWithThePendingRequests() {
-        Request anotherRequest = new Request(NUMBER_OF_SEATS, REQUEST_PRIORITY, RESPONSIBLE_PERSON);
-        requestRepository.persist(anotherRequest);
-
-        List<Request> pendingRequestList = requestRepository.findAllPendingRequest();
-
-        Assert.assertThat(pendingRequestList, containsInAnyOrder(request, anotherRequest));
-    }
-
     @After
     public void clearRequestTable() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
