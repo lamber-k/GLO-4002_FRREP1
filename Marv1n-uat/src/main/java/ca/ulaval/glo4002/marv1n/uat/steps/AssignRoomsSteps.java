@@ -46,8 +46,8 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
     @Override
     protected AssignStepsState getInitialState() { return new AssignStepsState(); }
 
-    @Given("an existing pending request")
-    public void givenAnExistingPendingRequest() {
+    @Given("a new pending reservation")
+    public void givenANewPendingReservation() {
         when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
         state().firstRoom = new Room(ROOM_SEATS_NUMBER, A_ROOM);
         state().secondRoom = new Room(ANOTHER_ROOM_SEATS_NUMBER, ANOTHER_ROOM);
@@ -58,7 +58,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
         state().pendingRequests.addRequest(state().request);
     }
 
-    @When("I treat pending requests to the first available room")
+    @When("I treat pending reservation to the first available room")
     public void whenITreatPendingRequestsToTheFirstAvailableRoom() {
         state().sortingRequestStrategy = new SequentialSortingRequestStrategy();
         state().evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
@@ -67,7 +67,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
         state().taskScheduler.run();
     }
 
-    @Then("the request should be assigned to the first available room")
+    @Then("the reservation should be assigned to the first available room")
     public void thenTheRequestShouldBeAssignedToTheFirstAvailableRoom() {
         assertEquals(state().firstRoom, state().request.getReservedRoom());
     }
