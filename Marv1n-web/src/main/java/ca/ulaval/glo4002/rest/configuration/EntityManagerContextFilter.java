@@ -1,5 +1,6 @@
 package ca.ulaval.glo4002.rest.configuration;
 
+import ca.ulaval.glo4002.locator.LocatorService;
 import ca.ulaval.glo4002.persistence.hibernate.EntityManagerFactoryProvider;
 import ca.ulaval.glo4002.persistence.hibernate.EntityManagerProvider;
 
@@ -14,7 +15,7 @@ public class EntityManagerContextFilter implements Filter {
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        entityManagerFactory = EntityManagerFactoryProvider.getFactory();
+        entityManagerFactory = LocatorService.getInstance().resolve(EntityManagerFactory.class);
     }
 
     @Override
