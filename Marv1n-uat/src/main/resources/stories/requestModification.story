@@ -19,11 +19,11 @@ Then the pending reservation should have been cancelled
 Scenario: La demande est archivée
 Given an existing assigned reservation
 When I cancel this reservation
-Then the assigned reservation should have been archived
+Then the reservation should have been archived
 
 Given an existing pending reservation
 When I cancel this reservation
-Then the pending reservation should have been archived
+Then the reservation should have been archived
 
 Scenario: La salle assignée est retirée
 Given an existing assigned reservation

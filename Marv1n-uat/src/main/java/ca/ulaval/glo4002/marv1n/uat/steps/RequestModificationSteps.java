@@ -13,10 +13,10 @@ import ca.ulaval.glo4002.core.request.sorting.SortingRequestByPriorityStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomAlreadyReservedException;
-import ca.ulaval.glo4002.marv1n.uat.fakes.RequestRepositoryInMemoryFake;
-import ca.ulaval.glo4002.marv1n.uat.fakes.RoomRepositoryInMemoryFake;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StatefulStep;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StepState;
+import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
+import ca.ulaval.glo4002.persistence.inmemory.RoomRepositoryInMemory;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -29,43 +29,50 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class RequestModificationSteps extends StatefulStep<RequestModificationSteps.RequestStepsState> {
+public class RequestModificationSteps extends StatefulStep<RequestModificationSteps.RequestModificationStepsState> {
 
     @Override
-    protected RequestStepsState getInitialState() {
-        return new RequestStepsState();
+    protected RequestModificationStepsState getInitialState() {
+        return new RequestModificationStepsState();
     }
 
     @Given("an existing assigned reservation")
     public void givenAnExistingAssignedReservation() throws RoomAlreadyReservedException {
         when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
-        state().room = new Room(10, "Une salle");
-        state().roomRepositoryInMemoryFake.persist(state().room);
+        addARoomToRepository();
+        addAPendingRequest();
+        state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemory, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemory);
+        state().taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), 1, TimeUnit.SECONDS, state().requestTreatmentTaskFactory);
+        state().taskScheduler.run();
+    }
+
+    private void addARoomToRepository() {
+        state().room = new Room(5, "Une salle");
+        state().roomRepositoryInMemory.persist(state().room);
+    }
+
+    private void addAPendingRequest() {
         state().request = new Request(5, 5, new Person());
         state().pendingRequests = new PendingRequests(2);
         state().pendingRequests.addRequest(state().request);
-        state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemoryFake, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemoryFake);
-        state().taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), 10, TimeUnit.SECONDS, state().requestTreatmentTaskFactory);
-        state().taskScheduler.run();
     }
 
     @Given("an existing pending reservation")
     public void givenAnExistingPendingReservation() {
         when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
-        state().request = new Request(5, 5, new Person(), null);
-        state().pendingRequests = new PendingRequests(2);
-        state().pendingRequests.addRequest(state().request);
+        addAPendingRequest();
+        System.out.println("Request Modification Steps");
     }
 
     @When("I cancel this reservation")
     public void whenICancelThisReservation() throws ObjectNotFoundException {
-        state().requestCancellation = new RequestCancellation(state().pendingRequests, state().requestRepositoryInMemoryFake, state().notificationFactory);
+        state().requestCancellation = new RequestCancellation(state().pendingRequests, state().requestRepositoryInMemory, state().notificationFactory);
         state().requestCancellation.cancelRequestByUUID(state().request.getRequestID());
     }
 
     @Then("the assigned reservation should have been cancelled")
     public void thenTheAssignedReservationShouldHaveBeenCancelled() throws RequestNotFoundException {
-        assertEquals(RequestStatus.CANCELED, state().requestRepositoryInMemoryFake.findByUUID(state().request.getRequestID()).getRequestStatus());
+        assertEquals(RequestStatus.CANCELED, state().requestRepositoryInMemory.findByUUID(state().request.getRequestID()).getRequestStatus());
     }
 
     @Then("the pending reservation should have been cancelled")
@@ -75,34 +82,30 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
 
     @Then("the status of the assigned reservation should have changed")
     public void thenTheStatusOfTheAssignedReservationShouldHaveChanged() throws RequestNotFoundException {
-        assertEquals(RequestStatus.CANCELED, state().requestRepositoryInMemoryFake.findByUUID(state().request.getRequestID()).getRequestStatus());
+        assertEquals(RequestStatus.CANCELED, state().requestRepositoryInMemory.findByUUID(state().request.getRequestID()).getRequestStatus());
     }
 
     @Then("the room should have been unassigned")
     public void thenTheRoomShouldHaveBeenUnassigned() {
-        assertEquals(null, state().room.getRequest());
+        assertEquals(null, state().roomRepositoryInMemory.findAll().get(0).getRequest());
     }
 
-    @Then("the assigned reservation should have been archived")
-    public void thenTheAssignedReservationShouldHaveBeenArchived() {
+    @Then("the reservation should have been archived")
+    public void thenTheAssignedReservationShouldHaveBeenArchived() throws RequestNotFoundException {
+        assertEquals(state().request.getRequestID(), state().requestRepositoryInMemory.findByUUID(state().request.getRequestID()).getRequestID());
     }
 
-    @Then("the pending reservation should have been archived")
-    public void thenThePendingReservationShouldHaveBeenArchived() {
-    }
-
-    public class RequestStepsState extends StepState {
+    public class RequestModificationStepsState extends StepState {
         public Room room;
         public Request request;
         public RequestTreatmentTaskFactory requestTreatmentTaskFactory;
         public EvaluationStrategy evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
         public SortingRequestStrategy sortingRequestStrategy = new SortingRequestByPriorityStrategy();
-        public RoomRepositoryInMemoryFake roomRepositoryInMemoryFake = new RoomRepositoryInMemoryFake();
+        public RoomRepositoryInMemory roomRepositoryInMemory = new RoomRepositoryInMemory();
         public NotificationFactory notificationFactory = mock(NotificationFactory.class);
-        public RequestRepositoryInMemoryFake requestRepositoryInMemoryFake = new RequestRepositoryInMemoryFake();
+        public RequestRepositoryInMemory requestRepositoryInMemory = new RequestRepositoryInMemory();
         public RequestCancellation requestCancellation;
         public TaskScheduler taskScheduler;
-        public Scheduler scheduler;
         public PendingRequests pendingRequests;
     }
 }
