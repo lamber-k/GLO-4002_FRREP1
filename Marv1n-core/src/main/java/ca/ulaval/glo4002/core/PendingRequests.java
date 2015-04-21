@@ -22,8 +22,7 @@ public class PendingRequests {
     }
 
     public List<Request> getCurrentPendingRequest() {
-        List<Request> requestToGive = cloneCurrentPendingRequests();
-        return requestToGive;
+        return cloneCurrentPendingRequests();
     }
 
     public List<Request> retrieveCurrentPendingRequest() {
@@ -60,7 +59,6 @@ public class PendingRequests {
     }
 
     private void checkLimitIsReached() {
-        //TODO ALL Test me properly
         if (pendingRequest.size() >= maximumPendingRequests) {
             scheduler.runNow();
         }
