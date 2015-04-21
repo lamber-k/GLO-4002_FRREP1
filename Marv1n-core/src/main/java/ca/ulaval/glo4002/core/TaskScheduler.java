@@ -33,9 +33,8 @@ public class TaskScheduler implements Scheduler {
 
     @Override
     public void cancelScheduler() {
-        //TODO ALL Test me properly
         if (isSchedulerRunning) {
-            nextRun.cancel(true);
+            nextRun.cancel(false);
             isSchedulerRunning = false;
         }
     }
