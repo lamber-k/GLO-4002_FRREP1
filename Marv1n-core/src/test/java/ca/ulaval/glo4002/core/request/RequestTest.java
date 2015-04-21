@@ -78,6 +78,7 @@ public class RequestTest {
     public void givenPendingRequest_WhenRefuseRequest_ThenShouldSetStatusToRefused() {
         request.refuse(REASON_OF_REFUSE);
         assertEquals(RequestStatus.REFUSED, request.getRequestStatus());
+        assertEquals(REASON_OF_REFUSE, request.getReason());
     }
 
     @Test

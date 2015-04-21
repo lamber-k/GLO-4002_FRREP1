@@ -95,7 +95,7 @@ public class Request {
 
     public void refuse(String reason) {
         status = RequestStatus.REFUSED;
-        this.reason = reason;  //TODO ALL Test me properly
+        this.reason = reason;
     }
 
     public String getReason() {
