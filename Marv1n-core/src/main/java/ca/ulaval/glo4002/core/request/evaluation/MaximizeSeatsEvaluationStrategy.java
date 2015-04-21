@@ -10,7 +10,7 @@ public class MaximizeSeatsEvaluationStrategy implements EvaluationStrategy {
     public Room evaluateOneRequest(RoomRepository reservables, Request evaluatedRequest) {
         Room bestRoom = null;
         for (Room room : reservables.findAll()) {
-            if (!room.isReserved()) {  //TODO ALL Test me properly
+            if (!room.isReserved()) {
                 bestRoom = room.getBestFit(bestRoom, evaluatedRequest.getNumberOfSeatsNeeded());
             }
         }

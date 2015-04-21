@@ -21,6 +21,7 @@ import static org.mockito.Mockito.when;
 public class EvaluationMaximizeSeatsStrategyTest {
 
     private static final int REQUESTED_CAPACITY = 10;
+    private static final boolean IS_ALREADY_RESERVED = true;
     private List<Room> roomsList;
     private EvaluationStrategy assignerStrategy;
     @Mock
@@ -63,10 +64,22 @@ public class EvaluationMaximizeSeatsStrategyTest {
     }
 
     @Test
-    public void givenAssignationIsRun_WhenTheSecondRoomIsBestThanFirst_ThenReturnTheSecond() throws EvaluationNoRoomFoundException {
+    public void givenAssignationIsRun_WhenTheSecondRoomIsBetterThanFirst_ThenReturnTheSecond() throws EvaluationNoRoomFoundException {
         when(requestMock.getNumberOfSeatsNeeded()).thenReturn(REQUESTED_CAPACITY);
         when(anotherRoomMock.getBestFit(any(Room.class), any(Integer.class))).thenReturn(anotherRoomMock);
         roomsList.add(anotherRoomMock);
+
+        Room result = assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
+
+        assertEquals(anotherRoomMock, result);
+    }
+
+
+    public void givenAssignationIsRun_WhenFirstRoomIsAlreadyReserved_ThenReturnTheSecond() throws EvaluationNoRoomFoundException {
+        when(requestMock.getNumberOfSeatsNeeded()).thenReturn(REQUESTED_CAPACITY);
+        roomsList.add(anotherRoomMock);
+
+        when(roomMock.isReserved()).thenReturn(IS_ALREADY_RESERVED);
 
         Room result = assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
 
