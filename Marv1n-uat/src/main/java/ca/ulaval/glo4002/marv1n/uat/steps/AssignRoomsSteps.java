@@ -69,7 +69,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
 
     @Then("the request should be assigned to the first available room")
     public void thenTheRequestShouldBeAssignedToTheFirstAvailableRoom() {
-        assertEquals(state().firstRoom, state().request);
+        assertEquals(state().firstRoom, state().request.getReservedRoom());
     }
 
     public class AssignStepsState extends StepState {
