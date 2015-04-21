@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class NoSortingSortingRequestStrategyTest {
+public class SequentialSortingRequestStrategyTest {
 
     private static final int HIGH_PRIORITY = 1;
     private static final int MEDIUM_PRIORITY = 3;
@@ -23,14 +23,14 @@ public class NoSortingSortingRequestStrategyTest {
     private Request requestWithHighPriorityMock;
     @Mock
     private Request requestWithMediumPriorityMock;
-    private NoSortingSortingRequestStrategy requestSorter;
+    private SequentialSortingRequestStrategy requestSorter;
     private List<Request> requestList;
 
     @Before
     public void init() {
         when(requestWithHighPriorityMock.getPriority()).thenReturn(HIGH_PRIORITY);
         when(requestWithMediumPriorityMock.getPriority()).thenReturn(MEDIUM_PRIORITY);
-        requestSorter = new NoSortingSortingRequestStrategy();
+        requestSorter = new SequentialSortingRequestStrategy();
         requestList = new ArrayList<>();
     }
 

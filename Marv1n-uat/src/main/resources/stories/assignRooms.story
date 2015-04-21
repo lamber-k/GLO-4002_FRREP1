@@ -6,6 +6,6 @@ En tant qu'entreprise
 Je veux avoir un mécanisme d'assignation automatisé des salles
 
 Scenario: La demande est assignée à la première salle disponible
-Given a pending request
+Given an existing pending request
 When I treat pending requests to the first available room
 Then the request should be assigned to the first available room
