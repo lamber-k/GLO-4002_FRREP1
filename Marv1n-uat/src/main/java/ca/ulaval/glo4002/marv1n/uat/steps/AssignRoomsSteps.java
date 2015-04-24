@@ -73,13 +73,6 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
         assertEquals(state().firstRoom, state().request.getReservedRoom());
     }
 
-    @Given("an existing pending reservation")
-    public void givenAnExistingPendingReservation() {
-        when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
-        addAPendingRequest();
-        System.out.println("Assign Rooms Steps");
-    }
-
     private void addAPendingRequest() {
         state().request = new Request(5, 5, new Person());
         state().pendingRequests = new PendingRequests(2);

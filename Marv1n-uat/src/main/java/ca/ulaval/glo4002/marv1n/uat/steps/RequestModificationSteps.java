@@ -21,6 +21,7 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -66,8 +67,12 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
 
     @When("I cancel this reservation")
     public void whenICancelThisReservation() throws ObjectNotFoundException {
-        state().requestCancellation = new RequestCancellation(state().pendingRequests, state().requestRepositoryInMemory, state().notificationFactory);
-        state().requestCancellation.cancelRequestByUUID(state().request.getRequestID());
+        PendingRequests pendingRequests = state().pendingRequests;
+        RequestRepositoryInMemory requestRepositoryInMemory = state().requestRepositoryInMemory;
+        NotificationFactory notificationFactory = state().notificationFactory;
+        Request request = state().request;
+        state().requestCancellation = new RequestCancellation(pendingRequests, requestRepositoryInMemory, notificationFactory);
+        state().requestCancellation.cancelRequestByUUID(request.getRequestID());
     }
 
     @Then("the assigned reservation should have been cancelled")
