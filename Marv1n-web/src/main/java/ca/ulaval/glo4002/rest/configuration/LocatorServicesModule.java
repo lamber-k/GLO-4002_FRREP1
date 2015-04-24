@@ -10,7 +10,10 @@ import ca.ulaval.glo4002.locator.LocatorModule;
 import ca.ulaval.glo4002.mail.JavaxMailSender;
 import ca.ulaval.glo4002.mail.JavaxMailTransporter;
 import ca.ulaval.glo4002.mail.JavaxMailValidator;
-import ca.ulaval.glo4002.persistence.hibernate.*;
+import ca.ulaval.glo4002.persistence.hibernate.EntityManagerFactoryProvider;
+import ca.ulaval.glo4002.persistence.hibernate.EntityManagerProvider;
+import ca.ulaval.glo4002.persistence.hibernate.RequestRepositoryHibernate;
+import ca.ulaval.glo4002.persistence.hibernate.RoomRepositoryHibernate;
 
 import javax.persistence.EntityManagerFactory;
 import java.io.IOException;

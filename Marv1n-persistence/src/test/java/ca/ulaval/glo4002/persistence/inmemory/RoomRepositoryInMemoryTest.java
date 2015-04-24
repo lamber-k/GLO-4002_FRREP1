@@ -35,7 +35,7 @@ public class RoomRepositoryInMemoryTest {
     public void givenEmptyRepository_WhenFindAll_ThenReturnEmptyList() throws Exception {
         roomRepositoryInMemory.persist(roomMock);
         List<Room> results = roomRepositoryInMemory.findAll();
-        assertEquals(1,results.size());
+        assertEquals(1, results.size());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class RoomRepositoryInMemoryTest {
 
         List<Room> results = roomRepositoryInMemory.findAll();
 
-        assertEquals(1,results.size());
+        assertEquals(1, results.size());
         assertTrue(results.contains(roomMock));
     }
 
@@ -60,7 +60,7 @@ public class RoomRepositoryInMemoryTest {
         assertTrue(results.contains(secondRoomMock));
     }
 
-    @Test (expected = RoomNotFoundException.class)
+    @Test(expected = RoomNotFoundException.class)
     public void givenRepositoryNotContainingRoomAssociateWithSearchedRequestAssociation_WhenFindRoomByAssociatedRequest_ThenThrowRoomNotFoundException() throws RoomNotFoundException {
         roomRepositoryInMemory.persist(roomMock);
         roomRepositoryInMemory.findRoomByAssociatedRequest(mockRequest);
@@ -74,7 +74,7 @@ public class RoomRepositoryInMemoryTest {
 
         Room foundRoom = roomRepositoryInMemory.findRoomByAssociatedRequest(mockRequest);
 
-        assertEquals(secondRoomMock,foundRoom);
+        assertEquals(secondRoomMock, foundRoom);
     }
 
 }

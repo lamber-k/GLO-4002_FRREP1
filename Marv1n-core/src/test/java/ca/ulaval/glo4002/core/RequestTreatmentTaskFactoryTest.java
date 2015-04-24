@@ -40,20 +40,20 @@ public class RequestTreatmentTaskFactoryTest {
 
 
     @Before
-    public void init(){
+    public void init() {
         requestList = new ArrayList<>();
         when(pendingRequests.retrieveCurrentPendingRequest()).thenReturn(requestList);
         requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(strategyAssignation, strategySortRequest, roomRepository, pendingRequests, notificationFactory, requestRepository);
     }
 
     @Test
-    public void givenRequestTreatmentTaskFactory_WhenCreatingRequestTreatmentTask_ThenShouldCallRetrieveCurrentPendingRequestOfPendingRequests(){
+    public void givenRequestTreatmentTaskFactory_WhenCreatingRequestTreatmentTask_ThenShouldCallRetrieveCurrentPendingRequestOfPendingRequests() {
         requestTreatmentTaskFactory.createTask();
         verify(pendingRequests).retrieveCurrentPendingRequest();
     }
 
     @Test
-    public void givenRequestTreatmentTaskFactory_WhenCreatingRequestTreatmentTask_ThenShouldReturnRequestTreatmentTaskObject(){
+    public void givenRequestTreatmentTaskFactory_WhenCreatingRequestTreatmentTask_ThenShouldReturnRequestTreatmentTaskObject() {
         Task requestTreatmentTask = requestTreatmentTaskFactory.createTask();
         assertEquals(RequestTreatmentTask.class, requestTreatmentTask.getClass());
     }
