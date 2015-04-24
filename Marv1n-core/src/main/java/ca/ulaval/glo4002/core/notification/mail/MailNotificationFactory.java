@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.core.notification.mail;
 import ca.ulaval.glo4002.core.notification.InvalidNotificationException;
 import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.core.person.Person;
-import ca.ulaval.glo4002.core.person.PersonRepository;
 import ca.ulaval.glo4002.core.request.Request;
 
 import java.util.LinkedList;
@@ -13,11 +12,12 @@ import java.util.stream.Collectors;
 public class MailNotificationFactory implements NotificationFactory {
 
     private final MailSender mailSender;
-    private PersonRepository personRepository;
+    private final EmailValidator emailValidator;
+    private List<String> forwardedEmailAddress = new LinkedList<>();
 
-    public MailNotificationFactory(MailSender mailSender, PersonRepository personRepository) {
+    public MailNotificationFactory(MailSender mailSender, EmailValidator emailValidator) {
         this.mailSender = mailSender; //TODO ALL Test me properly
-        this.personRepository = personRepository;
+        this.emailValidator = emailValidator;
     }
 
     @Override
@@ -25,8 +25,8 @@ public class MailNotificationFactory implements NotificationFactory {
         List<String> mailTo = new LinkedList<>();
 
         //TODO ALL Test me properly
-        mailTo.addAll(personRepository.findAdmins().stream().map(Person::getMailAddress).collect(Collectors.toList()));
         mailTo.addAll(request.getParticipants().stream().map(Person::getMailAddress).collect(Collectors.toList()));
+        mailTo.addAll(forwardedEmailAddress);
         Mail mail = buildMail(request, mailTo);
         return new MailNotification(mailSender, mail);
     }
@@ -42,5 +42,12 @@ public class MailNotificationFactory implements NotificationFactory {
         } catch (MailBuilderException exception) {
             throw new InvalidNotificationException(exception);
         }
+    }
+
+    public void addForwardEmail(String emailAddress) throws InvalidMailAddressException {
+        if (!emailValidator.validateMailAddress(emailAddress)) {
+            throw new InvalidMailAddressException();
+        }
+        forwardedEmailAddress.add(emailAddress);
     }
 }
