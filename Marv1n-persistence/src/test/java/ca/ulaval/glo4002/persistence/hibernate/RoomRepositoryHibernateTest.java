@@ -36,6 +36,16 @@ public class RoomRepositoryHibernateTest {
         Assert.assertFalse(results.isEmpty());
     }
 
+    @Test
+    public void givenAnExistingRoom_WhenPersistSameRoom_ThenShouldUpdateIt() throws Exception {
+        roomRepositoryHibernate.persist(room);
+        roomRepositoryHibernate.persist(room);
+
+        List<Room> results = roomRepositoryHibernate.findAll();
+
+        Assert.assertEquals(room, results.get(0));
+    }
+
     @After
     public void clearRoomTable() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();

@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.persistence.hibernate;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
 import ca.ulaval.glo4002.core.request.RequestRepository;
-import ca.ulaval.glo4002.core.request.RequestStatus;
 
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
