@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.marv1n.uat.steps;
 
 import ca.ulaval.glo4002.core.PendingRequests;
-import ca.ulaval.glo4002.core.RequestCancellation;
 import ca.ulaval.glo4002.core.RequestTreatmentTaskFactory;
 import ca.ulaval.glo4002.core.TaskScheduler;
 import ca.ulaval.glo4002.core.notification.Notification;
@@ -11,35 +10,27 @@ import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
 import ca.ulaval.glo4002.core.request.evaluation.FirstInFirstOutEvaluationStrategy;
-import ca.ulaval.glo4002.core.request.sorting.SortingRequestByPriorityStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StatefulStep;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StepState;
 import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
 import ca.ulaval.glo4002.persistence.inmemory.RoomRepositoryInMemory;
-import org.jbehave.core.annotations.Given;
-
 import ca.ulaval.glo4002.core.request.sorting.SequentialSortingRequestStrategy;
-import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
-import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomRepository;
-import ca.ulaval.glo4002.marv1n.uat.fakes.RequestRepositoryInMemoryFake;
-import ca.ulaval.glo4002.marv1n.uat.fakes.RoomRepositoryInMemoryFake;
-import ca.ulaval.glo4002.marv1n.uat.steps.state.StatefulStep;
-import ca.ulaval.glo4002.marv1n.uat.steps.state.StepState;
+
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
 
 public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsState> {
 
@@ -61,8 +52,8 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
         when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
         state().firstRoom = new Room(ROOM_SEATS_NUMBER, A_ROOM);
         state().secondRoom = new Room(ANOTHER_ROOM_SEATS_NUMBER, ANOTHER_ROOM);
-        state().roomRepositoryInMemoryFake.persist(state().firstRoom);
-        state().roomRepositoryInMemoryFake.persist(state().secondRoom);
+        state().roomRepositoryInMemory.persist(state().firstRoom);
+        state().roomRepositoryInMemory.persist(state().secondRoom);
         state().request = new Request(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
         state().pendingRequests = new PendingRequests(MAXIMUM_PENDING_REQUESTS);
         state().pendingRequests.addRequest(state().request);
@@ -72,7 +63,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
     public void whenITreatPendingRequestsToTheFirstAvailableRoom() {
         state().sortingRequestStrategy = new SequentialSortingRequestStrategy();
         state().evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
-        state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemoryFake, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemoryFake);
+        state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemory, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemory);
         state().taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), INTERVAL_TIMER, TimeUnit.SECONDS, state().requestTreatmentTaskFactory);
         state().taskScheduler.run();
     }
@@ -80,25 +71,6 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
     @Then("the reservation should be assigned to the first available room")
     public void thenTheRequestShouldBeAssignedToTheFirstAvailableRoom() {
         assertEquals(state().firstRoom, state().request.getReservedRoom());
-    }
-
-    public class AssignStepsState extends StepState {
-        public Room firstRoom;
-        public Room secondRoom;
-        public Request request;
-        public PendingRequests pendingRequests;
-        public RequestTreatmentTaskFactory requestTreatmentTaskFactory;
-        public TaskScheduler taskScheduler;
-        public NotificationFactory notificationFactory = mock(NotificationFactory.class);
-        public RoomRepository roomRepositoryInMemoryFake = new RoomRepositoryInMemoryFake();
-        public RequestRepository requestRepositoryInMemoryFake = new RequestRepositoryInMemoryFake();
-        public SortingRequestStrategy sortingRequestStrategy;
-        public EvaluationStrategy evaluationStrategy;
-public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsStepsState> {
-
-    @Override
-    protected AssignRoomsStepsState getInitialState() {
-        return new AssignRoomsStepsState();
     }
 
     @Given("an existing pending reservation")
@@ -116,24 +88,23 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Given("some room")
     public void givenSomeRoom() {
-        state().room = new Room(5, "Une salle");
-        state().roomRepositoryInMemory.persist(state().room);
-        state().anotherRoom = new Room(10, "Une autre salle");
-        state().roomRepositoryInMemory.persist(state().anotherRoom);
+        state().firstRoom = new Room(5, "Une salle");
+        state().roomRepositoryInMemory.persist(state().firstRoom);
+        state().secondRoom = new Room(10, "Une autre salle");
+        state().roomRepositoryInMemory.persist(state().secondRoom);
     }
 
-    public class AssignRoomsStepsState extends StepState {
-        public Room room;
-        public Room anotherRoom;
+    public class AssignStepsState extends StepState {
+        public Room firstRoom;
+        public Room secondRoom;
         public Request request;
-        public RequestTreatmentTaskFactory requestTreatmentTaskFactory;
-        public EvaluationStrategy evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
-        public SortingRequestStrategy sortingRequestStrategy = new SortingRequestByPriorityStrategy();
-        public RoomRepositoryInMemory roomRepositoryInMemory = new RoomRepositoryInMemory();
-        public NotificationFactory notificationFactory = mock(NotificationFactory.class);
-        public RequestRepositoryInMemory requestRepositoryInMemory = new RequestRepositoryInMemory();
-        public RequestCancellation requestCancellation;
-        public TaskScheduler taskScheduler;
         public PendingRequests pendingRequests;
+        public RequestTreatmentTaskFactory requestTreatmentTaskFactory;
+        public TaskScheduler taskScheduler;
+        public NotificationFactory notificationFactory = mock(NotificationFactory.class);
+        public RoomRepository roomRepositoryInMemory = new RoomRepositoryInMemory();
+        public RequestRepository requestRepositoryInMemory = new RequestRepositoryInMemory();
+        public SortingRequestStrategy sortingRequestStrategy;
+        public EvaluationStrategy evaluationStrategy;
     }
 }
