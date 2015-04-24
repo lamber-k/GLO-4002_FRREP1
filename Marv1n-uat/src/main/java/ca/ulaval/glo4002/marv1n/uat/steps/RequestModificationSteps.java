@@ -21,7 +21,6 @@ import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
-import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
@@ -62,7 +61,6 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
     public void givenAnExistingPendingReservation() {
         when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
         addAPendingRequest();
-        System.out.println("Request Modification Steps");
     }
 
     @When("I cancel this reservation")

@@ -20,6 +20,7 @@ import ca.ulaval.glo4002.core.request.sorting.SequentialSortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.RoomRepository;
 
 import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Pending;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 
@@ -59,18 +60,76 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
         state().pendingRequests.addRequest(state().request);
     }
 
-    @When("I treat pending reservation to the first available room")
-    public void whenITreatPendingRequestsToTheFirstAvailableRoom() {
+    @Given("pending reservation assigned to the first available room")
+    public void GivenPendingReservationAssignedToTheFirstAvailableRoom() {
         state().sortingRequestStrategy = new SequentialSortingRequestStrategy();
         state().evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
+    }
+
+    @Given("a request treatment with a scheduler")
+    @Pending
+    public void givenARequestTreatmentWithAScheduler() {
+        // PENDING
+    }
+
+    @Given("multiple pending reservation")
+    @Pending
+    public void givenMultiplePendingReservation() {
+        // PENDING
+    }
+
+    @Given("pending reservation treated sequentially")
+    @Pending
+    public void givenPendingReservationTreatedSequentially() {
+        // PENDING
+    }
+
+    @Given("pending reservation with different capacity needed")
+    @Pending
+    public void givenPendingReservationWithDifferentCapacityNeeded() {
+        // PENDING
+    }
+
+    @Given("a maximize strategy")
+    @Pending
+    public void givenAMaximizeStrategy() {
+        // PENDING
+    }
+
+    @When("I treat pending reservation")
+    public void whenITreatPendingRequestsToTheFirstAvailableRoom() {
         state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemory, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemory);
         state().taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), INTERVAL_TIMER, TimeUnit.SECONDS, state().requestTreatmentTaskFactory);
         state().taskScheduler.run();
     }
 
+    @When("I start the scheduler to call the request treatment every 1 minutes")
+    @Pending
+    public void whenIStartTheSchedulerToCallTheRequestTreatmentEvery1Minutes() {
+        // PENDING
+    }
+
     @Then("the reservation should be assigned to the first available room")
     public void thenTheRequestShouldBeAssignedToTheFirstAvailableRoom() {
         assertEquals(state().firstRoom, state().request.getReservedRoom());
+    }
+
+    @Then("pending reservations are treat periodically")
+    @Pending
+    public void thenPendingReservationsAreTreatPeriodically() {
+        // PENDING
+    }
+
+    @Then("pending reservation are treat in order")
+    @Pending
+    public void thenPendingReservationsAreTreatInOrder() {
+        // PENDING
+    }
+
+    @Then("reservations should have been assigned in order to maximize capacity")
+    @Pending
+    public void thenReservationShouldHaveBeenAssignedInOrderToMaximizeCapacity() {
+        // PENDING
     }
 
     private void addAPendingRequest() {

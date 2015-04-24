@@ -7,21 +7,23 @@ Je veux avoir un mécanisme d'assignation automatisé des salles
 
 Scenario: La demande est assignée à la première salle disponible
 Given a new pending reservation
-When I treat pending reservation to the first available room
+And pending reservation assigned to the first available room
+When I treat pending reservation
 Then the reservation should be assigned to the first available room
 
-Scenario: Assigner périodiquement des salles aux demandes
+Scenario: Les demandes sont accumulées et traitées aux X minutes
+Given a request treatment with a scheduler
+When I start the scheduler to call the request treatment every 1 minutes
+Then pending reservations are treat periodically
 
-Scenario: Assignation en lot des salles aux demandes
+Scenario: Les demandes sont traitées séquenciellement
+Given multiple pending reservation
+And pending reservation treated sequentially
+When I treat pending reservation
+Then pending reservation are treat in order
 
-Scenario: Ordonner les demandes par priorité
-
-Scenario: Maximiser les places dans la salle
 Scenario: La salle disponible avec le moins de places, mais qui en a suffisamment pour la réunion, est assignée
-Given an new reservation
-And a maximize strategie
-And a first assigned room with lower capacity
-And a second unassigned room with medium capacity
-And a third unassigned room with higher capacity
-When I treat with the maximize seats evaluation strategy
-Then the unassigned room with minimum seats, but enough, should have been assigned
+Given pending reservation with different capacity needed
+And a maximize strategy
+When I treat pending reservation
+Then reservations should have been assigned in order to maximize capacity
