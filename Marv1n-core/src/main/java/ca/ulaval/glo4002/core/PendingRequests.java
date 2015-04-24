@@ -26,8 +26,8 @@ public class PendingRequests {
     }
 
     public List<Request> retrieveCurrentPendingRequest() {
-        List<Request> requestToGive = cloneCurrentPendingRequests();
-        pendingRequest.removeAll(requestToGive);
+        List<Request> requestToGive = pendingRequest;
+        pendingRequest = Collections.synchronizedList(new ArrayList<>());
         return requestToGive;
     }
 

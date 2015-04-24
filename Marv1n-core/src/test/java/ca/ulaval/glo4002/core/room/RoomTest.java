@@ -33,6 +33,23 @@ public class RoomTest {
         assertEquals(requestMock, room.getRequest());
     }
 
+    @Test
+    public void givenReservedRoom_WhenCheckIsReserved_ThenShouldReturnTrue() throws RoomAlreadyReservedException {
+        room.book(requestMock);
+        assertTrue(room.isReserved());
+    }
+
+    @Test
+    public void givenANewRoom_WhenCheckIsReserve_ThenShouldReturnFalse() {
+        assertFalse(room.isReserved());
+    }
+
+    @Test
+    public void givenANewRoomFromEmptyConstructor_WhenCheckIsReserve_ThenShouldReturnFalse() {
+        Room newRoom = new Room();
+        assertFalse(newRoom.isReserved());
+    }
+
 
     @Test(expected = RoomAlreadyReservedException.class)
     public void givenReservedRoom_WhenReservedAgain_ThenThrowRoomAlreadyReserved() throws RoomAlreadyReservedException {
@@ -133,6 +150,11 @@ public class RoomTest {
     @Test
     public void givenRoom_WhenComparedRoomWithSameCapacity_ThenShouldReturnTrue() {
         assertTrue(room.hasEnoughCapacity(A_NUMBER_OF_SEATS));
+    }
+
+    @Test
+    public void givenRoom_WhenComparedWithSelf_ThenShouldReturnTrue() {
+        assertTrue(room.equals(room));
     }
 
     @Test
