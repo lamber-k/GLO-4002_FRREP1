@@ -65,7 +65,7 @@ public class PendingRequests {
     }
 
     private List<Request> cloneCurrentPendingRequests() {
-        List<Request> clone  = new ArrayList<>();
+        List<Request> clone = new ArrayList<>();
         clone.addAll(pendingRequest);
         return clone;
     }

@@ -46,7 +46,7 @@ public class SequentialSortingRequestStrategyTest {
 
         requestSorter.sortList(requestList);
 
-        assertEquals(requestWithMediumPriorityMock,requestList.get(0));
+        assertEquals(requestWithMediumPriorityMock, requestList.get(0));
     }
 
     @Test
@@ -57,10 +57,9 @@ public class SequentialSortingRequestStrategyTest {
         requestSorter.sortList(requestList);
 
 
-        assertEquals(requestWithMediumPriorityMock,requestList.get(0));
-        assertEquals(requestWithHighPriorityMock,requestList.get(1));
+        assertEquals(requestWithMediumPriorityMock, requestList.get(0));
+        assertEquals(requestWithHighPriorityMock, requestList.get(1));
     }
-
 
 
 }

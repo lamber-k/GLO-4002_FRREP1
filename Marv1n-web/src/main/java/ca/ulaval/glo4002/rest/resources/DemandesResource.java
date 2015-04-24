@@ -8,7 +8,6 @@ import ca.ulaval.glo4002.models.RequestModel;
 import ca.ulaval.glo4002.models.RequestsInformationModel;
 import ca.ulaval.glo4002.services.RequestService;
 
-
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;

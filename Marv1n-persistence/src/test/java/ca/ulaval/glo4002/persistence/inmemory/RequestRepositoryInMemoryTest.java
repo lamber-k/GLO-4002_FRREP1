@@ -92,7 +92,7 @@ public class RequestRepositoryInMemoryTest {
         assertTrue(resultList.contains(anOtherAssociatedRequest));
     }
 
-    private void initRequestResponsible(){
+    private void initRequestResponsible() {
         when(responsible.getMailAddress()).thenReturn(RESPONSIBLE_EMAIL_ADDRESS);
         when(anOtherPerson.getMailAddress()).thenReturn(AN_EMAIL_ADDRESS);
     }

@@ -10,42 +10,43 @@ import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
 import ca.ulaval.glo4002.core.request.evaluation.FirstInFirstOutEvaluationStrategy;
+import ca.ulaval.glo4002.core.request.sorting.SequentialSortingRequestStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.Room;
+import ca.ulaval.glo4002.core.room.RoomRepository;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StatefulStep;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StepState;
 import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
 import ca.ulaval.glo4002.persistence.inmemory.RoomRepositoryInMemory;
-import ca.ulaval.glo4002.core.request.sorting.SequentialSortingRequestStrategy;
-import ca.ulaval.glo4002.core.room.RoomRepository;
-
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
 
 public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsState> {
 
     public static final String A_ROOM = "Une salle";
     public static final String ANOTHER_ROOM = "Une autre salle";
-    private static final int ANOTHER_ROOM_SEATS_NUMBER = 12;
     public static final int ROOM_SEATS_NUMBER = 10;
     public static final int REQUEST_NUMBER_OF_SEATS_NEEDED = 5;
     public static final int REQUEST_PRIORITY = 5;
     public static final int MAXIMUM_PENDING_REQUESTS = 2;
     public static final int INTERVAL_TIMER = 10;
     public static final Person REQUEST_RESPONSIBLE = new Person();
+    private static final int ANOTHER_ROOM_SEATS_NUMBER = 12;
 
     @Override
-    protected AssignStepsState getInitialState() { return new AssignStepsState(); }
+    protected AssignStepsState getInitialState() {
+        return new AssignStepsState();
+    }
 
     @Given("a new pending reservation")
     public void givenANewPendingReservation() {

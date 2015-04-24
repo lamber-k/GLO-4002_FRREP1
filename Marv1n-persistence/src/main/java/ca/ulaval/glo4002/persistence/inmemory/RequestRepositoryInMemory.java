@@ -24,7 +24,7 @@ public class RequestRepositoryInMemory extends RepositoryInMemory<Request> imple
     public List<Request> findByResponsibleMail(String email) throws RequestNotFoundException {
         List<Request> requestsFound = query().filter(r -> r.getResponsible().getMailAddress().equals(email)).collect(Collectors.toList());
         if (requestsFound.isEmpty()) {
-            throw  new RequestNotFoundException();
+            throw new RequestNotFoundException();
         }
         return requestsFound;
     }
