@@ -96,6 +96,30 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
         // PENDING
     }
 
+    @Given("multiple rooms with same capacity")
+    @Pending
+    public void givenMultipleRoomsWithSameCapacity() {
+        // PENDING
+    }
+
+    @Given("multiple pending reservation with same priority")
+    @Pending
+    public void givenMultiplePendingReservationWithSamePriority() {
+        // PENDING
+    }
+
+    @Given("pending reservation treated by priority")
+    @Pending
+    public void givenPendingReservationTreatedByPriority() {
+        // PENDING
+    }
+
+    @Given("multiple pending reservation with different priority")
+    @Pending
+    public void givenMultiplePendingReservationWithDifferentPriority() {
+        // PENDING
+    }
+
     @When("I treat pending reservation")
     public void whenITreatPendingRequestsToTheFirstAvailableRoom() {
         state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemory, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemory);
@@ -103,9 +127,15 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
         state().taskScheduler.run();
     }
 
-    @When("I start the scheduler to call the request treatment every 1 minutes")
+    @When("I start the scheduler to call the request treatment every $period minutes")
     @Pending
-    public void whenIStartTheSchedulerToCallTheRequestTreatmentEvery1Minutes() {
+    public void whenIStartTheSchedulerToCallTheRequestTreatmentEvery1Minutes(int period) {
+        // PENDING
+    }
+
+    @When("the limit of pending reservation is reached")
+    @Pending
+    public void whenTheLimitOfPendingReservationIsReached() {
         // PENDING
     }
 
@@ -114,21 +144,45 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
         assertEquals(state().firstRoom, state().request.getReservedRoom());
     }
 
-    @Then("pending reservations are treat periodically")
+    @Then("pending reservations are being treated periodically")
     @Pending
-    public void thenPendingReservationsAreTreatPeriodically() {
+    public void thenPendingReservationsAreBeingTreatedPeriodically() {
         // PENDING
     }
 
-    @Then("pending reservation are treat in order")
+    @Then("pending reservation are being treated in order")
     @Pending
-    public void thenPendingReservationsAreTreatInOrder() {
+    public void thenPendingReservationsAreBeingTreatedInOrder() {
         // PENDING
     }
 
     @Then("reservations should have been assigned in order to maximize capacity")
     @Pending
     public void thenReservationShouldHaveBeenAssignedInOrderToMaximizeCapacity() {
+        // PENDING
+    }
+
+    @Then("the pending reservation are being immediately treated")
+    @Pending
+    public void thenThePendingReservationAreBeingImmediatelyTreated() {
+        // PENDING
+    }
+
+    @Then("the scheduler restart the timer")
+    @Pending
+    public void thenTheSchedulerRestartTheTimer() {
+        // PENDING
+    }
+
+    @Then("pending reservation are being treated in order of priority")
+    @Pending
+    public void thenPendingReservationAreBeingTreatedInOrderOfPriority() {
+        // PENDING
+    }
+
+    @Then("reservation should have been assigned to one of the room")
+    @Pending
+    public void thenReservationShouldHaveBeenAssignedToOneOfTheRoom() {
         // PENDING
     }
 
