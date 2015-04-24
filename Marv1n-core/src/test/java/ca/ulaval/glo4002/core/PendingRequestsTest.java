@@ -73,17 +73,16 @@ public class PendingRequestsTest {
     }
 
     @Test
-    public void givenPendingRequest_WhenAddingRequest_ThenAmountOfRequestInPendingShouldIncreaseAndCallSchedulerRunNowAtMaximumPendingRequestHitting() {
+    public void givenPendingRequest_WhenAddingRequestAnNotReachingMaximumPendingRequests_ThenAmountOfRequestInPendingShouldAsIncreased() {
         pendingRequests.setMaximumPendingRequests(A_MAXIMUM_TWO_PENDING_REQUEST);
+        int sizeBefore = pendingRequests.getCurrentPendingRequest().size();
 
         pendingRequests.addRequest(requestMock);
+        int sizeAfter = pendingRequests.getCurrentPendingRequest().size();
 
-        verify(schedulerMock, never()).runNow();
-        pendingRequests.addRequest(requestMock);
-        verify(schedulerMock).runNow();
-
-        //TODO FIXME any better idea to test adding request??
+        assertEquals(sizeBefore + 1, sizeAfter);
     }
+
 
     @Test
     public void givenPendingRequest_WhenCancellingTheExistingPendingRequest_ThenPendingListShouldBeEmpty() throws ObjectNotFoundException {
@@ -122,20 +121,20 @@ public class PendingRequestsTest {
     public void givenRequest_WhenRetrieveCurrentPendingRequest_TheShouldReturnTheRequest() {
         pendingRequests.addRequest(requestMock);
 
-        List<Request> retreive = pendingRequests.retrieveCurrentPendingRequest();
+        List<Request> retrieve = pendingRequests.retrieveCurrentPendingRequest();
 
-        assertEquals(1, retreive.size());
-        assertEquals(requestMock, retreive.get(0));
+        assertEquals(1, retrieve.size());
+        assertEquals(requestMock, retrieve.get(0));
     }
 
     @Test
     public void givenRequest_WhenRetrieveTwice_ShouldReturnEmptyList() {
         pendingRequests.addRequest(requestMock);
 
+        pendingRequests.retrieveCurrentPendingRequest();
         List<Request> retrieve = pendingRequests.retrieveCurrentPendingRequest();
-        retrieve = pendingRequests.retrieveCurrentPendingRequest();
 
-        assertEquals(0, retrieve.size());
+        assertTrue(retrieve.isEmpty());
     }
 
     @Test
@@ -168,18 +167,6 @@ public class PendingRequestsTest {
     }
 
     private boolean isEmptyPendingRequest(PendingRequests pendingRequests) {
-
-        try {
-            for (int i = 1; i < pendingRequests.getMaximumPendingRequests(); i++) {
-                pendingRequests.addRequest(requestMock);
-            }
-            verify(schedulerMock, never()).runNow();
-
-            pendingRequests.addRequest(requestMock);
-            verify(schedulerMock).runNow();
-        } catch (Exception exception) {
-            return false;
-        }
-        return true;
+        return pendingRequests.getCurrentPendingRequest().isEmpty();
     }
 }

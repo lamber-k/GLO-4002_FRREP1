@@ -28,7 +28,6 @@ public class Request {
     private String reason;
 
     public Request(int numberOfSeatsNeeded, int priority, Person person, List<Person> participant) {
-        //TODO ALL Test me properly
         this.priority = priority;
         this.requestID = UUID.randomUUID();
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
@@ -39,7 +38,6 @@ public class Request {
     }
 
     public Request(int numberOfSeatsNeeded, int priority, Person person) {
-        //TODO ALL Test me properly
         this.priority = priority;
         this.requestID = UUID.randomUUID();
         this.numberOfSeatsNeeded = numberOfSeatsNeeded;
@@ -72,7 +70,6 @@ public class Request {
 
     @Override
     public boolean equals(Object rhs) {
-        //TODO ALL Test me properly
         return rhs != null && rhs instanceof Request && hashCode() == rhs.hashCode();
     }
 
@@ -85,7 +82,9 @@ public class Request {
         return requestID;
     }
 
-    public long getCreationDate() {return creationDate; }
+    public long getCreationDate() {
+        return creationDate;
+    }
 
     public Person getResponsible() {
         return responsible;
@@ -95,7 +94,9 @@ public class Request {
         return participants;
     }
 
-    public Room getReservedRoom() {return reservedRoom; }
+    public Room getReservedRoom() {
+        return reservedRoom;
+    }
 
     private void accept() {
         status = RequestStatus.ACCEPTED;
@@ -113,7 +114,7 @@ public class Request {
     public void cancel() {
         if (reservedRoom != null) {
             reservedRoom.unbook();
-            reservedRoom = null;  //TODO ALL Test me properly
+            reservedRoom = null;
         }
         status = RequestStatus.CANCELED;
     }

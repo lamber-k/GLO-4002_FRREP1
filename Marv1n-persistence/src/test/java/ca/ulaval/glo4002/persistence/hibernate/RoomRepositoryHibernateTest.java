@@ -1,11 +1,13 @@
 package ca.ulaval.glo4002.persistence.hibernate;
 
+import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.room.Room;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.persistence.EntityManager;
@@ -20,6 +22,8 @@ public class RoomRepositoryHibernateTest {
     private RoomRepositoryHibernate roomRepositoryHibernate;
     private EntityManagerFactory entityManagerFactory;
     private Room room;
+    @Mock
+    private Request request;
 
     @Before
     public void loadEntityManager() {
