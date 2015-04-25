@@ -16,7 +16,7 @@ public class MailNotificationFactory implements NotificationFactory {
     private List<String> forwardedEmailAddress = new LinkedList<>();
 
     public MailNotificationFactory(MailSender mailSender, EmailValidator emailValidator) {
-        this.mailSender = mailSender; //TODO ALL Test me properly
+        this.mailSender = mailSender;
         this.emailValidator = emailValidator;
     }
 
@@ -24,7 +24,6 @@ public class MailNotificationFactory implements NotificationFactory {
     public MailNotification createNotification(Request request) {
         List<String> mailTo = new LinkedList<>();
 
-        //TODO ALL Test me properly
         mailTo.addAll(request.getParticipants().stream().map(Person::getMailAddress).collect(Collectors.toList()));
         mailTo.addAll(forwardedEmailAddress);
         Mail mail = buildMail(request, mailTo);
@@ -35,7 +34,7 @@ public class MailNotificationFactory implements NotificationFactory {
         MailBuilder mailBuilder = new MailBuilder();
         try {
             return mailBuilder.setTo(mailTo)
-                    .setReason(info.getReason()) //TODO ALL Test me properly info.getReason()
+                    .setReason(info.getReason())
                     .setStatus(info.getRequestStatus())
                     .setIdentifier(info.getRequestID())
                     .buildMail();
