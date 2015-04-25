@@ -22,31 +22,15 @@ public class RequestModel {
         return nombrePersonne;
     }
 
-    public void setNombrePersonne(int nombrePersonne) {
-        this.nombrePersonne = nombrePersonne;
-    }
-
     public String getCourrielOrganisateur() {
         return courrielOrganisateur;
-    }
-
-    public void setCourrielOrganisateur(String courrielOrganisateur) {
-        this.courrielOrganisateur = courrielOrganisateur;
     }
 
     public int getPriorite() {
         return priorite;
     }
 
-    public void setPriorite(int priorite) {
-        this.priorite = priorite;
-    }
-
     public List<String> getParticipantsCourriels() {
         return participantsCourriels;
-    }
-
-    public void setParticipantsCourriels(List<String> participantsCourriels) {
-        this.participantsCourriels = participantsCourriels;
     }
 }

@@ -5,10 +5,10 @@ import ca.ulaval.glo4002.core.request.RequestStatus;
 
 public class RequestInformationModel {
 
-    public int nombrePersonne;
-    public String courrielOrginsateur;
-    public RequestStatus statutDemande;
-    public String salleAssigne;
+    private int nombrePersonne;
+    private String courrielOrginsateur;
+    private RequestStatus statutDemande;
+    private String salleAssigne;
 
     public RequestInformationModel(int nombrePersonne, String courrielOrginsateur, RequestStatus statutDemande, String salleAssigne) {
         this.nombrePersonne = nombrePersonne;
@@ -22,5 +22,21 @@ public class RequestInformationModel {
         this.courrielOrginsateur = request.getResponsible().getMailAddress();
         this.statutDemande = request.getRequestStatus();
         this.salleAssigne = request.getReservedRoom().getName();
+    }
+
+    public int getNombrePersonne() {
+        return nombrePersonne;
+    }
+
+    public String getCourrielOrginsateur() {
+        return courrielOrginsateur;
+    }
+
+    public RequestStatus getStatutDemande() {
+        return statutDemande;
+    }
+
+    public String getSalleAssigne() {
+        return salleAssigne;
     }
 }
