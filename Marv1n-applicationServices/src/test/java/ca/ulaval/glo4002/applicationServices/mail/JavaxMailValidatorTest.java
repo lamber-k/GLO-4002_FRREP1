@@ -1,6 +1,5 @@
 package ca.ulaval.glo4002.applicationServices.mail;
 
-import ca.ulaval.glo4002.mail.JavaxMailValidator;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.locator;
+package ca.ulaval.glo4002.applicationServices.locator;
 
 public class UnregisteredServiceException extends RuntimeException {
 

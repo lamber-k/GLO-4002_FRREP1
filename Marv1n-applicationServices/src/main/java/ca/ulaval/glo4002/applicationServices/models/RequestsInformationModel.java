@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.models;
+package ca.ulaval.glo4002.applicationServices.models;
 
 import java.util.List;
 

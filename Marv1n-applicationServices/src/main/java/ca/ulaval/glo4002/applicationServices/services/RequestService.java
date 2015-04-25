@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.services;
+package ca.ulaval.glo4002.applicationServices.services;
 
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
 import ca.ulaval.glo4002.core.PendingRequests;
@@ -12,11 +12,11 @@ import ca.ulaval.glo4002.core.request.RequestStatus;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomNotFoundException;
 import ca.ulaval.glo4002.core.room.RoomRepository;
-import ca.ulaval.glo4002.locator.LocatorService;
-import ca.ulaval.glo4002.models.RequestInformationModel;
-import ca.ulaval.glo4002.models.RequestModel;
-import ca.ulaval.glo4002.models.RequestNotAcceptedInformationModel;
-import ca.ulaval.glo4002.models.RequestsInformationModel;
+import ca.ulaval.glo4002.applicationServices.locator.LocatorService;
+import ca.ulaval.glo4002.applicationServices.models.RequestInformationModel;
+import ca.ulaval.glo4002.applicationServices.models.RequestModel;
+import ca.ulaval.glo4002.applicationServices.models.RequestNotAcceptedInformationModel;
+import ca.ulaval.glo4002.applicationServices.models.RequestsInformationModel;
 
 import java.util.ArrayList;
 import java.util.List;

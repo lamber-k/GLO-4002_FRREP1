@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.rest.configuration;
 
-import ca.ulaval.glo4002.locator.LocatorService;
+import ca.ulaval.glo4002.applicationServices.locator.LocatorService;
 import ca.ulaval.glo4002.persistence.hibernate.EntityManagerProvider;
 
 import javax.persistence.EntityManager;

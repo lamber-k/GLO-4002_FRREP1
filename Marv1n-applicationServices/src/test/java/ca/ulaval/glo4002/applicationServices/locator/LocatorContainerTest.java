@@ -1,13 +1,11 @@
 package ca.ulaval.glo4002.applicationServices.locator;
 
-import ca.ulaval.glo4002.locator.LocatorContainer;
-import ca.ulaval.glo4002.locator.MultipleRegistrationException;
-import ca.ulaval.glo4002.locator.UnregisteredServiceException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class LocatorContainerTest {
 
@@ -22,12 +20,12 @@ public class LocatorContainerTest {
     }
 
     @Test(expected = UnregisteredServiceException.class)
-    public void GivenNewInstance_WhenResolve_ThenShouldThrowException() {
+    public void givenNewInstance_WhenResolve_ThenShouldThrowException() {
         locatorContainer.resolve(ImplementationTestSampleService.class);
     }
 
     @Test
-    public void GivenInstanceWithRegisteredService_WhenResolve_ThenShouldReturnInstanceRegistered() {
+    public void givenInstanceWithRegisteredService_WhenResolve_ThenShouldReturnInstanceRegistered() {
         locatorContainer.register(TestSampleService.class, implementationTestSampleService);
 
         TestSampleService service = locatorContainer.resolve(TestSampleService.class);
@@ -36,14 +34,32 @@ public class LocatorContainerTest {
     }
 
     @Test(expected = MultipleRegistrationException.class)
-    public void GivenInstanceWithAlreadyRegisteredService_WhenRegisterTheSameService_ThenShouldThrowException() {
+    public void givenInstanceWithAlreadyRegisteredService_WhenRegisterTheSameService_ThenShouldThrowException() {
         locatorContainer.register(TestSampleService.class, implementationTestSampleService);
 
         locatorContainer.register(TestSampleService.class, implementationTestSampleService);
     }
 
     @Test
-    public void GiveTwoInstanceWithRegisteredServices_WhenMergeAnInstanceWithTheOther_ThenTheInstanceMergedShouldHaveRegisteredObjectOfSecondInstance() {
+    public void givenInstanceWithAlreadyRegisteredService_WhenClear_ThenRegistredServicesShouldBeRemoved() {
+        locatorContainer.register(TestSampleService.class, implementationTestSampleService);
+
+        locatorContainer.clear();
+
+        assertTrue(LocatorContainerDosentContainTestSampleService());
+    }
+
+    private boolean LocatorContainerDosentContainTestSampleService() {
+        try {
+            locatorContainer.resolve(TestSampleService.class);
+        } catch (UnregisteredServiceException e) {
+            return true;
+        }
+        return false;
+    }
+
+    @Test
+    public void givenTwoInstanceWithRegisteredServices_WhenMergeAnInstanceWithTheOther_ThenTheInstanceMergedShouldHaveRegisteredObjectOfSecondInstance() {
         locatorContainer.register(TestSampleService.class, implementationTestSampleService);
         LocatorContainer otherContainer = new LocatorContainer();
         AnOtherObjectForRegistering = new ImplementationOtherTestSampleService();

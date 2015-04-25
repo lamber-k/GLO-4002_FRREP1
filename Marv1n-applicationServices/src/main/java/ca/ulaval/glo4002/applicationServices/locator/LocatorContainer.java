@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.locator;
+package ca.ulaval.glo4002.applicationServices.locator;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,5 +26,9 @@ public class LocatorContainer {
 
     public void merge(LocatorContainer otherContainer) {
         this.serviceInstance.putAll(otherContainer.serviceInstance);
+    }
+
+    public void clear() {
+        serviceInstance.clear();
     }
 }

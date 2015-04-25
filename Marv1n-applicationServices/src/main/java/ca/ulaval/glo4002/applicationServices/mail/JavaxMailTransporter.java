@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.mail;
+package ca.ulaval.glo4002.applicationServices.mail;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
