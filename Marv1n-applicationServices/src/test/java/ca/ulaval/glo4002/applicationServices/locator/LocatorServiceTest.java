@@ -31,14 +31,14 @@ public class LocatorServiceTest {
     }
 
     @Test
-    public void givenALocatorService_WhenRegisteringANewService_ThenShoulBeAbbleToRetriveServiseWithResolve() {
+    public void givenALocatorService_WhenRegisteringANewService_ThenShouldBeAbleToRetrieveServiceWithResolve() {
         locatorService.register(AService.class, service);
 
         assertEquals(service, locatorService.resolve(AService.class));
     }
 
     @Test
-    public void givenALocatorService_WhenRegisteringASecondService_ThenShoulBeAbbleToRetriveAnyServiseWithResolve() {
+    public void givenALocatorService_WhenRegisteringASecondService_ThenShouldBeAbleToRetrieveAnyServiceWithResolve() {
         locatorService.register(AService.class, service);
         locatorService.register(ASecondService.class, service2);
 
@@ -52,10 +52,10 @@ public class LocatorServiceTest {
 
         locatorService.unregisterAll();
 
-        assertTrue(locatorServiceDosentContainAServiceService());
+        assertTrue(locatorServiceDoesNotContainAServiceService());
     }
 
-    public boolean locatorServiceDosentContainAServiceService() {
+    public boolean locatorServiceDoesNotContainAServiceService() {
         try {
             locatorService.resolve(AService.class);
         } catch (UnregisteredServiceException e) {

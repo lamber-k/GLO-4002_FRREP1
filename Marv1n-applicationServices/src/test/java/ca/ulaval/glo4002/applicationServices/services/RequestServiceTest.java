@@ -151,7 +151,7 @@ public class RequestServiceTest {
 
     @Test
     public void givenRequestService_WhenCallGetRequestByEmailAndRequestFoundInPendingRequest_ThenRequestsInformationModelShouldContainRequest() throws RequestNotFoundException, ObjectNotFoundException {
-        initBeaviorOfUsedObjectInGetter();
+        initBehaviorOfUsedObjectInGetter();
         doThrow(RequestNotFoundException.class).when(requestRepository).findByResponsibleMail(any(String.class));
         requestList.add(request);
         when(pendingRequests.getCurrentPendingRequest()).thenReturn(requestList);
@@ -166,7 +166,7 @@ public class RequestServiceTest {
 
     @Test
     public void givenRequestService_WhenCallGetRequestByEmailAndMultipleRequestFoundInPendingRequest_ThenRequestsInformationModelShouldContainRequestsInOrderOfArrival() throws RequestNotFoundException, ObjectNotFoundException {
-        initBeaviorOfUsedObjectInGetter();
+        initBehaviorOfUsedObjectInGetter();
         doThrow(RequestNotFoundException.class).when(requestRepository).findByResponsibleMail(any(String.class));
         requestList.add(request);
         requestList.add(secondRequest);
@@ -184,7 +184,7 @@ public class RequestServiceTest {
 
     @Test
     public void givenRequestService_WhenCallGetRequestByEmailAndRequestFoundInRequestRepository_ThenRequestsInformationModelShouldContainRequest() throws RequestNotFoundException, ObjectNotFoundException {
-        initBeaviorOfUsedObjectInGetter();
+        initBehaviorOfUsedObjectInGetter();
         requestList.add(request);
         when(requestRepository.findByResponsibleMail(VALID_EMAIL)).thenReturn(requestList);
         when(pendingRequests.getCurrentPendingRequest()).thenReturn(new ArrayList<>());
@@ -199,7 +199,7 @@ public class RequestServiceTest {
 
     @Test
     public void givenRequestService_WhenCallGetRequestByEmailAndMultipleRequestFoundInRequestRepository_ThenRequestsInformationModelShouldContainRequestsInOrderOfArrival() throws RequestNotFoundException, ObjectNotFoundException {
-        initBeaviorOfUsedObjectInGetter();
+        initBehaviorOfUsedObjectInGetter();
         requestList.add(request);
         requestList.add(secondRequest);
         when(requestRepository.findByResponsibleMail(VALID_EMAIL)).thenReturn(requestList);
@@ -217,7 +217,7 @@ public class RequestServiceTest {
 
     @Test
     public void givenRequestService_WhenCallGetRequestByEmailAndRequestFoundInRequestRepositoryAndPendingRequest_ThenRequestInformationModelShouldContainRequestInOrderOfArrival() throws RequestNotFoundException, ObjectNotFoundException {
-        initBeaviorOfUsedObjectInGetter();
+        initBehaviorOfUsedObjectInGetter();
         requestList.add(request);
         when(requestRepository.findByResponsibleMail(VALID_EMAIL)).thenReturn(requestList);
         List<Request> pendingList = new ArrayList<>();
@@ -235,7 +235,7 @@ public class RequestServiceTest {
 
     @Test
     public void givenRequestService_WhenCallGetRequestByEmailAndMultipleAcceptedRequestFoundInRequestRepository_ThenRequestInformationModelShouldContainRequestInOrderOfArrival() throws RequestNotFoundException, ObjectNotFoundException {
-        initBeaviorOfUsedObjectInGetter();
+        initBehaviorOfUsedObjectInGetter();
         requestList.add(request);
         requestList.add(secondRequest);
         when(requestRepository.findByResponsibleMail(VALID_EMAIL)).thenReturn(requestList);
@@ -271,7 +271,7 @@ public class RequestServiceTest {
     @Test
     public void givenRequestService_WhenCallGetRequestByEmailAndUUIDAndMatchFoundInPendingRequest_ThenShouldReturnMatchingRequestInformationModel() throws RequestNotFoundException, ObjectNotFoundException {
         requestList.add(request);
-        initBeaviorOfUsedObjectInGetter();
+        initBehaviorOfUsedObjectInGetter();
         when(pendingRequests.getCurrentPendingRequest()).thenReturn(requestList);
         doThrow(RequestNotFoundException.class).when(requestRepository).findByUUID(AN_ID);
 
@@ -282,7 +282,7 @@ public class RequestServiceTest {
 
     @Test
     public void givenRequestService_WWhenCallGetRequestByEmailAndUUIDAndMatchFoundInRepositoryButNotMatchingEmail_ThenShouldReturnMatchingRequestInformationModel() throws RequestNotFoundException, ObjectNotFoundException, RoomNotFoundException {
-        initBeaviorOfUsedObjectInGetter();
+        initBehaviorOfUsedObjectInGetter();
         when(requestRepository.findByUUID(any(UUID.class))).thenReturn(request);
         when(roomRepository.findRoomByAssociatedRequest(request)).thenReturn(room);
 
@@ -291,7 +291,7 @@ public class RequestServiceTest {
         assertTrue(isRequestMatchingRequestInformationModel(request, requestInformationModel));
     }
 
-    private void initBeaviorOfUsedObjectInGetter() {
+    private void initBehaviorOfUsedObjectInGetter() {
         when(request.getRequestID()).thenReturn(AN_ID);
         when(request.getResponsible()).thenReturn(person);
         when(request.getReservedRoom()).thenReturn(room);
