@@ -219,7 +219,7 @@ public class RequestServiceTest {
     public void givenRequestService_WhenCallGetRequestByEmailAndRequestFoundInRequestRepositoryAndPendingRequest_ThenRequestInformationModelShouldContainRequestInOrderOfArrival() throws RequestNotFoundException, ObjectNotFoundException {
         initBehaviorOfUsedObjectInGetter();
         requestList.add(request);
-        when(requestRepository.findByResponsibleMail(VALID_EMAIL)).thenReturn(requestList);
+        doReturn(requestList).when(requestRepository).findByResponsibleMail(VALID_EMAIL);
         List<Request> pendingList = new ArrayList<>();
         pendingList.add(secondRequest);
         when(pendingRequests.getCurrentPendingRequest()).thenReturn(pendingList);
@@ -238,7 +238,7 @@ public class RequestServiceTest {
         initBehaviorOfUsedObjectInGetter();
         requestList.add(request);
         requestList.add(secondRequest);
-        when(requestRepository.findByResponsibleMail(VALID_EMAIL)).thenReturn(requestList);
+        doReturn(requestList).when(requestRepository).findByResponsibleMail(VALID_EMAIL);
         when(pendingRequests.getCurrentPendingRequest()).thenReturn(new ArrayList<>());
         when(request.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
         when(secondRequest.getRequestStatus()).thenReturn(RequestStatus.ACCEPTED);
