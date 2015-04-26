@@ -1,5 +1,9 @@
 package ca.ulaval.glo4002.applicationServices.services;
 
+import ca.ulaval.glo4002.applicationServices.locator.LocatorService;
+import ca.ulaval.glo4002.applicationServices.models.RequestInformationModel;
+import ca.ulaval.glo4002.applicationServices.models.RequestModel;
+import ca.ulaval.glo4002.applicationServices.models.RequestsInformationModel;
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
 import ca.ulaval.glo4002.core.PendingRequests;
 import ca.ulaval.glo4002.core.notification.mail.EmailValidator;
@@ -12,14 +16,10 @@ import ca.ulaval.glo4002.core.request.RequestStatus;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomNotFoundException;
 import ca.ulaval.glo4002.core.room.RoomRepository;
-import ca.ulaval.glo4002.applicationServices.locator.LocatorService;
-import ca.ulaval.glo4002.applicationServices.models.RequestInformationModel;
-import ca.ulaval.glo4002.applicationServices.models.RequestModel;
-import ca.ulaval.glo4002.applicationServices.models.RequestNotAcceptedInformationModel;
-import ca.ulaval.glo4002.applicationServices.models.RequestsInformationModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,10 +31,6 @@ public class RequestService {
     private RoomRepository roomRepository;
     private PendingRequests pendingRequests;
     private EmailValidator emailValidator;
-
-    public RequestService(RequestRepository requestRepository) {
-        this.requestRepository = requestRepository;
-    }
 
     public RequestService() {
         this.requestRepository = LocatorService.getInstance().resolve(RequestRepository.class);
@@ -63,13 +59,23 @@ public class RequestService {
         Request currentRequest;
         try {
             currentRequest = requestRepository.findByUUID(id);
+        }catch (RequestNotFoundException exception) {
+            Optional<Request> foundRequest = getPendingRequestByID(id);
+            if(foundRequest.isPresent()){
+                currentRequest = foundRequest.get();
+                Person responsible = currentRequest.getResponsible();
+                if (email.equals(responsible.getMailAddress())) {
+                    return new RequestInformationModel(currentRequest);
+                }
+            }
+            throw new ObjectNotFoundException(String.format(ERROR_REQUEST_BY_EMAIL_AND_ID, id.toString(), email), exception);
+        }
+        try{
             Person responsible = currentRequest.getResponsible();
             Room currentRoom = roomRepository.findRoomByAssociatedRequest(currentRequest);
-            if (responsible.getMailAddress().equals(email)) {
+            if (email.equals(responsible.getMailAddress())) {
                 return new RequestInformationModel(currentRequest.getNumberOfSeatsNeeded(), responsible.getMailAddress(), currentRequest.getRequestStatus(), currentRoom.getName());
             }
-        } catch (RequestNotFoundException exception) {
-            throw new ObjectNotFoundException(String.format(ERROR_REQUEST_BY_EMAIL_AND_ID, id.toString(), email), exception);
         } catch (RoomNotFoundException exception) {
             throw new ObjectNotFoundException(String.format(ERROR_REQUEST_BY_EMAIL_AND_ID, id.toString(), email), exception);
         }
@@ -79,7 +85,7 @@ public class RequestService {
     public RequestsInformationModel getRequestByEmail(String email) throws ObjectNotFoundException {
         List<Request> requests = new ArrayList<>();
         List<RequestInformationModel> accepted = new ArrayList<>();
-        List<RequestNotAcceptedInformationModel> others = new ArrayList<>();
+        List<RequestInformationModel> others = new ArrayList<>();
 
         try {
             requests.addAll(requestRepository.findByResponsibleMail(email));
@@ -96,7 +102,7 @@ public class RequestService {
                     if (r.getRequestStatus().equals(RequestStatus.ACCEPTED)) {
                         accepted.add(new RequestInformationModel(r));
                     } else {
-                        others.add(new RequestNotAcceptedInformationModel(r));
+                        others.add(new RequestInformationModel(r));
                     }
                 });
         return new RequestsInformationModel(accepted, others);
@@ -105,5 +111,9 @@ public class RequestService {
     private List<Request> getPendingRequestByResponsibleMail(String mail) {
         List<Request> requests = pendingRequests.getCurrentPendingRequest().stream().filter(r -> r.getResponsible().getMailAddress().equals(mail)).collect(Collectors.toList());
         return requests;
+    }
+
+    private Optional<Request> getPendingRequestByID(UUID id) {
+        return pendingRequests.getCurrentPendingRequest().stream().filter(r -> r.getRequestID().equals(id)).findAny();
     }
 }
