@@ -12,11 +12,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import java.util.Arrays;
-import java.util.List;
 import java.util.UUID;
-
-import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RequestRepositoryHibernateTest {

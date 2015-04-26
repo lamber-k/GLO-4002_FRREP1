@@ -12,9 +12,7 @@ import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.Room;
 import ca.ulaval.glo4002.core.room.RoomRepository;
 import ca.ulaval.glo4002.locator.LocatorService;
-import ca.ulaval.glo4002.persistence.hibernate.EntityManagerProvider;
 
-import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Executors;

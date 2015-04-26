@@ -3,7 +3,6 @@ package ca.ulaval.glo4002.persistence.inmemory;
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestNotFoundException;
-import ca.ulaval.glo4002.core.request.RequestStatus;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +10,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-
-import java.util.List;
 import java.util.UUID;
 
 @RunWith(MockitoJUnitRunner.class)
