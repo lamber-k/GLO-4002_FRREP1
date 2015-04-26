@@ -82,7 +82,6 @@ public class EvaluationMaximizeSeatsStrategyTest {
         when(roomMock.isReserved()).thenReturn(IS_ALREADY_RESERVED);
 
         Room result = assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
-
         assertEquals(anotherRoomMock, result);
     }
 
@@ -100,5 +99,4 @@ public class EvaluationMaximizeSeatsStrategyTest {
 
         assignerStrategy.evaluateOneRequest(roomRepositoryMock, requestMock);
     }
-
 }

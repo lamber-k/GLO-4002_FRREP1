@@ -83,7 +83,7 @@ public class RequestService {
 
         try {
             requests.addAll(requestRepository.findByResponsibleMail(email));
-        } catch (RequestNotFoundException e) {}
+        } catch (RequestNotFoundException exception) {}
         requests.addAll(getPendingRequestByResponsibleMail(email));
         if (requests.isEmpty()) {
             throw new ObjectNotFoundException();

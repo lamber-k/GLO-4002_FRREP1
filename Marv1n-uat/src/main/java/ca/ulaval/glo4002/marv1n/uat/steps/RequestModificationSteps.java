@@ -61,7 +61,6 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
     public void givenAnExistingPendingReservation() {
         when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
         addAPendingRequest();
-        System.out.println("Request Modification Steps");
     }
 
     @When("I cancel this reservation")

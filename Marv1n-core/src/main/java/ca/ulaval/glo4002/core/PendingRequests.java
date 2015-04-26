@@ -46,12 +46,12 @@ public class PendingRequests {
     }
 
     public void cancelPendingRequest(UUID requestId, RequestRepository requestRepository, NotificationFactory notificationFactory) throws ObjectNotFoundException {
-        Optional<Request> requestOptional = this.pendingRequest.stream().filter(r -> r.getRequestID().equals(requestId)).findFirst();
+        Optional<Request> requestOptional = pendingRequest.stream().filter(r -> r.getRequestID().equals(requestId)).findFirst();
         if (requestOptional.isPresent()) {
             Request request = requestOptional.get();
             request.cancel();
             requestRepository.persist(request);
-            this.pendingRequest.remove(request);
+            pendingRequest.remove(request);
             notificationFactory.createNotification(request).announce();
         } else {
             throw new ObjectNotFoundException();

@@ -70,6 +70,4 @@ public class EvaluationFirstInFirstOutStrategyTest {
 
         assertEquals(roomMock, roomFound);
     }
-
-
 }

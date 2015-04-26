@@ -27,8 +27,8 @@ public class StartupRest {
     public void start() {
         try {
             configureApplication();
-        } catch (IOException e) {
-            System.err.print(e.getMessage());
+        } catch (IOException exception) {
+            System.err.print(exception.getMessage());
             return;
         }
         startRest();

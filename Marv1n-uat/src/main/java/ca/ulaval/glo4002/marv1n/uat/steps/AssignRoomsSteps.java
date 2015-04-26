@@ -1,7 +1,6 @@
 package ca.ulaval.glo4002.marv1n.uat.steps;
 
 import ca.ulaval.glo4002.core.PendingRequests;
-import ca.ulaval.glo4002.core.RequestCancellation;
 import ca.ulaval.glo4002.core.RequestTreatmentTaskFactory;
 import ca.ulaval.glo4002.core.TaskScheduler;
 import ca.ulaval.glo4002.core.notification.Notification;
@@ -9,16 +8,23 @@ import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
-import ca.ulaval.glo4002.core.request.evaluation.FirstInFirstOutEvaluationStrategy;
+import ca.ulaval.glo4002.core.request.evaluation.MaximizeSeatsEvaluationStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestByPriorityStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SortingRequestStrategy;
 import ca.ulaval.glo4002.core.room.Room;
+import ca.ulaval.glo4002.core.room.RoomAlreadyReservedException;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StatefulStep;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StepState;
 import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
 import ca.ulaval.glo4002.persistence.inmemory.RoomRepositoryInMemory;
 import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Then;
+import org.jbehave.core.annotations.When;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -30,11 +36,9 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         return new AssignRoomsStepsState();
     }
 
-    @Given("an existing pending reservation")
-    public void givenAnExistingPendingReservation() {
-        when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
+    @Given("a new reservation")
+    public void givenANewReservation() {
         addAPendingRequest();
-        System.out.println("Assign Rooms Steps");
     }
 
     private void addAPendingRequest() {
@@ -43,25 +47,65 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         state().pendingRequests.addRequest(state().request);
     }
 
-    @Given("some room")
-    public void givenSomeRoom() {
-        state().room = new Room(5, "Une salle");
-        state().roomRepositoryInMemory.persist(state().room);
-        state().anotherRoom = new Room(10, "Une autre salle");
-        state().roomRepositoryInMemory.persist(state().anotherRoom);
+    @Given("a maximize seats evaluation strategy")
+    public void givenAMaximizeSeatsEvaluationStrategy() {
+        state().evaluationStrategy = new MaximizeSeatsEvaluationStrategy();
+        state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemory, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemory);
+    }
+
+    @Given("a first assigned room with lower capacity")
+    public void givenAFirstAssignedRoomWithLowerCapacity() throws RoomAlreadyReservedException {
+        state().firstRoom = new Room(5, "Premiere salle");
+        state().firstRoom.book(mock(Request.class));
+        state().roomRepositoryInMemory.persist(state().firstRoom);
+    }
+
+    @Given("a second unassigned room with medium capacity")
+    public void givenASecondUnassignedRoomWithMediumCapacity() {
+        state().secondRoom = new Room(7, "Seconde salle");
+        state().roomRepositoryInMemory.persist(state().secondRoom);
+    }
+
+    @Given("a third unassigned room with higher capacity")
+    public void givenAThirdUnassignedRoomWithHigherCapacity() {
+        state().thirdRoom = new Room(10, "Troisieme salle");
+        state().roomRepositoryInMemory.persist(state().thirdRoom);
+    }
+
+    @Given("a first unassigned room with medium capacity")
+    public void givenAFirstUnassignedRoomWithMediumCapacity() {
+        state().firstRoom = new Room(7, "premiere salle");
+        state().roomRepositoryInMemory.persist(state().firstRoom);
+    }
+
+    @When("I treat with the maximize seats evaluation strategy")
+    public void whenITreatWithTheMaximizeSeatsEvaluationStrategy() {
+        when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
+        state().taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), 1, TimeUnit.SECONDS, state().requestTreatmentTaskFactory);
+        state().taskScheduler.run();
+    }
+
+    @Then("the unassigned room with minimum seats, but enough, should have been assigned")
+    public void thenTheUnassignedRoomWithMinimumSeatsButEnoughShouldHaveBeenAssigned() {
+        assertTrue(state().secondRoom.isReserved());
+    }
+
+    @Then("an unassigned room with minimum seats, but enough, should have been assigned")
+    public void thenAnUnassignedRoomWithMinimumSeatsButEnoughShouldHaveBeenAssigned() {
+        assertTrue(state().firstRoom.isReserved() ^ state().secondRoom.isReserved());
     }
 
     public class AssignRoomsStepsState extends StepState {
-        public Room room;
-        public Room anotherRoom;
+        public Room firstRoom;
+        public Room secondRoom;
+        public Room thirdRoom;
         public Request request;
         public RequestTreatmentTaskFactory requestTreatmentTaskFactory;
-        public EvaluationStrategy evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
+        public EvaluationStrategy evaluationStrategy;
         public SortingRequestStrategy sortingRequestStrategy = new SortingRequestByPriorityStrategy();
         public RoomRepositoryInMemory roomRepositoryInMemory = new RoomRepositoryInMemory();
         public NotificationFactory notificationFactory = mock(NotificationFactory.class);
         public RequestRepositoryInMemory requestRepositoryInMemory = new RequestRepositoryInMemory();
-        public RequestCancellation requestCancellation;
         public TaskScheduler taskScheduler;
         public PendingRequests pendingRequests;
     }
