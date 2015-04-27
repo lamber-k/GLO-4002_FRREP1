@@ -5,9 +5,9 @@ import java.util.List;
 public class RequestsInformationModel {
 
     private List<RequestInformationModel> acceptees;
-    private List<RequestInformationModel> autres;
+    private List<RequestNotAcceptedInformationModel> autres;
 
-    public RequestsInformationModel(List<RequestInformationModel> acceptees, List<RequestInformationModel> autres) {
+    public RequestsInformationModel(List<RequestInformationModel> acceptees, List<RequestNotAcceptedInformationModel> autres) {
         this.acceptees = acceptees;
         this.autres = autres;
     }
@@ -16,7 +16,7 @@ public class RequestsInformationModel {
         return acceptees;
     }
 
-    public List<RequestInformationModel> getAutres() {
+    public List<RequestNotAcceptedInformationModel> getAutres() {
         return autres;
     }
 }

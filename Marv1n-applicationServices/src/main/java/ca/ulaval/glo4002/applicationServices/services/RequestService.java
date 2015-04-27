@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.applicationServices.services;
 import ca.ulaval.glo4002.applicationServices.locator.LocatorService;
 import ca.ulaval.glo4002.applicationServices.models.RequestInformationModel;
 import ca.ulaval.glo4002.applicationServices.models.RequestModel;
+import ca.ulaval.glo4002.applicationServices.models.RequestNotAcceptedInformationModel;
 import ca.ulaval.glo4002.applicationServices.models.RequestsInformationModel;
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
 import ca.ulaval.glo4002.core.PendingRequests;
@@ -85,7 +86,7 @@ public class RequestService {
     public RequestsInformationModel getRequestByEmail(String email) throws ObjectNotFoundException {
         List<Request> requests = new ArrayList<>();
         List<RequestInformationModel> accepted = new ArrayList<>();
-        List<RequestInformationModel> others = new ArrayList<>();
+        List<RequestNotAcceptedInformationModel> others = new ArrayList<>();
 
         try {
             requests.addAll(requestRepository.findByResponsibleMail(email));
@@ -103,7 +104,7 @@ public class RequestService {
                     if (r.getRequestStatus().equals(RequestStatus.ACCEPTED)) {
                         accepted.add(new RequestInformationModel(r));
                     } else {
-                        others.add(new RequestInformationModel(r));
+                        others.add(new RequestNotAcceptedInformationModel(r));
                     }
                 });
         return new RequestsInformationModel(accepted, others);

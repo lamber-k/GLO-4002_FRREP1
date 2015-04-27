@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.applicationServices.services;
 import ca.ulaval.glo4002.applicationServices.locator.LocatorService;
 import ca.ulaval.glo4002.applicationServices.models.RequestInformationModel;
 import ca.ulaval.glo4002.applicationServices.models.RequestModel;
+import ca.ulaval.glo4002.applicationServices.models.RequestNotAcceptedInformationModel;
 import ca.ulaval.glo4002.applicationServices.models.RequestsInformationModel;
 import ca.ulaval.glo4002.core.ObjectNotFoundException;
 import ca.ulaval.glo4002.core.PendingRequests;
@@ -98,33 +99,6 @@ public class RequestServiceTest {
         assertTrue(matchValidRequestModel(resultRequest, requestModel));
     }
 
-    public boolean matchValidRequestModel(Request request, RequestModel model) {
-        if (model.getNombrePersonne() == request.getNumberOfSeatsNeeded() &&
-                model.getPriorite() == request.getPriority() &&
-                model.getCourrielOrganisateur().equals(request.getResponsible().getMailAddress()) &&
-                model.getParticipantsCourriels().size() == request.getParticipants().size() &&
-                validateAllParticipantPresenceInRequest(request, model.getParticipantsCourriels())) {
-            return true;
-        }
-        return false;
-    }
-
-    public boolean validateAllParticipantPresenceInRequest(Request request, List<String> emailParticipants) {
-        int amount = emailParticipants.size();
-        for (String email : emailParticipants) {
-            for (Person person : request.getParticipants()) {
-                if (person.getMailAddress().equals(email)) {
-                    amount--;
-                    break;
-                }
-            }
-        }
-        if (amount == 0) {
-            return true;
-        }
-        return false;
-    }
-
     @Test(expected = InvalidFormatException.class)
     public void givenAnInvalidOrganizerEmailAddressInRequestModel_WhenAddRequest_ThenShouldThrowInvalidFormatException() throws InvalidFormatException {
         emailParticipants = new ArrayList<>();
@@ -162,7 +136,7 @@ public class RequestServiceTest {
 
         assertTrue(requestsInformationModel.getAcceptees().isEmpty());
         assertEquals(1, requestsInformationModel.getAutres().size());
-        assertTrue(isRequestMatchingRequestInformationModel(request, requestsInformationModel.getAutres().get(0)));
+        assertTrue(isRequestMatchingRequestNotAcceptedInformationModel(request, requestsInformationModel.getAutres().get(0)));
     }
 
     @Test
@@ -179,8 +153,8 @@ public class RequestServiceTest {
 
         assertTrue(requestsInformationModel.getAcceptees().isEmpty());
         assertEquals(2, requestsInformationModel.getAutres().size());
-        assertTrue(isRequestMatchingRequestInformationModel(request, requestsInformationModel.getAutres().get(0)));
-        assertTrue(isRequestMatchingRequestInformationModel(secondRequest, requestsInformationModel.getAutres().get(1)));
+        assertTrue(isRequestMatchingRequestNotAcceptedInformationModel(request, requestsInformationModel.getAutres().get(0)));
+        assertTrue(isRequestMatchingRequestNotAcceptedInformationModel(secondRequest, requestsInformationModel.getAutres().get(1)));
     }
 
     @Test
@@ -195,7 +169,7 @@ public class RequestServiceTest {
 
         assertTrue(requestsInformationModel.getAcceptees().isEmpty());
         assertEquals(1, requestsInformationModel.getAutres().size());
-        assertTrue(isRequestMatchingRequestInformationModel(request, requestsInformationModel.getAutres().get(0)));
+        assertTrue(isRequestMatchingRequestNotAcceptedInformationModel(request, requestsInformationModel.getAutres().get(0)));
     }
 
     @Test
@@ -212,8 +186,8 @@ public class RequestServiceTest {
 
         assertTrue(requestsInformationModel.getAcceptees().isEmpty());
         assertEquals(2, requestsInformationModel.getAutres().size());
-        assertTrue(isRequestMatchingRequestInformationModel(request, requestsInformationModel.getAutres().get(0)));
-        assertTrue(isRequestMatchingRequestInformationModel(secondRequest, requestsInformationModel.getAutres().get(1)));
+        assertTrue(isRequestMatchingRequestNotAcceptedInformationModel(request, requestsInformationModel.getAutres().get(0)));
+        assertTrue(isRequestMatchingRequestNotAcceptedInformationModel(secondRequest, requestsInformationModel.getAutres().get(1)));
     }
 
     @Test
@@ -231,7 +205,7 @@ public class RequestServiceTest {
         assertEquals(1, requestsInformationModel.getAutres().size());
         assertEquals(1, requestsInformationModel.getAcceptees().size());
         assertTrue(isRequestMatchingRequestInformationModel(request, requestsInformationModel.getAcceptees().get(0)));
-        assertTrue(isRequestMatchingRequestInformationModel(secondRequest, requestsInformationModel.getAutres().get(0)));
+        assertTrue(isRequestMatchingRequestNotAcceptedInformationModel(secondRequest, requestsInformationModel.getAutres().get(0)));
     }
 
     @Test
@@ -292,33 +266,6 @@ public class RequestServiceTest {
         assertTrue(isRequestMatchingRequestInformationModel(request, requestInformationModel));
     }
 
-    private void initBehaviorOfUsedObjectInGetter() {
-        when(request.getRequestID()).thenReturn(AN_ID);
-        when(request.getResponsible()).thenReturn(person);
-        when(request.getReservedRoom()).thenReturn(room);
-        when(request.getCreationDate()).thenReturn(A_DATE);
-        when(secondRequest.getRequestID()).thenReturn(AN_OTHER_ID);
-        when(secondRequest.getResponsible()).thenReturn(person);
-        when(secondRequest.getReservedRoom()).thenReturn(room);
-        when(person.getMailAddress()).thenReturn(VALID_EMAIL);
-        when(secondRequest.getCreationDate()).thenReturn(A_LATER_DATE);
-        when(room.getName()).thenReturn(A_ROOM_NAME);
-    }
-
-    public boolean isRequestMatchingRequestInformationModel(Request request, RequestInformationModel requestInformationModel) {
-        if (request.getResponsible().getMailAddress().equals(requestInformationModel.getCourrielOrginsateur()) &&
-                request.getNumberOfSeatsNeeded() == requestInformationModel.getNombrePersonne() &&
-                request.getRequestStatus() == requestInformationModel.getStatutDemande()) {
-            if ((request.getRequestStatus() != RequestStatus.ACCEPTED &&
-                    requestInformationModel.getSalleAssigne().equals(NO_ASSIGNED_ROOM_MESSAGE)) ||
-                    (request.getRequestStatus() == RequestStatus.ACCEPTED &&
-                            requestInformationModel.getSalleAssigne().equals(request.getReservedRoom().getName()))) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Test(expected = ObjectNotFoundException.class)
     public void givenRequestService_WhenCallGetRequestByEmailAndUUIDAndNoRequestCorrespondingIDIsFoundInRepositoryButNotMatchingEmail_ThenShouldThrowObjectNotFoundException() throws RequestNotFoundException, ObjectNotFoundException, RoomNotFoundException {
         when(request.getRequestID()).thenReturn(AN_ID);
@@ -339,5 +286,66 @@ public class RequestServiceTest {
         requestService.getRequestByEmailAndId(VALID_EMAIL, AN_ID);
     }
 
+    private boolean matchValidRequestModel(Request request, RequestModel model) {
+        if (model.getNombrePersonne() == request.getNumberOfSeatsNeeded() &&
+                model.getPriorite() == request.getPriority() &&
+                model.getCourrielOrganisateur().equals(request.getResponsible().getMailAddress()) &&
+                model.getParticipantsCourriels().size() == request.getParticipants().size() &&
+                validateAllParticipantPresenceInRequest(request, model.getParticipantsCourriels())) {
+            return true;
+        }
+        return false;
+    }
 
+    private boolean validateAllParticipantPresenceInRequest(Request request, List<String> emailParticipants) {
+        int amount = emailParticipants.size();
+        for (String email : emailParticipants) {
+            for (Person person : request.getParticipants()) {
+                if (person.getMailAddress().equals(email)) {
+                    amount--;
+                    break;
+                }
+            }
+        }
+        if (amount == 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private void initBehaviorOfUsedObjectInGetter() {
+        when(request.getRequestID()).thenReturn(AN_ID);
+        when(request.getResponsible()).thenReturn(person);
+        when(request.getReservedRoom()).thenReturn(room);
+        when(request.getCreationDate()).thenReturn(A_DATE);
+        when(secondRequest.getRequestID()).thenReturn(AN_OTHER_ID);
+        when(secondRequest.getResponsible()).thenReturn(person);
+        when(secondRequest.getReservedRoom()).thenReturn(room);
+        when(person.getMailAddress()).thenReturn(VALID_EMAIL);
+        when(secondRequest.getCreationDate()).thenReturn(A_LATER_DATE);
+        when(room.getName()).thenReturn(A_ROOM_NAME);
+    }
+
+    private boolean isRequestMatchingRequestInformationModel(Request request, RequestInformationModel requestInformationModel) {
+        if (request.getResponsible().getMailAddress().equals(requestInformationModel.getCourrielOrginsateur()) &&
+                request.getNumberOfSeatsNeeded() == requestInformationModel.getNombrePersonne() &&
+                request.getRequestStatus() == requestInformationModel.getStatutDemande()) {
+            if ((request.getRequestStatus() != RequestStatus.ACCEPTED &&
+                    requestInformationModel.getSalleAssigne().equals(NO_ASSIGNED_ROOM_MESSAGE)) ||
+                    (request.getRequestStatus() == RequestStatus.ACCEPTED &&
+                            requestInformationModel.getSalleAssigne().equals(request.getReservedRoom().getName()))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isRequestMatchingRequestNotAcceptedInformationModel(Request request, RequestNotAcceptedInformationModel requestInformationModel) {
+        if (request.getResponsible().getMailAddress().equals(requestInformationModel.getCourrielOrginsateur()) &&
+                request.getNumberOfSeatsNeeded() == requestInformationModel.getNombrePersonne() &&
+                request.getRequestStatus() == requestInformationModel.getStatutDemande()) {
+            return true;
+        }
+        return false;
+    }
 }
