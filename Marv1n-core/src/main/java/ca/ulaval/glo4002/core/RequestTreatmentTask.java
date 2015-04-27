@@ -42,10 +42,10 @@ public class RequestTreatmentTask implements Task {
             try {
                 roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
                 pendingRequest.reserve(roomFound);
+                roomRepository.persist(roomFound);
             } catch (EvaluationNoRoomFoundException e) {
                 pendingRequest.refuse(e.getMessage());
             }
-            roomRepository.persist(roomFound);
             requestRepository.persist(pendingRequest);
             Notification notification = notificationFactory.createNotification(pendingRequest);
             notification.announce();

@@ -64,6 +64,7 @@ public class TaskScheduler implements Scheduler {
 
     @Override
     public void run() {
+        restartScheduler();
         startTask();
     }
 
