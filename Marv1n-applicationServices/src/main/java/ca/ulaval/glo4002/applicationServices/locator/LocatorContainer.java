@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LocatorContainer {
+
     private Map<Class<?>, Object> serviceInstance;
 
     public LocatorContainer() {

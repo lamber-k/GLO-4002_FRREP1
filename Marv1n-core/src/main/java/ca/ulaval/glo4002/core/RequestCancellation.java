@@ -22,7 +22,7 @@ public class RequestCancellation {
     public void cancelRequestByUUID(UUID id) throws ObjectNotFoundException {
         try {
             pendingRequests.cancelPendingRequest(id, requestRepository, notificationFactory);
-        } catch (ObjectNotFoundException e) {
+        } catch (ObjectNotFoundException exception) {
             tryCancelStoredRequest(id);
         }
     }

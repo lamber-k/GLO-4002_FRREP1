@@ -18,9 +18,9 @@ public class RoomTest {
     private static final int A_LOWER_NUMBER_OF_SEATS = 5;
     private static final int A_HIGHER_NUMBER_OF_SEATS = 35;
     private static final String A_ROOM_NAME = "The room name";
+    private Room room;
     @Mock
     private Request requestMock;
-    private Room room;
 
     @Before
     public void initializeRoom() {

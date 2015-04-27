@@ -48,9 +48,9 @@ public class DemandesResource {
         RequestsInformationModel requestsInformationModel = null;
         try {
             requestsInformationModel = requestService.getRequestByEmail(email);
-        } catch (ObjectNotFoundException e) {
+        } catch (ObjectNotFoundException exception) {
             return Response.status(404)
-                    .entity(e.getMessage())
+                    .entity(exception.getMessage())
                     .build();
         }
         return Response.ok().entity(requestsInformationModel).build();
@@ -62,9 +62,9 @@ public class DemandesResource {
         Request request;
         try {
             request = requestService.addRequest(model);
-        } catch (InvalidFormatException e) {
+        } catch (InvalidFormatException exception) {
             return Response.status(400)
-                    .entity(e.getMessage())
+                    .entity(exception.getMessage())
                     .header("Content-Type", "text/plain")
                     .build();
         }

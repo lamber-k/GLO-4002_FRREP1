@@ -21,12 +21,11 @@ import static org.mockito.Mockito.when;
 public class RequestCancellationTest {
 
     private static final UUID AN_UUID = UUID.randomUUID();
+    private RequestCancellation requestCancellation;
     @Mock
     private PendingRequests pendingRequestsMock;
     @Mock
     private RequestRepository requestRepositoryMock;
-    @Mock
-    private RequestCancellation requestCancellation;
     @Mock
     private Request requestMock;
     @Mock
@@ -36,7 +35,7 @@ public class RequestCancellationTest {
 
     @Before
     public void initializeRequestCancellation() {
-        this.requestCancellation = new RequestCancellation(pendingRequestsMock, requestRepositoryMock, notificationFactoryMock);
+        requestCancellation = new RequestCancellation(pendingRequestsMock, requestRepositoryMock, notificationFactoryMock);
         when(notificationFactoryMock.createNotification(requestMock)).thenReturn(notificationMock);
     }
 

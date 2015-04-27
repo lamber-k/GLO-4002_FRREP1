@@ -7,5 +7,5 @@ import java.util.List;
 @FunctionalInterface
 public interface SortingRequestStrategy {
 
-    List<Request> sortList(List<Request> input);
+    List<Request> sortList(List<Request> requests);
 }

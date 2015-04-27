@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.applicationServices.models;
 import java.util.List;
 
 public class RequestModel {
+
     private int nombrePersonne;
     private String courrielOrganisateur;
     private int priorite;

@@ -14,7 +14,7 @@ public class LocatorContainerTest {
     private OtherTestSampleService AnOtherObjectForRegistering;
 
     @Before
-    public void setup() {
+    public void initializeLocatorContainer() {
         locatorContainer = new LocatorContainer();
         implementationTestSampleService = new ImplementationTestSampleService();
     }

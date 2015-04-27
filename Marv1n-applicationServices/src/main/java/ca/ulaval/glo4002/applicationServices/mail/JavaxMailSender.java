@@ -40,9 +40,9 @@ public class JavaxMailSender implements MailSender {
 
     private Properties retrieveProperties() throws IOException {
         Properties properties = new Properties();
-        InputStream configFile = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
-        if (configFile != null) {
-            properties.load(configFile);
+        InputStream configurationFile = getClass().getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
+        if (configurationFile != null) {
+            properties.load(configurationFile);
         } else {
             throw new FileNotFoundException("Property file '" + CONFIG_FILE_NAME + "'.");
         }

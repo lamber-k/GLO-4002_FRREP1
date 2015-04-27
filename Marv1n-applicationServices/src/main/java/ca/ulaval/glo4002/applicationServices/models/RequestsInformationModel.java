@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.applicationServices.models;
 import java.util.List;
 
 public class RequestsInformationModel {
+
     private List<RequestInformationModel> acceptees;
     private List<RequestInformationModel> autres;
 

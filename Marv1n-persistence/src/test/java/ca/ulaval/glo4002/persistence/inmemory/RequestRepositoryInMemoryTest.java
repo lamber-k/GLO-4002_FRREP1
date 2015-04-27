@@ -28,17 +28,17 @@ public class RequestRepositoryInMemoryTest {
     @Mock
     private Request requestMock;
     @Mock
-    private Person responsible;
+    private Person responsibleMock;
     @Mock
-    private Person anOtherPerson;
+    private Person anotherPersonMock;
 
     @Before
     public void initializeRequestRepositoryInMemory() {
         requestRepository = new RequestRepositoryInMemory();
         requestID = UUID.randomUUID();
         when(requestMock.getRequestID()).thenReturn(requestID);
-        initRequestResponsible();
-        when(requestMock.getResponsible()).thenReturn(anOtherPerson);
+        initializeRequestResponsible();
+        when(requestMock.getResponsible()).thenReturn(anotherPersonMock);
     }
 
     @Test(expected = RequestNotFoundException.class)
@@ -78,8 +78,8 @@ public class RequestRepositoryInMemoryTest {
     public void givenRequestRepositoryContainingRequestAssociatedToTheResponsibleEmailResearched_WhenFindByResponsibleMail_ThenReturnListOfReservationAssociated() throws RequestNotFoundException {
         Request anAssociatedRequest = mock(Request.class);
         Request anOtherAssociatedRequest = mock(Request.class);
-        when(anAssociatedRequest.getResponsible()).thenReturn(responsible);
-        when(anOtherAssociatedRequest.getResponsible()).thenReturn(responsible);
+        when(anAssociatedRequest.getResponsible()).thenReturn(responsibleMock);
+        when(anOtherAssociatedRequest.getResponsible()).thenReturn(responsibleMock);
         requestRepository.persist(requestMock);
         requestRepository.persist(anAssociatedRequest);
         requestRepository.persist(anOtherAssociatedRequest);
@@ -92,8 +92,8 @@ public class RequestRepositoryInMemoryTest {
         assertTrue(resultList.contains(anOtherAssociatedRequest));
     }
 
-    private void initRequestResponsible() {
-        when(responsible.getMailAddress()).thenReturn(RESPONSIBLE_EMAIL_ADDRESS);
-        when(anOtherPerson.getMailAddress()).thenReturn(AN_EMAIL_ADDRESS);
+    private void initializeRequestResponsible() {
+        when(responsibleMock.getMailAddress()).thenReturn(RESPONSIBLE_EMAIL_ADDRESS);
+        when(anotherPersonMock.getMailAddress()).thenReturn(AN_EMAIL_ADDRESS);
     }
 }

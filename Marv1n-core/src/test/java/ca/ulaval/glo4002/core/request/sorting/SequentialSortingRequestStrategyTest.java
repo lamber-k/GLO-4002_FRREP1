@@ -19,15 +19,15 @@ public class SequentialSortingRequestStrategyTest {
 
     private static final int HIGH_PRIORITY = 1;
     private static final int MEDIUM_PRIORITY = 3;
+    private SequentialSortingRequestStrategy requestSorter;
+    private List<Request> requestList;
     @Mock
     private Request requestWithHighPriorityMock;
     @Mock
     private Request requestWithMediumPriorityMock;
-    private SequentialSortingRequestStrategy requestSorter;
-    private List<Request> requestList;
 
     @Before
-    public void init() {
+    public void initializeSequentialSortingRequestStrategy() {
         when(requestWithHighPriorityMock.getPriority()).thenReturn(HIGH_PRIORITY);
         when(requestWithMediumPriorityMock.getPriority()).thenReturn(MEDIUM_PRIORITY);
         requestSorter = new SequentialSortingRequestStrategy();
@@ -60,6 +60,4 @@ public class SequentialSortingRequestStrategyTest {
         assertEquals(requestWithMediumPriorityMock, requestList.get(0));
         assertEquals(requestWithHighPriorityMock, requestList.get(1));
     }
-
-
 }

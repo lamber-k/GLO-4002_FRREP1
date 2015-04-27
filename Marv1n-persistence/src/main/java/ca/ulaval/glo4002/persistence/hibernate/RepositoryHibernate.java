@@ -5,6 +5,7 @@ import ca.ulaval.glo4002.core.persistence.Repository;
 import javax.persistence.EntityManager;
 
 public abstract class RepositoryHibernate<T> implements Repository<T> {
+
     protected EntityManager entityManager;
 
     public RepositoryHibernate(EntityManager entityManager) {

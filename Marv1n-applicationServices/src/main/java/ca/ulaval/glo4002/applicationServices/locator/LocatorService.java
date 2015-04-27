@@ -1,11 +1,12 @@
 package ca.ulaval.glo4002.applicationServices.locator;
 
 public class LocatorService {
+
     private static LocatorService instance = null;
     private LocatorContainer container;
 
     public LocatorService() {
-        this.container = new LocatorContainer();
+        container = new LocatorContainer();
     }
 
     public static LocatorService getInstance() {
@@ -16,20 +17,20 @@ public class LocatorService {
     }
 
     public <T> void register(Class<T> service, T instance) {
-        this.container.register(service, instance);
+        container.register(service, instance);
     }
 
     public <T> T resolve(Class<T> service) {
-        return this.container.resolve(service);
+        return container.resolve(service);
     }
 
     public void unregisterAll() {
-        this.container.clear();
+        container.clear();
     }
 
     public void registerModule(LocatorModule module) {
         LocatorContainer loadedContainer = new LocatorContainer();
         module.load(loadedContainer);
-        this.container.merge(loadedContainer);
+        container.merge(loadedContainer);
     }
 }

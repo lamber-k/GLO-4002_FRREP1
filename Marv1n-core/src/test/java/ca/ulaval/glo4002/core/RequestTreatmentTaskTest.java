@@ -140,6 +140,4 @@ public class RequestTreatmentTaskTest {
 
         verify(requestMock).reserve(roomMock);
     }
-
-
 }

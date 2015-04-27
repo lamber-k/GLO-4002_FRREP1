@@ -58,7 +58,7 @@ public class LocatorServiceTest {
     public boolean locatorServiceDoesNotContainAServiceService() {
         try {
             locatorService.resolve(AService.class);
-        } catch (UnregisteredServiceException e) {
+        } catch (UnregisteredServiceException exception) {
             return true;
         }
         return false;
@@ -72,7 +72,7 @@ public class LocatorServiceTest {
 
     @Test(expected = UnregisteredServiceException.class)
     public void givenALocatorService_WhenAttemptingToRetrieveAnInexistingService_ThenShouldThrowMultipleRegistrationException() {
-        locatorService.resolve(UnregistredService.class);
+        locatorService.resolve(UnregisteredService.class);
     }
 
     @Test
@@ -105,12 +105,15 @@ public class LocatorServiceTest {
     }
 
     public class AService {
+
     }
 
     public class ASecondService {
+
     }
 
-    public class UnregistredService {
+    public class UnregisteredService {
+
     }
 
     public class LocatorModuleMock implements LocatorModule {

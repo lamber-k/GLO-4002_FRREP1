@@ -42,8 +42,8 @@ public class RequestTreatmentTask implements Task {
             try {
                 roomFound = evaluationStrategy.evaluateOneRequest(roomRepository, pendingRequest);
                 pendingRequest.reserve(roomFound);
-            } catch (EvaluationNoRoomFoundException e) {
-                pendingRequest.refuse(e.getMessage());
+            } catch (EvaluationNoRoomFoundException exception) {
+                pendingRequest.refuse(exception.getMessage());
             }
             roomRepository.persist(roomFound);
             requestRepository.persist(pendingRequest);

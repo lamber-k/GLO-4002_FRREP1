@@ -18,7 +18,6 @@ import java.util.EnumSet;
 public class StartupRest {
 
     private int httpPort;
-    private StartupApplication startupApplication;
 
     public StartupRest(int httpPort) {
         this.httpPort = httpPort;
@@ -48,7 +47,7 @@ public class StartupRest {
 
     private void configureApplication() throws IOException {
         LocatorService.getInstance().registerModule(new LocatorServicesModule());
-        startupApplication = new StartupApplication();
+        new StartupApplication();
     }
 
     private void configureJersey(ServletContextHandler servletContextHandler) {

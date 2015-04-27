@@ -2,13 +2,11 @@ package ca.ulaval.glo4002.core.person;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import static org.junit.Assert.*;
 
 public class PersonTest {
 
-    @Mock
     private static final String MAIL_ADDRESS = "mail@address.com";
     private Person person;
 

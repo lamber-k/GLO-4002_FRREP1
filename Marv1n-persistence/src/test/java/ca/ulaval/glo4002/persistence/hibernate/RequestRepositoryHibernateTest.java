@@ -65,5 +65,4 @@ public class RequestRepositoryHibernateTest {
         entityManager.getTransaction().commit();
         entityManager.close();
     }
-
 }

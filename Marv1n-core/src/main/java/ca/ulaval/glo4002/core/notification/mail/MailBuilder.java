@@ -13,7 +13,6 @@ public class MailBuilder {
             + "Elle est désormais dans le status %s.\n";
     private static final String MAIL_MESSAGE_REASON = "Pour la raison suivante :\n%s\n";
     private static final String MAIL_MESSAGE_FOOTER = "\nCordialement,";
-
     private RequestStatus status;
     private UUID identifier;
     private String mailFrom;

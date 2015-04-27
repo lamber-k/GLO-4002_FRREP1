@@ -33,21 +33,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsState> {
+public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsStepsState> {
 
-    public static final String A_ROOM = "Une salle";
-    public static final String ANOTHER_ROOM = "Une autre salle";
-    public static final int ROOM_SEATS_NUMBER = 10;
-    public static final int REQUEST_NUMBER_OF_SEATS_NEEDED = 5;
-    public static final int REQUEST_PRIORITY = 5;
-    public static final int MAXIMUM_PENDING_REQUESTS = 2;
-    public static final int INTERVAL_TIMER = 10;
-    public static final Person REQUEST_RESPONSIBLE = new Person();
-    private static final int ANOTHER_ROOM_SEATS_NUMBER = 12;
+    //TODO Extract variable global
 
     @Override
-    protected AssignStepsState getInitialState() {
-        return new AssignStepsState();
+    protected AssignRoomsStepsState getInitialState() {
+        return new AssignRoomsStepsState();
     }
 
     @Given("a new reservation")
@@ -211,7 +203,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
         fail("Not implemented yet");
     }
 
-    public class AssignStepsState extends StepState {
+    public class AssignRoomsStepsState extends StepState {
         public Room firstRoom;
         public Room secondRoom;
         public Room thirdRoom;
@@ -219,14 +211,16 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
         public PendingRequests pendingRequests;
         public RequestTreatmentTaskFactory requestTreatmentTaskFactory;
         public TaskScheduler taskScheduler;
-        public NotificationFactory notificationFactory = mock(NotificationFactory.class);
-        public RoomRepository roomRepositoryInMemory = new RoomRepositoryInMemory();
-        public RequestRepository requestRepositoryInMemory = new RequestRepositoryInMemory();
+        public NotificationFactory notificationFactory;
+        public RoomRepository roomRepositoryInMemory;
+        public RequestRepository requestRepositoryInMemory;
         public SortingRequestStrategy sortingRequestStrategy;
         public EvaluationStrategy evaluationStrategy;
 
-        public AssignStepsState() {
-
+        public AssignRoomsStepsState() {
+            this.notificationFactory = mock(NotificationFactory.class);
+            this.roomRepositoryInMemory = new RoomRepositoryInMemory();
+            this.requestRepositoryInMemory = new RequestRepositoryInMemory();
         }
     }
 }

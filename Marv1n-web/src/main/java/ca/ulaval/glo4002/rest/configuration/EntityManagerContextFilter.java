@@ -32,7 +32,6 @@ public class EntityManagerContextFilter implements Filter {
             }
             EntityManagerProvider.clearEntityManager();
         }
-
     }
 
     @Override

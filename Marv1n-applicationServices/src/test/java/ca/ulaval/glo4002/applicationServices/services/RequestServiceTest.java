@@ -31,6 +31,7 @@ import static org.mockito.Mockito.*;
 
 public class RequestServiceTest {
 
+    //TODO Typo ?
     private static final String A_ROOM_NAME = "A Room Name";
     private static LocatorService locatorService = LocatorService.getInstance();
     private static RequestRepository requestRepository = mock(RequestRepository.class);
@@ -55,7 +56,7 @@ public class RequestServiceTest {
     private long A_LATER_DATE = 10;
 
     @BeforeClass
-    public static void initLocatorServices() {
+    public static void initializeLocatorServices() {
         locatorService.register(RequestRepository.class, requestRepository);
         locatorService.register(RoomRepository.class, roomRepository);
         locatorService.register(PendingRequests.class, pendingRequests);
@@ -70,7 +71,7 @@ public class RequestServiceTest {
     }
 
     @Before
-    public void init() {
+    public void initializeRequestService() {
         requestService = new RequestService();
         requestList = new ArrayList<>();
     }
@@ -102,13 +103,13 @@ public class RequestServiceTest {
                 model.getPriorite() == request.getPriority() &&
                 model.getCourrielOrganisateur().equals(request.getResponsible().getMailAddress()) &&
                 model.getParticipantsCourriels().size() == request.getParticipants().size() &&
-                validateAllParticipentPresenceInRequest(request, model.getParticipantsCourriels())) {
+                validateAllParticipantPresenceInRequest(request, model.getParticipantsCourriels())) {
             return true;
         }
         return false;
     }
 
-    public boolean validateAllParticipentPresenceInRequest(Request request, List<String> emailParticipants) {
+    public boolean validateAllParticipantPresenceInRequest(Request request, List<String> emailParticipants) {
         int amount = emailParticipants.size();
         for (String email : emailParticipants) {
             for (Person person : request.getParticipants()) {

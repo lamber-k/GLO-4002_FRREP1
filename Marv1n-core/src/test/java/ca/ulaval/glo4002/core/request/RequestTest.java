@@ -19,15 +19,15 @@ public class RequestTest {
     public static final String REASON_OF_REFUSE = "ReasonOfRefuse";
     private static final int A_NUMBER_OF_SEATS_NEEDED = 5;
     private static final int A_PRIORITY = 2;
+    private Request request;
     @Mock
     private Room roomMock;
     @Mock
-    private Person A_PERSON;
-    private Request request;
+    private Person personMock;
 
     @Before
     public void initializeRequest() {
-        request = new Request(A_NUMBER_OF_SEATS_NEEDED, A_PRIORITY, A_PERSON);
+        request = new Request(A_NUMBER_OF_SEATS_NEEDED, A_PRIORITY, personMock);
     }
 
     @Test
@@ -37,7 +37,7 @@ public class RequestTest {
 
     @Test
     public void givenRequest_WhenComparedToDifferentRequest_ThenReturnFalse() {
-        Request aDifferentRequest = new Request(A_NUMBER_OF_SEATS_NEEDED, A_PRIORITY, A_PERSON);
+        Request aDifferentRequest = new Request(A_NUMBER_OF_SEATS_NEEDED, A_PRIORITY, personMock);
         assertFalse(request.equals(aDifferentRequest));
     }
 

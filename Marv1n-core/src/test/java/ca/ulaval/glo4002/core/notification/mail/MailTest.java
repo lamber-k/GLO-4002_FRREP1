@@ -22,7 +22,6 @@ public class MailTest {
     private static final String FROM_MAIL = "from@mail.com";
     private static final String ANOTHER_FROM_MAIL = "another.from@mail.com";
     private static final String ANOTHER_TO_MAIL = "another.to@mail.com";
-
     private Mail mail;
     private Mail differentMail;
 

@@ -27,7 +27,6 @@ public class StartupApplication {
     private RoomRepository roomRepository;
     private EvaluationStrategy strategyAssignation;
     private SortingRequestStrategy sortingRequestStrategy;
-
     private PendingRequests pendingRequests;
     private NotificationFactory notificationFactory;
     private RequestRepository requestRepository;
@@ -56,7 +55,6 @@ public class StartupApplication {
         List<Room> defaultRooms = configuration.getDefaultRooms();
         defaultRooms.forEach(roomRepository::persist);
     }
-
 
     public PendingRequests getPendingRequests() {
         return pendingRequests;

@@ -24,32 +24,31 @@ public class RequestTreatmentTaskFactoryTest {
 
     private RequestTreatmentTaskFactory requestTreatmentTaskFactory;
     private List<Request> requestList;
-
     @Mock
-    private RoomRepository roomRepository;
+    private RoomRepository roomRepositoryMock;
     @Mock
-    private EvaluationStrategy strategyAssignation;
+    private EvaluationStrategy strategyAssignationMock;
     @Mock
-    private SortingRequestStrategy strategySortRequest;
+    private SortingRequestStrategy strategySortRequestMock;
     @Mock
-    private PendingRequests pendingRequests;
+    private PendingRequests pendingRequestsMock;
     @Mock
-    private NotificationFactory notificationFactory;
+    private NotificationFactory notificationFactoryMock;
     @Mock
-    private RequestRepository requestRepository;
+    private RequestRepository requestRepositoryMock;
 
 
     @Before
-    public void init() {
+    public void initializeRequestTreatmentTaskFactory() {
         requestList = new ArrayList<>();
-        when(pendingRequests.retrieveCurrentPendingRequest()).thenReturn(requestList);
-        requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(strategyAssignation, strategySortRequest, roomRepository, pendingRequests, notificationFactory, requestRepository);
+        when(pendingRequestsMock.retrieveCurrentPendingRequest()).thenReturn(requestList);
+        requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(strategyAssignationMock, strategySortRequestMock, roomRepositoryMock, pendingRequestsMock, notificationFactoryMock, requestRepositoryMock);
     }
 
     @Test
     public void givenRequestTreatmentTaskFactory_WhenCreatingRequestTreatmentTask_ThenShouldCallRetrieveCurrentPendingRequestOfPendingRequests() {
         requestTreatmentTaskFactory.createTask();
-        verify(pendingRequests).retrieveCurrentPendingRequest();
+        verify(pendingRequestsMock).retrieveCurrentPendingRequest();
     }
 
     @Test

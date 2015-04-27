@@ -7,5 +7,4 @@ public class InvalidMailAddressException extends RuntimeException {
     public InvalidMailAddressException() {
 
     }
-
 }

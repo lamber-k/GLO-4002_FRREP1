@@ -31,6 +31,8 @@ import static org.mockito.Mockito.when;
 
 public class RequestModificationSteps extends StatefulStep<RequestModificationSteps.RequestModificationStepsState> {
 
+    //TODO Extract variable global
+
     @Override
     protected RequestModificationStepsState getInitialState() {
         return new RequestModificationStepsState();
@@ -59,7 +61,6 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
 
     @Given("an existing pending reservation")
     public void givenAnExistingPendingReservation() {
-        when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
         addAPendingRequest();
     }
 
@@ -102,13 +103,22 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
         public Room room;
         public Request request;
         public RequestTreatmentTaskFactory requestTreatmentTaskFactory;
-        public EvaluationStrategy evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
-        public SortingRequestStrategy sortingRequestStrategy = new SortingRequestByPriorityStrategy();
-        public RoomRepositoryInMemory roomRepositoryInMemory = new RoomRepositoryInMemory();
-        public NotificationFactory notificationFactory = mock(NotificationFactory.class);
-        public RequestRepositoryInMemory requestRepositoryInMemory = new RequestRepositoryInMemory();
+        public EvaluationStrategy evaluationStrategy;
+        public SortingRequestStrategy sortingRequestStrategy;
+        public RoomRepositoryInMemory roomRepositoryInMemory;
+        public NotificationFactory notificationFactory;
+        public RequestRepositoryInMemory requestRepositoryInMemory;
         public RequestCancellation requestCancellation;
         public TaskScheduler taskScheduler;
         public PendingRequests pendingRequests;
+
+        RequestModificationStepsState() {
+            this.evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
+            this.sortingRequestStrategy = new SortingRequestByPriorityStrategy();
+            this.roomRepositoryInMemory = new RoomRepositoryInMemory();
+            this.notificationFactory = mock(NotificationFactory.class);
+            when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
+            this.requestRepositoryInMemory = new RequestRepositoryInMemory();
+        }
     }
 }

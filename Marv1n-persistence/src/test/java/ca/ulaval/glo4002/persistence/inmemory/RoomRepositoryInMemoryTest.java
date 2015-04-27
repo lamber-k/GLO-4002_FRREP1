@@ -76,5 +76,4 @@ public class RoomRepositoryInMemoryTest {
 
         assertEquals(secondRoomMock, foundRoom);
     }
-
 }

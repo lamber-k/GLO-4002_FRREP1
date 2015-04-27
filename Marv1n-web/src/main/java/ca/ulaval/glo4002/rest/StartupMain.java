@@ -5,6 +5,7 @@ public class StartupMain {
     private static final int DEFAULT_PORT = 8080;
 
     private StartupMain() {
+
     }
 
     public static void main(String[] args) throws Exception {

@@ -23,10 +23,10 @@ public class RoomRepositoryHibernateTest {
     private EntityManagerFactory entityManagerFactory;
     private Room room;
     @Mock
-    private Request request;
+    private Request requestMock;
 
     @Before
-    public void loadEntityManager() {
+    public void initializeEntityManager() {
         entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         EntityManagerProvider.setEntityManager(entityManagerFactory.createEntityManager());
         roomRepositoryHibernate = new RoomRepositoryHibernate();
