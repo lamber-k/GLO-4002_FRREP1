@@ -9,12 +9,12 @@ Scenario: Les demandes d'une même priorité sont traitées selon leur ordre d'a
 Given a pendingRequest system
 And a new reservation with medium priority
 And a second reservation with medium priority
-And a room fiting medium priority request
-And a second room fiting medium priority request
+And a room fitting medium priority request
+And a second room fitting medium priority request
 And a sorting request by priority strategy
 And an evaluation strategy
 When I treat pending reservation
-Then same priority demads are treat in order of arrival
+Then same priority demands are treat in order of arrival
 
 Scenario: La demande est assignée à la première salle disponible
 Given a new reservation
@@ -27,17 +27,27 @@ Then the reservation should be assigned to the first available room
 
 Scenario: Les demandes sont accumulées et traitées aux X minutes
 Given a request treatment with a scheduler
-When I start the scheduler to call the request treatment periodicaly
-Then pending reservations are being treated periodicaly
+When I start the scheduler to call the request treatment periodically
+Then pending reservations are being treated periodically
 
 Scenario: Les demandes sont traitées selon leur priorité (de 1 à 5)
 Given a pendingRequest system
 And multiple pending reservation with different priority
-And multiple avalible room fiting request
+And multiple available room fitting request
 And evaluation strategy assign to first available room
 And a sorting request by priority strategy
 When I treat pending reservation
 Then pending reservation are being treated in order of priority
+
+Scenario: Lorsque la limite de X est atteinte et que les demandes sont traitées, le compteur qui traite les demandes aux X minutes est réinitialisé
+Given a new reservation
+And a limit of pending request
+And a sorting request strategy
+And an evaluation strategy
+And a request treatment with a scheduler
+When the limit of pending reservation is reached
+Then the pending reservation are being immediately treated
+And the scheduler restart the timer
 
 Scenario: La salle disponible avec le moins de places, mais qui en a suffisamment pour la réunion, est assignée
 Given a new reservation
@@ -57,13 +67,3 @@ And a first unassigned room with medium capacity
 And a second unassigned room with medium capacity
 When I treat pending reservation
 Then an unassigned room with minimum seats, but enough, should have been assigned
-
-Scenario: Lorsque la limite de X est atteinte et que les demandes sont traitées, le compteur qui traite les demandes aux X minutes est réinitialisé
-Given a new reservation
-And a limit of pending request
-And a sorting request strategy
-And an evaluation strategy
-And a request treatment with a scheduler
-When the limit of pending reservation is reached
-Then the pending reservation are being immediately treated
-And the scheduler restart the timer
