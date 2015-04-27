@@ -14,6 +14,8 @@ import ca.ulaval.glo4002.persistence.hibernate.EntityManagerFactoryProvider;
 import ca.ulaval.glo4002.persistence.hibernate.EntityManagerProvider;
 import ca.ulaval.glo4002.persistence.hibernate.RequestRepositoryHibernate;
 import ca.ulaval.glo4002.persistence.hibernate.RoomRepositoryHibernate;
+import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
+import ca.ulaval.glo4002.persistence.inmemory.RoomRepositoryInMemory;
 
 import javax.persistence.EntityManagerFactory;
 import java.io.IOException;
@@ -25,8 +27,8 @@ public class LocatorServicesModule implements LocatorModule {
         EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         EntityManagerProvider.setEntityManager(entityManagerFactory.createEntityManager());
         container.register(EntityManagerFactory.class, entityManagerFactory);
-        container.register(RequestRepository.class, new RequestRepositoryHibernate());
-        container.register(RoomRepository.class, new RoomRepositoryHibernate());
+        container.register(RequestRepository.class, new RequestRepositoryInMemory());
+        container.register(RoomRepository.class, new RoomRepositoryInMemory());
         container.register(EmailValidator.class, new JavaxMailValidator());
         try {
             container.register(NotificationFactory.class, new MailNotificationFactory(new JavaxMailSender(new JavaxMailTransporter()), new JavaxMailValidator()));
