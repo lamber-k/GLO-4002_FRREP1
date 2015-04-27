@@ -161,7 +161,7 @@ public class RequestServiceTest {
 
         assertTrue(requestsInformationModel.getAcceptees().isEmpty());
         assertEquals(1, requestsInformationModel.getAutres().size());
-        assertTrue(isRequestMatchingRequestInformationModel(request,requestsInformationModel.getAutres().get(0)));
+        assertTrue(isRequestMatchingRequestInformationModel(request, requestsInformationModel.getAutres().get(0)));
     }
 
     @Test
@@ -178,8 +178,8 @@ public class RequestServiceTest {
 
         assertTrue(requestsInformationModel.getAcceptees().isEmpty());
         assertEquals(2, requestsInformationModel.getAutres().size());
-        assertTrue(isRequestMatchingRequestInformationModel(request,requestsInformationModel.getAutres().get(0)));
-        assertTrue(isRequestMatchingRequestInformationModel(secondRequest,requestsInformationModel.getAutres().get(1)));
+        assertTrue(isRequestMatchingRequestInformationModel(request, requestsInformationModel.getAutres().get(0)));
+        assertTrue(isRequestMatchingRequestInformationModel(secondRequest, requestsInformationModel.getAutres().get(1)));
     }
 
     @Test
@@ -194,7 +194,7 @@ public class RequestServiceTest {
 
         assertTrue(requestsInformationModel.getAcceptees().isEmpty());
         assertEquals(1, requestsInformationModel.getAutres().size());
-        assertTrue(isRequestMatchingRequestInformationModel(request,requestsInformationModel.getAutres().get(0)));
+        assertTrue(isRequestMatchingRequestInformationModel(request, requestsInformationModel.getAutres().get(0)));
     }
 
     @Test
@@ -211,8 +211,8 @@ public class RequestServiceTest {
 
         assertTrue(requestsInformationModel.getAcceptees().isEmpty());
         assertEquals(2, requestsInformationModel.getAutres().size());
-        assertTrue(isRequestMatchingRequestInformationModel(request,requestsInformationModel.getAutres().get(0)));
-        assertTrue(isRequestMatchingRequestInformationModel(secondRequest,requestsInformationModel.getAutres().get(1)));
+        assertTrue(isRequestMatchingRequestInformationModel(request, requestsInformationModel.getAutres().get(0)));
+        assertTrue(isRequestMatchingRequestInformationModel(secondRequest, requestsInformationModel.getAutres().get(1)));
     }
 
     @Test
@@ -229,8 +229,8 @@ public class RequestServiceTest {
 
         assertEquals(1, requestsInformationModel.getAutres().size());
         assertEquals(1, requestsInformationModel.getAcceptees().size());
-        assertTrue(isRequestMatchingRequestInformationModel(request,requestsInformationModel.getAcceptees().get(0)));
-        assertTrue(isRequestMatchingRequestInformationModel(secondRequest,requestsInformationModel.getAutres().get(0)));
+        assertTrue(isRequestMatchingRequestInformationModel(request, requestsInformationModel.getAcceptees().get(0)));
+        assertTrue(isRequestMatchingRequestInformationModel(secondRequest, requestsInformationModel.getAutres().get(0)));
     }
 
     @Test
@@ -246,8 +246,8 @@ public class RequestServiceTest {
 
         assertTrue(requestsInformationModel.getAutres().isEmpty());
         assertEquals(2, requestsInformationModel.getAcceptees().size());
-        assertTrue(isRequestMatchingRequestInformationModel(request,requestsInformationModel.getAcceptees().get(0)));
-        assertTrue(isRequestMatchingRequestInformationModel(secondRequest,requestsInformationModel.getAcceptees().get(1)));
+        assertTrue(isRequestMatchingRequestInformationModel(request, requestsInformationModel.getAcceptees().get(0)));
+        assertTrue(isRequestMatchingRequestInformationModel(secondRequest, requestsInformationModel.getAcceptees().get(1)));
     }
 
     @Test(expected = ObjectNotFoundException.class)

@@ -1,12 +1,12 @@
 package ca.ulaval.glo4002.rest.resources;
 
-import ca.ulaval.glo4002.core.ObjectNotFoundException;
-import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
-import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.applicationServices.models.RequestInformationModel;
 import ca.ulaval.glo4002.applicationServices.models.RequestModel;
 import ca.ulaval.glo4002.applicationServices.models.RequestsInformationModel;
 import ca.ulaval.glo4002.applicationServices.services.RequestService;
+import ca.ulaval.glo4002.core.ObjectNotFoundException;
+import ca.ulaval.glo4002.core.persistence.InvalidFormatException;
+import ca.ulaval.glo4002.core.request.Request;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

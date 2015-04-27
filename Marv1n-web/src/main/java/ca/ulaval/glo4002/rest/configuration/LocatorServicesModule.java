@@ -1,15 +1,15 @@
 package ca.ulaval.glo4002.rest.configuration;
 
-import ca.ulaval.glo4002.core.notification.NotificationFactory;
-import ca.ulaval.glo4002.core.notification.mail.EmailValidator;
-import ca.ulaval.glo4002.core.notification.mail.MailNotificationFactory;
-import ca.ulaval.glo4002.core.request.RequestRepository;
-import ca.ulaval.glo4002.core.room.RoomRepository;
 import ca.ulaval.glo4002.applicationServices.locator.LocatorContainer;
 import ca.ulaval.glo4002.applicationServices.locator.LocatorModule;
 import ca.ulaval.glo4002.applicationServices.mail.JavaxMailSender;
 import ca.ulaval.glo4002.applicationServices.mail.JavaxMailTransporter;
 import ca.ulaval.glo4002.applicationServices.mail.JavaxMailValidator;
+import ca.ulaval.glo4002.core.notification.NotificationFactory;
+import ca.ulaval.glo4002.core.notification.mail.EmailValidator;
+import ca.ulaval.glo4002.core.notification.mail.MailNotificationFactory;
+import ca.ulaval.glo4002.core.request.RequestRepository;
+import ca.ulaval.glo4002.core.room.RoomRepository;
 import ca.ulaval.glo4002.persistence.hibernate.EntityManagerFactoryProvider;
 import ca.ulaval.glo4002.persistence.hibernate.EntityManagerProvider;
 import ca.ulaval.glo4002.persistence.hibernate.RequestRepositoryHibernate;

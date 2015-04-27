@@ -225,7 +225,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignStepsS
         public SortingRequestStrategy sortingRequestStrategy;
         public EvaluationStrategy evaluationStrategy;
 
-        public AssignStepsState(){
+        public AssignStepsState() {
 
         }
     }

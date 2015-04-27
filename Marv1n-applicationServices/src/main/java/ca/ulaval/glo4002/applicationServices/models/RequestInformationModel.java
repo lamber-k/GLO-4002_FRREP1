@@ -15,10 +15,9 @@ public class RequestInformationModel {
         this.nombrePersonne = nombrePersonne;
         this.courrielOrginsateur = courrielOrginsateur;
         this.statutDemande = statutDemande;
-        if(statutDemande == RequestStatus.ACCEPTED) {
+        if (statutDemande == RequestStatus.ACCEPTED) {
             this.salleAssigne = salleAssigne;
-        }
-        else{
+        } else {
             this.salleAssigne = AUCUNE_SALLE_ASSIGNEE;
         }
     }
@@ -27,10 +26,9 @@ public class RequestInformationModel {
         this.nombrePersonne = request.getNumberOfSeatsNeeded();
         this.courrielOrginsateur = request.getResponsible().getMailAddress();
         this.statutDemande = request.getRequestStatus();
-        if(statutDemande == RequestStatus.ACCEPTED) {
+        if (statutDemande == RequestStatus.ACCEPTED) {
             this.salleAssigne = request.getReservedRoom().getName();
-        }
-        else{
+        } else {
             this.salleAssigne = AUCUNE_SALLE_ASSIGNEE;
         }
     }
