@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
 
 public class RequestService {
 
-    public static final String ERROR_REQUEST_BY_EMAIL_AND_ID = "Il n'existe pas de demande \"%s\" pour l'organisateur \"%s\"";
-    public static final String ERROR_REQUEST_EMAIL_BAD_FORMAT = "Le courriel \"%s\" n'est pas valide";
+    private static final String ERROR_REQUEST_BY_EMAIL_AND_ID = "Il n'existe pas de demande \"%s\" pour l'organisateur \"%s\"";
+    private static final String ERROR_REQUEST_EMAIL_BAD_FORMAT = "Le courriel \"%s\" n'est pas valide";
     private RequestRepository requestRepository;
     private RoomRepository roomRepository;
     private PendingRequests pendingRequests;
@@ -90,7 +90,7 @@ public class RequestService {
         try {
             requests.addAll(requestRepository.findByResponsibleMail(email));
         } catch (RequestNotFoundException exception) {
-
+            //TODO exception ?
         }
         requests.addAll(getPendingRequestByResponsibleMail(email));
         if (requests.isEmpty()) {
@@ -110,8 +110,7 @@ public class RequestService {
     }
 
     private List<Request> getPendingRequestByResponsibleMail(String mail) {
-        List<Request> requests = pendingRequests.getCurrentPendingRequest().stream().filter(r -> r.getResponsible().getMailAddress().equals(mail)).collect(Collectors.toList());
-        return requests;
+        return pendingRequests.getCurrentPendingRequest().stream().filter(r -> r.getResponsible().getMailAddress().equals(mail)).collect(Collectors.toList());
     }
 
     private Optional<Request> getPendingRequestByID(UUID id) {
