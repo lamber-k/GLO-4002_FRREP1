@@ -26,8 +26,8 @@ public class PendingRequests {
     }
 
     public List<Request> retrieveCurrentPendingRequest() {
-        List<Request> requestToGive = cloneCurrentPendingRequests();
-        pendingRequest.removeAll(requestToGive);
+        List<Request> requestToGive = pendingRequest;
+        pendingRequest = Collections.synchronizedList(new ArrayList<>());
         return requestToGive;
     }
 
@@ -65,7 +65,7 @@ public class PendingRequests {
     }
 
     private List<Request> cloneCurrentPendingRequests() {
-        List<Request> clone  = new ArrayList<>();
+        List<Request> clone = new ArrayList<>();
         clone.addAll(pendingRequest);
         return clone;
     }

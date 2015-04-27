@@ -1,6 +1,6 @@
 package ca.ulaval.glo4002.rest;
 
-import ca.ulaval.glo4002.locator.LocatorService;
+import ca.ulaval.glo4002.applicationServices.locator.LocatorService;
 import ca.ulaval.glo4002.rest.configuration.EntityManagerContextFilter;
 import ca.ulaval.glo4002.rest.configuration.LocatorServicesModule;
 import ca.ulaval.glo4002.rest.configuration.StartupApplication;

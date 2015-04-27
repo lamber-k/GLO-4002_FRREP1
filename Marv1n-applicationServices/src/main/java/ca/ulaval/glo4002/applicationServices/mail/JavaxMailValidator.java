@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.mail;
+package ca.ulaval.glo4002.applicationServices.mail;
 
 import ca.ulaval.glo4002.core.notification.mail.EmailValidator;
 

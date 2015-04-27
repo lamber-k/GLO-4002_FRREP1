@@ -24,11 +24,8 @@ public class Room {
         this.name = name;
     }
 
-    public Room() {
-        //TODO ALL Test me properly
+    protected Room() {
         this.roomID = UUID.randomUUID();
-        this.numberOfSeats = 0;
-        this.name = null;
     }
 
     public String getName() {
@@ -36,7 +33,6 @@ public class Room {
     }
 
     public boolean isReserved() {
-        //TODO ALL Test me properly
         return associatedRequest != null;
     }
 
@@ -76,7 +72,6 @@ public class Room {
 
     @Override
     public boolean equals(Object rhs) {
-        //TODO ALL Test me properly
         return rhs != null && rhs instanceof Room && hashCode() == rhs.hashCode();
     }
 

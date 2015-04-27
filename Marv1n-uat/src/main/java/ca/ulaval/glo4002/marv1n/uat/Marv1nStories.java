@@ -40,8 +40,10 @@ public class Marv1nStories extends JUnitStories {
 
     @Override
     public Configuration configuration() {
-        return new MostUsefulConfiguration().usePendingStepStrategy(pendingStepStrategy)
-                .useStoryLoader(new LoadFromClasspath(getClass().getClassLoader())).useStoryReporterBuilder(reporterBuilder);
+        return new MostUsefulConfiguration()
+                .usePendingStepStrategy(pendingStepStrategy)
+                .useStoryLoader(new LoadFromClasspath(getClass().getClassLoader()))
+                .useStoryReporterBuilder(reporterBuilder);
     }
 
     @Override

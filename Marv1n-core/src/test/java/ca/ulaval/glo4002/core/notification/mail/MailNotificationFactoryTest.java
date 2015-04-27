@@ -3,6 +3,7 @@ package ca.ulaval.glo4002.core.notification.mail;
 import ca.ulaval.glo4002.core.notification.InvalidNotificationException;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.request.Request;
+import ca.ulaval.glo4002.core.request.RequestStatus;
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +12,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.when;
 
@@ -25,6 +28,13 @@ public class MailNotificationFactoryTest {
     private static final int PRIORITY = 1;
     private static final String FORWARDED_EMAIL = "toto@toto42.com";
     private static final String WRONG_FORWARDED_EMAIL = "wrongMail";
+
+    private static final String A_CHANGE_REASON = "This is a change reason";
+    private static final RequestStatus REQUEST_STATUS = RequestStatus.ACCEPTED;
+    private static final UUID REQUEST_UUID = UUID.randomUUID();
+
+    private MailNotificationFactory mailFactory;
+
     @Mock
     private Mail mailMock;
     @Mock
@@ -33,11 +43,12 @@ public class MailNotificationFactoryTest {
     private Person personMock;
     @Mock
     private Person anotherPersonMock;
-    private MailNotificationFactory mailFactory;
     @Mock
     private Person person;
     @Mock
     private EmailValidator emailValidatorMock;
+    @Mock
+    private Request request;
 
     @Before
     public void initializeMailFactory() {
@@ -47,15 +58,46 @@ public class MailNotificationFactoryTest {
         when(personMock.getMailAddress()).thenReturn(PERSON_ADDRESS);
         when(anotherPersonMock.isAdmin()).thenReturn(false);
         when(anotherPersonMock.getMailAddress()).thenReturn(ANOTHER_PERSON_ADDRESS);
+        initRequestBeavior();
+    }
+
+    private void initRequestBeavior() {
+        when(request.getResponsible()).thenReturn(person);
+        when(request.getRequestStatus()).thenReturn(REQUEST_STATUS);
+        when(request.getPriority()).thenReturn(PRIORITY);
+        when(request.getNumberOfSeatsNeeded()).thenReturn(NUMBER_OF_SEAT);
+        when(request.getParticipants()).thenReturn(Arrays.asList(personMock, anotherPersonMock));
+        when(request.getRequestID()).thenReturn(REQUEST_UUID);
+        when(request.getReason()).thenReturn(A_CHANGE_REASON);
+
     }
 
     @Test
     public void givenMailFactory_WhenCreateNotification_ThenCreatedNotificationShouldHaveToMails() throws InvalidNotificationException {
-        Request request = new Request(NUMBER_OF_SEAT, PRIORITY, person, Arrays.asList(personMock, anotherPersonMock));
-
         MailNotification returnedNotification = mailFactory.createNotification(request);
 
         assertThat(returnedNotification.getMailToSend().getTo(), CoreMatchers.hasItems(PERSON_ADDRESS, ANOTHER_PERSON_ADDRESS));
+    }
+
+    @Test
+    public void givenMailFactory_WhenCreateNotification_ThenMailNotificationMessageShouldContainRequestStatusChangeReason() throws InvalidNotificationException {
+        MailNotification returnedNotification = mailFactory.createNotification(request);
+
+        assertTrue(returnedNotification.getMailToSend().getMessage().toString().contains(A_CHANGE_REASON.toString()));
+    }
+
+    @Test
+    public void givenMailFactory_WhenCreateNotification_ThenMailNotificationMessageShouldContainRequestStatus() throws InvalidNotificationException {
+        MailNotification returnedNotification = mailFactory.createNotification(request);
+
+        assertTrue(returnedNotification.getMailToSend().getMessage().toString().contains(REQUEST_STATUS.toString()));
+    }
+
+    @Test
+    public void givenMailFactory_WhenCreateNotification_ThenMailNotificationMessageShouldContainRequestID() throws InvalidNotificationException {
+        MailNotification returnedNotification = mailFactory.createNotification(request);
+
+        assertTrue(returnedNotification.getMailToSend().getMessage().toString().contains(REQUEST_UUID.toString()));
     }
 
     @Test(expected = InvalidNotificationException.class)
@@ -67,12 +109,10 @@ public class MailNotificationFactoryTest {
 
     @Test
     public void givenMailFactoryWithForwardedEmail_WhenCreateNotification_ThenCreatedNotificationShouldHaveForwardedEmail() {
-        Request request = new Request(NUMBER_OF_SEAT, PRIORITY, person, Arrays.asList(personMock, anotherPersonMock));
         mailFactory.addForwardEmail(FORWARDED_EMAIL);
-
         MailNotification returnedNotification = mailFactory.createNotification(request);
 
-        assertThat(returnedNotification.getMailToSend().getTo(), CoreMatchers.hasItems(PERSON_ADDRESS, ANOTHER_PERSON_ADDRESS));
+        assertThat(returnedNotification.getMailToSend().getTo(), CoreMatchers.hasItems(FORWARDED_EMAIL));
     }
 
     @Test(expected = InvalidMailAddressException.class)

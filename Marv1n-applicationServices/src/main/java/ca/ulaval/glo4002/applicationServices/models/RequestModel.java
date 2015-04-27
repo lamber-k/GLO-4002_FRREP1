@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.models;
+package ca.ulaval.glo4002.applicationServices.models;
 
 import java.util.List;
 
@@ -15,38 +15,19 @@ public class RequestModel {
         this.participantsCourriels = participantsCourriels;
     }
 
-    public RequestModel() {
-    }
-
     public int getNombrePersonne() {
         return nombrePersonne;
-    }
-
-    public void setNombrePersonne(int nombrePersonne) {
-        this.nombrePersonne = nombrePersonne;
     }
 
     public String getCourrielOrganisateur() {
         return courrielOrganisateur;
     }
 
-    public void setCourrielOrganisateur(String courrielOrganisateur) {
-        this.courrielOrganisateur = courrielOrganisateur;
-    }
-
     public int getPriorite() {
         return priorite;
     }
 
-    public void setPriorite(int priorite) {
-        this.priorite = priorite;
-    }
-
     public List<String> getParticipantsCourriels() {
         return participantsCourriels;
-    }
-
-    public void setParticipantsCourriels(List<String> participantsCourriels) {
-        this.participantsCourriels = participantsCourriels;
     }
 }

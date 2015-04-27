@@ -47,7 +47,6 @@ public class MailBuilder {
         String object = buildMailObject();
         message = String.format(MAIL_MESSAGE_HEADER, identifier, status);
         if (reason != null) {
-            //TODO ALL Test me properly
             message += String.format(MAIL_MESSAGE_REASON, reason);
         }
         message += MAIL_MESSAGE_FOOTER;
@@ -56,7 +55,6 @@ public class MailBuilder {
 
     private String buildMailObject() throws MailBuilderException {
         if (identifier == null) {
-            //TODO ALL Test me properly
             throw new MailBuilderException("ID not set");
         }
         if (status == null) {
@@ -66,7 +64,6 @@ public class MailBuilder {
     }
 
     public MailBuilder setReason(String reason) {
-        //TODO ALL Test me properly
         this.reason = reason;
         return this;
     }

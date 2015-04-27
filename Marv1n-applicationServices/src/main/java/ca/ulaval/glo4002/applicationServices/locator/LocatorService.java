@@ -1,10 +1,10 @@
-package ca.ulaval.glo4002.locator;
+package ca.ulaval.glo4002.applicationServices.locator;
 
 public class LocatorService {
     private static LocatorService instance = null;
     private LocatorContainer container;
 
-    private LocatorService() {
+    public LocatorService() {
         this.container = new LocatorContainer();
     }
 
@@ -15,12 +15,16 @@ public class LocatorService {
         return instance;
     }
 
-    public <T> void register(Class<T> service, T instance) throws MultipleRegistrationException {
+    public <T> void register(Class<T> service, T instance) {
         this.container.register(service, instance);
     }
 
     public <T> T resolve(Class<T> service) {
         return this.container.resolve(service);
+    }
+
+    public void unregisterAll() {
+        this.container.clear();
     }
 
     public void registerModule(LocatorModule module) {

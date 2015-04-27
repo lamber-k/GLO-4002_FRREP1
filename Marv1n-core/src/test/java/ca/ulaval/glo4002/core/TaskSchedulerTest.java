@@ -16,13 +16,13 @@ import static org.mockito.Mockito.*;
 @RunWith(MockitoJUnitRunner.class)
 public class TaskSchedulerTest {
 
+    public static final int OTHER_INTERVAL_TIMER = 42;
     private static final int TIMER_ZERO = 0;
     private static final int A_TIMER = 5;
     private static final TimeUnit TIME_UNIT_SECOND = TimeUnit.SECONDS;
     private static final int DEFAULT_TIMER = 42;
     private static final int NOW = 0;
     private static final boolean THREAD_SHOULD_NOT_BE_KILLED = false;
-    public static final int OTHER_INTERVAL_TIMER = 42;
     private TaskScheduler taskScheduler;
     @Mock
     private TaskFactory taskFactoryMock;

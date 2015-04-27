@@ -3,15 +3,13 @@ package ca.ulaval.glo4002.core.notification.mail;
 import ca.ulaval.glo4002.core.request.RequestStatus;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class MailBuilderTest {
 
@@ -19,9 +17,9 @@ public class MailBuilderTest {
     private static final RequestStatus A_STATUS = RequestStatus.ACCEPTED;
     private static final UUID AN_IDENTIFIER = UUID.randomUUID();
     private static final String A_REASON = "aReason";
-    @Mock
     private static final String FROM_MAIL = "from@mail.com";
     private MailBuilder mailBuilder;
+    private Mail aMail;
 
     @Before
     public void initializeMailBuilder() {
@@ -30,12 +28,10 @@ public class MailBuilderTest {
 
     @Test
     public void givenMailBuilder_WhenCreateSuccessMail_ThenShouldFormatObjectAsSuccess() throws MailBuilderException {
-        Mail returnedMail = mailBuilder.setStatus(A_STATUS)
-                .setIdentifier(AN_IDENTIFIER)
-                .buildMail();
+        buildAMail();
 
-        assertThat(returnedMail.getObject(), containsString(A_STATUS.toString()));
-        assertThat(returnedMail.getObject(), containsString(AN_IDENTIFIER.toString()));
+        assertThat(aMail.getObject(), containsString(A_STATUS.toString()));
+        assertThat(aMail.getObject(), containsString(AN_IDENTIFIER.toString()));
     }
 
     @Test(expected = MailBuilderException.class)
@@ -53,25 +49,42 @@ public class MailBuilderTest {
         mailBuilder.setReason(A_REASON).setIdentifier(AN_IDENTIFIER).buildMail();
     }
 
-    @Test
-    public void givenMailBuilder_WhenSpecifyFrom_ThenShouldSetMailProperly() throws MailBuilderException {
-        Mail returnedMail = mailBuilder.setFrom(FROM_MAIL)
+    private void buildAMail() throws MailBuilderException {
+        aMail = mailBuilder.setFrom(FROM_MAIL)
+                .setTo(TO_MAILS)
                 .setIdentifier(AN_IDENTIFIER)
                 .setReason(A_REASON)
                 .setStatus(A_STATUS)
                 .buildMail();
+    }
 
-        assertEquals(FROM_MAIL, returnedMail.getFrom());
+    @Test
+    public void givenMailBuilder_WhenSpecifyFrom_ThenShouldSetMailProperly() throws MailBuilderException {
+        buildAMail();
+        assertEquals(FROM_MAIL, aMail.getFrom());
     }
 
     @Test
     public void givenMailBuilder_WhenSpecifyTo_ThenShouldSetMailProperly() throws MailBuilderException {
-        Mail returnedMail = mailBuilder.setTo(TO_MAILS)
-                .setIdentifier(AN_IDENTIFIER)
-                .setReason(A_REASON)
-                .setStatus(A_STATUS)
-                .buildMail();
+        buildAMail();
+        assertEquals(TO_MAILS, aMail.getTo());
+    }
 
-        assertEquals(TO_MAILS, returnedMail.getTo());
+    @Test
+    public void givenMailBuilder_WhenBuildMail_ThenMailMessageShouldContainReason() throws MailBuilderException {
+        buildAMail();
+        assertTrue(aMail.getMessage().toString().contains(A_REASON.toString()));
+    }
+
+    @Test
+    public void givenMailFactory_WhenBuildMail_ThenMailMessageShouldContainStatus() throws MailBuilderException {
+        buildAMail();
+        assertTrue(aMail.getMessage().toString().contains(A_STATUS.toString()));
+    }
+
+    @Test
+    public void givenMailFactory_WhenBuildMail_ThenMailMessageShouldContainID() throws MailBuilderException {
+        buildAMail();
+        assertTrue(aMail.getMessage().toString().contains(AN_IDENTIFIER.toString()));
     }
 }
