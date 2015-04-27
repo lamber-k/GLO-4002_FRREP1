@@ -104,7 +104,7 @@ public class RequestTest {
     }
 
     @Test
-    public void givenAcceptedRequest_WhenCanceledRequest_RequestShouldntHavecAssociatedRoom() {
+    public void givenAcceptedRequest_WhenCanceledRequest_RequestShouldNotHaveAssociatedRoom() {
         request.reserve(roomMock);
 
         request.cancel();

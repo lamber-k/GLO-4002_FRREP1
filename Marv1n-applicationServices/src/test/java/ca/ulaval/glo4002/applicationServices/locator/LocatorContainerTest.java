@@ -41,15 +41,15 @@ public class LocatorContainerTest {
     }
 
     @Test
-    public void givenInstanceWithAlreadyRegisteredService_WhenClear_ThenRegistredServicesShouldBeRemoved() {
+    public void givenInstanceWithAlreadyRegisteredService_WhenClear_ThenRegisteredServicesShouldBeRemoved() {
         locatorContainer.register(TestSampleService.class, implementationTestSampleService);
 
         locatorContainer.clear();
 
-        assertTrue(LocatorContainerDosentContainTestSampleService());
+        assertTrue(LocatorContainerDoesNotContainTestSampleService());
     }
 
-    private boolean LocatorContainerDosentContainTestSampleService() {
+    private boolean LocatorContainerDoesNotContainTestSampleService() {
         try {
             locatorContainer.resolve(TestSampleService.class);
         } catch (UnregisteredServiceException e) {

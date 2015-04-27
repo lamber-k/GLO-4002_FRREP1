@@ -118,8 +118,8 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         state().pendingRequests.addRequest(state().thirdRequest);
     }
 
-    @Given("multiple avalible room fiting request")
-    public void givenMultipleAvalibleRoomFitingRequests(){
+    @Given("multiple available room fitting request")
+    public void givenMultipleAvailableRoomFittingRequests(){
         state().firstRoom = spy(new Room(5,"a name"));
         state().secondRoom = spy(new Room(5,"a second name"));
         state().thirdRoom = spy(new Room(5,"a third name"));
@@ -161,13 +161,13 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         state().taskScheduler = spy(new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), 1000, TimeUnit.SECONDS, state().requestTreatmentTaskFactory));
     }
 
-    @When("I start the scheduler to call the request treatment periodicaly")
-    public void whenIStartTheSchedulerToCallTheRequestTreatmentPeriodicaly() {
+    @When("I start the scheduler to call the request treatment periodically")
+    public void whenIStartTheSchedulerToCallTheRequestTreatmentPeriodically() {
         state().taskScheduler.setIntervalTimer(2);
         state().taskScheduler.startScheduler();
     }
 
-    @Then("pending reservations are being treated periodicaly")
+    @Then("pending reservations are being treated periodically")
     public void thenPendingReservationsAreBeingTreatedPeriodically() {
         verify(state().taskScheduler,timeout(10*1000).atLeast(3)).run();
     }
@@ -184,14 +184,14 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         state().pendingRequests.addRequest(state().secondRequest);
     }
 
-    @Given("a room fiting medium priority request")
-    public void givenARoomFitingMediumPriorityRequest() {
+    @Given("a room fitting medium priority request")
+    public void givenARoomFittingMediumPriorityRequest() {
         state().firstRoom = spy(new Room(3, "a name"));
         state().roomRepositoryInMemory.persist(state().firstRoom);
     }
 
-    @Given("a second room fiting medium priority request")
-    public void givenASecondRoomFitingMediumPriorityRequest() {
+    @Given("a second room fitting medium priority request")
+    public void givenASecondRoomFittingMediumPriorityRequest() {
         state().secondRoom = spy(new Room(3, "a second name"));
         state().roomRepositoryInMemory.persist(state().secondRoom);
     }
@@ -228,8 +228,8 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         state().sortingRequestStrategy = spy(new SequentialSortingRequestStrategy());
     }
 
-    @Then("same priority demads are treat in order of arrival")
-    public void thenSamePriorityDemadsAreTreatInOrderOfArrival() {
+    @Then("same priority demands are treat in order of arrival")
+    public void thenSamePriorityDemandsAreTreatInOrderOfArrival() {
         InOrder inOrder = inOrder(state().request, state().secondRequest);
 
         inOrder.verify(state().request).reserve(any(Room.class));

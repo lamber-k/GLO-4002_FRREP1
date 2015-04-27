@@ -71,7 +71,7 @@ public class LocatorServiceTest {
     }
 
     @Test(expected = UnregisteredServiceException.class)
-    public void givenALocatorService_WhenAttemptingToRetrieveAnInexistingService_ThenShouldThrowMultipleRegistrationException() {
+    public void givenALocatorService_WhenAttemptingToRetrieveAnNonexistentService_ThenShouldThrowMultipleRegistrationException() {
         locatorService.resolve(UnregisteredService.class);
     }
 
