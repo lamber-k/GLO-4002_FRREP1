@@ -39,7 +39,7 @@ public class MailNotificationFactory implements NotificationFactory {
                     .setStatus(info.getRequestStatus())
                     .setIdentifier(info.getRequestID())
                     .buildMail();
-        } catch (MailBuilderException exception) {
+        } catch (Exception exception) {
             throw new InvalidNotificationException(exception);
         }
     }
