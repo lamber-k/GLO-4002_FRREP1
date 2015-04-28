@@ -40,6 +40,8 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
     private static final String SECOND_ROOM = "Une autre salle";
     private static final String THIRD_ROOM = "Une 3e salle";
     private static final int REQUEST_NUMBER_OF_SEATS_NEEDED = 5;
+    private static final int REQUEST_NUMBER_OF_SEATS_NEEDED_UPPER = 10;
+    private static final int REQUEST_NUMBER_OF_SEATS_NEEDED_LOWER = 3;
     private static final int REQUEST_PRIORITY = 5;
     private static final int MAXIMUM_PENDING_REQUESTS = 5;
     private static final int INTERVAL_TIMER = 10;
@@ -110,7 +112,13 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Given("pending reservation with different capacity needed")
     public void givenPendingReservationWithDifferentCapacityNeeded() {
-        // PENDING
+        state().firstRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
+        state().secondRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED_UPPER, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
+        state().thirdRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED_LOWER, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
+        state().firstRoom = addRoomInRepository(REQUEST_NUMBER_OF_SEATS_NEEDED, FIRST_ROOM);
+        state().secondRoom = addRoomInRepository(REQUEST_NUMBER_OF_SEATS_NEEDED_UPPER, SECOND_ROOM);
+        state().thirdRoom = addRoomInRepository(REQUEST_NUMBER_OF_SEATS_NEEDED_LOWER, THIRD_ROOM);
+        state().inOrder = inOrder(state().firstRequest, state().secondRequest, state().thirdRequest);
     }
 
     @Given("a maximize strategy")
@@ -120,7 +128,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Given("multiple rooms with same capacity")
     public void givenMultipleRoomsWithSameCapacity() {
-        // PENDING
+        state().firstRoom = addRoomInRepository(SECOND_ROOM_SEATS_NUMBER, FIRST_ROOM);
     }
 
     @Given("multiple pending reservation with same priority")
@@ -177,7 +185,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Then("pending reservations are being treated periodically")
     public void thenPendingReservationsAreBeingTreatedPeriodically() {
-      //  verify(state().taskScheduler, timeout(60 * 1000).atLeastOnce()).run();
+        verify(state().taskScheduler, timeout(60 * 1000).atLeastOnce()).run();
     }
 
     @Then("pending reservation are being treated in order")
@@ -208,12 +216,14 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Then("reservations should have been assigned in order to maximize capacity")
     public void thenReservationShouldHaveBeenAssignedInOrderToMaximizeCapacity() {
-        // PENDING
+        verify(state().firstRequest).reserve(state().firstRoom);
+        verify(state().secondRequest).reserve(state().secondRoom);
+        verify(state().thirdRequest).reserve(state().thirdRoom);
     }
 
     @Then("reservation should have been assigned to one of the room")
     public void thenReservationShouldHaveBeenAssignedToOneOfTheRoom() {
-        // PENDING
+        verify(state().firstRequest).reserve(any(Room.class));
     }
 
     public class AssignRoomsStepsState extends StepState {

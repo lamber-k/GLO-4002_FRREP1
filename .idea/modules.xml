@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/GLO-4002_FRREP1.iml" filepath="$PROJECT_DIR$/GLO-4002_FRREP1.iml" />
       <module fileurl="file://$PROJECT_DIR$/Marv1n-applicationServices/Marv1n-applicationServices.iml" filepath="$PROJECT_DIR$/Marv1n-applicationServices/Marv1n-applicationServices.iml" />
       <module fileurl="file://$PROJECT_DIR$/Marv1n-core/Marv1n-core.iml" filepath="$PROJECT_DIR$/Marv1n-core/Marv1n-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Marv1n-flow/Marv1n-flow.iml" filepath="$PROJECT_DIR$/Marv1n-flow/Marv1n-flow.iml" />
       <module fileurl="file://$PROJECT_DIR$/Marv1n-persistence/Marv1n-persistence.iml" filepath="$PROJECT_DIR$/Marv1n-persistence/Marv1n-persistence.iml" />
       <module fileurl="file://$PROJECT_DIR$/Marv1n-uat/Marv1n-uat.iml" filepath="$PROJECT_DIR$/Marv1n-uat/Marv1n-uat.iml" />
       <module fileurl="file://$PROJECT_DIR$/Marv1n-web/Marv1n-web.iml" filepath="$PROJECT_DIR$/Marv1n-web/Marv1n-web.iml" />

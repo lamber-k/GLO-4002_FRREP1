@@ -24,6 +24,8 @@
         <processorPath useClasspath="true" />
         <module name="Marv1n-applicationServices" />
         <module name="Marv1n-core" />
+        <module name="Marv1n-flot" />
+        <module name="Marv1n-flow" />
         <module name="Marv1n-persistence" />
         <module name="Marv1n-test" />
         <module name="Marv1n-uat" />
@@ -34,6 +36,8 @@
       <module name="GLO-4002_FRREP1" target="1.8" />
       <module name="Marv1n-applicationServices" target="1.8" />
       <module name="Marv1n-core" target="1.8" />
+      <module name="Marv1n-flot" target="1.8" />
+      <module name="Marv1n-flow" target="1.8" />
       <module name="Marv1n-persistence" target="1.8" />
       <module name="Marv1n-uat" target="1.8" />
       <module name="Marv1n-web" target="1.8" />
