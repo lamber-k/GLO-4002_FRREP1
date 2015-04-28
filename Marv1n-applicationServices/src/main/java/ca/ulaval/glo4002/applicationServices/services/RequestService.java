@@ -45,10 +45,13 @@ public class RequestService {
         if (!responsible.isValid(this.emailValidator)) {
             throw new InvalidFormatException(String.format(ERROR_REQUEST_EMAIL_BAD_FORMAT, responsible.getMailAddress()));
         }
-        List<Person> participant = model.getParticipantsCourriels().stream().map(Person::new).collect(Collectors.toList());
-        for (Person person : participant) {
-            if (!person.isValid(this.emailValidator)) {
-                throw new InvalidFormatException(String.format(ERROR_REQUEST_EMAIL_BAD_FORMAT, person.getMailAddress()));
+        List<Person> participant = new ArrayList<>();
+        if (model.getParticipantsCourriels() != null) {
+            participant = model.getParticipantsCourriels().stream().map(Person::new).collect(Collectors.toList());
+            for (Person person : participant) {
+                if (!person.isValid(this.emailValidator)) {
+                    throw new InvalidFormatException(String.format(ERROR_REQUEST_EMAIL_BAD_FORMAT, person.getMailAddress()));
+                }
             }
         }
         Request request = new Request(model.getNombrePersonne(), model.getPriorite(), responsible, participant);
