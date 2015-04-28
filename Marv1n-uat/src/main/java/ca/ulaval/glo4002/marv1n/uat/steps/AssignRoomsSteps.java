@@ -8,6 +8,7 @@ import ca.ulaval.glo4002.core.notification.NotificationFactory;
 import ca.ulaval.glo4002.core.person.Person;
 import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestRepository;
+import ca.ulaval.glo4002.core.request.RequestStatus;
 import ca.ulaval.glo4002.core.request.evaluation.EvaluationStrategy;
 import ca.ulaval.glo4002.core.request.evaluation.FirstInFirstOutEvaluationStrategy;
 import ca.ulaval.glo4002.core.request.sorting.SequentialSortingRequestStrategy;
@@ -18,8 +19,8 @@ import ca.ulaval.glo4002.marv1n.uat.steps.state.StatefulStep;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StepState;
 import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
 import ca.ulaval.glo4002.persistence.inmemory.RoomRepositoryInMemory;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.jbehave.core.annotations.Given;
+import org.jbehave.core.annotations.Pending;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.mockito.InOrder;
@@ -28,6 +29,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
 
@@ -146,7 +148,9 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @When("the limit of pending reservation is reached")
     public void whenTheLimitOfPendingReservationIsReached() {
-        // PENDING
+        state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemory, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemory);
+        state().taskScheduler = spy(new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), INTERVAL_TIMER, TimeUnit.SECONDS, state().requestTreatmentTaskFactory));
+        state().pendingRequests.setMaximumPendingRequests(1);
     }
 
     @Then("the reservation should be assigned to the first available room")
@@ -154,8 +158,8 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         assertEquals(state().firstRoom, state().firstRequest.getReservedRoom());
     }
 
-    @Ignore
     @Then("pending reservations are being treated periodically")
+    @Pending
     public void thenPendingReservationsAreBeingTreatedPeriodically() {
         verify(state().taskScheduler, timeout(60 * 1000).atLeastOnce()).run();
     }
@@ -167,23 +171,25 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         state().inOrder.verify(state().thirdRequest).reserve(any(Room.class));
     }
 
-    @Then("reservations should have been assigned in order to maximize capacity")
-    public void thenReservationShouldHaveBeenAssignedInOrderToMaximizeCapacity() {
-        // PENDING
-    }
-
     @Then("the pending reservation are being immediately treated")
     public void thenThePendingReservationAreBeingImmediatelyTreated() {
-        // PENDING
+        assertNotEquals(RequestStatus.PENDING, state().firstRequest.getRequestStatus());
+        assertNotEquals(RequestStatus.PENDING, state().secondRequest.getRequestStatus());
+        assertNotEquals(RequestStatus.PENDING, state().thirdRequest.getRequestStatus());
     }
 
     @Then("the scheduler restart the timer")
     public void thenTheSchedulerRestartTheTimer() {
-        // PENDING
+        verify(state().taskScheduler).
     }
 
     @Then("pending reservation are being treated in order of priority")
     public void thenPendingReservationAreBeingTreatedInOrderOfPriority() {
+        // PENDING
+    }
+
+    @Then("reservations should have been assigned in order to maximize capacity")
+    public void thenReservationShouldHaveBeenAssignedInOrderToMaximizeCapacity() {
         // PENDING
     }
 
