@@ -31,6 +31,7 @@ public class Marv1nStories extends JUnitStories {
     private Embedder embedder = new Embedder();
 
     public Marv1nStories() {
+        embedder.embedderControls().doIgnoreFailureInStories(true);
         useEmbedder(embedder);
     }
 
