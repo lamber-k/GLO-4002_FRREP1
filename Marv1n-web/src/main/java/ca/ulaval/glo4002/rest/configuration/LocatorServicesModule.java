@@ -12,8 +12,6 @@ import ca.ulaval.glo4002.core.request.RequestRepository;
 import ca.ulaval.glo4002.core.room.RoomRepository;
 import ca.ulaval.glo4002.persistence.hibernate.EntityManagerFactoryProvider;
 import ca.ulaval.glo4002.persistence.hibernate.EntityManagerProvider;
-import ca.ulaval.glo4002.persistence.hibernate.RequestRepositoryHibernate;
-import ca.ulaval.glo4002.persistence.hibernate.RoomRepositoryHibernate;
 import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
 import ca.ulaval.glo4002.persistence.inmemory.RoomRepositoryInMemory;
 

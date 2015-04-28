@@ -49,8 +49,8 @@ public class RequestTreatmentTask implements Task {
             Notification notification = notificationFactory.createNotification(pendingRequest);
             try {
                 notification.announce();
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception exception) {
+                exception.printStackTrace();
             }
             requestRepository.persist(pendingRequest);
         }

@@ -4,6 +4,7 @@ import ca.ulaval.glo4002.core.request.Request;
 import ca.ulaval.glo4002.core.request.RequestStatus;
 
 public class RequestNotAcceptedInformationModel {
+
     private int nombrePersonne;
     private String courrielOrginsateur;
     private RequestStatus statutDemande;
