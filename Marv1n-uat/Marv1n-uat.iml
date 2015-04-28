@@ -9,7 +9,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/java/ca/ulaval/glo4002/marv1n/uat/context" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/java/ca/ulaval/glo4002/marv1n/uat/notImplemented" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/java/ca/ulaval/glo4002/marv1n/uat/steps/ignoreSteps" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/java/notImplemented" />
+      <excludeFolder url="file://$MODULE_DIR$/src/main/resources/ignoreStory" />
       <excludeFolder url="file://$MODULE_DIR$/src/main/resources/notImplemented" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>

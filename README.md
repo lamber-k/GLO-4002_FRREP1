@@ -44,8 +44,12 @@ Pour lancer les tests, nous faisons un mvn integration-test
 
 ## Notes aux correcteurs ##
 
-La story pour persister est présente, mais non terminé, puisque nous n'avons pas fait les liens entre les deux
+- La story pour persister est présente, mais non terminé, puisque nous n'avons pas fait les liens entre les deux
 repository. Il en résultait des comportements indéfinis lors du lancement, rendant notre projet non fonctionnel.
+
+- Nous ne savons pas pourquoi les deux .story entrent en collision lors du lancement des testes d'acceptation.
+Nous avons désactivé requestModification.story et sa classe atenante (RequestModificationStep.java), mais celle-ci est
+implémenté.
 
 ## Tests non réalisés ##
 
