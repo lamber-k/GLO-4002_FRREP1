@@ -46,9 +46,9 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
     private static final Person REQUEST_RESPONSIBLE = new Person();
     private static final int FIRST_ROOM_SEATS_NUMBER = 10;
     private static final int SECOND_ROOM_SEATS_NUMBER = 12;
-    public static final int REQUEST_PRIORITY_1 = 1;
-    public static final int REQUEST_PRIORITY_2 = 2;
-    public static final int REQUEST_PRIORITY_3 = 3;
+    private static final int REQUEST_PRIORITY_1 = 1;
+    private static final int REQUEST_PRIORITY_2 = 2;
+    private static final int REQUEST_PRIORITY_3 = 3;
 
     @Override
     protected AssignRoomsStepsState getInitialState() {
@@ -125,7 +125,13 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Given("multiple pending reservation with same priority")
     public void givenMultiplePendingReservationWithSamePriority() {
-        // PENDING
+        state().firstRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
+        state().secondRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
+        state().thirdRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
+        state().firstRoom = addRoomInRepository(FIRST_ROOM_SEATS_NUMBER, FIRST_ROOM);
+        state().secondRoom = addRoomInRepository(SECOND_ROOM_SEATS_NUMBER, SECOND_ROOM);
+        state().thirdRoom = addRoomInRepository(FIRST_ROOM_SEATS_NUMBER, THIRD_ROOM);
+        state().inOrder = inOrder(state().firstRequest, state().secondRequest, state().thirdRequest);
     }
 
     @Given("pending reservation treated by priority")
@@ -241,210 +247,3 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         }
     }
 }
-
-//public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsStepsState> {
-//
-//    private static final int TWO_SECOND_IN_MILLIS = 2 * 1000;
-//
-//    @Override
-//    protected AssignRoomsStepsState getInitialState() {
-//        return new AssignRoomsStepsState();
-//    }
-//
-//    @Given("a pendingRequest system")
-//    public void givenAPendingRequestSystem(){
-//        state().pendingRequests = new PendingRequests(5);
-//    }
-//
-//    @Given("a new reservation")
-//    public void givenANewReservation() {
-//        addAPendingRequest();
-//    }
-//
-//    private void addAPendingRequest() {
-//        state().firstRequest = spy(new Request(5, 5, new Person()));
-//        state().pendingRequests = new PendingRequests(2);
-//        state().pendingRequests.addRequest(state().firstRequest);
-//    }
-//
-//    @Given("a maximize seats evaluation strategy")
-//    public void givenAMaximizeSeatsEvaluationStrategy() {
-//        state().evaluationStrategy = new MaximizeSeatsEvaluationStrategy();
-//        state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemory, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemory);
-//    }
-//
-//    @Given("a first assigned room with lower capacity")
-//    public void givenAFirstAssignedRoomWithLowerCapacity() throws RoomAlreadyReservedException {
-//        state().firstRoom = new Room(5, "Premiere salle");
-//        state().firstRoom.book(mock(Request.class));
-//        state().roomRepositoryInMemory.persist(state().firstRoom);
-//    }
-//
-//    @Given("a second unassigned room with medium capacity")
-//    public void givenASecondUnassignedRoomWithMediumCapacity() {
-//        state().secondRoom = new Room(7, "Seconde salle");
-//        state().roomRepositoryInMemory.persist(state().secondRoom);
-//    }
-//
-//    @Given("a third unassigned room with higher capacity")
-//    public void givenAThirdUnassignedRoomWithHigherCapacity() {
-//        state().thirdRoom = new Room(10, "Troisieme salle");
-//        state().roomRepositoryInMemory.persist(state().thirdRoom);
-//    }
-//
-//    @Given("a first unassigned room with medium capacity")
-//    public void givenAFirstUnassignedRoomWithMediumCapacity() {
-//        state().firstRoom = new Room(7, "premiere salle");
-//        state().roomRepositoryInMemory.persist(state().firstRoom);
-//    }
-//
-//    @When("I treat with the maximize seats evaluation strategy")
-//    public void whenITreatWithTheMaximizeSeatsEvaluationStrategy() {
-//        when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
-//        state().taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), 1, TimeUnit.SECONDS, state().requestTreatmentTaskFactory);
-//        state().taskScheduler.run();
-//    }
-//
-//    @Then("the unassigned room with minimum seats, but enough, should have been assigned")
-//    public void thenTheUnassignedRoomWithMinimumSeatsButEnoughShouldHaveBeenAssigned() {
-//        assertTrue(state().secondRoom.isReserved());
-//    }
-//
-//    @Then("an unassigned room with minimum seats, but enough, should have been assigned")
-//    public void thenAnUnassignedRoomWithMinimumSeatsButEnoughShouldHaveBeenAssigned() {
-//        assertTrue(state().firstRoom.isReserved() ^ state().secondRoom.isReserved());
-//    }
-//
-//    @Given("multiple pending reservation with different priority")
-//    public void givenMultiplePendingReservationWithDifferentPriority() {
-//        state().firstRequest = spy(new Request(5, 1, new Person()));
-//        state().secondRequest = spy(new Request(5, 3, new Person()));
-//        state().thirdRequest = spy(new Request(5, 5, new Person()));
-//        state().pendingRequests.addRequest(state().firstRequest);
-//        state().pendingRequests.addRequest(state().secondRequest);
-//        state().pendingRequests.addRequest(state().thirdRequest);
-//    }
-//
-//    @Given("multiple available room fitting firstRequest")
-//    public void givenMultipleAvailableRoomFittingRequests(){
-//        state().firstRoom = spy(new Room(5, "a name"));
-//        state().secondRoom = spy(new Room(5, "a second name"));
-//        state().thirdRoom = spy(new Room(5, "a third name"));
-//        state().roomRepositoryInMemory.persist(state().firstRoom);
-//        state().roomRepositoryInMemory.persist(state().secondRoom);
-//        state().roomRepositoryInMemory.persist(state().thirdRoom);
-//    }
-//
-//
-//    @Then("pending reservation are being treated in order of priority")
-//    public void thenPendingReservationAreBeingTreatedInOrderOfPriority() {
-//        InOrder inOrder = inOrder(state().firstRequest,state().secondRequest,state().thirdRequest);
-//
-//        inOrder.verify(state().firstRequest).reserve(any(Room.class));
-//        inOrder.verify(state().secondRequest).reserve(any(Room.class));
-//        inOrder.verify(state().thirdRequest).reserve(any(Room.class));
-//    }
-//
-//    @Given("evaluation strategy assign to first available room")
-//    public void givenPendingReservationAssignedToTheFirstAvailableRoom() {
-//        state().evaluationStrategy = spy(new FirstInFirstOutEvaluationStrategy());
-//    }
-//
-//    @When("I treat pending reservation")
-//    public void whenITreatPendingReservation() {
-//        when(state().notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
-//        state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemory, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemory);
-//        state().taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), 1, TimeUnit.SECONDS, state().requestTreatmentTaskFactory);
-//        state().taskScheduler.run();
-//    }
-//
-//    @Then("the reservation should be assigned to the first available room")
-//    public void thenTheReservationShouldBeAssignedToTheFirstAvailableRoom() {
-//        verify(state().firstRequest).reserve(state().firstRoom);
-//    }
-//
-//    @Given("a firstRequest treatment with a scheduler")
-//    public void givenARequestTreatmentWithAScheduler() {
-//        state().taskScheduler = spy(new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), 1000, TimeUnit.SECONDS, state().requestTreatmentTaskFactory));
-//    }
-//
-//    @When("I start the scheduler to call the firstRequest treatment periodically")
-//    public void whenIStartTheSchedulerToCallTheRequestTreatmentPeriodically() {
-//        state().taskScheduler.setIntervalTimer(2);
-//        state().taskScheduler.startScheduler();
-//    }
-//
-//    @Then("pending reservations are being treated periodically")
-//    public void thenPendingReservationsAreBeingTreatedPeriodically() {
-//        verify(state().taskScheduler,timeout(10*1000).atLeast(3)).run();
-//    }
-//
-//    @Given("a new reservation with medium priority")
-//    public void givenANewReservationWithMediumPriority() {
-//        state().firstRequest = spy(new Request(3, 3, new Person()));
-//        state().pendingRequests.addRequest(state().firstRequest);
-//    }
-//
-//    @Given("a second reservation with medium priority")
-//    public void givenSecondReservationWithMediumPriority() {
-//        state().secondRequest = spy(new Request(3, 3, new Person()));
-//        state().pendingRequests.addRequest(state().secondRequest);
-//    }
-//
-//    @Given("a room fitting medium priority firstRequest")
-//    public void givenARoomFittingMediumPriorityRequest() {
-//        state().firstRoom = spy(new Room(3, "a name"));
-//        state().roomRepositoryInMemory.persist(state().firstRoom);
-//    }
-//
-//    @Given("a second room fitting medium priority firstRequest")
-//    public void givenASecondRoomFittingMediumPriorityRequest() {
-//        state().secondRoom = spy(new Room(3, "a second name"));
-//        state().roomRepositoryInMemory.persist(state().secondRoom);
-//    }
-//
-//    @Given("a room")
-//    public void givenARoom() {
-//        state().firstRoom = spy(new Room(5, "a name"));
-//        state().roomRepositoryInMemory.persist(state().firstRoom);
-//    }
-//
-//    @Given("a second room")
-//    public void givenASecondRoom() {
-//        state().secondRoom = spy(new Room(5, "a second name"));
-//        state().roomRepositoryInMemory.persist(state().secondRoom);
-//    }
-//
-//    @Given("an evaluation strategy")
-//    public void givenAnEvaluationStrategy() {
-//        state().evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
-//    }
-//
-//    @Given("a sorting firstRequest strategy")
-//    public void givenASortingRequestStrategy() {
-//        givenASortingRequestByArrivalOrderStrategy();
-//    }
-//
-//    @Given("a sorting firstRequest by priority strategy")
-//    public void givenASortingRequestByPriorityStrategy() {
-//        state().sortingRequestStrategy = spy(new SortingRequestByPriorityStrategy());
-//    }
-//
-//    @Given("a sorting firstRequest by arrival order strategy")
-//    public void givenASortingRequestByArrivalOrderStrategy() {
-//        state().sortingRequestStrategy = spy(new SequentialSortingRequestStrategy());
-//    }
-//
-//    @Then("same priority demands are treat in order of arrival")
-//    public void thenSamePriorityDemandsAreTreatInOrderOfArrival() {
-//        InOrder inOrder = inOrder(state().firstRequest, state().secondRequest);
-//
-//        inOrder.verify(state().firstRequest).reserve(any(Room.class));
-//        inOrder.verify(state().secondRequest).reserve(any(Room.class));
-//    }
-//
-//    @Then("the pending reservation are being immediately treated")
-//    public void thenThePendingReservationAreBeingImmediatelyTreated() {
-//        verify(state().taskScheduler, timeout(TWO_SECOND_IN_MILLIS).atLeastOnce()).runNow();
-//        verify(state().taskScheduler, timeout(TWO_SECOND_IN_MILLIS).atLeastOnce()).run();
-//    }
