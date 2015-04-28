@@ -16,6 +16,8 @@ public class RequestModel {
         this.participantsCourriels = participantsCourriels;
     }
 
+    public RequestModel() {}
+
     public int getNombrePersonne() {
         return nombrePersonne;
     }

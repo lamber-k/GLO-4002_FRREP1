@@ -61,12 +61,6 @@ public class RequestTreatmentTaskTest {
         verify(requestSortingStrategyMock).sortList(pendingRequests);
     }
 
-    private void havingOnePendingRequest() throws EvaluationNoRoomFoundException {
-        when(assignerStrategyMock.evaluateOneRequest(roomRepositoryMock, requestMock)).thenReturn(roomMock);
-        when(requestSortingStrategyMock.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
-        pendingRequests.add(requestMock);
-    }
-
     @Test
     public void givenOnePendingRequest_WhenRun_ThenShouldEvaluateIt() throws EvaluationNoRoomFoundException {
         havingOnePendingRequest();
@@ -139,5 +133,11 @@ public class RequestTreatmentTaskTest {
         requestTreatmentTask.run();
 
         verify(requestMock).reserve(roomMock);
+    }
+
+    private void havingOnePendingRequest() throws EvaluationNoRoomFoundException {
+        when(assignerStrategyMock.evaluateOneRequest(roomRepositoryMock, requestMock)).thenReturn(roomMock);
+        when(requestSortingStrategyMock.sortList(pendingRequests)).thenReturn(arrayWithOneRequest);
+        pendingRequests.add(requestMock);
     }
 }

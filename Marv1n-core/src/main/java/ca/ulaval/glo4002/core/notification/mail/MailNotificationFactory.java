@@ -33,12 +33,13 @@ public class MailNotificationFactory implements NotificationFactory {
     private Mail buildMail(Request info, List<String> mailTo) {
         MailBuilder mailBuilder = new MailBuilder();
         try {
-            return mailBuilder.setTo(mailTo)
+            return mailBuilder.setFrom(info.getResponsible().getMailAddress())
+                    .setTo(mailTo)
                     .setReason(info.getReason())
                     .setStatus(info.getRequestStatus())
                     .setIdentifier(info.getRequestID())
                     .buildMail();
-        } catch (MailBuilderException exception) {
+        } catch (Exception exception) {
             throw new InvalidNotificationException(exception);
         }
     }
