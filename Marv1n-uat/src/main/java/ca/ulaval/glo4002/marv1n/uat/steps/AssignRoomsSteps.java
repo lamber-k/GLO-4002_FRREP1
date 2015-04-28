@@ -37,7 +37,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
     private static final int ROOM_SEATS_NUMBER = 10;
     private static final int REQUEST_NUMBER_OF_SEATS_NEEDED = 5;
     private static final int REQUEST_PRIORITY = 5;
-    private static final int MAXIMUM_PENDING_REQUESTS = 2;
+    private static final int MAXIMUM_PENDING_REQUESTS = 5;
     private static final int INTERVAL_TIMER = 10;
     private static final Person REQUEST_RESPONSIBLE = new Person();
     private static final int ANOTHER_ROOM_SEATS_NUMBER = 12;
@@ -66,19 +66,22 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Given("a request treatment with a scheduler")
     public void givenARequestTreatmentWithAScheduler() {
-        // PENDING
+        state().firstRoom = new Room(ROOM_SEATS_NUMBER, A_ROOM);
+        state().roomRepositoryInMemory.persist(state().firstRoom);
+        state().pendingRequests = new PendingRequests(MAXIMUM_PENDING_REQUESTS);
+        state().firstRequest = mock(Request.class);
     }
 
     @Given("multiple pending reservation")
     public void givenMultiplePendingReservation() {
-        state().pendingRequests = new PendingRequests(5);
+        state().pendingRequests = new PendingRequests(MAXIMUM_PENDING_REQUESTS);
         state().firstRequest = mock(Request.class);
         state().pendingRequests.addRequest(state().firstRequest);
         state().secondRequest = mock(Request.class);
         state().pendingRequests.addRequest(state().secondRequest);
         state().thirdRequest = mock(Request.class);
         state().pendingRequests.addRequest(state().thirdRequest);
-        state().firstRoom = new Room(ROOM_SEATS_NUMBER, A_ROOM);
+        state().firstRoom = mock(Room.class);
         state().roomRepositoryInMemory.persist(state().firstRoom);
         state().secondRoom = new Room(ROOM_SEATS_NUMBER, A_ROOM);
         state().roomRepositoryInMemory.persist(state().secondRoom);
