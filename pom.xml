@@ -14,8 +14,7 @@
         <module>Marv1n-web</module>
         <module>Marv1n-core</module>
         <module>Marv1n-uat</module>
-        <module>Marv1n-ca.ulaval.glo4002.marv1n.flot</module>
-        <module>Marv1n-flot</module>
+        <module>Marv1n-flow</module>
     </modules>
     <dependencies>
         <dependency>

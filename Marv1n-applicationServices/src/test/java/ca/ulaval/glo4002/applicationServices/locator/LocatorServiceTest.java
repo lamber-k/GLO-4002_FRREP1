@@ -3,6 +3,8 @@ package ca.ulaval.glo4002.applicationServices.locator;
 import org.junit.After;
 import org.junit.Test;
 
+import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -76,7 +78,7 @@ public class LocatorServiceTest {
     }
 
     @Test
-    public void givenALocatorService_WhenRegisterModuleContainingAService_ThenLocatorModuleLoadShouldBeCalled() {
+    public void givenALocatorService_WhenRegisterModuleContainingAService_ThenLocatorModuleLoadShouldBeCalled() throws IOException {
         LocatorModule locatorModule = mock(LocatorModule.class);
 
         locatorService.registerModule(locatorModule);
@@ -85,7 +87,7 @@ public class LocatorServiceTest {
     }
 
     @Test
-    public void givenALocatorService_WhenRegisterModuleContainingAService_ThenLocatorServiceShouldContainAService() {
+    public void givenALocatorService_WhenRegisterModuleContainingAService_ThenLocatorServiceShouldContainAService() throws IOException {
         LocatorModule locatorModuleContainingAService = new LocatorModuleMock();
 
         locatorService.registerModule(locatorModuleContainingAService);
@@ -94,7 +96,7 @@ public class LocatorServiceTest {
     }
 
     @Test
-    public void givenALocatorServiceContainingService_WhenRegisterModuleContainingService_ThenLocatorServiceShouldMergeListOfService() {
+    public void givenALocatorServiceContainingService_WhenRegisterModuleContainingService_ThenLocatorServiceShouldMergeListOfService() throws IOException {
         locatorService.register(ASecondService.class, service2);
         LocatorModule locatorModuleContainingAService = new LocatorModuleMock();
 

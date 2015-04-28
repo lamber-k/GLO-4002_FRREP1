@@ -1,5 +1,7 @@
 package ca.ulaval.glo4002.applicationServices.locator;
 
+import java.io.IOException;
+
 public class LocatorService {
 
     private static LocatorService instance = null;
@@ -28,7 +30,7 @@ public class LocatorService {
         container.clear();
     }
 
-    public void registerModule(LocatorModule module) {
+    public void registerModule(LocatorModule module) throws IOException {
         LocatorContainer loadedContainer = new LocatorContainer();
         module.load(loadedContainer);
         container.merge(loadedContainer);
