@@ -94,7 +94,6 @@ public class RequestService {
         try {
             requests.addAll(requestRepository.findByResponsibleMail(email));
         } catch (RequestNotFoundException exception) {
-            //TODO exception ?
         }
         requests.addAll(getPendingRequestByResponsibleMail(email));
         if (requests.isEmpty()) {

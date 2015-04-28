@@ -21,17 +21,13 @@ import java.io.IOException;
 public class LocatorServicesModule implements LocatorModule {
 
     @Override
-    public void load(LocatorContainer container) {
+    public void load(LocatorContainer container) throws IOException {
         EntityManagerFactory entityManagerFactory = EntityManagerFactoryProvider.getFactory();
         EntityManagerProvider.setEntityManager(entityManagerFactory.createEntityManager());
         container.register(EntityManagerFactory.class, entityManagerFactory);
         container.register(RequestRepository.class, new RequestRepositoryInMemory());
         container.register(RoomRepository.class, new RoomRepositoryInMemory());
         container.register(EmailValidator.class, new JavaxMailValidator());
-        try {
-            container.register(NotificationFactory.class, new MailNotificationFactory(new JavaxMailSender(new JavaxMailTransporter()), new JavaxMailValidator()));
-        } catch (IOException exception) {
-            // TODO LOG
-        }
+        container.register(NotificationFactory.class, new MailNotificationFactory(new JavaxMailSender(new JavaxMailTransporter()), new JavaxMailValidator()));
     }
 }

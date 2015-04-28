@@ -31,8 +31,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class RequestServiceTest {
-
-    //TODO Typo ?
+    
     private static final String A_ROOM_NAME = "A Room Name";
     private static LocatorService locatorService = LocatorService.getInstance();
     private static RequestRepository requestRepository = mock(RequestRepository.class);
