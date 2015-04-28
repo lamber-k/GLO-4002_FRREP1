@@ -46,6 +46,9 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
     private static final Person REQUEST_RESPONSIBLE = new Person();
     private static final int FIRST_ROOM_SEATS_NUMBER = 10;
     private static final int SECOND_ROOM_SEATS_NUMBER = 12;
+    public static final int REQUEST_PRIORITY_1 = 1;
+    public static final int REQUEST_PRIORITY_2 = 2;
+    public static final int REQUEST_PRIORITY_3 = 3;
 
     @Override
     protected AssignRoomsStepsState getInitialState() {
@@ -69,24 +72,17 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Given("a new pending reservation")
     public void givenANewPendingReservation() {
-        state().pendingRequests = new PendingRequests(MAXIMUM_PENDING_REQUESTS);
         state().secondRoom = addRoomInRepository(SECOND_ROOM_SEATS_NUMBER, SECOND_ROOM);
         state().firstRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
-        /*state().secondRoom = new Room(SECOND_ROOM_SEATS_NUMBER, SECOND_ROOM);
-        state().roomRepositoryInMemory.persist(state().secondRoom);
-        state().firstRequest = new Request(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
-        state().pendingRequests.addRequest(state().firstRequest);*/
     }
 
     @Given("pending reservation assigned to the first available room")
     public void GivenPendingReservationAssignedToTheFirstAvailableRoom() {
-        state().sortingRequestStrategy = new SequentialSortingRequestStrategy();
         state().evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
     }
 
     @Given("a request treatment with a scheduler")
     public void givenARequestTreatmentWithAScheduler() {
-        state().pendingRequests = new PendingRequests(MAXIMUM_PENDING_REQUESTS);
         state().firstRoom = addRoomInRepository(FIRST_ROOM_SEATS_NUMBER, FIRST_ROOM);
         state().firstRequest = mock(Request.class);
         state().pendingRequests.addRequest(state().firstRequest);
@@ -98,7 +94,6 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Given("multiple pending reservation")
     public void givenMultiplePendingReservation() {
-        state().pendingRequests = new PendingRequests(MAXIMUM_PENDING_REQUESTS);
         state().firstRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
         state().secondRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
         state().thirdRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY, REQUEST_RESPONSIBLE);
@@ -110,7 +105,6 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Given("pending reservation treated sequentially")
     public void givenPendingReservationTreatedSequentially() {
-        state().evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
         state().sortingRequestStrategy = new SequentialSortingRequestStrategy();
     }
 
@@ -141,7 +135,13 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Given("multiple pending reservation with different priority")
     public void givenMultiplePendingReservationWithDifferentPriority() {
-        // PENDING
+        state().firstRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY_1, REQUEST_RESPONSIBLE);
+        state().secondRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY_3, REQUEST_RESPONSIBLE);
+        state().thirdRequest = addRequest(REQUEST_NUMBER_OF_SEATS_NEEDED, REQUEST_PRIORITY_2, REQUEST_RESPONSIBLE);
+        state().firstRoom = addRoomInRepository(FIRST_ROOM_SEATS_NUMBER, FIRST_ROOM);
+        state().secondRoom = addRoomInRepository(SECOND_ROOM_SEATS_NUMBER, SECOND_ROOM);
+        state().thirdRoom = addRoomInRepository(FIRST_ROOM_SEATS_NUMBER, THIRD_ROOM);
+        state().inOrder = inOrder(state().firstRequest, state().thirdRequest, state().secondRequest);
     }
 
     @When("I treat pending reservation")
@@ -195,7 +195,9 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Then("pending reservation are being treated in order of priority")
     public void thenPendingReservationAreBeingTreatedInOrderOfPriority() {
-        // PENDING
+        state().inOrder.verify(state().firstRequest).reserve(any(Room.class));
+        state().inOrder.verify(state().thirdRequest).reserve(any(Room.class));
+        state().inOrder.verify(state().secondRequest).reserve(any(Room.class));
     }
 
     @Then("reservations should have been assigned in order to maximize capacity")
@@ -227,8 +229,11 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         public InOrder inOrder;
 
         public AssignRoomsStepsState() {
+            this.pendingRequests = new PendingRequests(MAXIMUM_PENDING_REQUESTS);
+            this.evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
+            this.sortingRequestStrategy = new SequentialSortingRequestStrategy();
             this.notificationFactory = mock(NotificationFactory.class);
-            when(notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
+            when(this.notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
             this.roomRepositoryInMemory = new RoomRepositoryInMemory();
             this.requestRepositoryInMemory = new RequestRepositoryInMemory();
             this.sortingRequestStrategy = new SequentialSortingRequestStrategy();
