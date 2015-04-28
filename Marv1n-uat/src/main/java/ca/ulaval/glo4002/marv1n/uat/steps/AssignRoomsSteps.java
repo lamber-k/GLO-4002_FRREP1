@@ -18,6 +18,7 @@ import ca.ulaval.glo4002.marv1n.uat.steps.state.StatefulStep;
 import ca.ulaval.glo4002.marv1n.uat.steps.state.StepState;
 import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
 import ca.ulaval.glo4002.persistence.inmemory.RoomRepositoryInMemory;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
@@ -70,6 +71,11 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         state().roomRepositoryInMemory.persist(state().firstRoom);
         state().pendingRequests = new PendingRequests(MAXIMUM_PENDING_REQUESTS);
         state().firstRequest = mock(Request.class);
+        state().pendingRequests.addRequest(state().firstRequest);
+        state().evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
+        state().sortingRequestStrategy = new SequentialSortingRequestStrategy();
+        state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemory, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemory);
+        state().taskScheduler = spy(new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), INTERVAL_TIMER, TimeUnit.MINUTES, state().requestTreatmentTaskFactory));
     }
 
     @Given("multiple pending reservation")
@@ -83,9 +89,9 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         state().pendingRequests.addRequest(state().thirdRequest);
         state().firstRoom = mock(Room.class);
         state().roomRepositoryInMemory.persist(state().firstRoom);
-        state().secondRoom = new Room(ROOM_SEATS_NUMBER, A_ROOM);
+        state().secondRoom = mock(Room.class);
         state().roomRepositoryInMemory.persist(state().secondRoom);
-        state().thirdRoom = new Room(ROOM_SEATS_NUMBER, A_ROOM);
+        state().thirdRoom = mock(Room.class);
         state().roomRepositoryInMemory.persist(state().thirdRoom);
         state().inOrder = inOrder(state().firstRequest, state().secondRequest, state().thirdRequest);
     }
@@ -135,7 +141,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @When("I start the scheduler to call the request treatment every $period minutes")
     public void whenIStartTheSchedulerToCallTheRequestTreatmentEvery1Minutes(int period) {
-        // PENDING
+        state().taskScheduler.setIntervalTimer(period);
     }
 
     @When("the limit of pending reservation is reached")
@@ -148,9 +154,10 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
         assertEquals(state().firstRoom, state().firstRequest.getReservedRoom());
     }
 
+    @Ignore
     @Then("pending reservations are being treated periodically")
     public void thenPendingReservationsAreBeingTreatedPeriodically() {
-        // PENDING
+        verify(state().taskScheduler, timeout(60 * 1000).atLeastOnce()).run();
     }
 
     @Then("pending reservation are being treated in order")
@@ -183,12 +190,6 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
     @Then("reservation should have been assigned to one of the room")
     public void thenReservationShouldHaveBeenAssignedToOneOfTheRoom() {
         // PENDING
-    }
-
-    private void addAPendingRequest() {
-        state().firstRequest = new Request(5, 5, new Person());
-        state().pendingRequests = new PendingRequests(2);
-        state().pendingRequests.addRequest(state().firstRequest);
     }
 
     public class AssignRoomsStepsState extends StepState {
