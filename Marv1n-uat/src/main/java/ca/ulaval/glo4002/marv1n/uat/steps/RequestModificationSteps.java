@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.marv1n.uat.notImplemented;
+package ca.ulaval.glo4002.marv1n.uat.steps;
 
 import ca.ulaval.glo4002.core.*;
 import ca.ulaval.glo4002.core.notification.Notification;
@@ -31,7 +31,13 @@ import static org.mockito.Mockito.when;
 
 public class RequestModificationSteps extends StatefulStep<RequestModificationSteps.RequestModificationStepsState> {
 
-    //TODO Extract variable global
+    private static final int MAXIMUM_PENDING_REQUESTS = 2;
+    private static final int NUMBER_OF_SEATS = 5;
+    private static final int NUMBER_OF_SEATS_NEEDED = 5;
+    private static final int PRIORITY = 5;
+    private static final int INTERVAL_TIMER = 1;
+    private static final int FIRST_ELEMENT = 0;
+    private static final String ROOM_NAME = "Une salle";
 
     @Override
     protected RequestModificationStepsState getInitialState() {
@@ -44,18 +50,18 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
         addARoomToRepository();
         addAPendingRequest();
         state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemory, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemory);
-        state().taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), 1, TimeUnit.SECONDS, state().requestTreatmentTaskFactory);
+        state().taskScheduler = new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), INTERVAL_TIMER, TimeUnit.SECONDS, state().requestTreatmentTaskFactory);
         state().taskScheduler.run();
     }
 
     private void addARoomToRepository() {
-        state().room = new Room(5, "Une salle");
+        state().room = new Room(NUMBER_OF_SEATS, ROOM_NAME);
         state().roomRepositoryInMemory.persist(state().room);
     }
 
     private void addAPendingRequest() {
-        state().request = new Request(5, 5, new Person());
-        state().pendingRequests = new PendingRequests(2);
+        state().request = new Request(NUMBER_OF_SEATS_NEEDED, PRIORITY, new Person());
+        state().pendingRequests = new PendingRequests(MAXIMUM_PENDING_REQUESTS);
         state().pendingRequests.addRequest(state().request);
     }
 
@@ -91,7 +97,7 @@ public class RequestModificationSteps extends StatefulStep<RequestModificationSt
 
     @Then("the room should have been unassigned")
     public void thenTheRoomShouldHaveBeenUnassigned() {
-        assertEquals(null, state().roomRepositoryInMemory.findAll().get(0).getRequest());
+        assertEquals(null, state().roomRepositoryInMemory.findAll().get(FIRST_ELEMENT).getRequest());
     }
 
     @Then("the reservation should have been archived")
