@@ -11,5 +11,28 @@
 
     <artifactId>Marv1n-flot</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>ca.ulaval.glo4002</groupId>
+            <artifactId>Marv1n-core</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>ca.ulaval.glo4002</groupId>
+            <artifactId>Marv1n-persistence</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>ca.ulaval.glo4002</groupId>
+            <artifactId>Marv1n-applicationServices</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>ca.ulaval.glo4002</groupId>
+            <artifactId>Marv1n-web</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 
 </project>
