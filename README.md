@@ -27,14 +27,27 @@ IDUL            | Nom
 04      | Ordonner les demandes par priorité                | Finis
 05      | Notifier par courriel après l'assignation         | Finis
 06      | Annuler une demande                               | Finis
-07      | Notifier par courriel lors d'une annulation       | En cours
-08      | Afficher une demande                              | En attente
-09      | Permettre la réservation d'une salle              | En attente
-10      | Afficher les demandes d'un organisateur           | En attente
+07      | Notifier par courriel lors d'une annulation       | Finis
+08      | Afficher une demande                              | Finis
+09      | Permettre la réservation d'une salle              | Finis
+10      | Afficher les demandes d'un organisateur           | Finis
+11      | Conserver l'historique                            | En cours
 
 ## Utilisation de la bibliothèque ##
 
-Actuellement, la librairie est seulement faite pour présenter l'avancement grâce aux tests
-unitaires faits jusqu'alors.
+Pour lancer l'application, nous utilisons le StartupMain contenus dans le module Marv1n-web. Il va automatiquement
+lancer le service REST sur le port 8080.
+
+## Lancement des tests ##
+
+Pour lancer les tests, nous faisons un mvn integration-test
 
 ## Notes aux correcteurs ##
+
+La story pour persister est présente, mais non terminé, puisque nous n'avons pas fait les liens entre les deux
+repository. Il en résultait des comportements indéfinis lors du lancement, rendant notre projet non fonctionnel.
+
+## Tests non réalisés ##
+
+En l'état, le test de flot n'est pas fonctionnel, puisque l'on ne peut pas annuler de demander par le service REST.
+Nous n'avons pas fait l'implémentation par les lignes de codes.
