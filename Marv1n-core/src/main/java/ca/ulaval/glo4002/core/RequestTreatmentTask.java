@@ -14,7 +14,6 @@ import java.util.List;
 
 public class RequestTreatmentTask implements Task {
 
-    private static final String FAIL_TO_ANNOUNCE = "Impossible de notifier les participants";
     private EvaluationStrategy evaluationStrategy;
     private SortingRequestStrategy sortingRequestStrategy;
     private RoomRepository roomRepository;
@@ -51,7 +50,7 @@ public class RequestTreatmentTask implements Task {
             try {
                 notification.announce();
             } catch (Exception e) {
-                pendingRequest.refuse(FAIL_TO_ANNOUNCE);
+                e.printStackTrace();
             }
             requestRepository.persist(pendingRequest);
         }
