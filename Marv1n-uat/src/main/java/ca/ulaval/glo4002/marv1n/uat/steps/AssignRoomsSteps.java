@@ -22,7 +22,6 @@ import ca.ulaval.glo4002.marv1n.uat.steps.state.StepState;
 import ca.ulaval.glo4002.persistence.inmemory.RequestRepositoryInMemory;
 import ca.ulaval.glo4002.persistence.inmemory.RoomRepositoryInMemory;
 import org.jbehave.core.annotations.Given;
-import org.jbehave.core.annotations.Pending;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.mockito.InOrder;
@@ -161,6 +160,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
     public void whenTheLimitOfPendingReservationIsReached() {
         state().requestTreatmentTaskFactory = new RequestTreatmentTaskFactory(state().evaluationStrategy, state().sortingRequestStrategy, state().roomRepositoryInMemory, state().pendingRequests, state().notificationFactory, state().requestRepositoryInMemory);
         state().taskScheduler = spy(new TaskScheduler(Executors.newSingleThreadScheduledExecutor(), INTERVAL_TIMER, TimeUnit.SECONDS, state().requestTreatmentTaskFactory));
+        state().pendingRequests.setScheduler(state().taskScheduler);
         state().pendingRequests.setMaximumPendingRequests(1);
     }
 
@@ -190,7 +190,7 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
 
     @Then("the scheduler restart the timer")
     public void thenTheSchedulerRestartTheTimer() {
-        verify(state().taskScheduler).
+        verify(state().taskScheduler).runNow();
     }
 
     @Then("pending reservation are being treated in order of priority")
@@ -231,6 +231,8 @@ public class AssignRoomsSteps extends StatefulStep<AssignRoomsSteps.AssignRoomsS
             when(notificationFactory.createNotification(any(Request.class))).thenReturn(mock(Notification.class));
             this.roomRepositoryInMemory = new RoomRepositoryInMemory();
             this.requestRepositoryInMemory = new RequestRepositoryInMemory();
+            this.sortingRequestStrategy = new SequentialSortingRequestStrategy();
+            this.evaluationStrategy = new FirstInFirstOutEvaluationStrategy();
         }
     }
 }
