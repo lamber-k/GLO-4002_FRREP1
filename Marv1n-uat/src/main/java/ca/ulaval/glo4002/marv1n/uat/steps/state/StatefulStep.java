@@ -21,7 +21,7 @@ public class StatefulStep<T extends StepState> {
     public void createState() {
         T initialState = getInitialState();
         if (initialState != null) {
-            //initialState.request = given().port(MedServerRunner.DEFAULT_UAT_PORT);
+            //initialState.firstRequest = given().port(MedServerRunner.DEFAULT_UAT_PORT);
             perThreadState.get().put(getClass(), initialState);
         }
     }

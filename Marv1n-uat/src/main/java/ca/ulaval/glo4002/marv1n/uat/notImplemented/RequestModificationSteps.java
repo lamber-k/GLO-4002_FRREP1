@@ -1,4 +1,4 @@
-package ca.ulaval.glo4002.marv1n.uat.steps;
+package ca.ulaval.glo4002.marv1n.uat.notImplemented;
 
 import ca.ulaval.glo4002.core.*;
 import ca.ulaval.glo4002.core.notification.Notification;
